@@ -1,1 +1,13 @@
 <h1>Collections</h1>
+
+<ul>
+    <% @collections.each do |collection| %>
+        <li>
+            <%= link_to collection.title, collection %>
+            (<%= collection.short_title %>):
+            <%= collection.description %>
+        </li>
+    <% end %>
+</ul>
+
+<%= link_to "New Collection", new_collection_path %>
