@@ -82,9 +82,7 @@ jobs:
           bundler-cache: true
 
       - name: Run tests
-        env:
-          RAILS_ENV: test
-          # REDIS_URL: redis://localhost:6379/0
+        uses: devcontainers/ci@v0.3
         run: bin/rails db:test:prepare test test:system
 
       - name: Keep screenshots from failed system tests
