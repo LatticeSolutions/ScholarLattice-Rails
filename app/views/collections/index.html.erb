@@ -1,1 +1,13 @@
 <h1>Collections</h1>
+
+<ul>
+    <% @collections.each do |collection| %>
+        <li>
+            <a href="/collections/<%= collection.id %>">
+                <%= collection.title %>
+            </a>
+            (<%= collection.short_title %>):
+            <%= collection.description %>
+        </li>
+    <% end %>
+</ul>
