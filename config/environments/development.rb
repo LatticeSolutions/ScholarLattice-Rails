@@ -81,4 +81,6 @@ Rails.application.configure do
 
   # add app.github.dev support for use in Codespaces
   config.hosts << /[a-z0-9\-]+\.app\.github\.dev/
+  # disable forgery protection in development
+  config.action_controller.forgery_protection_origin_check = false
 end

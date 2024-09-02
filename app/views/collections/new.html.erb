@@ -1,0 +1,24 @@
+<h1>New Collection</h1>
+
+<%= form_with model: @collection do |form| %>
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </div>
+  <div>
+    <%= form.label :short_title %><br>
+    <%= form.text_field :short_title %>
+  </div>
+  <div>
+    <%= form.label :description %><br>
+    <%= form.text_area :description %>
+  </div>
+  <div>
+    <%= form.label :website %><br>
+    <%= form.text_field :website %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

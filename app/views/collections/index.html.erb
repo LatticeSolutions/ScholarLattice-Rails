@@ -3,9 +3,7 @@
 <ul>
     <% @collections.each do |collection| %>
         <li>
-            <a href="/collections/<%= collection.id %>">
-                <%= collection.title %>
-            </a>
+            <%= link_to collection.title, collection %>
             (<%= collection.short_title %>):
             <%= collection.description %>
         </li>
