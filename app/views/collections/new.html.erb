@@ -4,18 +4,30 @@
   <div>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
+    <% @collection.errors.full_messages_for(:title).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
   </div>
   <div>
     <%= form.label :short_title %><br>
     <%= form.text_field :short_title %>
+    <% @collection.errors.full_messages_for(:short_title).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
   </div>
   <div>
     <%= form.label :description %><br>
     <%= form.text_area :description %>
+    <% @collection.errors.full_messages_for(:description).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
   </div>
   <div>
     <%= form.label :website %><br>
     <%= form.text_field :website %>
+    <% @collection.errors.full_messages_for(:website).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
   </div>
 
   <div>
