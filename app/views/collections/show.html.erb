@@ -1,6 +1,23 @@
+<% unless @collection.parent.nil? %>
+<p>Back to <%= link_to @collection.parent.title, @collection.parent %>.</p>
+<% end %>
+
 <h1><%= @collection.title %> (<%= @collection.short_title %>)</h1>
 
 <p><%= @collection.description %></p>
+
+<% unless @collection.children.empty? %>
+    <h4>Subcollections:</h4>
+    <ul>
+        <% @collection.children.each do |child| %>
+            <li>
+                <%= link_to child.title, child %>
+                (<%= child.short_title %>):
+                <%= child.description %>
+            </li>
+        <% end %>
+    </ul>
+<% end %>
 
 <%= link_to "Edit", edit_collection_path %>
 

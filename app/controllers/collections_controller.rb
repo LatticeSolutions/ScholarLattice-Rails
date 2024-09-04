@@ -1,6 +1,6 @@
 class CollectionsController < ApplicationController
   def index
-    @collections = Collection.all
+    @collections = Collection.roots
   end
 
   def show
@@ -45,6 +45,8 @@ class CollectionsController < ApplicationController
 
   private
     def collection_params
-      params.require(:collection).permit(:title, :short_title, :description, :website)
+      params.require(:collection).permit(
+        :title, :short_title, :description, :website, :parent_id
+      )
     end
 end
