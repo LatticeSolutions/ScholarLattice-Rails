@@ -1,6 +1,6 @@
 class CollectionsController < ApplicationController
   def index
-    @collections = Collection.where(parent_id: nil)
+    @collections = Collection.roots
   end
 
   def show
