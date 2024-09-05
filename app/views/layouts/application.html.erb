@@ -13,13 +13,14 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-<section class="min-h-screen bg-gray-50" x-data="{ sideBar: false }">
+<section class="min-h-screen bg-gray-50"> 
+  <%# x-data="{ sideBar: false }"> %>
   <nav class="fixed top-0 left-0 z-20 h-full pb-10 overflow-x-hidden overflow-y-auto transition origin-left transform bg-white border-r w-60 md:translate-x-0 -translate-x-full" :class="{ '-translate-x-full' : !sideBar, 'translate-x-0' : sideBar }" @click.away="sideBar = false">
     <a href="https://scholarlattice.org/" class="flex items-center px-4 py-5">
       <%= image_tag "logo.svg", class: "h-8" %>
@@ -52,7 +53,8 @@
         </svg>
         <span>Checklists</span>
       </a>
-      <div x-data="collapse()">
+      <div>
+        <%# x-data="collapse()"> %>
         <div class="flex items-center justify-between px-4 py-3 transition cursor-pointer group hover:bg-gray-100 hover:text-gray-900" role="button" x-spread="trigger">
           <div class="flex items-center">
             <svg class="shrink-0 w-5 h-5 mr-2 text-gray-400 transition group-hover:text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentcolor">
@@ -85,33 +87,33 @@
     </nav>
   </nav>
   <div class="ml-0 transition md:ml-60">
-    <header class="flex items-center justify-between w-full px-4 bg-white border-b h-14">
-      <button class="block btn btn-light md:hidden" @click.stop="sideBar = true">
+    <header class="flex items-center flex-row-reverse justify-between w-full px-4 bg-white border-b h-14">
+      <%# <button class="block btn btn-light md:hidden" @click.stop="sideBar = true">
         <span class="sr-only">Menu</span>
         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentcolor">
           <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4A1 1 0 013 5zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
         </svg>
-      </button>
+      </button> %>
       <%# <div class="hidden -ml-3 form-icon md:block w-96">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentcolor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5A7 7 0 113 10a7 7 0 0114 0z"></path>
         </svg>
         <input class="border-0 form-input" placeholder="Search for articles...">
       </div> %>
-      <div class="flex items-center">
+      <div>
         <%# <a href="#" class="flex text-gray-500">
           <svg class="shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentcolor">
             <path d="M10 2A6 6 0 004 8v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
           </svg>
         </a> %>
-        <p>
+        <span class="text-gray-500">
           <% if @current_user %>
             Signed in as <%= @current_user.email %>
             (<%= link_to "Sign out", users_sign_out_path %>)
           <% else %>
-            <%= link_to "Sign in", users_sign_in_path %>
+            <%= link_to "Sign up/in", users_sign_in_path, class: "inline-block rounded-lg bg-blue-400 px-3 py-2 text-sm font-medium text-white" %>
           <% end %>
-        </p>
+        </span>
         <%# <a href="#" class="ml-4 avatar avatar-sm"><img src="https://kutty.netlify.app/placeholder.jpg" alt="Photo of Praveen Juge"></a> %>
       </div>
     </header>
