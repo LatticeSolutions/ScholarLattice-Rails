@@ -57,3 +57,5 @@ group :test do
 end
 
 gem "ancestry", "~> 4.3"
+
+gem "passwordless", "~> 1.7"
