@@ -18,6 +18,14 @@
   </head>
 
   <body>
+    <p id="alert"><%= alert %></p>
+    <p>
+      <% if @current_user %>
+        Signed in as <%= @current_user.email %>
+      <% else %>
+        <%= link_to "Sign in", users_sign_in_path %>
+      <% end %>
+    </p>
     <%= yield %>
   </body>
 </html>
