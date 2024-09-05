@@ -10,4 +10,6 @@
     <% end %>
 </ul>
 
-<%= link_to "New Collection", new_collection_path %>
+<% if @current_user %>
+    <p><%= link_to "New Collection", new_collection_path %></p>
+<% end %>

@@ -19,11 +19,20 @@
     </ul>
 <% end %>
 
-<%= link_to "Edit", edit_collection_path %>
+<% if @collection.admin_users.include? @current_user %>
+    <ul>
+        <li>
+            <%= link_to "Edit", edit_collection_path %>
+        </li>
+        <li>
+            <%= link_to "Destroy", collection_path, data: {
+                turbo_method: :delete,
+                turbo_confirm: "Are you sure?"
+            } %>
+        </li>
+    </ul>
+<% end %>
 
-<%= link_to "Destroy", collection_path, data: {
-    turbo_method: :delete,
-    turbo_confirm: "Are you sure?"
-} %>
-
-<%= link_to "Back to Collections", collections_path %>
+<p>
+    <%= link_to "Back to Collections", collections_path %>
+</p>
