@@ -106,10 +106,10 @@
             <path d="M10 2A6 6 0 004 8v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
           </svg>
         </a> %>
-        <span class="text-gray-500">
+        <span class="text-gray-500 flex items-center">
           <% if @current_user %>
-            Signed in as <%= @current_user.email %>
-            (<%= link_to "Sign out", users_sign_out_path %>)
+            <span class="px-3"><%= image_tag @current_user.gravatar, alt: "Rounded avatar", class: "w-10 h-10 rounded-full" %></span>
+            <span><%= @current_user.email %> <%= link_to "Sign out", users_sign_out_path, class: "text-gray-400 underline" %></span>
           <% else %>
             <%= link_to "Sign up or in", users_sign_in_path, class: "inline-block rounded-lg bg-blue-400 px-3 py-2 text-sm font-medium text-white" %>
           <% end %>
