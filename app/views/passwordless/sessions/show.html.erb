@@ -5,8 +5,9 @@
     </h1>
 
     <p class="mt-4 text-gray-500">
-      To log in as <%= @session.authenticatable.email %>, either click the magic link sent to your inbox,
-      or copy/paste your token below.
+      To log in as 
+      <span class="font-medium"><%= @session.authenticatable.email %></span>,
+      either click the magic link sent to your inbox, or copy/paste your token below.
     </p>
   </div>
 
@@ -44,6 +45,7 @@
       <%= f.submit(
         t(".confirm"), 
         class: "inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white") %>
+      <%= link_to "Sign in as someone else", users_sign_in_path, class: "inline-block rounded-lg text-blue-500 px-5 py-3 text-sm font-medium" %>
     </div>
   <% end %>
 </div>

@@ -111,7 +111,7 @@
             Signed in as <%= @current_user.email %>
             (<%= link_to "Sign out", users_sign_out_path %>)
           <% else %>
-            <%= link_to "Sign up/in", users_sign_in_path, class: "inline-block rounded-lg bg-blue-400 px-3 py-2 text-sm font-medium text-white" %>
+            <%= link_to "Sign up or in", users_sign_in_path, class: "inline-block rounded-lg bg-blue-400 px-3 py-2 text-sm font-medium text-white" %>
           <% end %>
         </span>
         <%# <a href="#" class="ml-4 avatar avatar-sm"><img src="https://kutty.netlify.app/placeholder.jpg" alt="Photo of Praveen Juge"></a> %>
