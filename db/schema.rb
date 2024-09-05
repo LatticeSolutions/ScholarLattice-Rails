@@ -26,9 +26,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_05_005509) do
     t.index ["ancestry"], name: "index_collections_on_ancestry"
   end
 
-  create_table "passwordless_sessions", force: :cascade do |t|
+  create_table "passwordless_sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "authenticatable_type"
-    t.bigint "authenticatable_id"
+    t.uuid "authenticatable_id"
     t.datetime "timeout_at", precision: nil, null: false
     t.datetime "expires_at", precision: nil, null: false
     t.datetime "claimed_at", precision: nil
