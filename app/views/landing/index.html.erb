@@ -66,8 +66,12 @@
             more time on research, and less time on logistics.
           </p>
 
+          <p class="hidden text-gray-500 md:mt-4 md:block text-sm">
+            We look forward to your feedback during ScholarLattice's 2025 pilot!
+          </p>
+
           <div class="mt-4 md:mt-8">
-            <%= link_to "Sign up with just your email", users_sign_in_path,
+            <%= link_to "Sign up for free with just your email", users_sign_in_path,
               class: "inline-block rounded bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring focus:ring-sky-400" %>
           </div>
         </div>
@@ -89,5 +93,184 @@
     </div>
   </div>
 </section>
+
+<div class="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-center md:gap-8">
+    <div
+      class="rounded-2xl border border-sky-600 p-6 shadow-sm ring-1 ring-sky-600 sm:order-last sm:px-8 lg:p-12"
+    >
+      <div class="text-center">
+        <h2 class="text-lg font-medium text-gray-900">
+          Organizations
+        </h2>
+
+        <p class="mt-2 sm:mt-4">
+          <strong class="text-3xl font-bold text-gray-900 sm:text-4xl"> Free (during Pilot) </strong>
+
+          <%# <span class="text-sm font-medium text-gray-700">/month</span> %>
+        </p>
+      </div>
+
+      <ul class="mt-6 space-y-2">
+        <li class="flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5 text-sky-700"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+
+          <span class="text-gray-700"> Create events </span>
+        </li>
+
+        <li class="flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5 text-sky-700"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+
+          <span class="text-gray-700"> Track registrations </span>
+        </li>
+
+        <li class="flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5 text-sky-700"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+
+          <span class="text-gray-700"> Collect abstracts </span>
+        </li>
+
+        <li class="flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5 text-sky-700"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+
+          <span class="text-gray-700"> Schedule talks </span>
+        </li>
+
+        <li class="flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5 text-sky-700"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+
+          <span class="text-gray-700"> Share links </span>
+        </li>
+      </ul>
+
+      <%= link_to "Email for information", "mailto:info@scholarlattice.org",
+        class: "mt-8 block rounded-full border border-sky-600 bg-sky-600 px-12 py-3 text-center text-sm font-medium text-white hover:bg-sky-700 hover:ring-1 hover:ring-sky-700 focus:outline-none focus:ring active:text-sky-500" %>
+
+    </div>
+
+    <div class="rounded-2xl border border-gray-200 p-6 shadow-sm sm:px-8 lg:p-12">
+      <div class="text-center">
+        <h2 class="text-lg font-medium text-gray-900">
+          Individuals
+        </h2>
+
+        <p class="mt-2 sm:mt-4">
+          <strong class="text-3xl font-bold text-gray-900 sm:text-4xl"> Always free </strong>
+        </p>
+      </div>
+
+      <ul class="mt-6 space-y-2">
+        <li class="flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5 text-sky-700"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+
+          <span class="text-gray-700"> Register for events </span>
+        </li>
+
+        <li class="flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5 text-sky-700"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+
+          <span class="text-gray-700"> Organize small seminars </span>
+        </li>
+
+        <li class="flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5 text-sky-700"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+
+          <span class="text-gray-700"> Access materials </span>
+        </li>
+
+        <li class="flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5 text-sky-700"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+
+          <span class="text-gray-700"> Connect with colleagues </span>
+        </li>
+      </ul>
+
+      <%= link_to "Get Started", users_sign_in_path,
+        class: "mt-8 block rounded-full border border-sky-600 bg-white px-12 py-3 text-center text-sm font-medium text-sky-600 hover:ring-1 hover:ring-sky-600 focus:outline-none focus:ring active:text-sky-500" %>
+
+    </div>
+  </div>
+</div>
   </body>
 </html>
