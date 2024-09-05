@@ -23,5 +23,10 @@ module ScholarLatticeRailsSandbox
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    #
+
+    # host info
+    config.action_mailer.default_url_options = { host: "scholarlattice.org" }
+    routes.default_url_options[:host] ||= "scholarlattice.org"
   end
 end
