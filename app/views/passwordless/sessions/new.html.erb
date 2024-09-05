@@ -7,18 +7,17 @@
     <p class="mt-4 text-gray-500">
       To sign up for or sign into ScholarLattice, enter your email below. 
       Then either click the magic link sent to your inbox,
-      or copy/paste the access code you receive on the next screen.
+      or copy/paste the token you receive on the next screen.
     </p>
   </div>
   
   <%= form_with(model: @session, url: url_for(action: 'new'), data: { turbo: 'false' }, html: { class: 'mx-auto mb-0 mt-8 max-w-md space-y-4' }) do |f| %>
     <div>
-      <label for="email" class="sr-only">Email</label>
-    <% email_field_name = :"passwordless[#{email_field}]" %>
-    <%= f.label email_field_name,
-        t("passwordless.sessions.new.email.label"),
-        for: "passwordless_#{email_field}",
-        class: "sr-only" %>
+      <% email_field_name = :"passwordless[#{email_field}]" %>
+      <%= f.label email_field_name,
+          t("passwordless.sessions.new.email.label"),
+          for: "passwordless_#{email_field}",
+          class: "sr-only" %>
 
       <div class="relative">
         <%= email_field_tag email_field_name,
