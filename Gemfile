@@ -59,3 +59,5 @@ end
 gem "ancestry", "~> 4.3"
 
 gem "passwordless", "~> 1.7"
+
+gem "tailwindcss-rails", "~> 2.7"

@@ -1,3 +1,4 @@
+<section class="prose">
 <% unless @collection.parent.nil? %>
 <p>Back to <%= link_to @collection.parent.title, @collection.parent %>.</p>
 <% end %>
@@ -36,3 +37,4 @@
 <p>
     <%= link_to "Back to Collections", collections_path %>
 </p>
+</section>
