@@ -1,0 +1,54 @@
+<div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-lg text-center">
+    <h1 class="text-2xl font-bold sm:text-3xl">
+      Get started with just your email!
+    </h1>
+
+    <p class="mt-4 text-gray-500">
+      To sign up or sign into <span class="font-medium">ScholarLattice</span>, enter your email below.
+    </p>
+  </div>
+  
+  <%= form_with(model: @session, url: url_for(action: 'new'), data: { turbo: 'false' }, html: { class: 'mx-auto mb-0 mt-8 max-w-md space-y-4' }) do |f| %>
+    <div>
+      <% email_field_name = :"passwordless[#{email_field}]" %>
+      <%= f.label email_field_name,
+          t("passwordless.sessions.new.email.label"),
+          for: "passwordless_#{email_field}",
+          class: "sr-only" %>
+
+      <div class="relative">
+        <%= email_field_tag email_field_name,
+            params.fetch(email_field_name, nil),
+            required: true,
+            autofocus: true,
+            placeholder: t("passwordless.sessions.new.email.placeholder"),
+            class: "w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm" %>
+
+        <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-4 text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+
+
+    <div class="flex flex-row-reverse">
+      <%= f.submit(
+        t("passwordless.sessions.new.submit"), 
+        class: "inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white") %>
+    </div>
+  <% end %>
+</div>

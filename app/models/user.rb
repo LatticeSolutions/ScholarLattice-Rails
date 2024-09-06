@@ -12,4 +12,8 @@ class User < ApplicationRecord
   def self.fetch_resource_for_passwordless(email)
     find_or_create_by(email: email)
   end
+
+  def gravatar(kwargs = { size: 50, rating: "g", def: "identicon" })
+    "//en.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=#{kwargs[:size]}&r=#{kwargs[:rating]}&d=#{kwargs[:def]}"
+  end
 end
