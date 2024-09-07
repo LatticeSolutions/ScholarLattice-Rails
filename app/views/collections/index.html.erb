@@ -1,15 +1,14 @@
-<section class="prose">
-<h1>Collections</h1>
-
-<ul>
+<section>
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+    Collections
+    </h1>
+    <div class="grid grid-cols-2 gap-4">
     <% @collections.each do |collection| %>
-        <li>
-            <%= link_to collection.title, collection %>
-            (<%= collection.short_title %>):
-            <%= collection.description %>
-        </li>
+        <div class="h-32">
+            <%= render partial: "card", locals: { collection: collection } %>
+        </div>
     <% end %>
-</ul>
+    </div>
 
 <% if @current_user %>
     <p><%= link_to "New Collection", new_collection_path %></p>

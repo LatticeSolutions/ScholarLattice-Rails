@@ -9,15 +9,11 @@
 
 <% unless @collection.children.empty? %>
     <h4>Subcollections:</h4>
-    <ul>
-        <% @collection.children.each do |child| %>
-            <li>
-                <%= link_to child.title, child %>
-                (<%= child.short_title %>):
-                <%= child.description %>
-            </li>
-        <% end %>
-    </ul>
+    <% @collection.children.each do |collection| %>
+        <div class="h-32">
+            <%= render partial: "card", locals: { collection: collection } %>
+        </div>
+    <% end %>
 <% end %>
 
 <% if @collection.admin_users.include? @current_user %>
