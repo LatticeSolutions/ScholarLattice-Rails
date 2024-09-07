@@ -10,9 +10,7 @@
 <% unless @collection.children.empty? %>
     <h4>Subcollections:</h4>
     <% @collection.children.each do |collection| %>
-        <div class="h-32">
-            <%= render partial: "card", locals: { collection: collection } %>
-        </div>
+        <%= render partial: "card", locals: { collection: collection } %>
     <% end %>
 <% end %>
 
