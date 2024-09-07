@@ -42,9 +42,8 @@
           </nav>
 
           <div class="flex items-center gap-4">
-            <div class="sm:flex sm:gap-4">
-              <%= link_to "Sign up or in", users_sign_in_path,
-                class: "block rounded-md bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700" %>
+            <div class="sm:flex sm:gap-4 items-center">
+              <%= render "signin" %>
             </div>
 
           </div>
@@ -71,7 +70,7 @@
           </p>
 
           <div class="mt-4 md:mt-8">
-            <%= link_to "Sign up for free with just your email", users_sign_in_path,
+            <%= link_to "Get started with just your email", users_sign_in_path,
               class: "inline-block rounded bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring focus:ring-sky-400" %>
           </div>
         </div>
