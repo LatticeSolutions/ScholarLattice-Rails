@@ -1,16 +1,15 @@
 <section>
-    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-    Collections
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">\
+        Collections
     </h1>
-    <div class="grid grid-cols-2 gap-4">
-    <% @collections.each do |collection| %>
-        <div class="h-32">
+    
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @collections.each do |collection| %>
             <%= render partial: "card", locals: { collection: collection } %>
-        </div>
-    <% end %>
+        <% end %>
     </div>
 
-<% if @current_user %>
-    <p><%= link_to "New Collection", new_collection_path %></p>
-<% end %>
+    <% if @current_user %>
+        <p><%= link_to "New Collection", new_collection_path %></p>
+    <% end %>
 </section>
