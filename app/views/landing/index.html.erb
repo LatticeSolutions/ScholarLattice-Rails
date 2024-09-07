@@ -42,9 +42,8 @@
           </nav>
 
           <div class="flex items-center gap-4">
-            <div class="sm:flex sm:gap-4">
-              <%= link_to "Sign up or in", users_sign_in_path,
-                class: "block rounded-md bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700" %>
+            <div class="sm:flex sm:gap-4 items-center">
+              <%= render "signin" %>
             </div>
 
           </div>

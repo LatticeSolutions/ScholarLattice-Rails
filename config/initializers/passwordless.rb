@@ -1,3 +1,6 @@
 Passwordless.configure do |config|
   config.default_from_address = "no-reply@scholarlattice.pi-base.org"
+  config.success_redirect_path = "/collections" # After a user successfully signs in
+  config.failure_redirect_path = "/users/sign_in" # After a sign in fails
+  config.sign_out_redirect_path = "/" # After a user signs out
 end
