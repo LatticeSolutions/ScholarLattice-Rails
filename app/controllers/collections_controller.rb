@@ -52,7 +52,7 @@ class CollectionsController < ApplicationController
   private
     def collection_params
       params.require(:collection).permit(
-        :title, :short_title, :description, :website, :parent_id
+        :title, :short_title, :description
       )
     end
 
