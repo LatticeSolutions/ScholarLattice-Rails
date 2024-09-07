@@ -1,0 +1,22 @@
+<article
+  class="rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition hover:shadow-lg sm:p-6"
+>
+<%= link_to collection do %>
+    <h3 class="mt-0.5 text-lg font-medium text-gray-900">
+        <%= collection.title %>
+    </h3>
+<% end %>
+
+  <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+    <%= collection.description%>
+  </p>
+
+<%= link_to collection, class: "group mt-4 inline-flex items-center gap-1 text-sm font-medium text-blue-600" do %>
+    <span>View collection
+    <span aria-hidden="true">
+      &rarr;
+    </span>
+    </span>
+<% end %>
+
+</article>
