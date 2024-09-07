@@ -29,3 +29,31 @@
 
 en:
   hello: "Hello world"
+  passwordless:
+    sessions:
+      new:
+        email:
+          label: "E-mail address"
+          placeholder: "username@example.edu"
+        submit: "Sign up / Sign in"
+      create:
+        email_sent: "We've sent you an email with a secret token"
+        not_found: "We couldn't find a user with that email address"
+        error: "An error occured"
+      show:
+        token: "Token"
+        confirm: "Confirm"
+      errors:
+        invalid_token: "Sorry, that token is invalid"
+        session_expired: "Your session has expired, please sign in again."
+        token_claimed: "This token has already been used, try signing in again"
+      destroy:
+        signed_out: "Signed out successfully"
+    mailer:
+      sign_in:
+        subject: "✨ Sign in to ScholarLattice ✨"
+        body:
+          token: |-
+            Use this token to complete your sign in:
+          magic_link: |-
+            Or, you can use this link to sign in directly:

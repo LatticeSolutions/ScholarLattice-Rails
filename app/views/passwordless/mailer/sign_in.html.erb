@@ -1,0 +1,11 @@
+<p><%= t("passwordless.mailer.sign_in.body.token")%></p>
+
+<p style="font-size:3em;text-align:center">
+    <%= @token %>
+</p>
+
+<p><%= t("passwordless.mailer.sign_in.body.magic_link")%></p>
+
+<p style="text-align:center">
+    <%= link_to @magic_link, @magic_link %>
+</p>
