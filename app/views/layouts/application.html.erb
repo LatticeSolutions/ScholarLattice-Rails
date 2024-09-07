@@ -92,7 +92,7 @@
             <span class="px-3"><%= image_tag @current_user.gravatar, alt: "Rounded avatar", class: "w-10 h-10 rounded-full" %></span>
             <span><%= @current_user.email %> <%= link_to "Sign out", users_sign_out_path, class: "text-gray-400 underline" %></span>
           <% else %>
-            <%= link_to "Sign up or in", users_sign_in_path, class: "inline-block rounded-lg bg-blue-400 px-3 py-2 text-sm font-medium text-white" %>
+            <%= link_to "Sign up or sign in", users_sign_in_path, class: "inline-block rounded-lg bg-blue-400 px-3 py-2 text-sm font-medium text-white" %>
           <% end %>
         </span>
       </div>
