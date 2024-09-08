@@ -16,4 +16,8 @@ class User < ApplicationRecord
   def gravatar(kwargs = { size: 50, rating: "g", def: "identicon" })
     "//en.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=#{kwargs[:size]}&r=#{kwargs[:rating]}&d=#{kwargs[:def]}"
   end
+
+  def can_administrate?(collection)
+    site_admin or collection.admin_users.include?(self) or collection.admin_users.intersect?(ancestors)
+  end
 end

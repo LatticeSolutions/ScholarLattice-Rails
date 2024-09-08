@@ -8,12 +8,12 @@ class CollectionsController < ApplicationController
   end
 
   def new
-    require_user!
+    require_site_admin!
     @collection = Collection.new
   end
 
   def create
-    require_user!
+    require_site_admin!
     @collection = Collection.new collection_params
     @collection.admin_users = [ @current_user ]
 
@@ -41,8 +41,8 @@ class CollectionsController < ApplicationController
   end
 
   def destroy
+    require_site_admin!
     @collection = Collection.find(params[:id])
-    require_admin! @collection
     @collection.destroy
 
     redirect_to collections_path, status: :see_other
@@ -57,11 +57,11 @@ class CollectionsController < ApplicationController
     end
 
     def require_admin!(collection)
-      return if collection.admin_users.include? @current_user
       if @current_user.nil?
         save_passwordless_redirect_location!(User)
         redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
       else
+        return if @current_user.can_administrate? collection
         redirect_to collection_path(collection), alert: "You are not authorized to access this page."
       end
     end
