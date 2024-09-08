@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "no-reply@scholarlattice.pi-base.org"
+  default from: "no-reply@scholarlattice.org"
   layout "mailer"
 end
