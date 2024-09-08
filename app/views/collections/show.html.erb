@@ -10,13 +10,17 @@
         </span>
     </h1>
 
-<p><%= @collection.description %></p>
+<p class="prose"><%= @collection.description %></p>
 
 <% unless @collection.children.empty? %>
-    <h4>Subcollections:</h4>
-    <% @collection.children.each do |collection| %>
-        <%= render partial: "card", locals: { collection: collection } %>
-    <% end %>
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-5">
+        Subcollections:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @collection.children.each do |collection| %>
+            <%= render partial: "card", locals: { collection: collection } %>
+        <% end %>
+    </div>
 <% end %>
 
 <% if @collection.admin_users.include? @current_user %>
