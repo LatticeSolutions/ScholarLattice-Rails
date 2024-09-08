@@ -25,7 +25,6 @@ class CollectionsController < ApplicationController
     else
       require_site_admin!
     end
-    @collection.admin_users = [ @current_user ]
 
     if @collection.save
       redirect_to @collection
