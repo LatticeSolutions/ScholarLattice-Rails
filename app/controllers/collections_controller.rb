@@ -12,9 +12,19 @@ class CollectionsController < ApplicationController
     @collection = Collection.new
   end
 
+  def new_subcollection
+    @parent = Collection.find(params[:id])
+    require_admin! @parent
+    @collection = Collection.new parent_id: @parent.id
+  end
+
   def create
-    require_site_admin!
     @collection = Collection.new collection_params
+    if @collection.parent
+      require_admin! @collection.parent
+    else
+      require_site_admin!
+    end
     @collection.admin_users = [ @current_user ]
 
     if @collection.save
@@ -52,7 +62,7 @@ class CollectionsController < ApplicationController
   private
     def collection_params
       params.require(:collection).permit(
-        :title, :short_title, :description
+        :title, :short_title, :description, :parent_id
       )
     end
 
@@ -61,7 +71,7 @@ class CollectionsController < ApplicationController
         save_passwordless_redirect_location!(User)
         redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
       else
-        return if @current_user.can_administrate? collection
+        return if collection.has_admin? @current_user
         redirect_to collection_path(collection), alert: "You are not authorized to access this page."
       end
     end

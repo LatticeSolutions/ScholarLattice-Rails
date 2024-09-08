@@ -6,6 +6,7 @@ class Collection < ApplicationRecord
   has_many :admin_users, through: :admins, source: :user
 
   def has_admin?(user)
-    user.site_admin or admin_users.include?(user) or ancestors.where(admin_users: user).exists?
+    return false if !user
+    user.site_admin or admin_users.include?(user) or Admin.where(user: user, collection: ancestors).exists?
   end
 end

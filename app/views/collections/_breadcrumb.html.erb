@@ -33,6 +33,44 @@
           <%= link_to c.short_title, c, class: "block transition hover:text-gray-700" %>
         </li>
       <% end %>
+      <% if local_assigns.has_key? :action %>
+        <li>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </li>
+        <li>
+          <%= link_to (local_assigns.fetch :collection).short_title, (local_assigns.fetch :collection), class: "block transition hover:text-gray-700" %>
+        </li>
+        <li>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </li>
+        <li>
+          <span class="block transition font-medium">
+            <%= local_assigns.fetch :action %>
+          </span>
+        </li>
+      <% else %>
         <li>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -52,6 +90,7 @@
             <%= (local_assigns.fetch :collection).short_title %>
           </span>
         </li>
+      <% end %>
     <% end %>
   </ol>
 </nav>

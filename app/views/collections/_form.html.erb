@@ -1,4 +1,5 @@
 <%= form_with model: @collection do |form| %>
+  <%= form.hidden_field :parent_id %>
   <div class="mb-3">
     <%= form.label :title, class: "block text-xs font-medium text-gray-700" %>
     <%= form.text_field :title, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
