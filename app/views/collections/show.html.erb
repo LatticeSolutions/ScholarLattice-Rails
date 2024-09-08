@@ -1,9 +1,14 @@
-<section class="prose">
+<section>
 <% unless @collection.parent.nil? %>
 <p>Back to <%= link_to @collection.parent.title, @collection.parent %>.</p>
 <% end %>
 
-<h1><%= @collection.title %> (<%= @collection.short_title %>)</h1>
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        <%= @collection.title %>
+        <span class="text-xl text-gray-600">
+            <%= @collection.short_title %>
+        </span>
+    </h1>
 
 <p><%= @collection.description %></p>
 
