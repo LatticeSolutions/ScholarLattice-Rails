@@ -7,6 +7,12 @@
     </h1>
 
     <% if @collection.has_admin? @current_user %>
+        <p>
+            Administrators:
+            <% @collection.admin_users.each do |u| %>
+                <%= u.email %>, 
+            <% end %>
+        </p>
         <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 mb-3">
             <span
                 class="inline-flex items-center gap-2 rounded-md px-2 py-2 text-sm text-gray-500"
