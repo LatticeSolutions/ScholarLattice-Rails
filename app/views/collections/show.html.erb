@@ -1,8 +1,13 @@
 <%= render partial: "breadcrumb", locals: { collection: @collection } %>
 
+<section>
+
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        <%= @collection.title %>
+    </h1>
 
     <% if @collection.has_admin? @current_user %>
-        <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 mt-5">
+        <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 mb-3">
             <span
                 class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-gray-500"
             >
@@ -40,11 +45,6 @@
             <% end %>
         </div>
     <% end %>
-<section>
-
-    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        <%= @collection.title %>
-    </h1>
 
     <p class="prose"><%= @collection.description %></p>
 
