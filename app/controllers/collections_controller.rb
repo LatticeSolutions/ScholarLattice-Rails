@@ -13,8 +13,12 @@ class CollectionsController < ApplicationController
   end
 
   def create
-    require_site_admin!
     @collection = Collection.new collection_params
+    if @collection.parent
+      require_admin! @collection_parent
+    else
+      require_site_admin!
+    end
     @collection.admin_users = [ @current_user ]
 
     if @collection.save
@@ -52,7 +56,7 @@ class CollectionsController < ApplicationController
   private
     def collection_params
       params.require(:collection).permit(
-        :title, :short_title, :description
+        :title, :short_title, :description, :parent_id
       )
     end
 
