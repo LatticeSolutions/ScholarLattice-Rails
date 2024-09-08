@@ -9,4 +9,9 @@ class Collection < ApplicationRecord
     return false if !user
     user.site_admin or admin_users.include?(user) or Admin.where(user: user, collection: ancestors).exists?
   end
+
+  def collection_name
+    return "Collection" unless parent
+    parent.subcollection_name
+  end
 end
