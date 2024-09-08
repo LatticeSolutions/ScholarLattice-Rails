@@ -8,12 +8,12 @@ class CollectionsController < ApplicationController
   end
 
   def new
-    require_user!
+    require_site_admin!
     @collection = Collection.new
   end
 
   def create
-    require_user!
+    require_site_admin!
     @collection = Collection.new collection_params
     @collection.admin_users = [ @current_user ]
 
@@ -41,8 +41,8 @@ class CollectionsController < ApplicationController
   end
 
   def destroy
+    require_site_admin!
     @collection = Collection.find(params[:id])
-    require_admin! @collection
     @collection.destroy
 
     redirect_to collections_path, status: :see_other
