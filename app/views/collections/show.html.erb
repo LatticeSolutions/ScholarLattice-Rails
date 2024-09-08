@@ -46,7 +46,9 @@
         </div>
     <% end %>
 
-    <p class="prose"><%= @collection.description %></p>
+    <p class="text-lg font-light">
+        <%= @collection.description %>
+    </p>
 
     <% unless @collection.children.empty? %>
         <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-5">
