@@ -57,11 +57,11 @@ class CollectionsController < ApplicationController
     end
 
     def require_admin!(collection)
-      return if collection.admin_users.include? @current_user
       if @current_user.nil?
         save_passwordless_redirect_location!(User)
         redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
       else
+        return if @current_user.can_administrate? collection
         redirect_to collection_path(collection), alert: "You are not authorized to access this page."
       end
     end
