@@ -1,7 +1,9 @@
-<section class="prose">
-<h1>New Collection</h1>
+<section>
 
-<%= render "form", collection: @collection %>
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        New Collection
+    </h1>
 
-<%= link_to "Cancel", collections_path %>
+<%= render "form", collection: @collection, cancel_path: collections_path %>
+
 </section>
