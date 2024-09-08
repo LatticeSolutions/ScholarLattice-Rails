@@ -1,0 +1,57 @@
+<nav aria-label="Breadcrumb">
+  <ol class="flex items-center gap-1 text-sm text-gray-600">
+    <li>
+      <a href="/collections" class="block transition hover:text-gray-700">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="size-5"
+          fill="none"
+          viewBox="0 0 20 20"
+          stroke="currentColor"
+        >
+          <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5A1 1 0 014 7zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
+        </svg>
+      </a>
+    </li>
+    <% if local_assigns.has_key? :collection %>
+      <% (local_assigns.fetch :collection).ancestors.each do |c| %>
+        <li>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </li>
+        <li>
+          <%= link_to c.short_title, c, class: "block transition hover:text-gray-700" %>
+        </li>
+      <% end %>
+        <li>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </li>
+        <li>
+          <span class="block transition font-medium">
+            <%= (local_assigns.fetch :collection).short_title %>
+          </span>
+        </li>
+    <% end %>
+  </ol>
+</nav>

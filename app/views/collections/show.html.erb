@@ -1,34 +1,63 @@
-<section class="prose">
-<% unless @collection.parent.nil? %>
-<p>Back to <%= link_to @collection.parent.title, @collection.parent %>.</p>
-<% end %>
+<%= render partial: "breadcrumb", locals: { collection: @collection } %>
 
-<h1><%= @collection.title %> (<%= @collection.short_title %>)</h1>
+<section>
 
-<p><%= @collection.description %></p>
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        <%= @collection.title %>
+    </h1>
 
-<% unless @collection.children.empty? %>
-    <h4>Subcollections:</h4>
-    <% @collection.children.each do |collection| %>
-        <%= render partial: "card", locals: { collection: collection } %>
+    <% if @collection.has_admin? @current_user %>
+        <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 mb-3">
+            <span
+                class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-gray-500"
+            >
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-4"
+                >
+                    <path d="M10 12C10 14.2091 8.20914 16 6 16C3.79086 16 2 14.2091 2 12C2 9.79086 3.79086 8 6 8C8.20914 8 10 9.79086 10 12ZM10 12H22V15" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M18 12V15" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+
+                Admin:
+            </span>
+
+            <%= link_to(edit_collection_path, class: "inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm text-blue-500 shadow-sm focus:relative") do %>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-4"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                    />
+                </svg>
+                Edit
+            <% end %>
+        </div>
     <% end %>
-<% end %>
 
-<% if @collection.admin_users.include? @current_user %>
-    <ul>
-        <li>
-            <%= link_to "Edit", edit_collection_path %>
-        </li>
-        <li>
-            <%= link_to "Destroy", collection_path, data: {
-                turbo_method: :delete,
-                turbo_confirm: "Are you sure?"
-            } %>
-        </li>
-    </ul>
-<% end %>
+    <p class="text-lg font-light">
+        <%= @collection.description %>
+    </p>
 
-<p>
-    <%= link_to "Back to Collections", collections_path %>
-</p>
+    <% unless @collection.children.empty? %>
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-5">
+            Subcollections:
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @collection.children.each do |collection| %>
+                <%= render partial: "card", locals: { collection: collection } %>
+            <% end %>
+        </div>
+    <% end %>
 </section>
