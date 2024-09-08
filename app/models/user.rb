@@ -18,6 +18,6 @@ class User < ApplicationRecord
   end
 
   def can_administrate?(collection)
-    site_admin or collection.admin_users.include?(self) or collection.admin_users.intersect?(ancestors)
+    collection.has_admin? self
   end
 end

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root "landing#index"
 
   resources :collections
+  get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"
 
   # Passwordless routes
   passwordless_for :users
