@@ -7,10 +7,10 @@
     </h1>
 
     <% if @collection.has_admin? @current_user %>
-        <p>
+        <p class="text-xs mb-3">
             Administrators:
-            <% @collection.admin_users.each do |u| %>
-                <%= u.email %>, 
+            <% @collection.admin_users.each_with_index do |u, index| %>
+                <%= u.email %><% unless index+1 == @collection.admin_users.length %>,<% end %> 
             <% end %>
         </p>
         <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 mb-3">
