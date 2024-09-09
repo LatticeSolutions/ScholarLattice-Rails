@@ -19,7 +19,7 @@
   <body>
 <section class="min-h-screen bg-gray-50" x-data="{ sideBar: false }"> 
   <nav 
-    class="fixed top-0 left-0 z-20 h-full pb-10 overflow-x-hidden overflow-y-auto transition origin-left transform bg-white border-r w-60 md:translate-x-0 -translate-x-full"
+    class="fixed top-0 left-0 z-20 h-full pb-10 overflow-x-hidden overflow-y-auto transition origin-left transform bg-white border-r w-60 -translate-x-full"
     :class="{ '-translate-x-full' : !sideBar, 'translate-x-0' : sideBar }"
     @click.away="sideBar = false">
     <div class="px-4 py-5 flex flex-row justify-center items-center">
@@ -34,15 +34,17 @@
       </a>
     </nav>
   </nav>
-  <div class="ml-0 transition md:ml-60">
+  <div class="ml-0 transition" :class="{ 'md:ml-60': sideBar }">
     <header class="flex items-center flex-row-reverse justify-between w-full px-4 bg-white border-b h-14">
       <div>
         <span class="text-gray-500 gap-3 flex items-center">
           <%= render "signin" %>
         </span>
       </div>
-      <button class="block btn btn-light md:hidden" @click.stop="sideBar = true">
+      <button class="block flex items-center justify-center" @click.stop="sideBar = !sideBar">
         <span class="sr-only">Menu</span>
+        <%= image_tag "logo-small.svg", class: "pr-3 h-8", ":class" => "{ 'hidden': sideBar }" %>
+        <span class="pr-3 font-medium text-gray-800" :class="{ 'hidden': sideBar }">ScholarLattice</span>
         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentcolor">
           <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4A1 1 0 013 5zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
         </svg>
