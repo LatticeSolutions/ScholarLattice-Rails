@@ -3,11 +3,17 @@ class Collection < ApplicationRecord
   validates :short_title, presence: true
   has_ancestry
   has_many :admins
-  has_many :admin_users, through: :admins, source: :user
+  has_many :direct_admin_users, through: :admins, source: :user
+
+  def admin_users
+    User
+      .distinct
+      .joins(:admins)
+      .where(admins: { collection: path_ids })
+  end
 
   def has_admin?(user)
-    return false if !user
-    user.site_admin or admin_users.include?(user) or Admin.where(user: user, collection: ancestors).exists?
+    admin_users.include?(user)
   end
 
   def collection_name

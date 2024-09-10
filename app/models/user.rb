@@ -7,7 +7,7 @@ class User < ApplicationRecord
   passwordless_with :email
 
   has_many :admins
-  has_many :collections, through: :admins
+  has_many :direct_admin_collections, through: :admins, source: :collection
 
   def self.fetch_resource_for_passwordless(email)
     find_or_create_by(email: email)
@@ -18,6 +18,6 @@ class User < ApplicationRecord
   end
 
   def can_administrate?(collection)
-    collection.has_admin? self
+    site_admin or collection.has_admin? self
   end
 end
