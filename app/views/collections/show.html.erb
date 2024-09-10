@@ -21,12 +21,11 @@
         <%= @collection.description %>
     </p>
 
-    <p>
-        Pages:
-        <% @collection.pages.each do |page| %>
-            <%= link_to page.title, page %>
-        <% end %>
-    </p>
+    <% unless @collection.pages.empty? %>
+        <div class="py-2">
+        <%= render PagesBarComponent.new(@collection.pages)  %>
+        </div>
+    <% end %>
 
     <% unless @collection.children.empty? %>
         <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-5">
