@@ -44,9 +44,9 @@ en:
         token: "Token"
         confirm: "Confirm"
       errors:
-        invalid_token: "Sorry, that token is invalid"
-        session_expired: "Your session has expired, please sign in again."
-        token_claimed: "This token has already been used, try signing in again"
+        invalid_token: "Sorry, that token is invalid."
+        session_expired: "This token has expired, please sign in again."
+        token_claimed: "This token has already been used, please sign in again."
       destroy:
         signed_out: "Signed out successfully"
     mailer:
