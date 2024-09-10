@@ -6,36 +6,12 @@
         <%= @collection.title %>
     </h1>
 
-    <% if @collection.has_admin? @current_user %>
-        <p class="text-xs mb-3">
-            Administrators:
-            <% @collection.admin_users.each_with_index do |u, index| %>
-                <%= u.email %><% unless index+1 == @collection.admin_users.length %>,<% end %> 
-            <% end %>
-        </p>
-        <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 mb-3">
-            <span
-                class="inline-flex items-center gap-2 rounded-md px-2 py-2 text-sm text-gray-500"
-            >
-                <span class="size-4">
-                    <%= render IconComponent.new(:key) %>
-                </span>
-                Admin:
-            </span>
-
-            <%= link_to(edit_collection_path, class: "inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm text-blue-500 shadow-sm focus:relative ml-1") do %>
-                <span class="size-4">
-                    <%= render IconComponent.new(:edit) %>
-                </span>
-                Edit
-            <% end %>
-            <%= link_to(new_subcollection_path, class: "inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm text-blue-500 shadow-sm focus:relative ml-1") do %>
-                <span class="size-4">
-                    <%= render IconComponent.new(:oplus) %>
-                </span>
-                New <%= @collection.subcollection_name %>
-            <% end %>
-        </div>
+    
+    <% if @current_user and @current_user.site_admin? %>
+        <%= render AdminBarComponent.new(
+            {icon: :edit, path: edit_collection_path, text: "Edit"},
+            {icon: :oplus, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
+        )%>
     <% end %>
 
     <p class="text-lg font-light">
