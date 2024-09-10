@@ -7,9 +7,16 @@
     <p class="mt-4 text-gray-500">
       To log in as 
       <span class="font-medium"><%= @session.authenticatable.email %></span>,
-      either click the magic link sent to your inbox, or copy/paste your token below.
+      either click the magic link with the subject
     </p>
-  </div>
+    <p class="mt-1 text-gray-500">
+      <span class="font-medium"><%= I18n.t("passwordless.mailer.sign_in.subject") %></span>
+    </p>
+    <p class="mt-1 text-gray-500">
+      sent to your inbox on
+      <span class="font-medium"><%= @session.created_at %></span>,
+      or copy/paste the token provided in that email below.
+    </p>
 
   <%= form_with(model: @session, url: url_for(action: 'update'), scope: 'passwordless', method: 'patch', data: { turbo: 'false' }, 
     html: { class: 'mx-auto mb-0 mt-8 max-w-md space-y-4' }) do |f| %>
@@ -27,15 +34,9 @@
             class: "w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm" %>
 
         <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="size-4 text-gray-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-    <path d="M 7 5 C 3.134 5 0 8.134 0 12 C 0 15.866 3.134 19 7 19 C 10.170669 19 12.846171 16.890989 13.707031 14 L 18 14 L 18 17 L 22 17 L 22 14 L 24 14 L 24 10 L 13.707031 10 C 12.846171 7.1090112 10.170669 5 7 5 z M 7 9 C 8.657 9 10 10.343 10 12 C 10 13.657 8.657 15 7 15 C 5.343 15 4 13.657 4 12 C 4 10.343 5.343 9 7 9 z"></path>
-          </svg>
+          <span class="size-4 text-gray-600">
+            <%= render IconComponent.new(:key) %>
+          </span>
         </span>
       </div>
     </div>
@@ -48,4 +49,9 @@
       <%= link_to "Sign in as someone else", users_sign_in_path, class: "inline-block rounded-lg text-blue-500 px-5 py-3 text-sm font-medium" %>
     </div>
   <% end %>
+
+    <p class="mt-4 text-sm text-gray-400">
+      (Can't find the email? Check your spam folder!)
+    </p>
+  </div>
 </div>
