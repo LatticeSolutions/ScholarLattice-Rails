@@ -1,4 +1,4 @@
-<%= render partial: "breadcrumb", locals: { collection: @parent, action: "New Subcollection" } %>
+<%= render "breadcrumb", collection: @parent, action: "New #{@parent.subcollection_name}" %>
 
 <section>
 
@@ -6,6 +6,6 @@
         New <%= @parent.subcollection_name %> for <%= @parent.short_title %>
     </h1>
 
-<%= render "form", collection: @collection, cancel_path: collections_path %>
+    <%= render "form", collection: @collection, cancel_path: collections_path %>
 
 </section>
