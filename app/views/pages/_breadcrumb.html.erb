@@ -1,0 +1,20 @@
+<% unless local_assigns[:action] %>
+  <%= render BreadcrumbsComponent.new(
+    { icon: :collection, link: collections_path },
+    *page.collection.ancestors.map do |c|
+      { link: collection_path(c), text: c.short_title }
+    end,
+    { link: collection_path(page.collection), text: page.collection.short_title },
+    { text: "Page" }
+  ) %>
+<% else %>
+  <%= render BreadcrumbsComponent.new(
+    { icon: :collection, link: collections_path },
+    *page.collection.ancestors.map do |c|
+      { link: collection_path(c), text: c.short_title }
+    end,
+    { link: collection_path(page.collection), text: page.collection.short_title },
+    *(@page.new_record? ? [{text: "Page"}] : [{ link: page_path(page), text: "Page" }]),
+    { text: action }
+  ) %>
+<% end %>

@@ -1,17 +1,13 @@
 <div id="<%= dom_id page %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Title:</strong>
-    <%= page.title %>
-  </p>
+    <h1 class="text-xl font-bold text-gray-900 md:text-2xl pt-5">
+        <%= @page.collection.title %>
+    </h1>
+    <h2 class="text-2xl font-bold text-gray-900 md:text-3xl pt-1">
+        <%= @page.title %>
+    </h2>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Content:</strong>
+  <p class="my-5 prose">
     <%= page.content %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Collection:</strong>
-    <%= page.collection_id %>
   </p>
 
 </div>
