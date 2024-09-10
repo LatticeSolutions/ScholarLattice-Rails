@@ -1,0 +1,31 @@
+<nav aria-label="Breadcrumb">
+    <ol class="flex items-center gap-1 text-sm text-gray-600">
+        <% @crumbs.each_with_index do |crumb, i| %>
+            <li>
+                <span class="block transition">
+                    <% if crumb.key? :link %>
+                        <a href="<%= crumb[:link] %>" class="hover:text-gray-800 hover:font-medium">
+                    <% end %>
+                    <% if crumb.key? :icon %>
+                        <span class="block size-5">
+                            <%= render IconComponent.new(crumb[:icon]) %>
+                        </span>
+                    <% end %>
+                    <% if crumb.key? :text %>
+                        <%= crumb[:text] %>
+                    <% end %>
+                    <% if crumb.key? :link %>
+                        </a>
+                    <% end %>
+                </span>
+            </li>
+            <% unless i+1 == @crumbs.length %>
+                <li>
+                    <span class="block size-4">
+                        <%= render IconComponent.new(:chevron) %>
+                    </span>
+                </li>
+            <% end %>
+        <% end %>
+    </ol>
+</nav>
