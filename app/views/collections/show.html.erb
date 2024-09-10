@@ -7,7 +7,10 @@
     </h1>
 
     
-    <% if @current_user and @current_user.site_admin? %>
+    <% if @current_user and @current_user.can_administrate? @collection %>
+        <p class="text-gray-500 text-sm mb-3">
+            Administrators: <%= @collection.admin_users.map(&:email).join(", ") %>
+        </p>
         <%= render AdminBarComponent.new(
             {icon: :edit, path: edit_collection_path, text: "Edit"},
             {icon: :oplus, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},

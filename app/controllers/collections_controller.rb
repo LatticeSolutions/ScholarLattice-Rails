@@ -70,7 +70,7 @@ class CollectionsController < ApplicationController
         save_passwordless_redirect_location!(User)
         redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
       else
-        return if collection.has_admin? @current_user
+        return if collection.has_admin? @current_user or @current_user.site_admin
         redirect_to collection_path(collection), alert: "You are not authorized to access this page."
       end
     end
