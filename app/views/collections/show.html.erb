@@ -17,49 +17,22 @@
             <span
                 class="inline-flex items-center gap-2 rounded-md px-2 py-2 text-sm text-gray-500"
             >
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-4"
-                >
-                    <path d="M10 12C10 14.2091 8.20914 16 6 16C3.79086 16 2 14.2091 2 12C2 9.79086 3.79086 8 6 8C8.20914 8 10 9.79086 10 12ZM10 12H22V15" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M18 12V15" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-
+                <span class="size-4">
+                    <%= render IconComponent.new(:key) %>
+                </span>
                 Admin:
             </span>
 
             <%= link_to(edit_collection_path, class: "inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm text-blue-500 shadow-sm focus:relative ml-1") do %>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-4"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                    />
-                </svg>
+                <span class="size-4">
+                    <%= render IconComponent.new(:edit) %>
+                </span>
                 Edit
             <% end %>
             <%= link_to(new_subcollection_path, class: "inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm text-blue-500 shadow-sm focus:relative ml-1") do %>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-4"
-                >
-                    <path d="M8 12H12M16 12H12M12 12V8M12 12V16" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
+                <span class="size-4">
+                    <%= render IconComponent.new(:oplus) %>
+                </span>
                 New <%= @collection.subcollection_name %>
             <% end %>
         </div>

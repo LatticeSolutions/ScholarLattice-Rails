@@ -45,9 +45,9 @@
         <span class="sr-only">Menu</span>
         <%= image_tag "logo-small.svg", class: "pr-3 h-8", ":class" => "{ 'hidden': sideBar }" %>
         <span class="pr-3 font-medium text-gray-800" :class="{ 'hidden': sideBar }">ScholarLattice</span>
-        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentcolor">
-          <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4A1 1 0 013 5zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-        </svg>
+        <span class="w-4 h-4">
+          <%= render IconComponent.new(:hamburger) %>
+        </span>
       </button>
     </header>
     <div class="p-4">
