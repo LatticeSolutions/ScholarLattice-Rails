@@ -53,8 +53,9 @@
       </div>
       <button class="block flex items-center justify-center" @click.stop="sideBar = !sideBar">
         <span class="sr-only">Menu</span>
-        <%= image_tag "logo-small.svg", class: "pr-3 h-8", ":class" => "{ 'hidden': sideBar }" %>
-        <span class="pr-3 font-medium text-gray-800" :class="{ 'hidden': sideBar }">ScholarLattice</span>
+        <span :class="{ 'hidden': sideBar }">
+          <%= render "logo" %>
+        </span>
         <span class="w-4 h-4">
           <%= render IconComponent.new(:hamburger) %>
         </span>
