@@ -62,7 +62,8 @@
       </button>
     </header>
     <div class="p-4">
-      <% if alert %><%= render partial: "alert", locals: {title: 'Notice', alert: alert} %><% end %>
+      <% if alert.present? %><%= render partial: "alert", locals: {title: 'Alert', alert: alert} %><% end %>
+      <% if notice.present? %><%= render partial: "alert", locals: {title: 'Notice', alert: notice} %><% end %>
       <%= yield %>
     </div>
   </div>
