@@ -13,12 +13,20 @@
         </p>
         <%= render AdminBarComponent.new(
             {icon: :edit, path: edit_collection_path, text: "Edit"},
+            {icon: :oplus, path: new_collection_page_path(@collection), text: "New Page"},
             {icon: :oplus, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
         )%>
     <% end %>
 
     <p class="text-lg font-light">
         <%= @collection.description %>
+    </p>
+
+    <p>
+        Pages:
+        <% @collection.pages.each do |page| %>
+            <%= link_to page.title, page %>
+        <% end %>
     </p>
 
     <% unless @collection.children.empty? %>

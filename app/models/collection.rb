@@ -4,6 +4,7 @@ class Collection < ApplicationRecord
   has_ancestry
   has_many :admins
   has_many :direct_admin_users, through: :admins, source: :user
+  has_many :pages
 
   def admin_users
     User

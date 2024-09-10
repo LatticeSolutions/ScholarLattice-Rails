@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root "landing#index"
 
-  resources :collections
+  resources :collections do
+    resources :pages, shallow: true
+  end
   get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"
 
   # Passwordless routes
