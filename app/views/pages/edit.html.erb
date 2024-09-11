@@ -1,9 +1,9 @@
 <div class="mx-auto md:w-3/4 w-full">
 <%= render "breadcrumb", page: @page, action: "Edit" %>
-  <h1 class="font-bold text-4xl">Editing page</h1>
+  <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+      Edit <%= @page.title %>
+  </h1>
 
-  <%= render "form", page: @page %>
+  <%= render "form", page: @page, cancel_path: @page %>
 
-  <%= link_to "Show this page", @page, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <%= link_to "Back to collection", collection_path(@page.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>

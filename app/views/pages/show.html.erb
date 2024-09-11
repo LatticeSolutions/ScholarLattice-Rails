@@ -1,10 +1,11 @@
 <div class="mx-auto md:w-2/3 w-full">
 <%= render "breadcrumb", page: @page %>
+  <% if @current_user and @current_user.can_administrate? @page.collection %>
+      <div class="mt-3">
+      <%= render AdminBarComponent.new(
+          {icon: :edit, path: edit_page_path(@page), text: "Edit"},
+      )%>
+      </div>
+  <% end %>
   <%= render @page %>
-
-  <%= link_to "Edit this page", edit_page_path(@page), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <%= link_to "Back to collection", collection_path(@page.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <div class="inline-block ml-2">
-    <%= button_to "Destroy this page", @page, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
-  </div>
 </div>
