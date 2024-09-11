@@ -6,4 +6,5 @@ Passwordless.configure do |config|
   config.token_generator = lambda do |_|
     [ *"A".."F", *"1".."9" ].sample(8).join
   end
+  config.restrict_token_reuse = false
 end
