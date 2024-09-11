@@ -37,7 +37,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_10_211507) do
 
   create_table "pages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", default: "New Page", null: false
-    t.string "content", default: "Page content goes here.", null: false
+    t.text "content", default: "Page content goes here.", null: false
     t.uuid "collection_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
