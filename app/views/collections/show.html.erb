@@ -22,11 +22,13 @@
     </p>
 
     <% unless @collection.home_page.nil? %>
-        <div class="pt-4">
-            <%= render AdminBarComponent.new(
-                {icon: :edit, path: edit_page_path(@collection.home_page), text: "Edit Home Page"},
-            )%>
-        </div>
+        <% if @current_user and @current_user.can_administrate? @collection %>
+            <div class="pt-4">
+                <%= render AdminBarComponent.new(
+                    {icon: :edit, path: edit_page_path(@collection.home_page), text: "Edit Home Page"},
+                )%>
+            </div>
+        <% end %>
         <div class="pt-4 prose sm:prose-xl md:prose-2xl mx-auto">
             <%== @collection.home_page.content_html %>
         </div>
