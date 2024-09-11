@@ -21,9 +21,20 @@
         <%= @collection.description %>
     </p>
 
+    <% unless @collection.home_page.nil? %>
+        <div class="pt-4">
+            <%= render AdminBarComponent.new(
+                {icon: :edit, path: edit_page_path(@collection.home_page), text: "Edit Home Page"},
+            )%>
+        </div>
+        <div class="pt-4 prose sm:prose-xl md:prose-2xl mx-auto">
+            <%== @collection.home_page.content_html %>
+        </div>
+    <% end %>
+
     <% unless @collection.pages.empty? %>
         <div class="pt-4">
-        <%= render PagesBarComponent.new(@collection.pages)  %>
+        <%= render PagesBarComponent.new(@collection.pages.excluding(@collection.home_page))  %>
         </div>
     <% end %>
 

@@ -7,5 +7,6 @@ class CreatePages < ActiveRecord::Migration[7.2]
 
       t.timestamps
     end
+    add_reference :collections, :page, type: :uuid, null: true
   end
 end

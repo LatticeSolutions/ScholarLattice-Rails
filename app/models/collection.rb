@@ -5,6 +5,7 @@ class Collection < ApplicationRecord
   has_many :admins
   has_many :direct_admin_users, through: :admins, source: :user
   has_many :pages
+  has_one :home_page, class_name: "Page"
 
   def admin_users
     User
