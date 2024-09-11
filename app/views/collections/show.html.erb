@@ -12,8 +12,8 @@
         </p>
         <%= render AdminBarComponent.new(
             {icon: :edit, path: edit_collection_path, text: "Edit"},
-            {icon: :oplus, path: new_collection_page_path(@collection), text: "New Page"},
-            {icon: :oplus, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
+            {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
+            {icon: :collection, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
         )%>
     <% end %>
 
@@ -22,13 +22,13 @@
     </p>
 
     <% unless @collection.pages.empty? %>
-        <div class="py-2">
+        <div class="pt-4">
         <%= render PagesBarComponent.new(@collection.pages)  %>
         </div>
     <% end %>
 
     <% unless @collection.children.empty? %>
-        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-5">
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
             <%= @collection.subcollection_name.pluralize %>:
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
