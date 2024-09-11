@@ -13,6 +13,7 @@ class PagesController < ApplicationController
   # GET /pages/new
   def new
     @page = Page.new(collection: Collection.find(params[:collection_id]))
+    require_admin! @page
   end
 
   # GET /pages/1/edit
@@ -23,6 +24,7 @@ class PagesController < ApplicationController
   def create
     @page = Page.new(page_params)
     @page.collection = Collection.find(params[:collection_id])
+    require_admin! @page
 
     respond_to do |format|
       if @page.save
@@ -37,6 +39,7 @@ class PagesController < ApplicationController
 
   # PATCH/PUT /pages/1 or /pages/1.json
   def update
+    require_admin! @page
     respond_to do |format|
       if @page.update(page_params)
         format.html { redirect_to page_url(@page), notice: "Page was successfully updated." }
@@ -50,6 +53,7 @@ class PagesController < ApplicationController
 
   # DELETE /pages/1 or /pages/1.json
   def destroy
+    require_site_admin!
     @page.destroy!
 
     respond_to do |format|
@@ -67,5 +71,15 @@ class PagesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def page_params
       params.require(:page).permit(:title, :content)
+    end
+
+    def require_admin!(page)
+      if @current_user.nil?
+        save_passwordless_redirect_location!(User)
+        redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
+      else
+        return if page.collection.has_admin? @current_user or @current_user.site_admin
+        redirect_to collection_page_path(page.collection, page), alert: "You are not authorized to access this page."
+      end
     end
 end
