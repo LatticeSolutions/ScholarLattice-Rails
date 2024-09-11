@@ -1,0 +1,14 @@
+<div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 mb-5">
+    <span
+        class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-gray-500"
+    >
+        <span class="size-4">
+            <%= render IconComponent.new(:page) %>
+        </span>
+        Pages:
+    </span>
+
+    <% @pages.each do |page| %>
+        <%= link_to(page.title, page, class: "inline-flex items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 text-sm text-blue-500 shadow-sm focus:relative") %>
+    <% end %>
+</div>

@@ -1,0 +1,8 @@
+<section class="mx-auto md:w-3/4 w-full">
+<%= render "breadcrumb", page: @page, action: "New" %>
+  <h1 class="font-bold text-4xl">New page</h1>
+
+  <%= render "form", page: @page, cancel_path: @page.collection %>
+
+  <%= link_to "Back to collection", collection_path(@page.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+</section>

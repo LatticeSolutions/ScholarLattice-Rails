@@ -1,6 +1,5 @@
-<%= render partial: "breadcrumb", locals: { collection: @collection } %>
-
-<section>
+<section class="mx-auto md:w-3/4 w-full">
+    <%= render partial: "breadcrumb", locals: { collection: @collection } %>
 
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
         <%= @collection.title %>
@@ -13,7 +12,8 @@
         </p>
         <%= render AdminBarComponent.new(
             {icon: :edit, path: edit_collection_path, text: "Edit"},
-            {icon: :oplus, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
+            {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
+            {icon: :collection, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
         )%>
     <% end %>
 
@@ -21,8 +21,27 @@
         <%= @collection.description %>
     </p>
 
+    <% unless @collection.pages.excluding(@collection.home_page).empty? %>
+        <div class="pt-4">
+            <%= render PagesBarComponent.new(@collection.pages.excluding(@collection.home_page))  %>
+        </div>
+    <% end %>
+
+    <% unless @collection.home_page.nil? %>
+        <% if @current_user and @current_user.can_administrate? @collection %>
+            <div class="pt-4">
+                <%= render AdminBarComponent.new(
+                    {icon: :edit, path: edit_page_path(@collection.home_page), text: "Edit Home Page"},
+                )%>
+            </div>
+        <% end %>
+        <div class="pt-4 prose sm:prose-xl mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+            <%= sanitize @collection.home_page.content_html %>
+        </div>
+    <% end %>
+
     <% unless @collection.children.empty? %>
-        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-5">
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
             <%= @collection.subcollection_name.pluralize %>:
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">

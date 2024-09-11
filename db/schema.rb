@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_08_223153) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_10_211507) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -31,8 +31,21 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_08_223153) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ancestry", default: "/", null: false, collation: "C"
+    t.uuid "home_page_id"
     t.string "subcollection_name", default: "Subcollection", null: false
+    t.uuid "page_id"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
+    t.index ["home_page_id"], name: "index_collections_on_home_page_id"
+    t.index ["page_id"], name: "index_collections_on_page_id"
+  end
+
+  create_table "pages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title", default: "New Page", null: false
+    t.text "content", default: "Page content goes here.", null: false
+    t.uuid "collection_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_pages_on_collection_id"
   end
 
   create_table "passwordless_sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -56,4 +69,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_08_223153) do
     t.boolean "site_admin", default: false, null: false
     t.index "lower((email)::text)", name: "index_users_on_lowercase_email", unique: true
   end
+
+  add_foreign_key "pages", "collections"
 end
