@@ -12,7 +12,7 @@
     
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <% @collections.each do |collection| %>
-            <%= render partial: "card", locals: { collection: collection, admin: collection.has_admin?(@current_user) } %>
+            <%= render partial: "card", locals: { collection: collection, user: @current_user } %>
         <% end %>
     </div>
 
