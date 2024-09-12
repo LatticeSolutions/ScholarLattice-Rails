@@ -5,22 +5,41 @@
         </span>
         <span class="px-3">Dashboard</span>
     </h1>
-    <div class="mx-auto md:w-3/4">
-        <h1 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
+    <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
+        <span class="size-8">
+            <%= render IconComponent.new(:star) %>
+        </span>
+        <span class="px-3">Favorite Collections</span>
+    </h2>
+    <% unless @current_user.favorite_collections.empty? %>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @current_user.direct_admin_collections.each do |collection| %>
+                <%= render partial: "collections/card", locals: { collection: collection, admin: true } %>
+            <% end %>
+        </div>
+    <% else %>
+        <p>
+            Nothing yet... Add some collections to your favorites here! 
+            <%= link_to "/collections", 
+                class: "inline-block rounded-lg bg-blue-600 px-3 mx-3 py-2 text-sm font-medium text-white" do %>
+                <span class="inline-block size-4">
+                    <%= render IconComponent.new(:collection) %>
+                </span>
+                Collections
+            <% end %>
+        </p>
+    <% end %>
+    <% unless @current_user.direct_admin_collections.empty? %>
+        <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
             <span class="size-8">
-                <%= render IconComponent.new(:collection) %>
+                <%= render IconComponent.new(:key) %>
             </span>
             <span class="px-3">Collections You Admin</span>
-        </h1>
-        <% unless @current_user.direct_admin_collections.empty? %>
-            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-                <% @current_user.direct_admin_collections.each do |collection| %>
-                    <%= render partial: "collections/card", locals: { collection: collection, admin: true } %>
-                <% end %>
-            </div>
-        <% else %>
-            <p>No collections yet!</p>
-        <% end %>
-        </ul>
-    </div>
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @current_user.direct_admin_collections.each do |collection| %>
+                <%= render partial: "collections/card", locals: { collection: collection, admin: true } %>
+            <% end %>
+        </div>
+    <% end %>
 </section>

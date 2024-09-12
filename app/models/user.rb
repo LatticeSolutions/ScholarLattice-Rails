@@ -20,4 +20,8 @@ class User < ApplicationRecord
   def can_administrate?(collection)
     site_admin or collection.has_admin? self
   end
+
+  def favorite_collections
+    []
+  end
 end
