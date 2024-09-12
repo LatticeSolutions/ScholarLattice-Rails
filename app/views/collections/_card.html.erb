@@ -2,5 +2,6 @@
   title: collection.title,
   description: collection.description,
   link_text: "View #{collection.collection_name}",
-  link_url: collection_path(collection)
+  link_url: collection_path(collection),
+  title_icon: admin ? :key : nil
 ) %>

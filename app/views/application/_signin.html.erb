@@ -1,7 +1,10 @@
 <% if @current_user %>
-    <span><%= image_tag @current_user.gravatar, alt: "Rounded avatar", class: "w-10 h-10 rounded-full" %></span>
+    <%= link_to "/dashboard", class: "flex items-center gap-2 text-sky-600 hover:text-sky-800" do %>
+        <span><%= image_tag @current_user.gravatar, alt: "Rounded avatar", class: "w-10 h-10 rounded-full" %></span>
+        <span class="hidden md:inline"><%= @current_user.email %></span>
+        <span class="inline-block size-4"><%= render IconComponent.new(:dashboard) %></span>
+    <% end %>
     <span>
-        <span class="hidden md:inline text-gray-500"><%= @current_user.email %></span>
         <%= link_to "Sign out", users_sign_out_path, class: "text-gray-400 underline" %>
     </span>
 <% else %>

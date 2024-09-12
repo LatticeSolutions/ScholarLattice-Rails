@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     resources :pages, shallow: true
   end
   get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"
+  get "/collections/:id/like", to: "collections#like", as: "like_collection"
+
+  get "/dashboard/", to: "dashboard#index"
 
   # Passwordless routes
   passwordless_for :users

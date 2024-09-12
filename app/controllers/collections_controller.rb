@@ -57,6 +57,18 @@ class CollectionsController < ApplicationController
     redirect_to collections_path, status: :see_other
   end
 
+  def like
+    require_user!
+    @collection = Collection.find(params[:id])
+    likes = Like.where collection: @collection, user: current_user
+    if likes.empty?
+      Like.create! collection: @collection, user: current_user
+    else
+      likes.destroy_all
+    end
+    redirect_to @collection
+  end
+
 
   private
     def collection_params

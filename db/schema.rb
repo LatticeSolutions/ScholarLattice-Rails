@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_10_211507) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_12_192444) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -37,6 +37,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_10_211507) do
     t.index ["ancestry"], name: "index_collections_on_ancestry"
     t.index ["home_page_id"], name: "index_collections_on_home_page_id"
     t.index ["page_id"], name: "index_collections_on_page_id"
+  end
+
+  create_table "likes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "collection_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_likes_on_collection_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "pages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -70,5 +79,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_10_211507) do
     t.index "lower((email)::text)", name: "index_users_on_lowercase_email", unique: true
   end
 
+  add_foreign_key "likes", "collections"
+  add_foreign_key "likes", "users"
   add_foreign_key "pages", "collections"
 end

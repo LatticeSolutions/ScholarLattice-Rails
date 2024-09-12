@@ -42,6 +42,10 @@
         </div>
       </div>
     </header>
+    <div class="bg-white">
+      <% if alert.present? %><%= render partial: "alert", locals: {title: 'Alert', alert: alert} %><% end %>
+      <% if notice.present? %><%= render partial: "alert", locals: {title: 'Notice', alert: notice} %><% end %>
+    </div>
     <div class="bg-sky-50">
       <%= render "cta" %>
     </div>
