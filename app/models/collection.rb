@@ -4,6 +4,8 @@ class Collection < ApplicationRecord
   has_ancestry
   has_many :admins
   has_many :direct_admin_users, through: :admins, source: :user
+  has_many :likes
+  has_many :favorite_users, through: :likes, source: :user
   has_many :pages
   has_one :home_page, class_name: "Page"
 
@@ -15,7 +17,7 @@ class Collection < ApplicationRecord
   end
 
   def has_admin?(user)
-    admin_users.include?(user)
+    Admin.where(user: user, collection: self).present?
   end
 
   def collection_name

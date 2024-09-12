@@ -8,6 +8,8 @@ class User < ApplicationRecord
 
   has_many :admins
   has_many :direct_admin_collections, through: :admins, source: :collection
+  has_many :likes
+  has_many :favorite_collections, through: :likes, source: :collection
 
   def self.fetch_resource_for_passwordless(email)
     find_or_create_by(email: email)
@@ -21,7 +23,7 @@ class User < ApplicationRecord
     site_admin or collection.has_admin? self
   end
 
-  def favorite_collections
-    []
+  def likes?(collection)
+    !Like.where(user: self, collection: collection).empty?
   end
 end
