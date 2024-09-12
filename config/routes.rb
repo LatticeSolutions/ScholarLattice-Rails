@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   end
   get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"
 
+  get "/dashboard/", to: "dashboard#index"
+
   # Passwordless routes
   passwordless_for :users
 
