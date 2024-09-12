@@ -14,7 +14,7 @@
     <% unless @current_user.favorite_collections.empty? %>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
             <% @current_user.favorite_collections.each do |collection| %>
-                <%= render partial: "collections/card", locals: { collection: collection, admin: true } %>
+                <%= render partial: "collections/card", locals: { collection: collection, user: @current_user } %>
             <% end %>
         </div>
     <% else %>
@@ -38,7 +38,7 @@
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
             <% @current_user.direct_admin_collections.each do |collection| %>
-                <%= render partial: "collections/card", locals: { collection: collection, admin: true } %>
+                <%= render partial: "collections/card", locals: { collection: collection, user: @current_user } %>
             <% end %>
         </div>
     <% end %>
