@@ -64,8 +64,20 @@ class CollectionsController < ApplicationController
       Like.create! collection: @collection, user: current_user
       flash.notice = "#{@collection.short_title} is now a favorite!"
     else
+      flash.notice = "#{@collection.short_title} is already a favorite."
+    end
+    redirect_to @collection
+  end
+
+  def dislike
+    return unless require_user!
+    @collection = Collection.find(params[:id])
+    likes = Like.where collection: @collection, user: current_user
+    if likes.empty?
+      flash.notice = "#{@collection.short_title} isn't a favorite."
+    else
       likes.destroy_all
-      flash.notice = "#{@collection.short_title} is no longer a favorite!"
+      flash.notice = "#{@collection.short_title} is no longer a favorite."
     end
     redirect_to @collection
   end
