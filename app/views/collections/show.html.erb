@@ -19,19 +19,25 @@
         <% if @current_user %>
             <% if @current_user.likes? @collection %>
                 <%= link_to like_collection_path(@collection),
-                    class: "inline-flex items-center gap-2 rounded-md bg-yellow-500 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative" do %>
+                    class: "inline-flex items-center gap-2 rounded-md bg-yellow-500 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative",
+                    title: "Favorite!" do %>
                     <span class="size-4">
                         <%= render IconComponent.new(:star) %>
                     </span>
-                    Favorited!
+                    <span class="hidden md:inline">
+                        Favorite!
+                    </span>
                 <% end %>
             <% else %>
                 <%= link_to like_collection_path(@collection),
-                    class: "inline-flex font-normal items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 text-sm text-gray-400 shadow-sm focus:relative" do %>
+                    class: "inline-flex font-normal items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 text-sm text-gray-400 shadow-sm focus:relative",
+                    title: "Add Favorite" do %>
                     <span class="size-4">
                         <%= render IconComponent.new(:star) %>
                     </span>
-                    Add Favorite
+                    <span class="hidden md:inline">
+                        Add Favorite
+                    </span>
                 <% end %>
             <% end %>
         <% end %>
