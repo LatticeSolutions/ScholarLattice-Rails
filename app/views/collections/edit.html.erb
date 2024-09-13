@@ -3,5 +3,14 @@
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
         Edit <%= @collection.short_title %>
     </h1>
+    <% if @collection.home_page.nil?%>
+        <%= render AdminBarComponent.new(
+            {icon: :page, path: new_collection_page_path(@collection), text: "Add Home Page"},
+        )%>
+    <% else %>
+        <%= render AdminBarComponent.new(
+            {icon: :page, path: edit_page_path(@collection.home_page), text: "Edit Home Page"},
+        )%>
+    <% end %>
     <%= render "form", collection: @collection, cancel_path: collection_path %>
 </section>

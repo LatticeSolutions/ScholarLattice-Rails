@@ -1,11 +1,11 @@
-<div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 mb-5">
+<div class="inline-flex flex-wrap rounded-lg border border-gray-100 bg-gray-100 p-1">
     <span
         class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-gray-500"
     >
         <span class="size-4">
             <%= render IconComponent.new(:page) %>
         </span>
-        Pages:
+        <span class="hidden sm:inline">Pages:</span>
     </span>
 
     <% @pages.each do |page| %>

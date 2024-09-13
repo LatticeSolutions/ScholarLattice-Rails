@@ -1,11 +1,14 @@
 <% if @current_user %>
-    <%= link_to "/dashboard", class: "flex items-center gap-2 text-sky-600 hover:text-sky-800" do %>
-        <span><%= image_tag @current_user.gravatar, alt: "Rounded avatar", class: "w-10 h-10 rounded-full" %></span>
-        <span class="hidden md:inline"><%= @current_user.email %></span>
-        <span class="inline-block size-4"><%= render IconComponent.new(:dashboard) %></span>
-    <% end %>
-    <span>
-        <%= link_to "Sign out", users_sign_out_path, class: "text-gray-400 underline" %>
+    <span class="flex items-center">
+        <%= link_to "/dashboard", class: "flex items-center gap-2 text-sky-600 hover:text-sky-800 hover:underline" do %>
+            <span><%= image_tag @current_user.gravatar, alt: "Rounded avatar", class: "size-10 rounded-full" %></span>
+            <span class="hidden md:inline"><%= @current_user.email %></span>
+            <span class="inline-block size-10"><%= render IconComponent.new(:dashboard) %></span>
+        <% end %>
+        <%= link_to "Sign out", users_sign_out_path, class: "pl-2 text-gray-400 hover:text-gray-700 underline hidden md:inline" %>
+        <%= link_to users_sign_out_path, class: "text-gray-400 md:hidden flex items-center" do %>
+            <span class="inline-block size-10"><%= render IconComponent.new(:logout) %></span>
+        <% end %>
     </span>
 <% else %>
     <%= link_to "Sign up or sign in", users_sign_in_path, 
