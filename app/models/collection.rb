@@ -17,7 +17,7 @@ class Collection < ApplicationRecord
   end
 
   def has_admin?(user)
-    Admin.where(user: user, collection: self).present?
+    admin_users.exists? user.id
   end
 
   def collection_name
