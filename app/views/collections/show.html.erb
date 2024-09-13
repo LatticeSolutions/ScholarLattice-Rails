@@ -16,29 +16,27 @@
 
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
         <%= @collection.title %>
-        <% if @current_user %>
-            <% if @current_user.likes? @collection %>
-                <%= link_to like_collection_path(@collection),
-                    class: "inline-flex items-center gap-2 rounded-md bg-yellow-500 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative",
-                    title: "Favorite!" do %>
-                    <span class="size-4">
-                        <%= render IconComponent.new(:star) %>
-                    </span>
-                    <span class="hidden md:inline">
-                        Favorite!
-                    </span>
-                <% end %>
-            <% else %>
-                <%= link_to like_collection_path(@collection),
-                    class: "inline-flex font-normal items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 text-sm text-gray-400 shadow-sm focus:relative",
-                    title: "Add Favorite" do %>
-                    <span class="size-4">
-                        <%= render IconComponent.new(:star) %>
-                    </span>
-                    <span class="hidden md:inline">
-                        Add Favorite
-                    </span>
-                <% end %>
+        <% if @current_user and @current_user.likes? @collection %>
+            <%= link_to dislike_collection_path(@collection),
+                class: "inline-flex items-center gap-2 rounded-md bg-yellow-500 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative",
+                title: "Click to remove favorite" do %>
+                <span class="size-4">
+                    <%= render IconComponent.new(:star) %>
+                </span>
+                <span class="hidden md:inline">
+                    Favorite!
+                </span>
+            <% end %>
+        <% else %>
+            <%= link_to like_collection_path(@collection),
+                class: "inline-flex font-normal items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 text-sm text-gray-400 shadow-sm focus:relative",
+                title: "Click to add favorite" do %>
+                <span class="size-4">
+                    <%= render IconComponent.new(:star) %>
+                </span>
+                <span class="hidden md:inline">
+                    Add Favorite
+                </span>
             <% end %>
         <% end %>
     </h1>
@@ -73,7 +71,7 @@
     <p class="mt-3">
         <% unless @collection.parent.nil? %>
             <%= link_to "« Back to #{@collection.parent.short_title}", @collection.parent,
-                class: "text-blue-600 hover:text-blue-800 hover:underline" %>
+                class: "text-sky-600 hover:text-sky-800 hover:underline" %>
         <% end %>
     </p>
 </section>
