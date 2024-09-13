@@ -1,15 +1,15 @@
-<div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 mb-5">
+<div class="inline-flex flex-wrap rounded-lg border border-gray-100 bg-gray-100 p-1 mb-5">
     <span
-        class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-gray-500"
+        class="inline-flex items-center gap-2 rounded-md px-4 py-1 text-sm text-gray-500"
     >
         <span class="size-4">
             <%= render IconComponent.new(:key) %>
         </span>
-        Admin:
+        <span class="hidden sm:inline">Admin:</span>
     </span>
 
     <% @links.each do |link| %>
-        <%= link_to(link[:path], class: "inline-flex items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 text-sm text-purple-800 shadow-sm focus:relative") do %>
+        <%= link_to(link[:path], class: "inline-flex items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 my-1 text-sm text-purple-800 shadow-sm focus:relative") do %>
             <% if link.key? :icon %>
                 <span class="size-4">
                     <%= render IconComponent.new(link[:icon]) %>
