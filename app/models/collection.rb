@@ -17,7 +17,7 @@ class Collection < ApplicationRecord
   end
 
   def has_admin?(user)
-    admin_users.exists? user.id
+    !user.nil? and admin_users.exists? user.id
   end
 
   def collection_name

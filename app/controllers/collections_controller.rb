@@ -8,22 +8,21 @@ class CollectionsController < ApplicationController
   end
 
   def new
-    require_site_admin!
     @collection = Collection.new
   end
 
   def new_subcollection
     @parent = Collection.find(params[:id])
-    require_admin! @parent
+    return unless require_admin! @parent
     @collection = Collection.new parent_id: @parent.id
   end
 
   def create
     @collection = Collection.new collection_params
     if @collection.parent
-      require_admin! @collection.parent
+      return unless require_admin! @collection.parent
     else
-      require_site_admin!
+      return unless require_site_admin!
     end
 
     if @collection.save
@@ -35,12 +34,12 @@ class CollectionsController < ApplicationController
 
   def edit
     @collection = Collection.find(params[:id])
-    require_admin! @collection
+    nil unless require_admin! @collection
   end
 
   def update
     @collection = Collection.find(params[:id])
-    require_admin! @collection
+    return unless require_admin! @collection
 
     if @collection.update(collection_params)
       redirect_to @collection
@@ -50,7 +49,7 @@ class CollectionsController < ApplicationController
   end
 
   def destroy
-    require_site_admin!
+    return unless require_site_admin!
     @collection = Collection.find(params[:id])
     @collection.destroy
 
@@ -58,13 +57,15 @@ class CollectionsController < ApplicationController
   end
 
   def like
-    require_user!
+    return unless require_user!
     @collection = Collection.find(params[:id])
     likes = Like.where collection: @collection, user: current_user
     if likes.empty?
       Like.create! collection: @collection, user: current_user
+      flash.notice = "#{@collection.short_title} is now a favorite!"
     else
       likes.destroy_all
+      flash.notice = "#{@collection.short_title} is no longer a favorite!"
     end
     redirect_to @collection
   end
@@ -81,9 +82,11 @@ class CollectionsController < ApplicationController
       if @current_user.nil?
         save_passwordless_redirect_location!(User)
         redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
+        false
       else
         return if collection.has_admin? @current_user or @current_user.site_admin
         redirect_to collection_path(collection), alert: "You are not authorized to access this page."
+        true
       end
     end
 end
