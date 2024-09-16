@@ -1,10 +1,7 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[ show edit update destroy ]
-
-  # GET /profiles or /profiles.json
-  def index
-    @profiles = Profile.all
-  end
+  before_action :require_user!, only: %i[ new create ]
+  before_action :require_owner!, only: %i[ show edit update ]
 
   # GET /profiles/1 or /profiles/1.json
   def show
@@ -22,6 +19,7 @@ class ProfilesController < ApplicationController
   # POST /profiles or /profiles.json
   def create
     @profile = Profile.new(profile_params)
+    @profile.user = @current_user
 
     respond_to do |format|
       if @profile.save
@@ -65,6 +63,15 @@ class ProfilesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def profile_params
-      params.require(:profile).permit(:user_id, :first_name, :last_name, :email, :affiliation, :position)
+      params.require(:profile).permit(:first_name, :last_name, :email, :affiliation, :position)
+    end
+
+    def require_owner!
+      require_user!
+      unless @current_user.nil?
+        set_profile
+        return if @profile.user == @current_user or @current_user.site_admin?
+        redirect_to collections_path, alert: "You are not authorized to access this page."
+      end
     end
 end

@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :profiles
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root "landing#index"
 
@@ -9,6 +8,8 @@ Rails.application.routes.draw do
   get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"
   get "/collections/:id/like", to: "collections#like", as: "like_collection"
   get "/collections/:id/dislike", to: "collections#dislike", as: "dislike_collection"
+
+  resources :profiles, except: :index
 
   get "/dashboard/", to: "dashboard#index"
 
