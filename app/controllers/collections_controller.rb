@@ -16,9 +16,7 @@ class CollectionsController < ApplicationController
   end
 
   def new_subcollection
-    @parent = Collection.find(params[:id])
-    return unless require_admin! @parent
-    @collection = Collection.new parent_id: @parent.id
+    @subcollection = Collection.new parent_id: @collection.id
   end
 
   def create
