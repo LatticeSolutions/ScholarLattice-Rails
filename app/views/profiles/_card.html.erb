@@ -1,7 +1,7 @@
 <%= render CardComponent.new( 
   title: "#{profile.first_name} #{profile.last_name}",
-  description: "#{profile.position} @ #{profile.affiliation}",
+  description: profile.description,
   link_text: "View Profile",
   link_url: profile_path(profile),
-  title_icon: @current_user.email == profile.email ? :profile_verified : :profile
+  title_icon: profile.user.email == profile.email ? :profile_verified : :profile
 ) %>
