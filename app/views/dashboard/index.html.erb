@@ -34,7 +34,7 @@
             <span class="size-8">
                 <%= render IconComponent.new(:key) %>
             </span>
-            <span class="px-3">Collections You Admin</span>
+            <span class="px-3">Admin Collections</span>
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
             <% @current_user.direct_admin_collections.each do |collection| %>
