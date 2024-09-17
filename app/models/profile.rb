@@ -16,4 +16,8 @@ class Profile < ApplicationRecord
       ""
     end
   end
+
+  def verified?
+    email == user.email
+  end
 end
