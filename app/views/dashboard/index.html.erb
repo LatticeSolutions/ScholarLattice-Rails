@@ -1,10 +1,12 @@
 <section class="w-full">
+
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5 flex items-center">
         <span class="size-10">
             <%= render IconComponent.new(:dashboard) %>
         </span>
         <span class="px-3">Dashboard</span>
     </h1>
+
     <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
         <span class="size-8">
             <%= render IconComponent.new(:star) %>
@@ -20,7 +22,7 @@
     <% else %>
         <p>
             Nothing yet... Add some collections to your favorites here! 
-            <%= link_to "/collections", 
+            <%= link_to collections_path, 
                 class: "inline-block rounded-lg bg-blue-600 px-3 mx-3 py-2 text-sm font-medium text-white" do %>
                 <span class="inline-block size-4">
                     <%= render IconComponent.new(:collection) %>
@@ -29,17 +31,43 @@
             <% end %>
         </p>
     <% end %>
+
     <% unless @current_user.direct_admin_collections.empty? %>
         <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
             <span class="size-8">
                 <%= render IconComponent.new(:key) %>
             </span>
-            <span class="px-3">Collections You Admin</span>
+            <span class="px-3">Admin Collections</span>
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
             <% @current_user.direct_admin_collections.each do |collection| %>
                 <%= render partial: "collections/card", locals: { collection: collection, user: @current_user } %>
             <% end %>
         </div>
+    <% end %>
+
+    <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
+        <span class="size-8">
+            <%= render IconComponent.new(:profile) %>
+        </span>
+        <span class="px-3">Your Profiles</span>
+    </h2>
+    <% unless @current_user.profiles.empty? %>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @current_user.profiles.each do |profile| %>
+                <%= render partial: "profiles/card", locals: { profile: profile, current_user: @current_user } %>
+            <% end %>
+        </div>
+    <% else %>
+        <p>
+            Create your profile here! 
+            <%= link_to new_profile_path, 
+                class: "inline-block rounded-lg bg-blue-600 px-3 mx-3 py-2 text-sm font-medium text-white" do %>
+                <span class="inline-block size-4">
+                    <%= render IconComponent.new(:profile) %>
+                </span>
+                New Profile
+            <% end %>
+        </p>
     <% end %>
 </section>

@@ -9,10 +9,12 @@ Rails.application.routes.draw do
   get "/collections/:id/like", to: "collections#like", as: "like_collection"
   get "/collections/:id/dislike", to: "collections#dislike", as: "dislike_collection"
 
+  resources :profiles, except: :index
+
   get "/dashboard/", to: "dashboard#index"
 
   # Passwordless routes
-  passwordless_for :users
+  passwordless_for :users, controller: "sessions"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

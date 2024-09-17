@@ -1,9 +1,9 @@
 <section class="mx-auto md:w-3/4 w-full">
-<%= render "breadcrumb", collection: @parent, action: "New #{@parent.subcollection_name}" %>
+<%= render "breadcrumb", collection: @collection, action: "New #{@collection.subcollection_name}" %>
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        New <%= @parent.subcollection_name %> for <%= @parent.short_title %>
+        New <%= @collection.subcollection_name %> for <%= @collection.short_title %>
     </h1>
 
-    <%= render "form", collection: @collection, cancel_path: collections_path %>
+    <%= render "form", collection: @subcollection, cancel_path: collections_path %>
 
 </section>
