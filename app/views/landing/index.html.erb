@@ -19,16 +19,26 @@
   <body>
     <header class="bg-white">
       <div class="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
-        <a class="block text-teal-600" href="/collections">
-          <span class="sr-only">Home</span>
-          <%= image_tag "logo-small.svg", class: "h-10" %>
-        </a>
+        <% if @current_user %>
+          <%= link_to dashboard_path, class:"block text-teal-600" do %>
+            <span class="sr-only">Home</span>
+            <%= image_tag "logo-small.svg", class: "h-10" %>
+          <% end %>
+        <% else %>
+          <%= link_to collections_path, class:"block text-teal-600" do %>
+            <span class="sr-only">Home</span>
+            <%= image_tag "logo-small.svg", class: "h-10" %>
+          <% end %>
+        <% end %>
 
         <div class="flex flex-1 items-center justify-end md:justify-between">
           <nav aria-label="Global" class="hidden md:block">
             <ul class="flex items-center gap-6 text-sm">
               <li>
                 <%= link_to "About", "#about" %>
+              </li>
+              <li>
+                <%= link_to "Dashboard", dashboard_path %>
               </li>
               <li>
                 <%= link_to "Collections", collections_path %>
