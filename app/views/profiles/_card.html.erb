@@ -1,5 +1,5 @@
 <%= render CardComponent.new( 
-  title: "#{profile.first_name} #{profile.last_name}",
+  title: "#{profile.first_name} #{profile.last_name} ⟨#{profile.email}⟩",
   description: profile.description,
   link_text: "View Profile",
   link_url: profile_path(profile),
