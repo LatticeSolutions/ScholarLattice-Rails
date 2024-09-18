@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  collection: one
+  title: MyString
+  description: MyString
+  opens_at: 2024-09-18 02:04:53
+  closes_at: 2024-09-18 02:04:53
+
+two:
+  collection: two
+  title: MyString
+  description: MyString
+  opens_at: 2024-09-18 02:04:53
+  closes_at: 2024-09-18 02:04:53

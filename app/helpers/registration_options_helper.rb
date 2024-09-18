@@ -1,0 +1,2 @@
+module RegistrationOptionsHelper
+end
