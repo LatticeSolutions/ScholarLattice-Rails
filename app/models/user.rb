@@ -27,4 +27,8 @@ class User < ApplicationRecord
   def likes?(collection)
     !Like.where(user: self, collection: collection).empty?
   end
+
+  def main_profile
+    profiles.find_by email: email
+  end
 end
