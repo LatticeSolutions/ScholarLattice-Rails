@@ -68,6 +68,6 @@ gem "resend", "~> 0.13.0"
 
 gem "rails_real_favicon", "~> 0.1.1", group: :development
 
-gem "view_component", "~> 3.14"
+gem "view_component", "~> 3.16"
 
 gem "redcarpet", "~> 3.6"
