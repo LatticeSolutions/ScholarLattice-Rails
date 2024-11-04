@@ -8,7 +8,7 @@
 
     <%= link_to "Edit this registration option", edit_registration_option_path(@registration_option), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <%= link_to "Back to #{@registration_option.collection.collection_name}", 
-          collection_registration_options_path(@registration_option), 
+          collection_path(@registration_option.collection), 
           class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   </div>
 </div>

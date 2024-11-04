@@ -58,6 +58,22 @@
         </div>
     <% end %>
 
+    <% unless @collection.registration_options.empty? %>
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+            Registration Options:
+        </h2>
+        <div class="flow-root rounded-lg border border-gray-100 py-3 my-3 shadow-sm">
+            <dl class="-my-3 divide-y divide-gray-100 text-sm">
+                <% @collection.registration_options.each do |ro| %>
+                    <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
+                        <dt class="font-medium text-gray-900"><%= ro.title %></dt>
+                        <dd class="text-gray-700 sm:col-span-2"><%= ro.description %></dd>
+                    </div>
+                <% end %>
+            </dl>
+        </div>
+    <% end %>
+
     <% unless @collection.children.empty? %>
         <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
             <%= @collection.subcollection_name.pluralize %>:
