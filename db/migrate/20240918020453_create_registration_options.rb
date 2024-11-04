@@ -3,7 +3,7 @@ class CreateRegistrationOptions < ActiveRecord::Migration[7.2]
     create_table :registration_options, id: :uuid do |t|
       t.references :collection, null: false, foreign_key: true, type: :uuid
       t.string :title
-      t.string :description
+      t.text :description
       t.datetime :opens_at
       t.datetime :closes_at
 

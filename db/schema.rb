@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_15_213309) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_18_020453) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -27,15 +27,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_15_213309) do
   create_table "collections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.string "short_title"
-    t.string "description"
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ancestry", default: "/", null: false, collation: "C"
-    t.uuid "home_page_id"
     t.string "subcollection_name", default: "Subcollection", null: false
     t.uuid "page_id"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
-    t.index ["home_page_id"], name: "index_collections_on_home_page_id"
     t.index ["page_id"], name: "index_collections_on_page_id"
   end
 
@@ -84,6 +82,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_15_213309) do
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
+  create_table "registration_options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "collection_id", null: false
+    t.string "title"
+    t.text "description"
+    t.datetime "opens_at"
+    t.datetime "closes_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_registration_options_on_collection_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.datetime "created_at", null: false
@@ -96,4 +105,5 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_15_213309) do
   add_foreign_key "likes", "users"
   add_foreign_key "pages", "collections"
   add_foreign_key "profiles", "users"
+  add_foreign_key "registration_options", "collections"
 end
