@@ -21,7 +21,7 @@ class CollectionsController < ApplicationController
 
   def create
     @collection = Collection.new collection_params
-    if @collection.parent and !@current_user.can_administrate(@collection.parent)
+    if @collection.parent and !@current_user.can_administrate?(@collection.parent)
       redirect_to collection_path(@collection.parent), alert: "You are not authorized to access this page."
     elsif @collection.parent.nil? and !@current_user.site_admin
       redirect_to collections_path, alert: "You are not authorized to access this page."
