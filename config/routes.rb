@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  resources :registration_options
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root "landing#index"
 
   resources :collections do
     resources :pages, shallow: true
+    resources :registration_options, shallow: true
   end
   get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"
   get "/collections/:id/like", to: "collections#like", as: "like_collection"

@@ -6,7 +6,8 @@
         <%= render AdminBarComponent.new(
             {icon: :edit, path: edit_collection_path, text: "Edit"},
             {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
-            {icon: :collection, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
+            {icon: :collection, path: new_subcollection_path(@collection), text: "New #{@collection.subcollection_name}"},
+            {icon: :register, path: new_collection_registration_option_path(@collection), text: "New Registration Option"},
         )%>
         </div>
         <p class="text-gray-500 text-sm">

@@ -12,7 +12,7 @@ class RegistrationOptionsController < ApplicationController
 
   # GET /registration_options/new
   def new
-    @registration_option = RegistrationOption.new
+    @registration_option = RegistrationOption.new(collection: Collection.find(params[:collection_id]))
   end
 
   # GET /registration_options/1/edit
@@ -22,6 +22,7 @@ class RegistrationOptionsController < ApplicationController
   # POST /registration_options or /registration_options.json
   def create
     @registration_option = RegistrationOption.new(registration_option_params)
+    @registration_option.collection = Collection.find(params[:collection_id])
 
     respond_to do |format|
       if @registration_option.save
@@ -49,6 +50,7 @@ class RegistrationOptionsController < ApplicationController
 
   # DELETE /registration_options/1 or /registration_options/1.json
   def destroy
+    require_site_admin!
     @registration_option.destroy!
 
     respond_to do |format|

@@ -3,5 +3,7 @@
 
   <%= render "form", registration_option: @registration_option %>
 
-  <%= link_to "Back to registration options", registration_options_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  <%= link_to "Back to #{@registration_option.collection.collection_name}", 
+        collection_path(@registration_option.collection), 
+        class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>
