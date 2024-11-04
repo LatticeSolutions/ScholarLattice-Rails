@@ -58,7 +58,7 @@ end
 
 gem "ancestry", "~> 4.3"
 
-gem "passwordless", "~> 1.7"
+gem "passwordless", "~> 1.8"
 
 gem "cssbundling-rails", "~> 1.4"
 
