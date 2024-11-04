@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.2.1"
+gem "rails", "~> 7.2.2"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Use postgres as the database for Active Record
@@ -58,16 +58,16 @@ end
 
 gem "ancestry", "~> 4.3"
 
-gem "passwordless", "~> 1.7"
+gem "passwordless", "~> 1.8"
 
 gem "cssbundling-rails", "~> 1.4"
 
-gem "tailwindcss-rails", "~> 2.7"
+gem "tailwindcss-rails", "~> 3.0"
 
 gem "resend", "~> 0.13.0"
 
 gem "rails_real_favicon", "~> 0.1.1", group: :development
 
-gem "view_component", "~> 3.14"
+gem "view_component", "~> 3.20"
 
 gem "redcarpet", "~> 3.6"
