@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_15_213309) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_08_231849) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
 
   create_table "admins", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "collection_id"
@@ -31,11 +31,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_15_213309) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ancestry", default: "/", null: false, collation: "C"
-    t.uuid "home_page_id"
     t.string "subcollection_name", default: "Subcollection", null: false
     t.uuid "page_id"
+    t.datetime "submissions_open_on"
+    t.datetime "submissions_close_on"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
-    t.index ["home_page_id"], name: "index_collections_on_home_page_id"
     t.index ["page_id"], name: "index_collections_on_page_id"
   end
 
