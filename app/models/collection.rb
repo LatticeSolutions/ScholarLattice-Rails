@@ -32,11 +32,12 @@ class Collection < ApplicationRecord
   def submissions_closed?
     return true if !submittable?
     return false if submissions_close_on.nil?
-    Time.now < submissions_close_on
+    submissions_close_on < Time.now
   end
 
   def submissions_open?
     return false if !submittable?
+    return false if submissions_closed?
     submissions_open_on < Time.now
   end
 end
