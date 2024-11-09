@@ -33,8 +33,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_08_231849) do
     t.string "ancestry", default: "/", null: false, collation: "C"
     t.string "subcollection_name", default: "Subcollection", null: false
     t.uuid "page_id"
-    t.datetime "submissions_open_on"
-    t.datetime "submissions_close_on"
+    t.timestamptz "submissions_open_on"
+    t.timestamptz "submissions_close_on"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
     t.index ["page_id"], name: "index_collections_on_page_id"
   end
