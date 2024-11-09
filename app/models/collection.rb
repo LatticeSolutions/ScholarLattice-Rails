@@ -24,4 +24,19 @@ class Collection < ApplicationRecord
     return "Collection" unless parent
     parent.subcollection_name
   end
+
+  def submittable?
+    !submissions_open_on.nil?
+  end
+
+  def submissions_closed?
+    return true if !submittable?
+    return false if submissions_close_on.nil?
+    Time.now < submissions_close_on
+  end
+
+  def submissions_open?
+    return false if !submittable?
+    submissions_open_on < Time.now
+  end
 end
