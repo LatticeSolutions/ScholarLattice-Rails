@@ -1,6 +1,7 @@
 class Collection < ApplicationRecord
   validates :title, presence: true
   validates :short_title, presence: true
+  validate :submissions_open_before_closing?
   has_ancestry
   has_many :admins
   has_many :direct_admin_users, through: :admins, source: :user
@@ -25,19 +26,21 @@ class Collection < ApplicationRecord
     parent.subcollection_name
   end
 
-  def submittable?
-    !submissions_open_on.nil?
-  end
-
   def submissions_closed?
-    return true if !submittable?
-    return false if submissions_close_on.nil?
-    submissions_close_on < Time.now
+    return false if submissions_close_on.blank?
+    submissions_close_on <= Time.now
   end
 
   def submissions_open?
-    return false if !submittable?
     return false if submissions_closed?
-    submissions_open_on < Time.now
+    return true if submissions_open_on.blank?
+    submissions_open_on <= Time.now
+  end
+
+  def submissions_open_before_closing?
+    return if [ submissions_close_on.blank?, submissions_open_on.blank? ].any?
+    if submissions_open_on > submissions_close_on
+      errors.add(:submissions_close_on, "must be later than submission opening")
+    end
   end
 end

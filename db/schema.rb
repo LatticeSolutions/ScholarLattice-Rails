@@ -36,6 +36,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_09_024317) do
     t.uuid "page_id"
     t.timestamptz "submissions_open_on"
     t.timestamptz "submissions_close_on"
+    t.boolean "submittable"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
     t.index ["home_page_id"], name: "index_collections_on_home_page_id"
     t.index ["page_id"], name: "index_collections_on_page_id"

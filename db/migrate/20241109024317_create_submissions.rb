@@ -9,5 +9,6 @@ class CreateSubmissions < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
+    add_column :collections, :submittable, :boolean
   end
 end

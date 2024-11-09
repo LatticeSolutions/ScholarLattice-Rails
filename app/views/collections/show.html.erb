@@ -43,18 +43,31 @@
 
     <% if @collection.submittable? %>
         <h2 class="text-1.5xl font-light text-gray-900 md:text-2xl pb-5">
-            <% if @collection.submissions_open? %>
-                <% if @collection.submissions_close_on.nil? %>
-                    Submissions are now open!
+            <% if @collection.submissions_close_on.blank? and @collection.submissions_open_on.blank? %>
+                Submissions are now open.
+            <% elsif @collection.submissions_close_on.blank? %>
+                <% if @collection.submissions_open? %>
+                    Submissions opened on <%= @collection.submissions_open_on %>.
                 <% else %>
-                    Submissions are open until <%= @collection.submissions_close_on %>
+                    Submissions will open on <%= @collection.submissions_open_on %>.
+                <% end %>
+            <% elsif @collection.submissions_open_on.blank? %>
+                <% if @collection.submissions_closed? %>
+                    Submissions closed on <%= @collection.submissions_close_on %>.
+                <% else %>
+                    Submissions are now open,
+                    and will close on <%= @collection.submissions_close_on %>.
                 <% end %>
             <% else %>
-                <% if @collection.submissions_closed? %>
-                    Submissions closed on <%= @collection.submissions_close_on %>
+                <% if @collection.submissions_open? %>
+                    Submissions opened on <%= @collection.submissions_open_on %>,
+                    and will close on <%= @collection.submissions_close_on %>.
+                <% elsif @collection.submissions_closed? %>
+                    Submissions were open from <%= @collection.submissions_open_on %>
+                    until <%= @collection.submissions_close_on %>, and are now closed.
                 <% else %>
-                    Submissions will be open from <%= @collection.submissions_open_on %>
-                    to <%= @collection.submissions_close_on %>
+                    Submissions will open on <%= @collection.submissions_open_on %>,
+                    and will be available until <%= @collection.submissions_close_on %>.
                 <% end %>
             <% end %>
         </h2>
