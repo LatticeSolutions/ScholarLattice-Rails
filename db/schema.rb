@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_08_231849) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_09_024317) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -18,8 +18,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_08_231849) do
   create_table "admins", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "collection_id"
     t.uuid "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["collection_id"], name: "index_admins_on_collection_id"
     t.index ["user_id"], name: "index_admins_on_user_id"
   end
@@ -28,22 +28,24 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_08_231849) do
     t.string "title"
     t.string "short_title"
     t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "ancestry", default: "/", null: false, collation: "C"
+    t.uuid "home_page_id"
     t.string "subcollection_name", default: "Subcollection", null: false
     t.uuid "page_id"
     t.timestamptz "submissions_open_on"
     t.timestamptz "submissions_close_on"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
+    t.index ["home_page_id"], name: "index_collections_on_home_page_id"
     t.index ["page_id"], name: "index_collections_on_page_id"
   end
 
   create_table "likes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "collection_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["collection_id"], name: "index_likes_on_collection_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
@@ -52,8 +54,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_08_231849) do
     t.string "title", default: "New Page", null: false
     t.text "content", default: "Page content goes here.", null: false
     t.uuid "collection_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["collection_id"], name: "index_pages_on_collection_id"
   end
 
@@ -65,8 +67,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_08_231849) do
     t.datetime "claimed_at", precision: nil
     t.string "token_digest", null: false
     t.string "identifier", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["authenticatable_type", "authenticatable_id"], name: "authenticatable"
     t.index ["identifier"], name: "index_passwordless_sessions_on_identifier", unique: true
   end
@@ -78,16 +80,28 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_08_231849) do
     t.string "email", null: false
     t.string "affiliation"
     t.string "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["user_id", "email"], name: "index_profiles_on_user_id_and_email", unique: true
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
-  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "email", null: false
+  create_table "submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.text "abstract"
+    t.text "notes"
+    t.uuid "profile_id", null: false
+    t.uuid "collection_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_submissions_on_collection_id"
+    t.index ["profile_id"], name: "index_submissions_on_profile_id"
+  end
+
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "email", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "site_admin", default: false, null: false
     t.index "lower((email)::text)", name: "index_users_on_lowercase_email", unique: true
   end
@@ -96,4 +110,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_08_231849) do
   add_foreign_key "likes", "users"
   add_foreign_key "pages", "collections"
   add_foreign_key "profiles", "users"
+  add_foreign_key "submissions", "collections"
+  add_foreign_key "submissions", "profiles"
 end
