@@ -12,17 +12,20 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
+    require_user!
     @submission = Submission.new(collection: Collection.find(params[:collection_id]))
   end
 
   # GET /submissions/1/edit
   def edit
+    require_admin!(@submission)
   end
 
   # POST /submissions or /submissions.json
   def create
     @submission = Submission.new(submission_params)
     @submission.collection = Collection.find(params[:collection_id])
+    require_admin!(@submission)
 
     respond_to do |format|
       if @submission.save
@@ -37,6 +40,7 @@ class SubmissionsController < ApplicationController
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
+    require_admin!(@submission)
     respond_to do |format|
       if @submission.update(submission_params)
         format.html { redirect_to @submission, notice: "Submission was successfully updated." }
@@ -50,6 +54,7 @@ class SubmissionsController < ApplicationController
 
   # DELETE /submissions/1 or /submissions/1.json
   def destroy
+    require_site_admin!
     c = @submission.collection
     @submission.destroy!
 
@@ -68,5 +73,15 @@ class SubmissionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def submission_params
       params.expect(submission: [ :title, :abstract, :notes, :profile_id ])
+    end
+
+    def require_admin!(submission)
+      if @current_user.nil?
+        save_passwordless_redirect_location!(User)
+        redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
+      else
+        return if submission.has_admin? @current_user
+        redirect_to collection_path(submission.collection), alert: "You are not authorized to access this page."
+      end
     end
 end
