@@ -27,4 +27,12 @@ class User < ApplicationRecord
   def likes?(collection)
     !Like.where(user: self, collection: collection).empty?
   end
+
+  def submissions(collection = nil)
+    if collection.nil?
+      Submission.where profile: profiles
+    else
+      Submission.where profile: profiles, collection: collection
+    end
+  end
 end

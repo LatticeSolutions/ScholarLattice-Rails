@@ -94,6 +94,17 @@
         </div>
     <% end %>
 
+    <% unless @current_user.submissions(@collection).empty? %>
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+            Your Submissions:
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @current_user.submissions.each do |submission| %>
+                <%= render partial: "submissions/card", locals: { submission: submission } %>
+            <% end %>
+        </div>
+    <% end %>
+
     <% unless @collection.submissions.empty? %>
         <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
             Submissions:
