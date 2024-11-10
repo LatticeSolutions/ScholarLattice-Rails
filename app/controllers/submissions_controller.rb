@@ -4,7 +4,8 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions or /submissions.json
   def index
-    @submissions = Submission.all
+    require_collection_admin!
+    @submissions = @collection.submissions
   end
 
   # GET /submissions/1 or /submissions/1.json
@@ -78,6 +79,16 @@ class SubmissionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def submission_params
       params.expect(submission: [ :title, :abstract, :notes, :profile_id, :status ])
+    end
+
+    def require_collection_admin!
+      if @current_user.nil?
+        save_passwordless_redirect_location!(User)
+        redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
+      else
+        return if @current_user.site_admin or @collection.has_admin? @current_user
+        redirect_to collection_path(submission.collection), alert: "You are not authorized to access this page."
+      end
     end
 
     def require_admin!(submission)
