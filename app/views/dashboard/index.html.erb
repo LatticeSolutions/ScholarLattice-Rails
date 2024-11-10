@@ -72,6 +72,9 @@
     <% end %>
 
     <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
+        <span class="size-8">
+            <%= render IconComponent.new(:submission) %>
+        </span>
         <span class="px-3">Your Submissions</span>
     </h2>
     <% unless @current_user.submissions.empty? %>
