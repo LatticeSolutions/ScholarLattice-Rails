@@ -35,11 +35,6 @@
     and can be used to provide additional information (links to slides, references, etc.).
   </p>
 
-  <div class="my-5">
-    <%= form.label :status %>
-    <%= form.select :status, Submission.statuses.keys %>
-  </div>
-
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
