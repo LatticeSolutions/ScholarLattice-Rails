@@ -24,4 +24,8 @@ class Profile < ApplicationRecord
   def name
     "#{first_name} #{last_name}"
   end
+
+  def name_with_email
+    "#{name} ⟨#{email}⟩"
+  end
 end

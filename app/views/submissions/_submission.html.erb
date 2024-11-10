@@ -1,5 +1,10 @@
 <div id="<%= dom_id submission %>">
   <p class="my-5">
+    <strong class="block font-medium mb-1">Profile:</strong>
+    <%= submission.profile.name_with_email %>
+  </p>
+
+  <p class="my-5">
     <strong class="block font-medium mb-1">Title:</strong>
     <%= submission.title %>
   </p>
@@ -12,11 +17,6 @@
   <p class="my-5">
     <strong class="block font-medium mb-1">Notes:</strong>
     <%= submission.notes %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Profile:</strong>
-    <%= submission.profile.name %>
   </p>
 
   <p class="my-5">

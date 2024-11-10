@@ -12,6 +12,11 @@
   <% end %>
 
   <div class="my-5">
+    <%= form.label :profile_id %>
+    <%= form.select :profile_id, @current_user.profiles.map {|p| [p.name_with_email, p.id]} %>
+  </div>
+
+  <div class="my-5">
     <%= form.label :title %>
     <%= form.text_field :title, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
@@ -25,11 +30,10 @@
     <%= form.label :notes %>
     <%= form.textarea :notes, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
-
-  <div class="my-5">
-    <%= form.label :profile_id %>
-    <%= form.text_field :profile_id, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
+  <p class="italic text-sm">
+    Notes are not part of your official abstract, but will be publicly available on ScholarLattice
+    and can be used to provide additional information (links to slides, references, etc.).
+  </p>
 
   <div class="my-5">
     <%= form.label :status %>
