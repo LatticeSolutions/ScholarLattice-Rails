@@ -1,6 +1,7 @@
 class Submission < ApplicationRecord
   belongs_to :profile
   belongs_to :collection
+  enum :status, { submitted: 0, accepted: 1, declined: 2, draft: 3 }
 
   def has_admin?(user)
     user.profiles.include? profile or

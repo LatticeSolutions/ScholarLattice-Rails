@@ -77,7 +77,7 @@ class SubmissionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def submission_params
-      params.expect(submission: [ :title, :abstract, :notes, :profile_id ])
+      params.expect(submission: [ :title, :abstract, :notes, :profile_id, :status ])
     end
 
     def require_admin!(submission)
