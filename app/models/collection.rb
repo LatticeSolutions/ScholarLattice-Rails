@@ -8,6 +8,7 @@ class Collection < ApplicationRecord
   has_many :likes
   has_many :favorite_users, through: :likes, source: :user
   has_many :pages
+  has_many :submissions
   has_one :home_page, class_name: "Page"
 
   def admin_users

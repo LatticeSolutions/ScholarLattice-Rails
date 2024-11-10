@@ -1,5 +1,6 @@
 class SubmissionsController < ApplicationController
   before_action :set_submission, only: %i[ show edit update destroy ]
+  before_action :set_collection, only: %i[ new create index ]
 
   # GET /submissions or /submissions.json
   def index
@@ -13,7 +14,7 @@ class SubmissionsController < ApplicationController
   # GET /submissions/new
   def new
     require_user!
-    @submission = Submission.new(collection: Collection.find(params[:collection_id]))
+    @submission = Submission.new(collection: @collection)
   end
 
   # GET /submissions/1/edit
@@ -24,7 +25,7 @@ class SubmissionsController < ApplicationController
   # POST /submissions or /submissions.json
   def create
     @submission = Submission.new(submission_params)
-    @submission.collection = Collection.find(params[:collection_id])
+    @submission.collection = @collection
     require_admin!(@submission)
 
     respond_to do |format|
@@ -68,6 +69,10 @@ class SubmissionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_submission
       @submission = Submission.find(params.expect(:id))
+    end
+
+    def set_collection
+      @collection = Collection.find(params.expect(:collection_id))
     end
 
     # Only allow a list of trusted parameters through.

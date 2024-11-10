@@ -70,6 +70,11 @@
                     and will be available until <%= @collection.submissions_close_on %>.
                 <% end %>
             <% end %>
+            <% if @collection.submissions_open? %>
+                <%= link_to "New submission", 
+                    new_collection_submission_path(@collection), 
+                    class: "inline-block rounded bg-blue-600 mx-2 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring focus:ring-sky-400" %>
+            <% end %>
         </h2>
     <% end %>
 
@@ -86,6 +91,17 @@
     <% unless @collection.home_page.nil? %>
         <div class="pt-4 prose sm:prose-xl mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
             <%= sanitize @collection.home_page.content_html %>
+        </div>
+    <% end %>
+
+    <% unless @collection.submissions.empty? %>
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+            Submissions:
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @collection.submissions.each do |submission| %>
+                <%= render partial: "submissions/card", locals: { submission: submission } %>
+            <% end %>
         </div>
     <% end %>
 
