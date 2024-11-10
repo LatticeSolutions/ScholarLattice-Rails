@@ -95,7 +95,7 @@
         </div>
     <% end %>
 
-    <% unless @current_user.submissions(@collection).empty? %>
+    <% unless @current_user.nil? or @current_user.submissions(@collection).empty? %>
         <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
             Your Submissions:
         </h2>
