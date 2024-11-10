@@ -20,4 +20,12 @@ class Profile < ApplicationRecord
   def verified?
     email == user.email
   end
+
+  def name
+    "#{first_name} #{last_name}"
+  end
+
+  def name_with_email
+    "#{name} ⟨#{email}⟩"
+  end
 end

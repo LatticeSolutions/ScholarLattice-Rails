@@ -7,6 +7,7 @@
             {icon: :edit, path: edit_collection_path, text: "Edit"},
             {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
             {icon: :collection, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
+            {icon: :submission, path: collection_submissions_path(@collection), text: "View Submissions"},
         )%>
         </div>
         <p class="text-gray-500 text-sm">
@@ -41,6 +42,43 @@
         <% end %>
     </h1>
 
+    <% if @collection.submittable? %>
+        <h2 class="text-1.5xl font-light text-gray-900 md:text-2xl pb-5">
+            <% if @collection.submissions_close_on.blank? and @collection.submissions_open_on.blank? %>
+                Submissions are now open.
+            <% elsif @collection.submissions_close_on.blank? %>
+                <% if @collection.submissions_open? %>
+                    Submissions opened on <%= @collection.submissions_open_on %>.
+                <% else %>
+                    Submissions will open on <%= @collection.submissions_open_on %>.
+                <% end %>
+            <% elsif @collection.submissions_open_on.blank? %>
+                <% if @collection.submissions_closed? %>
+                    Submissions closed on <%= @collection.submissions_close_on %>.
+                <% else %>
+                    Submissions are now open,
+                    and will close on <%= @collection.submissions_close_on %>.
+                <% end %>
+            <% else %>
+                <% if @collection.submissions_open? %>
+                    Submissions opened on <%= @collection.submissions_open_on %>,
+                    and will close on <%= @collection.submissions_close_on %>.
+                <% elsif @collection.submissions_closed? %>
+                    Submissions were open from <%= @collection.submissions_open_on %>
+                    until <%= @collection.submissions_close_on %>, and are now closed.
+                <% else %>
+                    Submissions will open on <%= @collection.submissions_open_on %>,
+                    and will be available until <%= @collection.submissions_close_on %>.
+                <% end %>
+            <% end %>
+            <% if @collection.submissions_open? %>
+                <%= link_to "New submission", 
+                    new_collection_submission_path(@collection), 
+                    class: "inline-block rounded bg-blue-600 mx-2 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring focus:ring-sky-400" %>
+            <% end %>
+        </h2>
+    <% end %>
+
     <p class="text-lg font-light">
         <%= @collection.description %>
     </p>
@@ -54,6 +92,28 @@
     <% unless @collection.home_page.nil? %>
         <div class="pt-4 prose sm:prose-xl mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
             <%= sanitize @collection.home_page.content_html %>
+        </div>
+    <% end %>
+
+    <% unless @current_user.nil? or @current_user.submissions(@collection).empty? %>
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+            Your Submissions:
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @current_user.submissions.each do |submission| %>
+                <%= render partial: "submissions/card", locals: { submission: submission } %>
+            <% end %>
+        </div>
+    <% end %>
+
+    <% unless @collection.submissions.accepted.empty? %>
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+            Accepted Submissions:
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @collection.submissions.accepted.each do |submission| %>
+                <%= render partial: "submissions/card", locals: { submission: submission } %>
+            <% end %>
         </div>
     <% end %>
 

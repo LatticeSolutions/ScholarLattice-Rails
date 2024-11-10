@@ -1,0 +1,7 @@
+<%= render CardComponent.new( 
+  title: "#{submission.title} — #{submission.profile.name}",
+  description: submission.abstract,
+  link_text: "View Submission",
+  link_url: submission_path(submission),
+  title_icon: :submission
+) %>
