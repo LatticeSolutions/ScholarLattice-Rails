@@ -1,7 +1,5 @@
 class Profile < ApplicationRecord
-  belongs_to :user
-  validates :email, presence: true, uniqueness: { scope: :user,
-    message: "A profile with this email address already exists for this user." }
+  has_and_belongs_to_many :users
   validates :first_name, presence: true
   validates :last_name, presence: true
 
@@ -18,7 +16,7 @@ class Profile < ApplicationRecord
   end
 
   def verified?
-    email == user.email
+    users.where(email: email).any?
   end
 
   def name
