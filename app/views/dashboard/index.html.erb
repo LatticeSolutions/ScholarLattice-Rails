@@ -9,6 +9,26 @@
 
     <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
         <span class="size-8">
+            <%= render IconComponent.new(:profile) %>
+        </span>
+        <span class="px-3">Your Profiles</span>
+    </h2>
+    <% unless @current_user.profiles.empty? %>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 pb-5">
+            <% @current_user.profiles.each do |profile| %>
+                <%= render partial: "profiles/card", locals: { profile: profile, current_user: @current_user } %>
+            <% end %>
+        </div>
+    <% end %>
+    <p>
+        Create a new profile
+        <% unless @current_user.profiles.empty? %>(e.g. for a student)<% end %>
+        here:
+        <%= render partial: "profiles/new_button" %>
+    </p>
+
+    <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
+        <span class="size-8">
             <%= render IconComponent.new(:star) %>
         </span>
         <span class="px-3">Favorite Collections</span>
@@ -45,26 +65,6 @@
             <% end %>
         </div>
     <% end %>
-
-    <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
-        <span class="size-8">
-            <%= render IconComponent.new(:profile) %>
-        </span>
-        <span class="px-3">Your Profiles</span>
-    </h2>
-    <% unless @current_user.profiles.empty? %>
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 pb-5">
-            <% @current_user.profiles.each do |profile| %>
-                <%= render partial: "profiles/card", locals: { profile: profile, current_user: @current_user } %>
-            <% end %>
-        </div>
-    <% end %>
-    <p>
-        Create a new profile
-        <% unless @current_user.profiles.empty? %>(e.g. for a student)<% end %>
-        here:
-        <%= render partial: "profiles/new_button" %>
-    </p>
 
     <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
         <span class="size-8">
