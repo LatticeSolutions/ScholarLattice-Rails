@@ -20,7 +20,7 @@ class ProfilesController < ApplicationController
   # POST /profiles or /profiles.json
   def create
     @profile = Profile.new(profile_params)
-    @profile.user = @current_user
+    @profile.users = [ @current_user ]
 
     respond_to do |format|
       if @profile.save
@@ -71,7 +71,7 @@ class ProfilesController < ApplicationController
       require_user!
       unless @current_user.nil?
         set_profile
-        return if @profile.user == @current_user or @current_user.site_admin?
+        return if @profile.users.include?(@current_user) or @current_user.site_admin?
         redirect_to collections_path, alert: "You are not authorized to access this page."
       end
     end

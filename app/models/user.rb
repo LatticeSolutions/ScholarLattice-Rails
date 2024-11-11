@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_many :direct_admin_collections, through: :admins, source: :collection
   has_many :likes
   has_many :favorite_collections, through: :likes, source: :collection
-  has_many :profiles
+  has_and_belongs_to_many :profiles
 
   def self.fetch_resource_for_passwordless(email)
     find_or_create_by(email: email)
