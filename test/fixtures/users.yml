@@ -1,7 +1,7 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  email: MyString
-
-two:
-  email: MyString
+---
+item-3-2:
+  email: sclontz@southalabama.edu
+  site_admin: false
+item-3-1:
+  email: admin@scholarlattice.org
+  site_admin: true
