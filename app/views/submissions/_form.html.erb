@@ -14,6 +14,7 @@
   <div class="my-5">
     <%= form.label :profile_id %>
     <%= form.select :profile_id, @current_user.profiles.map {|p| [p.name_with_email, p.id]} %>
+    <%= render partial: "profiles/new_button" %>
   </div>
 
   <div class="my-5">

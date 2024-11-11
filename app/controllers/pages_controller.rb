@@ -24,7 +24,7 @@ class PagesController < ApplicationController
   def create
     @page = Page.new(page_params)
     @page.collection = Collection.find(params[:collection_id])
-    require_admin!(@page) and return
+    require_admin!(@page) or return
 
     respond_to do |format|
       if @page.save
@@ -39,7 +39,7 @@ class PagesController < ApplicationController
 
   # PATCH/PUT /pages/1 or /pages/1.json
   def update
-    require_admin!(@page) and return
+    require_admin!(@page) or return
     respond_to do |format|
       if @page.update(page_params)
         format.html { redirect_to page_url(@page), notice: "Page was successfully updated." }
@@ -53,7 +53,7 @@ class PagesController < ApplicationController
 
   # DELETE /pages/1 or /pages/1.json
   def destroy
-    require_site_admin! and return
+    require_site_admin! or return
     @page.destroy!
 
     respond_to do |format|
@@ -74,8 +74,9 @@ class PagesController < ApplicationController
     end
 
     def require_admin!(page)
-      require_user! and return
+      require_user! or return false
       return true if page.collection.has_admin? @current_user or @current_user.site_admin
       redirect_to collection_page_path(page.collection, page), alert: "You are not authorized to access this page."
+      false
     end
 end

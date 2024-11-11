@@ -63,13 +63,7 @@
         Create a new profile
         <% unless @current_user.profiles.empty? %>(e.g. for a student)<% end %>
         here:
-        <%= link_to new_profile_path, 
-            class: "inline-block rounded-lg bg-blue-600 px-3 mx-3 py-2 text-sm font-medium text-white" do %>
-            <span class="inline-block size-4">
-                <%= render IconComponent.new(:profile) %>
-            </span>
-            New Profile
-        <% end %>
+        <%= render partial: "profiles/new_button" %>
     </p>
 
     <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
