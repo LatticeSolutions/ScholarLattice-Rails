@@ -29,8 +29,9 @@
     <%= form.label :email do %>
       Email 
       <span class="text-sm text-gray-500">
-        (must be <span class="font-mono"><%= @current_user.email %></span> to be verified
-        <span class="inline-block size-3"><%= render IconComponent.new(:profile_verified) %></span>)
+        Must be <span class="font-mono"><%= @current_user.email %></span> to be verified
+        <span class="inline-block size-5"><%= render IconComponent.new(:profile_verified) %></span>.
+        Anyone with access to this email can claim this profile.
       </span>
     <% end %>
     <%= form.text_field :email, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>

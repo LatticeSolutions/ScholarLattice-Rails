@@ -27,7 +27,7 @@ class SubmissionsController < ApplicationController
   def create
     @submission = Submission.new(submission_params)
     @submission.collection = @collection
-    require_admin!(@submission)
+    require_admin!(@submission) or return
 
     respond_to do |format|
       if @submission.save
@@ -42,7 +42,7 @@ class SubmissionsController < ApplicationController
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
-    require_admin!(@submission)
+    require_admin!(@submission) or return
     respond_to do |format|
       if @submission.update(submission_params)
         format.html { redirect_to @submission, notice: "Submission was successfully updated." }
@@ -56,7 +56,7 @@ class SubmissionsController < ApplicationController
 
   # DELETE /submissions/1 or /submissions/1.json
   def destroy
-    require_site_admin!
+    require_site_admin! or return
     c = @submission.collection
     @submission.destroy!
 
@@ -82,22 +82,16 @@ class SubmissionsController < ApplicationController
     end
 
     def require_collection_admin!
-      if @current_user.nil?
-        save_passwordless_redirect_location!(User)
-        redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
-      else
-        return if @current_user.site_admin or @collection.has_admin? @current_user
-        redirect_to collection_path(submission.collection), alert: "You are not authorized to access this page."
-      end
+      require_user! or return false
+      return true if @current_user.site_admin or @collection.has_admin? @current_user
+      redirect_to collection_path(submission.collection), alert: "You are not authorized to access this page."
+      false
     end
 
     def require_admin!(submission)
-      if @current_user.nil?
-        save_passwordless_redirect_location!(User)
-        redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
-      else
-        return if submission.has_admin? @current_user
-        redirect_to collection_path(submission.collection), alert: "You are not authorized to access this page."
-      end
+      require_user! or return false
+      return true if submission.has_admin? @current_user
+      redirect_to collection_path(submission.collection), alert: "You are not authorized to access this page."
+      false
     end
 end

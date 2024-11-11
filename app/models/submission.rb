@@ -5,7 +5,7 @@ class Submission < ApplicationRecord
 
   def has_admin?(user)
     user.profiles.include? profile or
-    submission.collection.has_admin? @current_user or
-    @current_user.site_admin
+    collection.has_admin? user or
+    user.site_admin
   end
 end

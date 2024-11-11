@@ -2,6 +2,7 @@ class Profile < ApplicationRecord
   has_and_belongs_to_many :users
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validate :unique_email_among_users_validation
 
   def description
     if affiliation.present? and position.present?
@@ -25,5 +26,13 @@ class Profile < ApplicationRecord
 
   def name_with_email
     "#{name} ⟨#{email}⟩"
+  end
+
+  def unique_email_among_users_validation
+    users.each do |user|
+      if user.profiles.where(email: email).where.not(id: id)
+        return errors.add(:email, "must not duplicate any other profile managed by this profile's users")
+      end
+    end
   end
 end
