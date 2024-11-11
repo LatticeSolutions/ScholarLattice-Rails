@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_11_012623) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_11_022049) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -75,7 +75,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_11_012623) do
   end
 
   create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "email", null: false
@@ -83,8 +82,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_11_012623) do
     t.string "position"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.index ["user_id", "email"], name: "index_profiles_on_user_id_and_email", unique: true
-    t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
   create_table "profiles_users", id: false, force: :cascade do |t|
@@ -118,7 +115,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_11_012623) do
   add_foreign_key "likes", "collections"
   add_foreign_key "likes", "users"
   add_foreign_key "pages", "collections"
-  add_foreign_key "profiles", "users"
   add_foreign_key "profiles_users", "profiles"
   add_foreign_key "profiles_users", "users"
   add_foreign_key "submissions", "collections"
