@@ -68,11 +68,9 @@ class ProfilesController < ApplicationController
     end
 
     def require_owner!
-      require_user!
-      unless @current_user.nil?
-        set_profile
-        return if @profile.users.include?(@current_user) or @current_user.site_admin?
-        redirect_to collections_path, alert: "You are not authorized to access this page."
-      end
+      require_user! and return
+      set_profile
+      return true if @profile.users.include?(@current_user) or @current_user.site_admin?
+      redirect_to collections_path, alert: "You are not authorized to access this page."
     end
 end

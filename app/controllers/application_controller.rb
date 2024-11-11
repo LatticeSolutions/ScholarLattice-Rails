@@ -13,15 +13,14 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user!
-    unless current_user
-      save_passwordless_redirect_location!(User)
-      redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
-    end
+    return true if current_user
+    save_passwordless_redirect_location!(User)
+    redirect_to users_sign_in_path, alert: "You must be logged in to access this page."
   end
 
   def require_site_admin!
-    unless current_user and current_user.site_admin?
-      redirect_to users_sign_in_path, alert: "You lack sufficient permissions."
-    end
+    require_user! and return
+    return true if current_user.site_admin?
+    redirect_to users_sign_in_path, alert: "You lack sufficient permissions."
   end
 end

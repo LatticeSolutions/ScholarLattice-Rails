@@ -84,11 +84,9 @@ class CollectionsController < ApplicationController
     end
 
     def require_admin!
-      require_user!
-      unless @current_user.nil?
-        set_collection
-        return if @current_user.can_administrate? @collection
-        redirect_to collection_path(@collection), alert: "You are not authorized to access this page."
-      end
+      require_user! and return
+      set_collection
+      return true if @current_user.can_administrate? @collection
+      redirect_to collection_path(@collection), alert: "You are not authorized to access this page."
     end
 end
