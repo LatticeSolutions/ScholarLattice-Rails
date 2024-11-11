@@ -1,17 +1,15 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  user: one
-  first_name: MyString
-  last_name: MyString
-  email: MyString
-  affiliation: MyString
-  position: MyString
-
-two:
-  user: two
-  first_name: MyString
-  last_name: MyString
-  email: MyString
-  affiliation: MyString
-  position: MyString
+---
+item-2-1:
+  user: item-3-1
+  first_name: Steven
+  last_name: Clontz
+  email: admin@scholarlattice.org
+  affiliation: ScholarLattice
+  position: Owner
+item-2-2:
+  user: item-3-2
+  first_name: Steven
+  last_name: Clontz
+  email: sclontz@southalabama.edu
+  affiliation: University of South Alabama
+  position: Associate Professor of Mathematics
