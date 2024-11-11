@@ -30,7 +30,7 @@ class Profile < ApplicationRecord
 
   def unique_email_among_users_validation
     users.each do |user|
-      if user.profiles.where(email: email).where.not(id: id)
+      if user.profiles.where(email: email).where.not(id: id).any?
         return errors.add(:email, "must not duplicate any other profile managed by this profile's users")
       end
     end
