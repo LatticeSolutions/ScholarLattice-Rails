@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resources :profiles, except: :index
 
   get "/dashboard/", to: "dashboard#index"
+  get "/privacy/", to: "static_pages#privacy"
+  get "/tos/", to: "static_pages#tos"
 
   # Passwordless routes
   passwordless_for :users, controller: "sessions"
