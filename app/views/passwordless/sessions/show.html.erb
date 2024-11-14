@@ -6,7 +6,11 @@
 
     <p class="mt-4 text-gray-500">
       To log in as 
+    </p>
+    <p class="mt-1 text-gray-500">
       <span class="font-medium"><%= @session.authenticatable.email %></span>,
+    </p>
+    <p class="mt-1 text-gray-500">
       either click the magic link with the subject
     </p>
     <p class="mt-1 text-gray-500">
@@ -15,6 +19,8 @@
     <p class="mt-1 text-gray-500">
       sent to your inbox on
       <span class="font-medium"><%= @session.created_at %></span>,
+    </p>
+    <p class="mt-1 text-gray-500">
       or copy/paste the token provided in that email below.
     </p>
 
@@ -50,8 +56,14 @@
     </div>
   <% end %>
 
+    <p class="mt-4 text-gray-500">
+      Can't find the email? Check your spam folder or contact your IT administrator!
+    </p>
+  </div>
+  <div class="mx-auto max-w-lg text-center">
     <p class="mt-4 text-sm text-gray-400">
-      (Can't find the email? Check your spam folder!)
+      By signing into ScholarLattice, you agree to our <a class="text-sky-500" href="/privacy">Privacy Policy</a>
+      and <a class="text-sky-500" href="/tos">Terms of Service</a>.
     </p>
   </div>
 </div>
