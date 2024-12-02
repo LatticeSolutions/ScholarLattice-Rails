@@ -9,7 +9,6 @@ class Collection < ApplicationRecord
   has_many :favorite_users, through: :likes, source: :user
   has_many :pages
   has_many :submissions
-  has_one :home_page, class_name: "Page"
 
   def admin_users
     User
@@ -43,5 +42,9 @@ class Collection < ApplicationRecord
     if submissions_open_on > submissions_close_on
       errors.add(:submissions_close_on, "must be later than submission opening")
     end
+  end
+
+  def home_page
+    pages.first
   end
 end
