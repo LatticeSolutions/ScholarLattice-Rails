@@ -45,6 +45,6 @@ class Collection < ApplicationRecord
   end
 
   def home_page
-    pages.first
+    pages.where(is_home: true).first
   end
 end
