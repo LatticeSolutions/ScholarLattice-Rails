@@ -3,6 +3,7 @@ class Profile < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
   validate :unique_email_among_users_validation
+  enum :position_type, { faculty: 0, grad_student: 1, undergrad_student: 2, secondary_student: 3, other: 4 }
 
   def description
     if affiliation.present? and position.present?

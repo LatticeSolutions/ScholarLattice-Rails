@@ -43,8 +43,13 @@
   </div>
 
   <div class="my-5">
-    <%= form.label :position %>
+    <%= form.label :position do %>Position Title<% end %>
     <%= form.text_field :position, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :position_type %>
+    <%= form.select :position_type, Profile.position_types.keys.map {|key| [key.humanize, key]}, selected: profile.position_type || :faculty %>
   </div>
 
   <div class="inline">
