@@ -89,7 +89,14 @@
         </div>
     <% end %>
 
-    <% unless @collection.home_page.nil? %>
+    <% unless @collection.home_page.nil? %>    
+        <% if @current_user and @current_user.can_administrate? @collection %>
+            <div class="mt-3">
+            <%= render AdminBarComponent.new(
+                {icon: :page, path: edit_page_path(@collection.home_page), text: "Edit Home Page"},
+            )%>
+            </div>
+        <% end %>
         <div class="pt-4 prose sm:prose-xl mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
             <%= sanitize @collection.home_page.content_html %>
         </div>

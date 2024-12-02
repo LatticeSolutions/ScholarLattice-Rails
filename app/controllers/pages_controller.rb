@@ -8,6 +8,9 @@ class PagesController < ApplicationController
 
   # GET /pages/1 or /pages/1.json
   def show
+    if @page.is_home
+      redirect_to collection_path(@page.collection)
+    end
   end
 
   # GET /pages/new

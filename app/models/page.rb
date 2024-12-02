@@ -12,6 +12,8 @@ class Page < ApplicationRecord
     def enforce_single_homepage
       if is_home
         collection.pages.where.not(id: id).update(is_home: false)
+        collection.pages.where(title: "Home Page").update(title: "Former Home Page")
+        self.title = "Home Page"
       end
     end
 end
