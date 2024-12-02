@@ -8,6 +8,9 @@ class PagesController < ApplicationController
 
   # GET /pages/1 or /pages/1.json
   def show
+    if @page.is_home
+      redirect_to collection_path(@page.collection)
+    end
   end
 
   # GET /pages/new
@@ -70,7 +73,7 @@ class PagesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def page_params
-      params.require(:page).permit(:title, :content)
+      params.require(:page).permit(:title, :content, :is_home)
     end
 
     def require_admin!(page)
