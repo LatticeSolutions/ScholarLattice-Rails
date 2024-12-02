@@ -2,7 +2,7 @@
 
 ## AGREEMENT TO TERMS
 
-These Terms and Conditions constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and ScholarLattice (“we,” “us” or “our”), concerning your access to and use of the [website name.com] website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”).
+These Terms and Conditions constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and ScholarLattice (“we,” “us” or “our”), concerning your access to and use of the ScholarLattice website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”).
 
 You agree that by accessing the Site, you have read, understood, and agree to be bound by all of these Terms and Conditions. If you do not agree with all of these Terms and Conditions, then you are expressly prohibited from using the Site and you must discontinue use immediately.
 
@@ -16,7 +16,7 @@ The information provided on the Site is not intended for distribution to or use 
 
 Accordingly, those persons who choose to access the Site from other locations do so on their own initiative and are solely responsible for compliance with local laws, if and to the extent local laws are applicable.
 
-The Site is intended for users who are at least 18 years old. Persons under the age of 18 are not permitted to register for the Site.
+The Site is intended for users who are at least 18 years old. Persons under the age of 18 are not permitted to register for the Site. Parents and guardians may use the Site to manage profiles for their under-18 dependents.
 
 ### INTELLECTUAL PROPERTY RIGHTS
 
