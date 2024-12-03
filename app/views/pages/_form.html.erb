@@ -22,8 +22,8 @@
   </div>
 
   <div class="my-5">
-    <%= form.label :visibility %>
-    <%= form.select :visibility, Page.visibility.keys.map {|key| [key.humanize, key]}, selected: page.visibility || :public %>
+    <%= form.label :visibility, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.select :visibility, Page.visibilities.keys.map {|key| [key.humanize, key]}, selected: page.visibility || :public %>
   </div>
 
   <div class="my-5">
