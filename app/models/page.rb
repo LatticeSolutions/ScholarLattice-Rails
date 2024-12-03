@@ -2,6 +2,7 @@ class Page < ApplicationRecord
   belongs_to :collection
   validates_uniqueness_of :is_home, if: :is_home, scope: :collection_id
   before_validation :enforce_single_homepage
+  enum :visibility, { private: 0, unlisted: 1, public: 2 }
 
   def content_html
     Redcarpet::Markdown.new(Redcarpet::Render::HTML).render content
