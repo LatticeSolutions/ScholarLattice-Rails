@@ -18,7 +18,8 @@ class Collection < ApplicationRecord
   end
 
   def has_admin?(user)
-    !user.nil? and admin_users.exists? user.id
+    return false if user.nil?
+    user.site_admin or admin_users.exists? user.id
   end
 
   def collection_name
@@ -46,5 +47,13 @@ class Collection < ApplicationRecord
 
   def home_page
     pages.where(is_home: true).first
+  end
+
+  def public_pages
+    pages.where(is_home: false, visibility: :public)
+  end
+
+  def non_public_pages
+    pages.where(is_home: false).where.not(visibility: :public)
   end
 end

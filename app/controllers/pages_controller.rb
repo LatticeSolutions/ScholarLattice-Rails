@@ -10,6 +10,8 @@ class PagesController < ApplicationController
   def show
     if @page.is_home
       redirect_to collection_path(@page.collection)
+    elsif @page.private_visibility?
+      require_admin! @page
     end
   end
 
