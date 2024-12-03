@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_03_025352) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_03_032239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -31,14 +31,12 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_03_025352) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ancestry", default: "/", null: false, collation: "C"
-    t.uuid "home_page_id"
     t.string "subcollection_name", default: "Subcollection", null: false
     t.uuid "page_id"
     t.timestamptz "submissions_open_on"
     t.timestamptz "submissions_close_on"
     t.boolean "submittable"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
-    t.index ["home_page_id"], name: "index_collections_on_home_page_id"
     t.index ["page_id"], name: "index_collections_on_page_id"
   end
 
