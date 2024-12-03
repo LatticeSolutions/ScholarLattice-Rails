@@ -22,6 +22,11 @@
   </div>
 
   <div class="my-5">
+    <%= form.label :visibility, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.select :visibility, Page.visibilities.keys.map {|key| [key.humanize, key]}, selected: page.visibility || :public %>
+  </div>
+
+  <div class="my-5">
     <%= form.label :is_home, class: "block text-xs font-medium text-gray-700" do %>Make this the home page<% end %>
     <%= form.check_box :is_home %>
   </div>

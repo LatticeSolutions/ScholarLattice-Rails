@@ -5,7 +5,11 @@
         <span class="size-4">
             <%= render IconComponent.new(:page) %>
         </span>
-        <span class="hidden sm:inline">Pages:</span>
+        <% if @public %>
+            <span class="hidden sm:inline">Pages:</span>
+        <% else %>
+            <span class="hidden sm:inline">Non-public pages:</span>
+        <% end %>
     </span>
 
     <% @pages.each do |page| %>

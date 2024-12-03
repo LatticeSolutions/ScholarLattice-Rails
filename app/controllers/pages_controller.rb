@@ -10,6 +10,8 @@ class PagesController < ApplicationController
   def show
     if @page.is_home
       redirect_to collection_path(@page.collection)
+    elsif @page.private_visibility?
+      require_admin! @page
     end
   end
 
@@ -73,7 +75,7 @@ class PagesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def page_params
-      params.require(:page).permit(:title, :content, :is_home)
+      params.require(:page).permit(:title, :content, :visibility, :is_home)
     end
 
     def require_admin!(page)

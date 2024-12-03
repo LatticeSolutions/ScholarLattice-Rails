@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_02_223320) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_03_032239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -56,6 +56,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_02_223320) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_home", default: false
+    t.integer "visibility", default: 2
     t.index ["collection_id"], name: "index_pages_on_collection_id"
   end
 
