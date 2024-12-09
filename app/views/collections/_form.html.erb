@@ -28,6 +28,13 @@
       <div><%= message %></div>
     <% end %>
   </div>
+  <div class="mb-3">
+    <%= form.label :submittable, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.check_box :submittable, class: "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm" %>
+    <% collection.errors.full_messages_for(:subcollection_name).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
 
   <div>
     <span class="inline-flex -space-x-px overflow-hidden rounded-md border bg-white shadow-sm">
