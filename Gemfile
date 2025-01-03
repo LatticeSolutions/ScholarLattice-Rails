@@ -62,7 +62,7 @@ gem "passwordless", "~> 1.8"
 
 gem "cssbundling-rails", "~> 1.4"
 
-gem "tailwindcss-rails", "~> 3.0"
+gem "tailwindcss-rails", "~> 3.1"
 
 gem "resend", "~> 0.17.0"
 
