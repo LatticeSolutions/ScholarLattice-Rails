@@ -64,7 +64,7 @@ gem "cssbundling-rails", "~> 1.4"
 
 gem "tailwindcss-rails", "~> 3.1"
 
-gem "resend", "~> 0.14.0"
+gem "resend", "~> 0.17.0"
 
 gem "rails_real_favicon", "~> 0.1.1", group: :development
 
