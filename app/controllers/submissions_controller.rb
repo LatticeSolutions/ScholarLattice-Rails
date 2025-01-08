@@ -78,13 +78,24 @@ class SubmissionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def submission_params
-      params.expect(submission: [ :title, :abstract, :notes, :profile_id ])
+      if params.has_key?(:id)
+        set_submission
+        collection = @submission.collection
+      else
+        set_collection
+        collection = @collection
+      end
+      if collection.has_admin? @current_user
+        params.expect(submission: [ :title, :abstract, :notes, :profile_id, :status ])
+      else
+        params.expect(submission: [ :title, :abstract, :notes, :profile_id ])
+      end
     end
 
     def require_collection_admin!
       require_user! or return false
       return true if @current_user.site_admin or @collection.has_admin? @current_user
-      redirect_to collection_path(submission.collection), alert: "You are not authorized to access this page."
+      redirect_to collection_path(@collection), alert: "You are not authorized to access this page."
       false
     end
 
