@@ -17,7 +17,7 @@
         All Submissions:
     </h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-        <% @current_user.submissions.each do |submission| %>
+        <% @collection.submissions.each do |submission| %>
             <%= render partial: "submissions/card", locals: { submission: submission } %>
         <% end %>
     </div>
