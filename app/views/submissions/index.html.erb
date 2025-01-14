@@ -1,24 +1,24 @@
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-  <% end %>
+<section class="mx-auto md:w-3/4 w-full">
+    <%= render partial: "breadcrumb", locals: { collection: @collection } %>
 
-  <% content_for :title, "Submissions" %>
-
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Submissions</h1>
-    <%= link_to "New submission", new_collection_submission_path(@collection), class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
-  </div>
-
-  <div id="submissions" class="min-w-full">
-    <% @submissions.each do |submission| %>
-      <%= render submission %>
-      <p>
-        <%= link_to "Show this submission", submission, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
-      <p>
-        <%= link_to "Edit this submission", edit_submission_path(submission), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
+    <% if notice.present? %>
+      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
     <% end %>
-  </div>
-</div>
+
+    <% content_for :title, "Submissions" %>
+    
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        <%= @collection.title %>
+    </h1>
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        <span class="size-4 inline-block">
+            <%= render IconComponent.new(:key) %>
+        </span>
+        All Submissions:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @current_user.submissions.each do |submission| %>
+            <%= render partial: "submissions/card", locals: { submission: submission } %>
+        <% end %>
+    </div>
+</section>
