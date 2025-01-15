@@ -11,7 +11,9 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Abstract:</strong>
-    <%= submission.abstract %>
+    <div class="prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+      <%= sanitize submission.abstract_html %>
+    </div>
   </p>
 
   <p class="my-5">
