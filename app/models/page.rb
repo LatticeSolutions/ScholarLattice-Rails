@@ -6,7 +6,7 @@ class Page < ApplicationRecord
   validate :home_page_must_be_public
 
   def content_html
-    Redcarpet::Markdown.new(Redcarpet::Render::HTML).render content
+    Kramdown::Document.new(content).to_html
   end
 
   private

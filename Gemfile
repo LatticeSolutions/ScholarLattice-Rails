@@ -70,4 +70,4 @@ gem "rails_real_favicon", "~> 0.1.1", group: :development
 
 gem "view_component", "~> 3.20"
 
-gem "redcarpet", "~> 3.6"
+gem "kramdown", "~> 2.5"
