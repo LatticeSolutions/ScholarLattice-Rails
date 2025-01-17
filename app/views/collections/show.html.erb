@@ -105,7 +105,7 @@
             )%>
             </div>
         <% end %>
-        <div class="pt-4 prose sm:prose-xl mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+        <div class="mathjax pt-4 prose sm:prose-xl mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
             <%= sanitize @collection.home_page.content_html %>
         </div>
     <% end %>
@@ -115,7 +115,7 @@
             Your Submissions:
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-            <% @current_user.submissions.each do |submission| %>
+            <% @current_user.submissions.where(collection: @collection).each do |submission| %>
                 <%= render partial: "submissions/card", locals: { submission: submission } %>
             <% end %>
         </div>

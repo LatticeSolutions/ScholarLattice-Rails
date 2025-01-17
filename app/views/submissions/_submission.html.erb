@@ -2,6 +2,9 @@
   <p class="my-5">
     <strong class="block font-medium mb-1">Profile:</strong>
     <%= submission.profile.name_with_email %>
+    <% if submission.profile.verified? %>
+        <span class="inline-block size-4"><%= render IconComponent.new(:profile_verified) %></span>
+    <% end %>
   </p>
 
   <p class="my-5">
@@ -11,7 +14,7 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Abstract:</strong>
-    <div class="prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+    <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
       <%= sanitize submission.abstract_html %>
     </div>
   </p>

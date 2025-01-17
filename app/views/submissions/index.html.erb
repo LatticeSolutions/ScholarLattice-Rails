@@ -14,10 +14,32 @@
         <span class="size-4 inline-block">
             <%= render IconComponent.new(:key) %>
         </span>
-        All Submissions:
+        Unreviewed Submissions:
     </h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-        <% @collection.submissions.each do |submission| %>
+        <% @collection.submissions.where(status: :submitted).each do |submission| %>
+            <%= render partial: "submissions/card", locals: { submission: submission } %>
+        <% end %>
+    </div>
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        <span class="size-4 inline-block">
+            <%= render IconComponent.new(:key) %>
+        </span>
+        Accepted Submissions:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @collection.submissions.where(status: :accepted).each do |submission| %>
+            <%= render partial: "submissions/card", locals: { submission: submission } %>
+        <% end %>
+    </div>
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        <span class="size-4 inline-block">
+            <%= render IconComponent.new(:key) %>
+        </span>
+        Rejected Submissions:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @collection.submissions.where(status: :rejected).each do |submission| %>
             <%= render partial: "submissions/card", locals: { submission: submission } %>
         <% end %>
     </div>
