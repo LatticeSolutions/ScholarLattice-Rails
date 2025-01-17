@@ -8,6 +8,6 @@ Alpine.start()
 
 document.addEventListener("turbo:load", function() {
     if (window.MathJax) {
-      MathJax.typesetPromise();
+      MathJax.typeset(document.querySelectorAll('.mathjax'));
     }
 });
