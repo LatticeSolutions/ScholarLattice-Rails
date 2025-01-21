@@ -36,10 +36,10 @@
         <span class="size-4 inline-block">
             <%= render IconComponent.new(:key) %>
         </span>
-        Rejected Submissions:
+        Declined Submissions:
     </h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-        <% @collection.submissions.where(status: :rejected).each do |submission| %>
+        <% @collection.submissions.where(status: :declined).each do |submission| %>
             <%= render partial: "submissions/card", locals: { submission: submission } %>
         <% end %>
     </div>

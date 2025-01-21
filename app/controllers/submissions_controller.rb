@@ -14,7 +14,7 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
-    require_user!
+    require_profile!
     @submission = Submission.new(collection: @collection)
   end
 

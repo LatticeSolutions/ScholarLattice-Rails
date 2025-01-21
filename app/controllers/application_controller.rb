@@ -19,6 +19,13 @@ class ApplicationController < ActionController::Base
     false
   end
 
+  def require_profile!
+    require_user! or return false
+    return true unless @current_user.profiles.empty?
+    redirect_to new_profile_path, alert: "You must create a profile."
+    false
+  end
+
   def require_site_admin!
     require_user! or return false
     return true if current_user.site_admin?
