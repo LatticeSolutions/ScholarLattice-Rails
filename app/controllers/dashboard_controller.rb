@@ -1,5 +1,6 @@
 class DashboardController < ApplicationController
+  before_action :require_profile!
+
   def index
-    require_user!
   end
 end
