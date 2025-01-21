@@ -15,6 +15,7 @@ class SubmissionsController < ApplicationController
   # GET /submissions/new
   def new
     require_user!
+    require_profile!
     @submission = Submission.new(collection: @collection)
   end
 
@@ -90,6 +91,13 @@ class SubmissionsController < ApplicationController
       else
         params.expect(submission: [ :title, :abstract, :notes, :profile_id ])
       end
+    end
+
+    def require_profile!
+      require_user! or return false
+      return true unless @current_user.profiles.empty?
+      redirect_to new_profile_path, alert: "You must create a profile to use with your submission."
+      false
     end
 
     def require_collection_admin!
