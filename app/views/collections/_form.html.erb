@@ -4,42 +4,45 @@
     <%= form.label :title, class: "block text-xs font-medium text-gray-700" %>
     <%= form.text_field :title, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
     <% collection.errors.full_messages_for(:title).each do |message| %>
-      <div><%= message %></div>
+      <div class="text-red-800"><%= message %></div>
     <% end %>
   </div>
   <div class="mb-3">
     <%= form.label :short_title, class: "block text-xs font-medium text-gray-700" %>
     <%= form.text_field :short_title, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
     <% collection.errors.full_messages_for(:short_title).each do |message| %>
-      <div><%= message %></div>
+      <div class="text-red-800"><%= message %></div>
     <% end %>
   </div>
   <div class="mb-3">
     <%= form.label :description, class: "block text-xs font-medium text-gray-700" %>
     <%= form.text_area :description, class: "mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm" %>
     <% collection.errors.full_messages_for(:description).each do |message| %>
-      <div><%= message %></div>
+      <div class="text-red-800"><%= message %></div>
     <% end %>
   </div>
   <div class="mb-3">
     <%= form.label :subcollection_name, class: "block text-xs font-medium text-gray-700" %>
     <%= form.text_field :subcollection_name, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
     <% collection.errors.full_messages_for(:subcollection_name).each do |message| %>
-      <div><%= message %></div>
+      <div class="text-red-800"><%= message %></div>
     <% end %>
   </div>
   <div class="mb-3">
     <%= form.label :submittable, class: "block text-xs font-medium text-gray-700" %>
     <%= form.check_box :submittable, class: "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm" %>
     <% collection.errors.full_messages_for(:subcollection_name).each do |message| %>
-      <div><%= message %></div>
+      <div class="text-red-800"><%= message %></div>
     <% end %>
   </div>
   <div class="mb-3">
-    <%= form.label :admin_emails, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.label :admin_emails, class: "block text-xs font-medium text-gray-700" do %>
+      Admin emails
+      <span class="text-gray-400">(comma-separated)</span>
+    <% end %>
     <%= form.text_field :admin_emails, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
     <% collection.errors.full_messages_for(:admin_emails).each do |message| %>
-      <div><%= message %></div>
+      <div class="text-red-800"><%= message %></div>
     <% end %>
   </div>
 
