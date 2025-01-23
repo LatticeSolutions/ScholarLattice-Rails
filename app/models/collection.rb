@@ -56,4 +56,24 @@ class Collection < ApplicationRecord
   def non_public_pages
     pages.where(is_home: false).where.not(visibility: :public)
   end
+
+  def admin_emails
+    admins.map { |a| a.user.email } .to_a.join(", ")
+  end
+
+  def update_admins(email_string)
+    # split string into array of email strings
+    # find or create user for each email string
+    # find or create admin for each user
+    # add admin to collection
+    email_string.split(",").each do |email|
+      user = User.find_or_create_by(email: email.strip)
+      Admin.find_or_create_by(user: user, collection: self)
+    end
+
+    # remove admins not in email_string
+    admins.each do |admin|
+      admin.destroy unless email_string.include? admin.user.email
+    end
+  end
 end
