@@ -3,8 +3,9 @@ Passwordless.configure do |config|
   config.success_redirect_path = "/dashboard" # After a user successfully signs in
   config.failure_redirect_path = "/users/sign_in" # After a sign in fails
   config.sign_out_redirect_path = "/" # After a user signs out
-  config.token_generator = lambda do |_|
+  config.token_generator = lambda do
     [ *"A".."F", *"1".."9" ].sample(8).join
   end
   config.restrict_token_reuse = false
+  config.expires_at = lambda { 3.months.from_now } # How long until a signed in session expires.
 end
