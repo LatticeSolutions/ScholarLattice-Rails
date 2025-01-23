@@ -1,11 +1,11 @@
 <%= link_to(@link_url, class: "rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition hover:shadow-lg sm:p-6") do %>
 
-    <h3 class="mt-0.5 text-lg font-medium text-gray-900">
+    <h3 class="mt-0.5 text-lg font-medium text-gray-900 mathjax">
         <%= @title %>
         <span class="inline-block size-4 text-purple-800"><%= render IconComponent.new(@title_icon) %></span>
     </h3>
 
-    <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+    <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500 mathjax">
         <%= @description %>
     </p>
 
