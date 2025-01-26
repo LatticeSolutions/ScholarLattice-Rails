@@ -1,7 +1,21 @@
+<%
+  if defined?(collection)
+    subpath = submission.collection.path.filter do |c|
+      c.ancestors.include?(collection)
+    end
+    crumbs = subpath.map do |c|
+      { text: c.short_title }
+    end
+  else
+    crumbs = []
+  end
+%>
+
 <%= render CardComponent.new( 
   title: "#{submission.title} — #{submission.profile.name}",
   description: submission.abstract,
   link_text: "View Submission",
   link_url: submission_path(submission),
-  title_icon: submission.accepted? ? :submission_accepted : :submission
+  title_icon: submission.accepted? ? :submission_accepted : :submission,
+  crumbs: crumbs,
 ) %>

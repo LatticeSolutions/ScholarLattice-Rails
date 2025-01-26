@@ -29,6 +29,10 @@ class Collection < ApplicationRecord
     parent.subcollection_name
   end
 
+  def subtree_submissions
+    Submission.where(collection: subtree)
+  end
+
   def submissions_closed?
     return false if submissions_close_on.blank?
     submissions_close_on <= Time.now

@@ -7,7 +7,11 @@
             {icon: :edit, path: edit_collection_path, text: "Edit"},
             {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
             {icon: :collection, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
-            {icon: :submission, path: collection_submissions_path(@collection), text: "View Submissions (#{@collection.submissions.count})"},
+            {
+                icon: :submission, 
+                path: collection_submissions_path(@collection), 
+                text: "View Submissions (#{@collection.subtree_submissions.count})"
+            },
         )%>
         </div>
         <p class="text-gray-500 text-sm">
