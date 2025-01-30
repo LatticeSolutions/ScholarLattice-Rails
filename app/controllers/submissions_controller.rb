@@ -31,6 +31,7 @@ class SubmissionsController < ApplicationController
 
     respond_to do |format|
       if @submission.save
+        SubmissionMailer.submission_created(@submission).deliver_later
         format.html { redirect_to @submission, notice: "Submission was successfully created." }
         format.json { render :show, status: :created, location: @submission }
       else
@@ -45,6 +46,7 @@ class SubmissionsController < ApplicationController
     require_admin!(@submission) or return
     respond_to do |format|
       if @submission.update(submission_params)
+        SubmissionMailer.submission_updated(@submission).deliver_later
         format.html { redirect_to @submission, notice: "Submission was successfully updated." }
         format.json { render :show, status: :ok, location: @submission }
       else
