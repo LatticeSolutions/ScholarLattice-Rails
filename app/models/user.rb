@@ -16,6 +16,11 @@ class User < ApplicationRecord
     find_or_create_by(email: email)
   end
 
+  def admin_collections
+    return Collection.all if site_admin
+    direct_admin_collections.map(&:subtree).flatten.uniq
+  end
+
   def gravatar(kwargs = { size: 50, rating: "g", def: "identicon" })
     "//en.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=#{kwargs[:size]}&r=#{kwargs[:rating]}&d=#{kwargs[:def]}"
   end

@@ -88,7 +88,7 @@ class SubmissionsController < ApplicationController
         collection = @collection
       end
       if collection.has_admin? @current_user
-        params.expect(submission: [ :title, :abstract, :notes, :profile_id, :status ])
+        params.expect(submission: [ :title, :abstract, :notes, :profile_id, :status, :collection_id ])
       else
         params.expect(submission: [ :title, :abstract, :notes, :profile_id ])
       end

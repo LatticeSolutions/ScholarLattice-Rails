@@ -55,6 +55,12 @@
       <%= form.label :status %>
       <%= form.select :status, Submission.statuses.keys.map {|key| [key.humanize, key]}, selected: submission.status || :draft %>
     </div>
+    <% unless @collection %>
+      <div class="my-5">
+        <%= form.label :collection_id %>
+        <%= form.select :collection_id, @current_user.admin_collections.map {|c| [c.title, c.id]}, selected: submission.collection_id %>
+      </div>
+    <% end %>
   <% end %>
 
   <div class="inline">
