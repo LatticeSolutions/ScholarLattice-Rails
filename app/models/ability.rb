@@ -15,7 +15,6 @@ class Ability
     can :manage, Collection do |c|
       c.has_admin? user
     end
-    can :like, Collection
     cannot :destroy, Collection
 
     can :manage, Page do |p|

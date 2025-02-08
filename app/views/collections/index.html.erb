@@ -6,7 +6,7 @@
         <span class="px-3">Collections</span>
     </h1>
     
-    <% if @current_user and @current_user.site_admin? %>
+    <% if can? :create, Collection.new %>
         <%= render AdminBarComponent.new(icon: :oplus, path: new_collection_path, text: "New")%>
     <% end %>
     
