@@ -12,4 +12,11 @@ class Submission < ApplicationRecord
     collection.has_admin? user or
     user.site_admin
   end
+
+  def notification_emails
+    [
+      profile.email,
+      *collection.admins.map(&:user).map(&:email)
+    ].uniq
+  end
 end

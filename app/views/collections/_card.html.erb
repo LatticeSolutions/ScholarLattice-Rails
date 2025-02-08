@@ -3,5 +3,6 @@
   description: collection.description,
   link_text: "View #{collection.collection_name}",
   link_url: collection_path(collection),
-  title_icon: collection.has_admin?(user) ? :key : nil
+  title_icon: collection.has_admin?(user) ? :key : nil,
+  crumbs: [],
 ) %>
