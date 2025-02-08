@@ -39,7 +39,8 @@ class Ability
     end
     cannot :destroy, Submission
 
-    can :manage, Profile, user: user
+    can :manage, Profile, users: user
+    can :manage, Profile, email: user.email
     cannot :destroy, Profile
 
     return unless user.site_admin?
