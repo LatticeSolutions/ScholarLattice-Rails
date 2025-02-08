@@ -15,17 +15,13 @@ class Ability
     can :manage, Collection do |c|
       c.has_admin? user
     end
+    can :like, Collection
     cannot :destroy, Collection
 
     can :manage, Page do |p|
       p.collection.has_admin? user
     end
     cannot :destroy, Page
-
-    can :manage, Like, user: user
-    can :read, Like do |l|
-      l.collection.has_admin? user
-    end
 
     can :manage, Submission do |s|
       s.collection.has_admin?(user)
