@@ -34,9 +34,14 @@ class Ability
     end
     cannot :destroy, Submission
 
-    can :manage, Profile, users: user
+    can :create, Profile
+    can :manage, Profile do |p|
+      user.in? p.users
+    end
     can :manage, Profile, email: user.email
-    cannot :destroy, Profile
+    cannot :destroy, Profile do |p|
+      p.submissions.any?
+    end
 
     return unless user.site_admin?
     can :manage, :all

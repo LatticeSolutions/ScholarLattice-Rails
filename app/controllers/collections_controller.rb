@@ -18,7 +18,7 @@ class CollectionsController < ApplicationController
 
   def create
     if @collection.save
-      redirect_to @collection
+      redirect_to @collection, notice: "Collection was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -36,7 +36,7 @@ class CollectionsController < ApplicationController
   end
 
   def destroy
-    @collection.destroy
+    @collection.destroy!
     redirect_to collections_path, status: :see_other
   end
 
