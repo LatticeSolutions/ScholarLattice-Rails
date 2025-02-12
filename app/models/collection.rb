@@ -30,7 +30,7 @@ class Collection < ApplicationRecord
 
   def short_title_path
     return short_title unless parent
-    "#{parent.short_title_path} » #{short_title}"
+    "#{parent.short_title_path} / #{short_title}"
   end
 
   def subtree_submissions
