@@ -30,7 +30,7 @@
     <div class="text-gray-700 py-3">
         Emails:
         <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-            @submissions.where(status: :submitted).map{|s| s.profile.email }.join(", ")
+            @submissions.where(status: :submitted).map{|s| s.profile.email }.join("; ")
         %></textarea>
     </div>
     <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
@@ -47,7 +47,7 @@
     <div class="text-gray-700 py-3">
         Emails:
         <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-            @submissions.where(status: :accepted).map{|s| s.profile.email }.join(", ")
+            @submissions.where(status: :accepted).map{|s| s.profile.email }.join("; ")
         %></textarea>
     </div>
     <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
@@ -64,7 +64,7 @@
     <div class="text-gray-700 py-3">
         Emails:
         <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-            @submissions.where(status: :declined).map{|s| s.profile.email }.join(", ")
+            @submissions.where(status: :declined).map{|s| s.profile.email }.join("; ")
         %></textarea>
     </div>
 </section>
