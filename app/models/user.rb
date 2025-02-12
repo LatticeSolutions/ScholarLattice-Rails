@@ -12,6 +12,12 @@ class User < ApplicationRecord
   has_many :favorite_collections, through: :likes, source: :collection
   has_and_belongs_to_many :profiles
 
+  delegate :can?, :cannot?, to: :ability
+
+  def ability
+    @ability ||= Ability.new(self)
+  end
+
   def self.fetch_resource_for_passwordless(email)
     find_or_create_by(email: email)
   end

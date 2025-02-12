@@ -9,6 +9,10 @@ class Page < ApplicationRecord
     Kramdown::Document.new(content).to_html
   end
 
+  def has_admin?(user)
+    collection.present? && collection.has_admin?(user)
+  end
+
   private
 
     def enforce_single_homepage

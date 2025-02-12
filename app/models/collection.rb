@@ -5,7 +5,6 @@ class Collection < ApplicationRecord
   validate :admin_emails_validation
   has_ancestry
   has_many :admins
-  has_many :direct_admin_users, through: :admins, source: :user
   has_many :likes
   has_many :favorite_users, through: :likes, source: :user
   has_many :pages
@@ -20,8 +19,8 @@ class Collection < ApplicationRecord
   end
 
   def has_admin?(user)
-    return false if user.nil?
-    user.site_admin or admin_users.exists? user.id
+    return false unless user.present?
+    admin_users.exists? user.id
   end
 
   def collection_name

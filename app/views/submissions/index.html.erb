@@ -11,10 +11,9 @@
         <%= @collection.title %>
     </h1>
 
-<p>
-    Download all as CSV:
-    <%= link_to "Download CSV", collection_submissions_path(@collection, format: :csv), class: "text-blue-500 hover:underline" %>
-</p>
+    <div class="py-2">
+        <%= link_to "Download CSV", collection_submissions_path(@collection, format: :csv), class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+    </div>
 
     <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
         <span class="size-4 inline-block">

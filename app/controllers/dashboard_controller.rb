@@ -1,6 +1,5 @@
 class DashboardController < ApplicationController
-  before_action :require_profile!
-
   def index
+    redirect_to new_profile_path, alert: "You must create a profile." unless can? :read, :dashboard
   end
 end
