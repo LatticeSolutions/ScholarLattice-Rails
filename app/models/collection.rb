@@ -28,6 +28,11 @@ class Collection < ApplicationRecord
     parent.subcollection_name
   end
 
+  def short_title_path
+    return short_title unless parent
+    "#{parent.short_title_path} / #{short_title}"
+  end
+
   def subtree_submissions
     Submission.where(collection: subtree)
   end

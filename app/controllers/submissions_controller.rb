@@ -5,7 +5,11 @@ class SubmissionsController < ApplicationController
   # GET /submissions or /submissions.json
   def index
     require_collection_admin!
-    @submissions = @collection.submissions
+    @submissions = @collection.subtree_submissions
+    respond_to do |format|
+      format.html
+      format.csv { send_data @submissions.to_csv, filename: "submissions-#{@collection.short_title.underscore}-#{DateTime.now.strftime('%Q')}.csv" }
+    end
   end
 
   # GET /submissions/1 or /submissions/1.json
