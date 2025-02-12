@@ -8,7 +8,7 @@ class SubmissionsController < ApplicationController
     @submissions = @collection.subtree_submissions
     respond_to do |format|
       format.html
-      format.csv { send_data @submissions.to_csv, filename: "submissions-#{@collection.short_title.underscore}-#{Date.today}.csv" }
+      format.csv { send_data @submissions.to_csv, filename: "submissions-#{@collection.short_title.underscore}-#{DateTime.now.strftime('%Q')}.csv" }
     end
   end
 

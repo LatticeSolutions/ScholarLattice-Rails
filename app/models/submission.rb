@@ -21,12 +21,12 @@ class Submission < ApplicationRecord
   end
 
   def csv_row
-    [ id, profile.last_name, profile.first_name, profile.email, title, abstract, notes, status.humanize ]
+    [ id, collection.id, collection.short_title_path, profile.last_name, profile.first_name, profile.email, title, abstract, notes, status.humanize ]
   end
 
   def self.to_csv
     require "csv"
-    attributes = %w[id profile_last_name profile_first_name profile_email title abstract notes status] # customize columns here
+    attributes = %w[id collection_id collection profile_last_name profile_first_name profile_email title abstract notes status]
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
