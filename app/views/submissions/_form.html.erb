@@ -50,7 +50,7 @@
     <%= form.textarea :notes, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <% if @submission.collection.has_admin? @current_user %>
+  <% if can? :manage, @submission %>
     <div class="my-5">
       <%= form.label :status %>
       <%= form.select :status, Submission.statuses.keys.map {|key| [key.humanize, key]}, selected: submission.status || :draft %>
@@ -58,7 +58,7 @@
     <% unless @collection %>
       <div class="my-5">
         <%= form.label :collection_id %>
-        <%= form.select :collection_id, @current_user.admin_collections.map {|c| [c.title, c.id]}, selected: submission.collection_id %>
+        <%= form.select :collection_id, @current_user.admin_collections.map {|c| [c.short_title_path, c.id]}, selected: submission.collection_id %>
       </div>
     <% end %>
   <% end %>

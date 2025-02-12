@@ -27,11 +27,13 @@ class Ability
     can :manage, Submission do |s|
       s.collection.has_admin?(user)
     end
-    can :create, Submission do |s|
-      return false unless s.collection.submissions_open?
-      s.profile.in? user.profiles
+    can :new, Submission do |s|
+      s.collection.submissions_open?
     end
-    can :update, Submission do |s|
+    can :create, Submission do |s|
+      s.collection.submissions_open? and s.profile.in? user.profiles
+    end
+    can [ :read, :update ], Submission do |s|
       s.profile.in? user.profiles
     end
     cannot :destroy, Submission

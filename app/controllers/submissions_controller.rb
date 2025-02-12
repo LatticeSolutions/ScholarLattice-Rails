@@ -1,10 +1,9 @@
 class SubmissionsController < ApplicationController
-  before_action :set_submission, only: %i[ show edit update destroy ]
-  before_action :set_collection, only: %i[ new create index ]
+  load_and_authorize_resource :collection
+  load_and_authorize_resource :submission, through: :collection, shallow: true
 
   # GET /submissions or /submissions.json
   def index
-    require_collection_admin!
     @submissions = @collection.subtree_submissions
     respond_to do |format|
       format.html
@@ -18,21 +17,14 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
-    require_profile!
-    @submission = Submission.new(collection: @collection)
   end
 
   # GET /submissions/1/edit
   def edit
-    require_admin!(@submission)
   end
 
   # POST /submissions or /submissions.json
   def create
-    @submission = Submission.new(submission_params)
-    @submission.collection = @collection
-    require_admin!(@submission) or return
-
     respond_to do |format|
       if @submission.save
         SubmissionMailer.submission_created(@submission).deliver_later
@@ -47,7 +39,6 @@ class SubmissionsController < ApplicationController
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
-    require_admin!(@submission) or return
     respond_to do |format|
       if @submission.update(submission_params)
         SubmissionMailer.submission_updated(@submission).deliver_later
@@ -62,7 +53,6 @@ class SubmissionsController < ApplicationController
 
   # DELETE /submissions/1 or /submissions/1.json
   def destroy
-    require_site_admin! or return
     c = @submission.collection
     @submission.destroy!
 
@@ -73,42 +63,12 @@ class SubmissionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_submission
-      @submission = Submission.find(params.expect(:id))
-    end
-
-    def set_collection
-      @collection = Collection.find(params.expect(:collection_id))
-    end
-
     # Only allow a list of trusted parameters through.
     def submission_params
-      if params.has_key?(:id)
-        set_submission
-        collection = @submission.collection
-      else
-        set_collection
-        collection = @collection
-      end
-      if collection.has_admin? @current_user
+      if can? :manage, @submission
         params.expect(submission: [ :title, :abstract, :notes, :profile_id, :status, :collection_id ])
       else
         params.expect(submission: [ :title, :abstract, :notes, :profile_id ])
       end
-    end
-
-    def require_collection_admin!
-      require_user! or return false
-      return true if @current_user.site_admin or @collection.has_admin? @current_user
-      redirect_to collection_path(@collection), alert: "You are not authorized to access this page."
-      false
-    end
-
-    def require_admin!(submission)
-      require_user! or return false
-      return true if submission.has_admin? @current_user
-      redirect_to collection_path(submission.collection), alert: "You are not authorized to access this page."
-      false
     end
 end
