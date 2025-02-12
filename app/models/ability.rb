@@ -12,6 +12,8 @@ class Ability
 
     return unless user.present?
 
+    can :read, :dashboard if user.profiles.any?
+
     can :manage, Collection do |c|
       c.has_admin? user
     end
