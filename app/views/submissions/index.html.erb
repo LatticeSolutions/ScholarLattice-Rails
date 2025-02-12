@@ -10,6 +10,12 @@
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
         <%= @collection.title %>
     </h1>
+
+<p>
+    Download all as CSV:
+    <%= link_to "Download CSV", collection_submissions_path(@collection, format: :csv), class: "text-blue-500 hover:underline" %>
+</p>
+
     <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
         <span class="size-4 inline-block">
             <%= render IconComponent.new(:key) %>
