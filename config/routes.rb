@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root "landing#index"
 
   resources :collections do
-    resources :pages, shallow: true
+    resources :pages, shallow: true, except: :index
     resources :submissions, shallow: true
   end
   get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"

@@ -20,7 +20,7 @@ class Ability
     cannot :destroy, Collection
 
     can :manage, Page do |p|
-      p.collection.has_admin? user
+      p.has_admin? user
     end
     cannot :destroy, Page
 
