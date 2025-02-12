@@ -4,6 +4,7 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions or /submissions.json
   def index
+    authorize! :manage, @collection
     @submissions = @collection.subtree_submissions
     respond_to do |format|
       format.html
