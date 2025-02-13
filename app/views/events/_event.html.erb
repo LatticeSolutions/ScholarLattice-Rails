@@ -1,0 +1,32 @@
+<div id="<%= dom_id event %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Title:</strong>
+    <%= event.title %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Description:</strong>
+    <%= event.description %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Location:</strong>
+    <%= event.location %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Starts at:</strong>
+    <%= event.starts_at %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Ends at:</strong>
+    <%= event.ends_at %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Collection:</strong>
+    <%= event.collection.short_title_path %>
+  </p>
+
+</div>

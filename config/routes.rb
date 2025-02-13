@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :collections do
     resources :pages, shallow: true, except: :index
     resources :submissions, shallow: true
+    resources :events, shallow: true
   end
   get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"
   get "/collections/:id/like", to: "collections#like", as: "like_collection"

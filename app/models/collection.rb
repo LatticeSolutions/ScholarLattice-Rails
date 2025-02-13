@@ -9,6 +9,7 @@ class Collection < ApplicationRecord
   has_many :favorite_users, through: :likes, source: :user
   has_many :pages
   has_many :submissions
+  has_many :events
   after_save :update_admins_after_save
 
   def admin_users

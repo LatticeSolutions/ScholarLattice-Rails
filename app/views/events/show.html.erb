@@ -1,0 +1,19 @@
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto">
+
+    <%= render @event %>
+
+    <% if can? :edit, @event %>
+      <%= link_to "Edit this event", edit_event_path(@event), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <% end %>
+
+    <%= link_to "Back to events", collection_events_path(@event.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
+    <% if can? :destroy, @event %>
+      <%= link_to "Destroy this event", @event, data: {
+          turbo_method: :delete,
+          turbo_confirm: "Are you sure?"
+        }, class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <% end %>
+  </div>
+</div>
