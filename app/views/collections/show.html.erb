@@ -52,27 +52,27 @@
                 Submissions are now open.
             <% elsif @collection.submissions_close_on.blank? %>
                 <% if @collection.submissions_open? %>
-                    Submissions opened on <%= @collection.submissions_open_on %>.
+                    Submissions opened on <%= @collection.submissions_open_on.in_time_zone("Eastern Time (US & Canada)") %> (Eastern Time).
                 <% else %>
-                    Submissions will open on <%= @collection.submissions_open_on %>.
+                    Submissions will open on <%= @collection.submissions_open_on.in_time_zone("Eastern Time (US & Canada)") %> (Eastern Time).
                 <% end %>
             <% elsif @collection.submissions_open_on.blank? %>
                 <% if @collection.submissions_closed? %>
-                    Submissions closed on <%= @collection.submissions_close_on %>.
+                    Submissions closed on <%= @collection.submissions_close_on.in_time_zone("Eastern Time (US & Canada)") %> (Eastern Time).
                 <% else %>
                     Submissions are now open,
-                    and will close on <%= @collection.submissions_close_on %>.
+                    and will close on <%= @collection.submissions_close_on.in_time_zone("Eastern Time (US & Canada)") %> (Eastern Time).
                 <% end %>
             <% else %>
                 <% if @collection.submissions_open? %>
-                    Submissions opened on <%= @collection.submissions_open_on %>,
-                    and will close on <%= @collection.submissions_close_on %>.
+                    Submissions opened on <%= @collection.submissions_open_on.in_time_zone("Eastern Time (US & Canada)") %>,
+                    and will close on <%= @collection.submissions_close_on.in_time_zone("Eastern Time (US & Canada)") %> (Eastern Time).
                 <% elsif @collection.submissions_closed? %>
                     Submissions were open from <%= @collection.submissions_open_on %>
-                    until <%= @collection.submissions_close_on %>, and are now closed.
+                    until <%= @collection.submissions_close_on.in_time_zone("Eastern Time (US & Canada)") %> (Eastern Time), and are now closed.
                 <% else %>
                     Submissions will open on <%= @collection.submissions_open_on %>,
-                    and will be available until <%= @collection.submissions_close_on %>.
+                    and will be available until <%= @collection.submissions_close_on.in_time_zone("Eastern Time (US & Canada)") %> (Eastern Time).
                 <% end %>
             <% end %>
             <% if @collection.submissions_open? %>
