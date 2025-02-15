@@ -69,7 +69,7 @@ class CollectionsController < ApplicationController
 
     def collection_params
       params.require(:collection).permit(
-        :title, :short_title, :description, :parent_id, :subcollection_name, :submittable, :admin_emails
+        :title, :short_title, :description, :parent_id, :subcollection_name, :submittable, :admin_emails, :time_zone
       )
     end
 end

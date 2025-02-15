@@ -19,6 +19,16 @@ class Collection < ApplicationRecord
       .where(admins: { collection: path_ids })
   end
 
+  def inherited_time_zone
+    return time_zone if time_zone.present?
+    parent_time_zone
+  end
+
+  def parent_time_zone
+    return "UTC" unless parent
+    parent.inherited_time_zone
+  end
+
   def has_admin?(user)
     return false unless user.present?
     admin_users.exists? user.id
