@@ -15,6 +15,7 @@ class Ability
 
     can :read, :dashboard if user.profiles.any?
 
+    can [ :like, :dislike ], Collection
     can :manage, Collection do |c|
       c.has_admin? user
     end
