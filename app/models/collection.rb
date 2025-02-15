@@ -9,13 +9,25 @@ class Collection < ApplicationRecord
   has_many :favorite_users, through: :likes, source: :user
   has_many :pages
   has_many :submissions
+  has_many :events
   after_save :update_admins_after_save
+  before_save :round_down_submission_times
 
   def admin_users
     User
       .distinct
       .joins(:admins)
       .where(admins: { collection: path_ids })
+  end
+
+  def inherited_time_zone
+    return time_zone if time_zone.present?
+    parent_time_zone
+  end
+
+  def parent_time_zone
+    return "UTC" unless parent
+    parent.inherited_time_zone
   end
 
   def has_admin?(user)
@@ -99,5 +111,12 @@ class Collection < ApplicationRecord
     admins.each do |admin|
       admins.destroy(admin) unless @admin_emails.include? admin.user.email
     end
+  end
+
+  private
+
+  def round_down_submission_times
+    self.submissions_open_on = submissions_open_on.change(sec: 0) if submissions_open_on.present?
+    self.submissions_close_on = submissions_close_on.change(sec: 0) if submissions_close_on.present?
   end
 end

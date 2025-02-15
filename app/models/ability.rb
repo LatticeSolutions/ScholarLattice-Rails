@@ -9,6 +9,7 @@ class Ability
     can :read, Page, visibility: [ :public, :unlisted ]
     can :read, Profile
     can :read, Submission, status: :accepted
+    can :read, Event
 
     return unless user.present?
 
@@ -23,6 +24,10 @@ class Ability
       p.has_admin? user
     end
     cannot :destroy, Page
+
+    can :manage, Event do |e|
+      e.collection.has_admin?(user)
+    end
 
     can :manage, Submission do |s|
       s.collection.has_admin?(user)

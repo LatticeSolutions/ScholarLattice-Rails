@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_03_150659) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_15_192509) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -35,7 +35,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_03_150659) do
     t.timestamptz "submissions_open_on"
     t.timestamptz "submissions_close_on"
     t.boolean "submittable"
+    t.string "time_zone"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
+  end
+
+  create_table "events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "location"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.uuid "collection_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_events_on_collection_id"
   end
 
   create_table "likes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -111,6 +124,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_03_150659) do
     t.index "lower((email)::text)", name: "index_users_on_lowercase_email", unique: true
   end
 
+  add_foreign_key "events", "collections"
   add_foreign_key "likes", "collections"
   add_foreign_key "likes", "users"
   add_foreign_key "pages", "collections"

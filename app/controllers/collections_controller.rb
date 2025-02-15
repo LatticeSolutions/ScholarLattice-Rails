@@ -17,6 +17,7 @@ class CollectionsController < ApplicationController
   end
 
   def create
+    adjust_datetime_params
     if @collection.save
       redirect_to @collection, notice: "Collection was successfully created."
     else
@@ -28,7 +29,9 @@ class CollectionsController < ApplicationController
   end
 
   def update
-    if @collection.update(collection_params)
+    @collection.assign_attributes(collection_params)
+    adjust_datetime_params
+    if @collection.save
       redirect_to @collection
     else
       render :edit, status: :unprocessable_entity
@@ -69,7 +72,17 @@ class CollectionsController < ApplicationController
 
     def collection_params
       params.require(:collection).permit(
-        :title, :short_title, :description, :parent_id, :subcollection_name, :submittable, :admin_emails
+        :title, :short_title, :description, :parent_id, :subcollection_name,
+        :submittable, :admin_emails, :time_zone, :submissions_open_on, :submissions_close_on
       )
+    end
+
+    def adjust_datetime_params
+      if @collection.submissions_open_on.present? && @collection.submissions_open_on_changed?
+        @collection.submissions_open_on = @collection.submissions_open_on.asctime.in_time_zone(@collection.inherited_time_zone)
+      end
+      if @collection.submissions_close_on.present? && @collection.submissions_close_on_changed?
+        @collection.submissions_close_on = @collection.submissions_close_on.asctime.in_time_zone(@collection.inherited_time_zone)
+      end
     end
 end
