@@ -29,13 +29,6 @@
     <% end %>
   </div>
   <div class="mb-3">
-    <%= form.label :submittable, class: "block text-xs font-medium text-gray-700" %>
-    <%= form.check_box :submittable, class: "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-    <% collection.errors.full_messages_for(:subcollection_name).each do |message| %>
-      <div class="text-red-800"><%= message %></div>
-    <% end %>
-  </div>
-  <div class="mb-3">
     <%= form.label :admin_emails, class: "block text-xs font-medium text-gray-700" do %>
       Admin emails
       <span class="text-gray-400">(comma-separated)</span>
@@ -49,6 +42,32 @@
     <%= form.label :time_zone, class: "block text-xs font-medium text-gray-700" %>
     <%= form.select :time_zone, [["Use default time zone (#{collection.parent_time_zone})", nil]] + ActiveSupport::TimeZone.all.map { |tz| ["#{tz.name} (UTC #{tz.formatted_offset})", tz.name] }, {}, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
     <% collection.errors.full_messages_for(:time_zone).each do |message| %>
+      <div class="text-red-800"><%= message %></div>
+    <% end %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :submittable, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.check_box :submittable, class: "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm" %>
+    <% collection.errors.full_messages_for(:subcollection_name).each do |message| %>
+      <div class="text-red-800"><%= message %></div>
+    <% end %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :submissions_open_on, class: "block text-xs font-medium text-gray-700" %>
+    <% Time.use_zone(collection.inherited_time_zone) do %>
+      <%= form.datetime_field :submissions_open_on, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %> 
+    <% end %>
+    <% collection.errors.full_messages_for(:submissions_open_on).each do |message| %>
+      <div class="text-red-800"><%= message %></div>
+    <% end %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :submissions_close_on, class: "block text-xs font-medium text-gray-700" %>
+    <% Time.use_zone(collection.inherited_time_zone) do %>
+
+      <%= form.datetime_field :submissions_close_on, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %> 
+    <% end %>
+    <% collection.errors.full_messages_for(:submissions_close_on).each do |message| %>
       <div class="text-red-800"><%= message %></div>
     <% end %>
   </div>
