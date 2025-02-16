@@ -1,0 +1,20 @@
+<% unless local_assigns[:action] %>
+  <%= render BreadcrumbsComponent.new(
+    { icon: :collection, link: collections_path },
+    *collection.ancestors.map do |c|
+      { link: collection_path(c), text: c.short_title }
+    end,
+    { link: collection_path(collection), text: collection.short_title },
+    { text: "Events", icon: :calendar },
+  ) %>
+<% else %>
+  <%= render BreadcrumbsComponent.new(
+    { icon: :collection, link: collections_path },
+    *collection.ancestors.map do |c|
+      { link: collection_path(c), text: c.short_title }
+    end,
+    { link: collection_path(collection), text: collection.short_title },
+    { link: collection_events_path(collection), text: "Events", icon: :calendar },
+    { text: action }
+  ) %>
+<% end %>
