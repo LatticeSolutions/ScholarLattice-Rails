@@ -22,7 +22,7 @@
       <%= date.strftime("%b %d") %>
       <% events.each do |event| %>
         <div>
-          <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+            <%= link_to "#{event.starts_at.strftime('%I:%M%p')}: #{event.title}", event, class: "text-blue-600 hover:underline" %>
         </div>
       <% end %>
     <% end %>
