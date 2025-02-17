@@ -1,4 +1,7 @@
 <div class="mx-auto md:w-2/3 w-full flex">
+
+  <%= render partial: "breadcrumb", locals: { collection: @event.collection, action: "Show" } %>
+
   <div class="mx-auto">
 
     <%= render @event %>

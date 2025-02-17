@@ -1,20 +1,42 @@
 <div class="w-full">
 
+  <%= render partial: "breadcrumb", locals: { collection: @collection } %>
+
   <% content_for :title, "Events" %>
 
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Events</h1>
+  <div class="mt-2 flex justify-between items-center">
+    <h1 class="font-bold text-4xl">
+      <span class="size-8 inline-block mr-1">
+        <%= render IconComponent.new(:calendar) %>
+      </span>
+      <span>
+        Events
+      </span>
+    </h1>
     <% if can? :create, Event %>
       <%= link_to "New event", new_collection_event_path(@collection), class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
     <% end %>
   </div>
-
   <div id="events" class="min-w-full">
-    <% @events.each do |event| %>
-      <%= render event %>
-      <p>
-        <%= link_to "Show this event", event, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
+    <%= month_calendar(events: @events, attribute: :starts_at) do |date, events| %>
+      <%= date.strftime("%b %d") %>
+      <% events.each do |event| %>
+        <div>
+            <%= link_to "#{event.starts_at.strftime('%I:%M%p')}: #{event.title}", event, class: "text-blue-600 hover:underline" %>
+        </div>
+      <% end %>
+    <% end %>
+    <% if @unscheduled_events.any? %>
+      <div>
+        <h2 class="font-bold text-2xl">Unscheduled Events</h2>
+        <ul class="list-disc pl-5">
+          <% @unscheduled_events.each do |event| %>
+            <li class="mb-2">
+              <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
   </div>
 </div>

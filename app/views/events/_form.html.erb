@@ -25,21 +25,27 @@
     <%= form.label :location %>
     <%= form.text_field :location, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
   </div>
+  <div class="mb-3">
+    <%= form.label :starts_at, class: "block text-xs font-medium text-gray-700" %>
+    <% Time.use_zone(@event.collection.inherited_time_zone) do %>
+      <%= form.datetime_field :starts_at, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %> 
+    <% end %>
+    <% @event.collection.errors.full_messages_for(:starts_at).each do |message| %>
+      <div class="text-red-800"><%= message %></div>
+    <% end %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :ends_at, class: "block text-xs font-medium text-gray-700" %>
+    <% Time.use_zone(@event.collection.inherited_time_zone) do %>
 
-  <div class="my-5">
-    <%= form.label :starts_at %>
-    <%= form.datetime_field :starts_at, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      <%= form.datetime_field :ends_at, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %> 
+    <% end %>
+    <% @event.collection.errors.full_messages_for(:ends_at).each do |message| %>
+      <div class="text-red-800"><%= message %></div>
+    <% end %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :ends_at %>
-    <%= form.datetime_field :ends_at, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :collection_id %>
-    <%= form.text_field :collection_id, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-  </div>
+  <%= form.hidden_field :collection_id %>
 
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>

@@ -1,0 +1,33 @@
+<div class="simple-calendar">
+  <div class="calendar-heading flex justify-between items-center mb-4">
+    <span class="calendar-title text-xl font-bold"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></span>
+
+    <nav class="flex space-x-4">
+      <%= link_to t('simple_calendar.previous', default: 'Previous'), calendar.url_for_previous_view, class: "text-blue-500 hover:text-blue-700" %>
+      <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view, class: "text-blue-500 hover:text-blue-700" %>
+      <%= link_to t('simple_calendar.next', default: 'Next'), calendar.url_for_next_view, class: "text-blue-500 hover:text-blue-700" %>
+    </nav>
+  </div>
+
+  <table class="w-full border-collapse table-fixed">
+    <thead>
+      <tr class="bg-gray-200">
+        <% date_range.slice(0, 7).each do |day| %>
+          <th class="py-2 px-4 text-center w-1/7"><%= t('date.abbr_day_names')[day.wday] %></th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% date_range.each_slice(7) do |week| %>
+        <%= content_tag :tr, class: "border-t border-l min-h-12" do %>
+          <% week.each do |day| %>
+            <%= content_tag :td, class: "py-1 px-2 text-left border-r border-b align-top" do %>
+              <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

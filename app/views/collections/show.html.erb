@@ -7,6 +7,7 @@
             {icon: :edit, path: edit_collection_path, text: "Edit"},
             {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
             {icon: :collection, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
+            {icon: :calendar, path: new_collection_event_path(@collection), text: "New Event"},
             {
                 icon: :submission, 
                 path: collection_submissions_path(@collection), 
@@ -41,6 +42,17 @@
                 </span>
                 <span class="hidden md:inline">
                     Add Favorite
+                </span>
+            <% end %>
+        <% end %>
+        <% if @collection.all_events.any? %>
+            <%= link_to collection_events_path(@collection), 
+                class: "inline-flex items-center gap-2 rounded-md bg-green-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-400" do %>
+                <span class="size-4">
+                    <%= render IconComponent.new(:calendar) %>
+                </span>
+                <span>
+                    Events
                 </span>
             <% end %>
         <% end %>

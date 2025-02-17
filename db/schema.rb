@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_15_192509) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_16_225531) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -48,7 +48,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_15_192509) do
     t.uuid "collection_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ancestry", default: "/", null: false, collation: "C"
+    t.uuid "submission_id"
+    t.index ["ancestry"], name: "index_events_on_ancestry"
     t.index ["collection_id"], name: "index_events_on_collection_id"
+    t.index ["submission_id"], name: "index_events_on_submission_id"
   end
 
   create_table "likes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -125,6 +129,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_15_192509) do
   end
 
   add_foreign_key "events", "collections"
+  add_foreign_key "events", "submissions"
   add_foreign_key "likes", "collections"
   add_foreign_key "likes", "users"
   add_foreign_key "pages", "collections"
