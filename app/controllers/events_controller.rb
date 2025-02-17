@@ -28,6 +28,13 @@ class EventsController < ApplicationController
   def edit
   end
 
+  # GET /events/1/copy
+  def copy
+    @event = @event.dup
+    @collection = @event.collection
+    render :new
+  end
+
   # POST /events or /events.json
   def create
     adjust_datetime_params
