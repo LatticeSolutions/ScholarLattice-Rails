@@ -17,10 +17,9 @@
       <%= link_to "New event", new_collection_event_path(@collection), class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
     <% end %>
   </div>
-
   <div id="events" class="min-w-full">
     <%= month_calendar(events: @events, attribute: :starts_at) do |date, events| %>
-      <%= date %>
+      <%= date.strftime("%b %d") %>
       <% events.each do |event| %>
         <div>
           <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>

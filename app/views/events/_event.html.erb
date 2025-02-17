@@ -16,12 +16,12 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Starts at:</strong>
-    <%= event.starts_at %>
+    <%= event.starts_at.present? ? event.starts_at.in_time_zone(event.collection.inherited_time_zone).strftime("%Y-%m-%d %I:%M%p") : "" %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Ends at:</strong>
-    <%= event.ends_at %>
+    <%= event.ends_at.present? ? event.ends_at.in_time_zone(event.collection.inherited_time_zone).strftime("%Y-%m-%d %I:%M%p") : "" %>
   </p>
 
   <p class="my-5">

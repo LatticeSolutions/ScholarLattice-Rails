@@ -44,7 +44,6 @@ class CollectionsController < ApplicationController
   end
 
   def like
-    can? :like, @collection
     likes = Like.where collection: @collection, user: @current_user
     if likes.empty?
       Like.create! collection: @collection, user: @current_user
@@ -56,7 +55,6 @@ class CollectionsController < ApplicationController
   end
 
   def dislike
-    can? :like, @collection
     likes = Like.where collection: @collection, user: @current_user
     if likes.empty?
       flash.notice = "#{@collection.short_title} isn't a favorite."

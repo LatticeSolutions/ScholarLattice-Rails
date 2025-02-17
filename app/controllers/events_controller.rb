@@ -4,9 +4,10 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    start_date = params.fetch(:start_date, Date.today).to_date
+    params[:start_date] = params.fetch(:start_date, (@collection.events.minimum(:starts_at) or Date.today)).to_date
     @events = @collection.events.where(
-      starts_at: start_date.beginning_of_month.beginning_of_week..start_date.beginning_of_month.end_of_week)
+      starts_at: params[:start_date].beginning_of_month..params[:start_date].end_of_month
+    )
     @unscheduled_events = @collection.events.where(starts_at: nil)
   end
 
@@ -24,6 +25,7 @@ class EventsController < ApplicationController
 
   # POST /events or /events.json
   def create
+    adjust_datetime_params
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: "Event was successfully created." }
@@ -37,8 +39,10 @@ class EventsController < ApplicationController
 
   # PATCH/PUT /events/1 or /events/1.json
   def update
+    @event.assign_attributes(event_params)
+    adjust_datetime_params
     respond_to do |format|
-      if @event.update(event_params)
+      if @event.save
         format.html { redirect_to @event, notice: "Event was successfully updated." }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -64,5 +68,14 @@ class EventsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def event_params
       params.expect(event: [ :title, :description, :location, :starts_at, :ends_at, :collection_id ])
+    end
+
+    def adjust_datetime_params
+      if @event.starts_at.present? && @event.starts_at_changed?
+        @event.starts_at = @event.starts_at.asctime.in_time_zone(@event.collection.inherited_time_zone)
+      end
+      if @event.ends_at.present? && @event.ends_at_changed?
+        @event.ends_at = @event.ends_at.asctime.in_time_zone(@event.collection.inherited_time_zone)
+      end
     end
 end
