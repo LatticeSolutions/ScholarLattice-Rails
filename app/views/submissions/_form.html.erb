@@ -53,12 +53,17 @@
   <% if can? :manage, @submission %>
     <div class="my-5">
       <%= form.label :status %>
-      <%= form.select :status, Submission.statuses.keys.map {|key| [key.humanize, key]}, selected: submission.status || :draft %>
+      <%= form.select :status, Submission.statuses.keys.map {|key| [key.humanize, key]},
+        {selected: submission.status || :draft},
+        {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
     </div>
     <% unless @collection %>
       <div class="my-5">
         <%= form.label :collection_id %>
-        <%= form.select :collection_id, @current_user.admin_collections.map {|c| [c.short_title_path, c.id]}, selected: submission.collection_id %>
+        <%= form.select :collection_id, 
+          @current_user.admin_collections.map {|c| [c.short_title_path, c.id]},
+          {selected: submission.collection_id},
+          {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
       </div>
     <% end %>
   <% end %>
