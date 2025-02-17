@@ -8,10 +8,10 @@ class EventsController < ApplicationController
     params[:start_date] = params.fetch(:start_date, (@collection.events.minimum(:starts_at) || Date.today)).to_date.in_time_zone(@collection.inherited_time_zone)
     month_starts_at = params[:start_date].beginning_of_month
     month_ends_at = params[:start_date].end_of_month
-    @events = @collection.self_and_descendants.joins(:events).where(
-      events: { starts_at: month_starts_at..month_ends_at }
-    ).distinct
-    @unscheduled_events = @collection.self_and_descendants.joins(:events).where(events: { starts_at: nil }).distinct
+    @events = @collection.events.where(
+      starts_at: month_starts_at..month_ends_at
+    )
+    @unscheduled_events = @collection.events.where(starts_at: nil)
   end
 
   # GET /events/1 or /events/1.json
