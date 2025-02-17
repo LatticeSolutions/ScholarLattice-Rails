@@ -1,32 +1,27 @@
 <div id="<%= dom_id event %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Title:</strong>
-    <%= event.title %>
-  </p>
+    <h1 class="text-xl font-bold text-gray-900 md:text-2xl pt-2">
+        <%= event.collection.title %>
+    </h1>
+    <h2 class="text-2xl font-bold text-gray-900 md:text-3xl pt-1">
+        <%= event.title %>
+    </h2>
+    <% if event.location.present? %>
+      <h3 class="text-lg font-bold text-gray-900 md:text-xl pt-1">
+          <%= event.location %>
+      </h3>
+    <% end %>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Description:</strong>
-    <%= event.description %>
-  </p>
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Starts at:</strong>
+      <%= event.starts_at.present? ? event.starts_at.in_time_zone(event.collection.inherited_time_zone).strftime("%Y-%m-%d %I:%M%p") : "" %>
+    </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Location:</strong>
-    <%= event.location %>
-  </p>
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Ends at:</strong>
+      <%= event.ends_at.present? ? event.ends_at.in_time_zone(event.collection.inherited_time_zone).strftime("%Y-%m-%d %I:%M%p") : "" %>
+    </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Starts at:</strong>
-    <%= event.starts_at.present? ? event.starts_at.in_time_zone(event.collection.inherited_time_zone).strftime("%Y-%m-%d %I:%M%p") : "" %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Ends at:</strong>
-    <%= event.ends_at.present? ? event.ends_at.in_time_zone(event.collection.inherited_time_zone).strftime("%Y-%m-%d %I:%M%p") : "" %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Collection:</strong>
-    <%= event.collection.short_title_path %>
-  </p>
-
+    <div class="mathjax my-5 mx-auto prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+        <%= sanitize event.description_html %>
+    </div>
 </div>
