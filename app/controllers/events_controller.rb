@@ -1,14 +1,17 @@
 class EventsController < ApplicationController
   load_and_authorize_resource :collection
   load_and_authorize_resource :event, through: :collection, shallow: true
+  before_action :set_time_zone
 
   # GET /events or /events.json
   def index
-    params[:start_date] = params.fetch(:start_date, (@collection.events.minimum(:starts_at) or Date.today)).to_date
-    @events = @collection.events.where(
-      starts_at: params[:start_date].beginning_of_month..params[:start_date].end_of_month
-    )
-    @unscheduled_events = @collection.events.where(starts_at: nil)
+    params[:start_date] = params.fetch(:start_date, (@collection.events.minimum(:starts_at) || Date.today)).to_date.in_time_zone(@collection.inherited_time_zone)
+    month_starts_at = params[:start_date].beginning_of_month
+    month_ends_at = params[:start_date].end_of_month
+    @events = @collection.self_and_descendants.joins(:events).where(
+      events: { starts_at: month_starts_at..month_ends_at }
+    ).distinct
+    @unscheduled_events = @collection.self_and_descendants.joins(:events).where(events: { starts_at: nil }).distinct
   end
 
   # GET /events/1 or /events/1.json
@@ -77,5 +80,9 @@ class EventsController < ApplicationController
       if @event.ends_at.present? && @event.ends_at_changed?
         @event.ends_at = @event.ends_at.asctime.in_time_zone(@event.collection.inherited_time_zone)
       end
+    end
+
+    def set_time_zone
+      Time.zone = @event.present? ? @event.collection.inherited_time_zone : @collection.inherited_time_zone
     end
 end
