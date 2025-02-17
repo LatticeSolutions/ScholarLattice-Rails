@@ -5,7 +5,7 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    params[:start_date] = params.fetch(:start_date, (@collection.events.minimum(:starts_at) || Date.today)).to_date.in_time_zone(@collection.inherited_time_zone)
+    params[:start_date] = params.fetch(:start_date, (@collection.all_events.minimum(:starts_at) || Date.today)).to_date.in_time_zone(@collection.inherited_time_zone)
     month_starts_at = params[:start_date].beginning_of_month
     month_ends_at = params[:start_date].end_of_month
     @events = @collection.all_events.where(
