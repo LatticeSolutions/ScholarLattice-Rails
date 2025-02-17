@@ -19,11 +19,25 @@
   </div>
 
   <div id="events" class="min-w-full">
-    <% @events.each do |event| %>
-      <%= render event %>
-      <p>
-        <%= link_to "Show this event", event, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
+    <%= month_calendar(events: @events, attribute: :starts_at) do |date, events| %>
+      <%= date %>
+      <% events.each do |event| %>
+        <div>
+          <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+        </div>
+      <% end %>
+    <% end %>
+    <% if @unscheduled_events.any? %>
+      <div>
+        <h2 class="font-bold text-2xl">Unscheduled Events</h2>
+        <ul class="list-disc pl-5">
+          <% @unscheduled_events.each do |event| %>
+            <li class="mb-2">
+              <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
   </div>
 </div>

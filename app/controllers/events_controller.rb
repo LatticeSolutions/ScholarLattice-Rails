@@ -4,7 +4,10 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = @collection.events
+    start_date = params.fetch(:start_date, Date.today).to_date
+    @events = @collection.events.where(
+      starts_at: start_date.beginning_of_month.beginning_of_week..start_date.beginning_of_month.end_of_week)
+    @unscheduled_events = @collection.events.where(starts_at: nil)
   end
 
   # GET /events/1 or /events/1.json
