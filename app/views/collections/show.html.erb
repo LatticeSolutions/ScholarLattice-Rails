@@ -45,7 +45,7 @@
                 </span>
             <% end %>
         <% end %>
-        <% if @collection.events.any? %>
+        <% if @collection.all_events.any? %>
             <%= link_to collection_events_path(@collection), 
                 class: "inline-flex items-center gap-2 rounded-md bg-green-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-400" do %>
                 <span class="size-4">

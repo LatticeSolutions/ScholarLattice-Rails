@@ -87,6 +87,10 @@ class Collection < ApplicationRecord
     @admin_emails = email_string
   end
 
+  def all_events
+    Event.where(collection: subtree)
+  end
+
   def admin_emails_validation
     return unless @admin_emails
     valid_email_regex = URI::MailTo::EMAIL_REGEXP
