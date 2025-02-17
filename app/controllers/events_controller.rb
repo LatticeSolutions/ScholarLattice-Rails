@@ -12,7 +12,10 @@ class EventsController < ApplicationController
       collection: @collection.subtree,
       starts_at: month_starts_at..month_ends_at
     )
-    @unscheduled_events = Event.where(collection: @collection.subtree, starts_at: nil)
+    @unscheduled_events = Event.where(
+      collection: @collection.subtree,
+      starts_at: nil
+    )
   end
 
   # GET /events/1 or /events/1.json
