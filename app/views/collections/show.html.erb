@@ -102,7 +102,7 @@
             <%= render BarComponent.new(
                 @collection.subcollection_name.pluralize,
                 :collection,
-                @collection.children.map{|c| {text: c.title, path: collection_path(c), color: "sky-800"}},
+                @collection.children.map{|c| {text: c.short_title, path: collection_path(c), color: "sky-800"}},
             )  %>
         </div>
     <% end %>
