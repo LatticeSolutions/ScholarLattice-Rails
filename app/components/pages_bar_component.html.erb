@@ -1,18 +1,1 @@
-<div class="inline-flex flex-wrap rounded-lg border border-gray-100 bg-gray-100 p-1">
-    <span
-        class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-gray-500"
-    >
-        <span class="size-4">
-            <%= render IconComponent.new(:page) %>
-        </span>
-        <% if @public %>
-            <span class="hidden sm:inline">Pages:</span>
-        <% else %>
-            <span class="hidden sm:inline">Non-public pages:</span>
-        <% end %>
-    </span>
-
-    <% @pages.each do |page| %>
-        <%= link_to(page.title, page, class: "inline-flex items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 text-sm text-blue-500 shadow-sm focus:relative") %>
-    <% end %>
-</div>
+<%= render BarComponent.new("Pages", :page, @pages.map{|p| {text: p.title, path: page_path(p)}})  %>
