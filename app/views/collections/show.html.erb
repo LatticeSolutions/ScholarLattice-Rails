@@ -97,6 +97,16 @@
         <%= @collection.description %>
     </p>
 
+    <% unless @collection.children.empty? %>
+        <div class="pt-4">
+            <%= render BarComponent.new(
+                @collection.subcollection_name.pluralize,
+                :collection,
+                @collection.children.map{|c| {text: c.title, path: collection_path(c), color: "sky-800"}},
+            )  %>
+        </div>
+    <% end %>
+
     <% unless @collection.public_pages.empty? %>
         <div class="pt-4">
             <%= render PagesBarComponent.new(@collection.public_pages)  %>
