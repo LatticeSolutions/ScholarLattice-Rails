@@ -1,14 +1,11 @@
 class Event < ApplicationRecord
   has_ancestry
   belongs_to :collection
+  belongs_to :submission, optional: true
 
   validate :starts_at_within_ancestor_range
   validate :ends_at_within_ancestor_range
   validates :title, presence: true
-
-  def description_html
-    Kramdown::Document.new(description).to_html
-  end
 
   private
 
