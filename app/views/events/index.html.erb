@@ -17,6 +17,9 @@
       <%= link_to "New event", new_collection_event_path(@collection), class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
     <% end %>
   </div>
+  <p>
+    All times <%= @collection.inherited_time_zone %>
+  </p>
   
   <% if @collection.parent.present? %>
     <div class="mt-4">
@@ -26,23 +29,32 @@
 
   <%= render partial: "calendar", locals: { events: @scheduled_events, unscheduled_events: @unscheduled_events } %>
 
+  <div class="mx-auto md:w-2/3 border p-4 rounded-lg mt-4">
   <% if @scheduled_events.present? %>
     <div>
-      <h2 class="font-bold text-2xl md:text-4xl mt-3">Agenda</h2>
-      <ul class="list-disc pl-5 mt-2">
-      <% @scheduled_events.sort_by { |event| event.starts_at }.each do |e| %>
-        <li class="mb-2">
-          <%= e.starts_at.strftime("%B %d, %Y %H:%M") %>: 
+      <h2 class="font-bold text-2xl md:text-4xl mt-3">
+        <%= @collection.title %> Schedule
+      </h2>
+      <p>
+        All times <%= @collection.inherited_time_zone %>
+      </p>
+      <% @scheduled_events.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
+        <h3 class="font-bold text-xl mt-3"><%= day %></h3>
+        <ul class="list-disc pl-5 mt-2">
+          <% events.sort_by { |event| event.starts_at }.each do |e| %>
+            <li class="mb-2">
+            <%= e.starts_at.strftime("%I:%M %p") %>: 
           <%= link_to e.title, e, class: "text-blue-600 hover:underline" %>
-        </li>
+            </li>
+          <% end %>
+        </ul>
       <% end %>
-      </ul>
     </div>
   <% end %>
 
   <% if @unscheduled_events.present? %>
     <div>
-      <h2 class="font-bold text-2xl mt-3">Unscheduled Events</h2>
+      <h2 class="font-bold text-2xl my-3">Unscheduled Events</h2>
       <ul class="list-disc pl-5">
         <% @unscheduled_events.each do |event| %>
           <li class="mb-2">
@@ -52,4 +64,5 @@
       </ul>
     </div>
   <% end %>
+  </div>
 </div>
