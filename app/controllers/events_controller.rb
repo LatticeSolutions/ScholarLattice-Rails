@@ -47,6 +47,9 @@ class EventsController < ApplicationController
 
   # POST /events or /events.json
   def create
+    @event.assign_attributes(event_params)
+    # reauthorize in case collection changes
+    authorize! :create, @event
     adjust_datetime_params
     respond_to do |format|
       if @event.save
