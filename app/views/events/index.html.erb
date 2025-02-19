@@ -41,10 +41,16 @@
       <% @scheduled_events.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
         <h3 class="font-bold text-xl mt-3"><%= day %></h3>
         <ul class="list-disc pl-5 mt-2">
-          <% events.sort_by { |event| event.starts_at }.each do |e| %>
+          <% events.sort_by { |e| e.starts_at }.each do |event| %>
             <li class="mb-2">
-            <%= e.starts_at.strftime("%I:%M %p") %>: 
-          <%= link_to e.title, e, class: "text-blue-600 hover:underline" %>
+              <%= event.starts_at.strftime("%I:%M %p") %>: 
+              <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+              <% if event.submission.present? %>
+                <br>
+                <span class="italic"><%= event.submission.title %></span>
+                &mdash;
+                <%= event.submission.profile.name %>
+              <% end %>
             </li>
           <% end %>
         </ul>
