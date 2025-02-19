@@ -10,7 +10,7 @@
         <%= render IconComponent.new(:calendar) %>
       </span>
       <span>
-        Events
+        Calendar
       </span>
     </h1>
     <% if can? :create, Event %>
@@ -24,5 +24,32 @@
     </div>
   <% end %>
 
-  <%= render partial: "calendar", locals: { events: @events, unscheduled_events: @unscheduled_events } %>
+  <%= render partial: "calendar", locals: { events: @scheduled_events, unscheduled_events: @unscheduled_events } %>
+
+  <% if @scheduled_events.present? %>
+    <div>
+      <h2 class="font-bold text-2xl md:text-4xl mt-3">Agenda</h2>
+      <ul class="list-disc pl-5 mt-2">
+      <% @scheduled_events.sort_by { |event| event.starts_at }.each do |e| %>
+        <li class="mb-2">
+          <%= e.starts_at.strftime("%B %d, %Y %H:%M") %>: 
+          <%= link_to e.title, e, class: "text-blue-600 hover:underline" %>
+        </li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if @unscheduled_events.present? %>
+    <div>
+      <h2 class="font-bold text-2xl mt-3">Unscheduled Events</h2>
+      <ul class="list-disc pl-5">
+        <% @unscheduled_events.each do |event| %>
+          <li class="mb-2">
+            <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 </div>
