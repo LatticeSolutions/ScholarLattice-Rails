@@ -10,13 +10,16 @@
         <%= render IconComponent.new(:calendar) %>
       </span>
       <span>
-        Events
+        Calendar
       </span>
     </h1>
     <% if can? :create, Event %>
       <%= link_to "New event", new_collection_event_path(@collection), class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
     <% end %>
   </div>
+  <p>
+    All times <%= Time.zone %>
+  </p>
   
   <% if @collection.parent.present? %>
     <div class="mt-4">
@@ -24,5 +27,35 @@
     </div>
   <% end %>
 
-  <%= render partial: "calendar", locals: { events: @events, unscheduled_events: @unscheduled_events } %>
+  <%= render partial: "calendar", locals: { events: @scheduled_events, unscheduled_events: @unscheduled_events } %>
+
+  <div class="mx-auto md:w-2/3 border p-4 rounded-lg mt-4">
+  <% if @scheduled_events.present? %>
+    <div>
+      <h2 class="font-bold text-2xl md:text-4xl mt-3">
+        <%= @collection.title %> Schedule
+      </h2>
+      <p>
+        All times <%= Time.zone %>
+      </p>
+      <% @scheduled_events.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
+        <h3 class="font-bold text-xl mt-3"><%= day %></h3>
+        <%= render partial: "events_list", locals: { events: events } %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @unscheduled_events.present? %>
+    <div>
+      <h2 class="font-bold text-2xl my-3">Unscheduled Events</h2>
+      <ul class="list-disc pl-5">
+        <% @unscheduled_events.each do |event| %>
+          <li class="mb-2">
+            <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  </div>
 </div>
