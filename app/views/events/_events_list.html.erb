@@ -1,0 +1,18 @@
+<ul class="list-disc pl-5 mt-2">
+    <% events.sort_by { |e| e.starts_at }.each do |event| %>
+    <li class="mb-2">
+        <%= event.starts_at.strftime("%I:%M %p") %>: 
+        <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+        <% if event.submission.present? %>
+        <br>
+        <span class="italic"><%= event.submission.title %></span>
+        &mdash;
+        <%= event.submission.profile.name %>
+        <% end %>
+        <% if event.children.present? %>
+            <%= render partial: "events_list", locals: { events: event.children } %>
+        </ul>
+        <% end %>
+    </li>
+    <% end %>
+</ul>
