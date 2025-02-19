@@ -5,19 +5,28 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    params[:start_date] = params.fetch(:start_date, (@collection.all_events.minimum(:starts_at) || Date.today)).to_date.in_time_zone(@collection.inherited_time_zone)
+    params[:start_date] = params.fetch(:start_date, (@collection.all_scheduled_events.minimum(:starts_at) || Date.today)).to_date.in_time_zone(@collection.inherited_time_zone)
     month_starts_at = params[:start_date].beginning_of_month
     month_ends_at = params[:start_date].end_of_month
     @events = @collection.all_events.where(
       starts_at: month_starts_at..month_ends_at
     )
-    @unscheduled_events = @collection.all_events.where(
-      starts_at: nil
-    )
+    @unscheduled_events = @collection.all_unscheduled_events
   end
 
   # GET /events/1 or /events/1.json
   def show
+    params[:start_date] = params.fetch(
+      :start_date,
+      (@event.children.where.not(starts_at: nil).minimum(:starts_at) ||
+      Date.today)
+    ).to_date.in_time_zone(@event.collection.inherited_time_zone)
+    month_starts_at = params[:start_date].beginning_of_month
+    month_ends_at = params[:start_date].end_of_month
+    @subevents = @event.children.where(
+      starts_at: month_starts_at..month_ends_at
+    )
+    @unscheduled_subevents = @event.children.where(starts_at: nil)
   end
 
   # GET /events/new
@@ -79,7 +88,7 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.expect(event: [ :title, :description, :location, :starts_at, :ends_at, :collection_id ])
+      params.expect(event: [ :title, :description, :location, :starts_at, :ends_at, :collection_id, :parent_id ])
     end
 
     def adjust_datetime_params
