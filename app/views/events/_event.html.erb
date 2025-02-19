@@ -32,6 +32,9 @@
     <% if event.submission.present? %>
       <div class="border p-4 mx-auto md:w-3/4 rounded-lg">
         <%= render event.submission %>
+        <% if can? :manage, event %>
+          <%= link_to "Edit Submission", edit_submission_path(event.submission), class: "text-blue-600 hover:text-blue-500 hover:underline" %>
+        <% end %>
       </div>
     <% end %>
 </div>
