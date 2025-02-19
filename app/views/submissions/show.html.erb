@@ -23,7 +23,6 @@
     <strong class="block font-medium mb-1">Event:</strong>
     <%= link_to(@submission.event.title, @submission.event, class: "text-blue-500 hover:underline") if @submission.event.present? %>
   </p>
-  </p>
 
     <% if can? :update, @submission %>
       <%= link_to "Edit this submission", edit_submission_path(@submission), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
