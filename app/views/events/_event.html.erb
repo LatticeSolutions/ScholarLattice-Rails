@@ -30,6 +30,8 @@
     </p>
 
     <% if event.submission.present? %>
-      <%= render event.submission %>
+      <div class="border p-4 mx-auto md:w-3/4">
+        <%= render event.submission %>
+      </div>
     <% end %>
 </div>
