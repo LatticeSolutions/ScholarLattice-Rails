@@ -1,7 +1,9 @@
 <ul class="list-disc pl-5 mt-2">
     <% events.sort_by { |e| e.starts_at }.each do |event| %>
     <li class="mb-2">
-        <%= event.starts_at.strftime("%I:%M %p") %>: 
+        <% unless event.same_times_as_parent? %>
+            <%= event.starts_at.strftime("%I:%M %p") %>:
+        <% end %>
         <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
         <% if event.submission.present? %>
         <br>

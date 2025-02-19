@@ -58,7 +58,7 @@
     <%= form.select :parent_id, 
       [["(None)", nil]] +
         Event.where(collection_id: @event.collection.path_ids)
-        .map {|e| ["#{e.collection.short_title_path}: #{e.title}", e.id]},
+        .map {|e| ["#{e.collection.short_title_path}: #{e.title} (Starts: #{e.starts_at&.strftime('%Y-%m-%d %I:%M %p')}) (Ends: #{e.ends_at&.strftime('%Y-%m-%d %I:%M %p')})", e.id]},
       {selected: event.parent_id},
       {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
   </div>
