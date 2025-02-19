@@ -5,13 +5,12 @@
         <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
         <% if event.submission.present? %>
         <br>
-        <span class="italic"><%= event.submission.title %></span>
+        <span class="italic mathjax"><%= event.submission.title %></span>
         &mdash;
         <%= event.submission.profile.name %>
         <% end %>
         <% if event.children.present? %>
             <%= render partial: "events_list", locals: { events: event.children } %>
-        </ul>
         <% end %>
     </li>
     <% end %>
