@@ -1,3 +1,5 @@
+<% content_for :title, "#{@page.title} | #{@page.collection.title}" %>
+  
 <div class="mx-auto md:w-2/3 w-full">
   <%= render "breadcrumb", page: @page %>
   <% if can? :manage, @page %>

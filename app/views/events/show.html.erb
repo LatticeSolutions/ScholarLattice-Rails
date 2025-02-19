@@ -1,3 +1,5 @@
+<% content_for :title, "#{@event.title} | #{@event.collection.title}" %>
+
 <section class="mx-auto md:w-3/4 w-full">
 
   <%= render partial: "breadcrumb", locals: { collection: @event.collection, action: "Details" } %>
