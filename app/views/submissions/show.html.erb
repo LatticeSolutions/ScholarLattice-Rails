@@ -6,6 +6,16 @@
 
     <%= render @submission %>
 
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Status:</strong>
+    <%= @submission.status.humanize %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Collection:</strong>
+    <%= @submission.collection.title %>
+  </p>
+
     <% if can? :update, @submission %>
       <%= link_to "Edit this submission", edit_submission_path(@submission), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <% end %>

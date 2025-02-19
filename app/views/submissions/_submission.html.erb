@@ -1,16 +1,13 @@
 <div id="<%= dom_id submission %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Profile:</strong>
+  <h1 class="text-2xl font-bold italic text-gray-900 md:text-3xl pt-1">
+    <%= submission.title %>
+  </h1>
+  <h2 class="text-xl font-bold text-gray-900 md:text-2xl pt-1">
     <%= submission.profile.name_with_email %>
     <% if submission.profile.verified? %>
         <span class="inline-block size-4"><%= render IconComponent.new(:profile_verified) %></span>
     <% end %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Title:</strong>
-    <%= submission.title %>
-  </p>
+  </h2>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Abstract:</strong>
@@ -22,16 +19,6 @@
   <p class="my-5">
     <strong class="block font-medium mb-1">Notes:</strong>
     <%= submission.notes %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Status:</strong>
-    <%= submission.status.humanize %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Collection:</strong>
-    <%= submission.collection.title %>
   </p>
 
 </div>

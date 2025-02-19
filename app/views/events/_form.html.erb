@@ -18,7 +18,7 @@
 
   <div class="my-5">
     <%= form.label :description %>
-    <%= form.textarea :description, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+    <%= form.text_field :description, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
@@ -60,6 +60,16 @@
         Event.where(collection_id: @event.collection.path_ids)
         .map {|e| ["#{e.collection.short_title_path}: #{e.title}", e.id]},
       {selected: event.parent_id},
+      {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Scheduled Submission", class: "block text-xs font-medium text-gray-700" %>
+    <%= form.select :submission_id, 
+      [["(None)", nil]] +
+        Submission.where(collection_id: @event.collection.path_ids, status: :accepted)
+        .map {|s| ["#{s.title} | #{s.profile.name}", s.id]},
+      {selected: event.submission_id},
       {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
   </div>
 

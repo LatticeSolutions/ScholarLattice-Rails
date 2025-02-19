@@ -15,6 +15,9 @@
           <%= event.location %>
       </h3>
     <% end %>
+    <p class="text-lg font-light">
+        <%= @event.description %>
+    </p>
 
     <p class="my-5">
       <strong class="block font-medium mb-1">Starts at:</strong>
@@ -26,7 +29,7 @@
       <%= event.ends_at.present? ? event.ends_at.in_time_zone(event.collection.inherited_time_zone).strftime("%Y-%m-%d %I:%M%p") : "" %>
     </p>
 
-    <div class="mathjax my-5 mx-auto prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
-        <%= sanitize event.description_html %>
-    </div>
+    <% if event.submission.present? %>
+      <%= render event.submission %>
+    <% end %>
 </div>
