@@ -1,0 +1,41 @@
+<% content_for :title, "Create subevents for #{@event.title} | #{@event.collection.title}" %>
+
+<section class="mx-auto md:w-3/4 w-full">
+
+  <%= render partial: "breadcrumb", locals: { collection: @event.collection, action: "Subevents" } %>
+
+  <div class="mx-auto">
+
+    <h2 class="font-bold text-2xl">New Subevents</h2>
+
+    <p>
+      Create subevents for <%= @event.title %> between
+      (Start: <%= @event.starts_at&.strftime("%Y-%m-%d %I:%M %p") %>)
+      (End: <%= @event.ends_at&.strftime("%Y-%m-%d %I:%M %p") %>)
+    </p>
+
+    <%= form_with url: new_subevents_path, method: :post, local: true do |form| %>
+      <div class="mb-4">
+        <%= form.label :number_of_subevents, "Number of Subevents" %>
+        <%= form.number_field :number_of_subevents, min: 1, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :length_of_each_subevent, "Length of Each Subevent (minutes)" %>
+        <%= form.number_field :length_of_each_subevent, min: 1, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :length_of_break, "Length of Break (minutes)" %>
+        <%= form.number_field :length_of_break, min: 0, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <%= form.submit "Create Subevents", class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+        <%= link_to "Back to event", @event, class: "mt-2 ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block" %>
+      </div>
+    <% end %>
+
+
+  </div>
+</section>

@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get "/collections/:id/like", to: "collections#like", as: "like_collection"
   get "/collections/:id/dislike", to: "collections#dislike", as: "dislike_collection"
   get "/events/:id/copy", to: "events#copy", as: "copy_event"
+  get "/events/:id/subevents", to: "events#new_subevents", as: "new_subevents"
+  post "/events/:id/subevents", to: "events#create_subevents", as: "create_subevents"
 
   resources :profiles, except: :index
 

@@ -88,6 +88,28 @@ class EventsController < ApplicationController
     end
   end
 
+  def new_subevents
+  end
+
+  # POST /events or /events.json
+  def create_subevents
+    subevent_params = params.expect(:number_of_subevents, :length_of_each_subevent, :length_of_break)
+    subevent_params[0].to_i.times do |i|
+      subevent = @event.dup
+      subevent.title = "#{subevent.title} \##{i + 1}"
+      subevent.parent = @event
+      if @event.starts_at.present?
+        subevent.starts_at = @event.starts_at + i * subevent_params[1].to_i.minutes + i * subevent_params[2].to_i.minutes
+        subevent.ends_at = subevent.starts_at + subevent_params[1].to_i.minutes
+      end
+      unless subevent.save
+        redirect_to @event, notice: "Warning: some subevents could not be created."
+        return
+      end
+    end
+    redirect_to @event, notice: "All subevents were successfully created."
+  end
+
   private
 
     # Only allow a list of trusted parameters through.
