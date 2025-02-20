@@ -48,7 +48,8 @@
   <div class="my-5">
     <%= form.label :collection_id, class: "block text-xs font-medium text-gray-700" %>
     <%= form.select :collection_id, 
-      @current_user.admin_collections.map {|c| [c.short_title_path, c.id]},
+      @current_user.admin_collections.filter{|c| @event.parent.blank? || @event.parent.collection.subtree.include?(c)}
+        .map {|c| [c.short_title_path, c.id]},
       {selected: event.collection_id},
       {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
   </div>
