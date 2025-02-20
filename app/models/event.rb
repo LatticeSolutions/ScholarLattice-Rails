@@ -9,6 +9,8 @@ class Event < ApplicationRecord
 
   validates :title, presence: true
 
+  validate :collection_is_in_subtree_of_parents_collection
+
   def same_times_as_parent?
     starts_at == parent&.starts_at && ends_at == parent&.ends_at
   end
@@ -39,6 +41,13 @@ class Event < ApplicationRecord
     end
     if parent.starts_at.present? && parent.ends_at < ends_at
       errors.add(:ends_at, "must be before parent #{parent.title} end (#{parent.starts_at})")
+    end
+  end
+
+  def collection_is_in_subtree_of_parents_collection
+    return unless parent.present?
+    unless parent.collection.subtree.include?(collection)
+      errors.add(:collection, "must be in the subtree of #{parent.collection.title}")
     end
   end
 end
