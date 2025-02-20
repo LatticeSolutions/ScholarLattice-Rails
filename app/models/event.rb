@@ -39,7 +39,7 @@ class Event < ApplicationRecord
     if parent.starts_at.present? && ends_at < parent.starts_at
       errors.add(:ends_at, "must be after parent #{parent.title} starts (#{parent.starts_at})")
     end
-    if parent.starts_at.present? && parent.ends_at < ends_at
+    if parent.ends_at.present? && parent.ends_at < ends_at
       errors.add(:ends_at, "must be before parent #{parent.title} end (#{parent.starts_at})")
     end
   end
