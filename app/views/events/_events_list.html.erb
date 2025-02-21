@@ -5,11 +5,14 @@
             <%= event.starts_at.strftime("%I:%M %p") %>:
         <% end %>
         <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+        <% if event.location.present? %>
+            <span class="text-sm">in <span class="text-green-800"><%= event.location %></span></span>
+        <% end %>
         <% if event.submission.present? %>
-        <br>
-        <span class="italic mathjax"><%= event.submission.title %></span>
-        &mdash;
-        <%= event.submission.profile.name %>
+            <br>
+            <span class="italic mathjax"><%= event.submission.title %></span>
+            &mdash;
+            <%= event.submission.profile.name %>
         <% end %>
         <% if event.children.present? %>
             <%= render partial: "events_list", locals: { events: event.children } %>
