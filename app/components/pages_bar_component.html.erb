@@ -1,1 +1,1 @@
-<%= render BarComponent.new("Pages", :page, @pages.map{|p| {text: p.title, path: page_path(p)}})  %>
+<%= render BarComponent.new(@label, @public ? :page : :key, @pages.map{|p| {text: p.title, path: page_path(p)}})  %>
