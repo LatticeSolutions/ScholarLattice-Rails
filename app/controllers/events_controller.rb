@@ -93,7 +93,7 @@ class EventsController < ApplicationController
 
   # POST /events or /events.json
   def create_subevents
-    subevent_params = params.expect(:number_of_subevents, :length_of_each_subevent, :length_of_break)
+    subevent_params = params.expect(:number_of_subevents, :length_of_each_subevent, :length_of_break, :collection_id)
     subevent_params[0].to_i.times do |i|
       subevent = @event.dup
       subevent.title = "#{subevent.title} \##{i + 1}"
