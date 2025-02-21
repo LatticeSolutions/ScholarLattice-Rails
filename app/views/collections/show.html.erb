@@ -118,7 +118,7 @@
     <% unless @collection.non_public_pages.empty? %>
         <% if @collection.has_admin? @current_user %>
             <div class="pt-4">
-                <%= render PagesBarComponent.new(@collection.non_public_pages, public: false)  %>
+                <%= render PagesBarComponent.new(@collection.non_public_pages, public: false, label: "Non-public Pages")  %>
             </div>
         <% end %>
     <% end %>
