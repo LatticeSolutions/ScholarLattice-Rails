@@ -10,7 +10,7 @@
         <%= render IconComponent.new(:calendar) %>
       </span>
       <span>
-        Calendar
+        Events
       </span>
     </h1>
     <% if can? :create, Event %>
@@ -27,7 +27,15 @@
     </div>
   <% end %>
 
-  <%= render partial: "calendar", locals: { events: @scheduled_events, unscheduled_events: @unscheduled_events } %>
+  <div class="hidden sm:block">
+    <h2 class="font-bold text-2xl mt-3">
+      Calendar
+    </h2>
+    <%= render partial: "calendar", locals: { events: @scheduled_events, unscheduled_events: @unscheduled_events } %>
+  </div>
+  <div class="sm:hidden mt-4 italic border rounded-lg p-4">
+    <p>Sorry, your device's current display is too narrow to display the calendar view of events.</p>
+  </div>
 
   <div class="mx-auto md:w-2/3 border p-4 rounded-lg mt-4">
   <% if @scheduled_events.present? %>
