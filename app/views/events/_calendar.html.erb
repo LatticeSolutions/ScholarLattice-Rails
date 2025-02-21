@@ -1,11 +1,11 @@
 
-  <div id="events" class="min-w-full">
+  <div id="events" class="min-w-full text-sm md:text-base">
     <%= month_calendar(events: events, attribute: :starts_at) do |date, events| %>
       <%= date.strftime("%b %d") %>
       <% events.each do |event| %>
-        <%= link_to event, class: "mt-2 md:border md:border-gray-200 md:rounded-md md:p-2 block hover:bg-blue-50" do %>
+        <%= link_to event, class: "mt-2 border border-gray-200 rounded-md p-2 block hover:bg-blue-50 overflow-hidden text-ellipsis" do %>
           <%= event.starts_at.strftime('%I:%M%p')%>:
-          <span class="text-blue-600"><%= event.title %></span>
+          <span class="text-blue-600 text-sm lg:text-base"><%= event.title %></span>
           <% if event.location.present? %>
             <br>
             <span class="text-green-800 text-sm"><%= event.location %></span>
