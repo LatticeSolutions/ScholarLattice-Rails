@@ -28,7 +28,7 @@
       <% date_range.each_slice(7) do |week| %>
         <tr class="border-t border-l">
           <% week.each do |day| %>
-            <%= content_tag :td, class: "py-1 px-2 text-left align-top border-r border-b min-h-12 #{'bg-yellow-100' if day == Date.today}" do %>
+            <%= content_tag :td, class: "py-1 px-2 text-left align-top border-r border-b min-h-12 #{'bg-green-50' if day == Date.today}" do %>
               <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
             <% end %>
           <% end %>
