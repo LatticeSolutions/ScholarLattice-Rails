@@ -3,6 +3,7 @@ class Event < ApplicationRecord
   belongs_to :collection
   belongs_to :submission, optional: true
 
+  validate :submission_does_not_have_another_event
   validate :starts_before_ends
   validate :starts_within_parent
   validate :ends_within_parent
@@ -15,7 +16,19 @@ class Event < ApplicationRecord
     starts_at == parent&.starts_at && ends_at == parent&.ends_at
   end
 
+  def length_in_minutes
+    return nil unless starts_at.present? && ends_at.present?
+    ((ends_at - starts_at) / 60).round
+  end
+
   private
+
+  def submission_does_not_have_another_event
+    return unless submission_id.present?
+    if Event.where(submission_id: submission_id).where.not(id: id).exists?
+      errors.add(:submission, "is already assigned to another event")
+    end
+  end
 
   def starts_before_ends
     return unless starts_at.present? && ends_at.present?
