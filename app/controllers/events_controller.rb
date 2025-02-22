@@ -88,6 +88,43 @@ class EventsController < ApplicationController
     end
   end
 
+  def new_subevents
+  end
+
+  # POST /events or /events.json
+  def create_subevents
+    number_of_subevents = params[:number_of_subevents]&.to_i || 0
+    length_of_each_subevent = params[:length_of_each_subevent]&.to_i || 0
+    length_of_break = params[:length_of_break]&.to_i || 0
+    collection = params[:collection_id].present? ? Collection.find(params[:collection_id]) : @event.collection
+    if number_of_subevents <= 0 || length_of_each_subevent < 0 || length_of_break < 0
+      flash.now[:alert] = "Invalid input values. Please ensure all values are positive."
+      render :new_subevents, status: :unprocessable_entity
+      return
+    end
+    subevents = []
+    number_of_subevents.times do |i|
+      subevent = @event.dup
+      subevent.collection = collection
+      subevent.parent = @event
+      subevent.title = "#{@event.title} \##{i + 1}"
+      if @event.starts_at.present?
+        subevent.starts_at = @event.starts_at + i * length_of_each_subevent.minutes + i * length_of_break.minutes
+        if @event.ends_at.present?
+          subevent.ends_at = subevent.starts_at + length_of_each_subevent.minutes
+        end
+      end
+      subevents << subevent
+    end
+    if subevents.any?(&:invalid?)
+      flash.now[:alert] = "Some subevents could not be created due to errors: #{subevents.map(&:errors).map(&:full_messages).join(', ')}"
+      render :new_subevents, status: :unprocessable_entity
+      return
+    end
+    subevents.each(&:save!)
+    redirect_to @event, notice: "All subevents were successfully created."
+  end
+
   private
 
     # Only allow a list of trusted parameters through.

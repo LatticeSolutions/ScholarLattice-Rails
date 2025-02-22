@@ -23,6 +23,10 @@
       <%= link_to "Copy this event", copy_event_path(@event), class: "mt-2 ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <% end %>
 
+    <% if can? :manage, @event %>
+      <%= link_to "Generate subevents", new_subevents_path(@event), class: "mt-2 ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <% end %>
+
     <% if can? :destroy, @event %>
       <%= link_to "Destroy this event", @event, data: {
           turbo_method: :delete,
