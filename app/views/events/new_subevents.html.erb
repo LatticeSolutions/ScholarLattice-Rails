@@ -1,6 +1,6 @@
 <% content_for :title, "Create subevents for #{@event.title} | #{@event.collection.title}" %>
 
-<section class="mx-auto md:w-3/4 w-full">
+<section class="mx-auto md:w-3/4 w-full" x-data="{ sameTimes: false }">
 
   <%= render partial: "breadcrumb", locals: { collection: @event.collection, action: "Subevents" } %>
 
@@ -32,13 +32,20 @@
       </div>
 
       <div class="mb-4">
-        <%= form.label :length_of_each_subevent, "Length of each subevent (in minutes)" %>
-        <%= form.number_field :length_of_each_subevent, min: 1, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        <%= form.label :same_times, "Each subevent will use the same start/end times as #{@event.title}?", class: "mr-2" %>
+        <%= form.check_box :same_times, class: "shadow appearance-none border rounded w-4 h-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", "x-model" => "sameTimes" %>
       </div>
 
-      <div class="mb-4">
-        <%= form.label :length_of_break, "Length of break between subevents (in minutes)" %>
-        <%= form.number_field :length_of_break, min: 0, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      <div x-show="!sameTimes">
+        <div class="mb-4">
+          <%= form.label :length_of_each_subevent, "Length of each subevent (in minutes)" %>
+          <%= form.number_field :length_of_each_subevent, min: 1, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <div class="mb-4">
+          <%= form.label :length_of_break, "Length of break between subevents (in minutes)" %>
+          <%= form.number_field :length_of_break, min: 0, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
       </div>
 
       <div class="mb-4">
