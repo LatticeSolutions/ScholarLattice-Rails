@@ -22,6 +22,11 @@
 
     <%= form_with url: new_subevents_path, method: :post, local: true do |form| %>
       <div class="mb-4">
+        <%= form.label :subevent_title, "Subevent title" %>
+        <%= form.text_field :subevent_title, value: @event.title, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+
+      <div class="mb-4">
         <%= form.label :number_of_subevents, "Number of subevents" %>
         <%= form.number_field :number_of_subevents, min: 1, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
       </div>

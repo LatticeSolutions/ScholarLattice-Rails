@@ -96,6 +96,7 @@ class EventsController < ApplicationController
     number_of_subevents = params[:number_of_subevents]&.to_i || 0
     length_of_each_subevent = params[:length_of_each_subevent]&.to_i || 0
     length_of_break = params[:length_of_break]&.to_i || 0
+    title = params[:subevent_title] || @event.title
     collection = params[:collection_id].present? ? Collection.find(params[:collection_id]) : @event.collection
     if number_of_subevents <= 0 || length_of_each_subevent < 0 || length_of_break < 0
       flash.now[:alert] = "Invalid input values. Please ensure all values are positive."
@@ -107,7 +108,7 @@ class EventsController < ApplicationController
       subevent = @event.dup
       subevent.collection = collection
       subevent.parent = @event
-      subevent.title = "#{@event.title} \##{i + 1}"
+      subevent.title = "#{title} \##{i + 1}"
       if @event.starts_at.present?
         subevent.starts_at = @event.starts_at + i * length_of_each_subevent.minutes + i * length_of_break.minutes
         if @event.ends_at.present?
