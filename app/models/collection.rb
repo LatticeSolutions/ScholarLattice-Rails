@@ -13,6 +13,8 @@ class Collection < ApplicationRecord
   after_save :update_admins_after_save
   before_save :round_down_submission_times
 
+  default_scope { order(:title) }
+
   def admin_users
     User
       .distinct
