@@ -25,8 +25,9 @@
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
         <%= @collection.title %>
         <% if @current_user and @current_user.likes? @collection %>
-            <%= link_to dislike_collection_path(@collection),
+            <%= button_to dislike_collection_path(@collection), method: :post,
                 class: "inline-flex items-center gap-2 rounded-md bg-yellow-500 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative",
+                form_class: "inline-block",
                 title: "Click to remove favorite" do %>
                 <span class="size-4">
                     <%= render IconComponent.new(:star_filled) %>
@@ -36,8 +37,9 @@
                 </span>
             <% end %>
         <% else %>
-            <%= link_to like_collection_path(@collection),
+            <%= button_to like_collection_path(@collection), method: :post,
                 class: "inline-flex font-normal items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 text-sm text-gray-400 shadow-sm focus:relative",
+                form_class: "inline-block",
                 title: "Click to add favorite" do %>
                 <span class="size-4">
                     <%= render IconComponent.new(:star) %>

@@ -8,8 +8,8 @@ Rails.application.routes.draw do
     resources :events, shallow: true
   end
   get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"
-  get "/collections/:id/like", to: "collections#like", as: "like_collection"
-  get "/collections/:id/dislike", to: "collections#dislike", as: "dislike_collection"
+  post "/collections/:id/like", to: "collections#like", as: "like_collection"
+  post "/collections/:id/dislike", to: "collections#dislike", as: "dislike_collection"
   get "/collections/:id/print", to: "collections#print", as: "print_collection"
   get "/events/:id/copy", to: "events#copy", as: "copy_event"
   get "/events/:id/subevents", to: "events#new_subevents", as: "new_subevents"
