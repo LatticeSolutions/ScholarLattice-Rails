@@ -22,7 +22,7 @@
       <% date_range.each_slice(7) do |week| %>
         <tr class="border-t border-l h-[5rem]">
           <% week.each do |day| %>
-            <%= content_tag :td, class: "py-1 px-2 text-left align-top border-r border-b #{'bg-green-50' if day == Date.today} #{'text-gray-400 bg-gray-100' unless day.month == calendar.start_date.month}" do %>
+            <%= content_tag :td, class: "py-1 px-2 text-left align-top border-r border-b #{'bg-green-50' if day == Time.zone.today } #{'text-gray-400 bg-gray-100' unless day.month == calendar.start_date.month}" do %>
               <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
             <% end %>
           <% end %>

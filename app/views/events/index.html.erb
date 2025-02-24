@@ -18,13 +18,36 @@
     <% end %>
   </div>
   <p>
-    All times <%= Time.zone %>
+    All times <%= Time.zone.name %>. Current time: <%= Time.zone.now.strftime("%I:%M %p") %>
   </p>
   
   <% if @collection.parent.present? %>
     <div class="mt-4">
       <%= link_to "View all events for #{@collection.parent.title}", collection_events_path(@collection.parent), class: "text-blue-600 hover:underline" %>
     </div>
+  <% end %>
+
+  <% if @happening_soon_events.present? %>
+    <h2 class="font-bold text-xl md:text-3xl my-3">
+      Happening Soon!
+    </h2>
+    <ul class="list-disc pl-5">
+      <% @happening_soon_events.each do |event| %>
+        <li class="mb-2">
+          <%= event.starts_at.strftime("%I:%M %p") %>:
+          <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+          <% if event.location.present? %>
+            <span class="text-sm">in <span class="text-green-800"><%= event.location %></span></span>
+          <% end %>
+          <% if event.submission.present? %>
+            <br>
+            <span class="italic mathjax"><%= event.submission.title %></span>
+            &mdash;
+            <%= event.submission.profile.name %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
   <% end %>
 
   <div class="hidden sm:block">
@@ -38,32 +61,33 @@
   </div>
 
   <div class="mx-auto md:w-2/3 border p-4 rounded-lg mt-4">
-  <% if @scheduled_events.present? %>
-    <div>
-      <h2 class="font-bold text-2xl md:text-4xl mt-3">
-        <%= @collection.title %> Schedule
-      </h2>
-      <p>
-        All times <%= Time.zone %>
-      </p>
-      <% @scheduled_events.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
-        <h3 class="font-bold text-xl mt-3"><%= day %></h3>
-        <%= render partial: "events_list", locals: { events: events } %>
-      <% end %>
-    </div>
-  <% end %>
 
-  <% if @unscheduled_events.present? %>
-    <div>
-      <h2 class="font-bold text-2xl my-3">Unscheduled Events</h2>
-      <ul class="list-disc pl-5">
-        <% @unscheduled_events.each do |event| %>
-          <li class="mb-2">
-            <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
-          </li>
+    <% if @scheduled_events.present? %>
+      <div>
+        <h2 class="font-bold text-2xl md:text-4xl mt-3">
+          <%= @collection.title %> Schedule
+        </h2>
+        <p>
+          All times <%= Time.zone %>
+        </p>
+        <% @scheduled_events.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
+          <h3 class="font-bold text-xl mt-3"><%= day %></h3>
+          <%= render partial: "events_list", locals: { events: events } %>
         <% end %>
-      </ul>
-    </div>
-  <% end %>
+      </div>
+    <% end %>
+
+    <% if @unscheduled_events.present? %>
+      <div>
+        <h2 class="font-bold text-2xl my-3">Unscheduled Events</h2>
+        <ul class="list-disc pl-5">
+          <% @unscheduled_events.each do |event| %>
+            <li class="mb-2">
+              <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   </div>
 </div>
