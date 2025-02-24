@@ -12,7 +12,7 @@ class Event < ApplicationRecord
 
   validate :collection_is_in_subtree_of_parents_collection
 
-  default_scope { order(:starts_at, :title) }
+  default_scope { order(:starts_at, :order, :title) }
 
   def same_times_as_parent?
     starts_at == parent&.starts_at && ends_at == parent&.ends_at
