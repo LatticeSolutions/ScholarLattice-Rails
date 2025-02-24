@@ -33,10 +33,8 @@
     <%= link_to "Back to collection", collection_path(@submission.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 
     <% if can? :destroy, @submission %>
-      <%= link_to "Destroy this submission", @submission, data: {
-          turbo_method: :delete,
-          turbo_confirm: "Are you sure?"
-        }, class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= button_to "Destroy this submission", @submission, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
+        class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
     <% end %>
   </div>
 </div>

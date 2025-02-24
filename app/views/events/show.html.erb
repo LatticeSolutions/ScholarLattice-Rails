@@ -40,10 +40,8 @@
     <% end %>
 
     <% if can? :destroy, @event %>
-      <%= link_to "Destroy this event", @event, data: {
-          turbo_method: :delete,
-          turbo_confirm: "Are you sure?"
-        }, class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= button_to "Destroy this event", @event, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
+        class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
     <% end %>
   </div>
 </section>
