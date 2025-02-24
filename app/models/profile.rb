@@ -6,6 +6,8 @@ class Profile < ApplicationRecord
   validate :unique_email_among_users_validation
   enum :position_type, { faculty: 0, grad_student: 1, undergrad_student: 2, secondary_student: 3, other: 4 }
 
+  default_scope { order(:last_name, :first_name) }
+
   def description
     if affiliation.present? and position.present?
       "#{position} at #{affiliation}"

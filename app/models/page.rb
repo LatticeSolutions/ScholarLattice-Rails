@@ -5,6 +5,8 @@ class Page < ApplicationRecord
   enum :visibility, { private: 0, unlisted: 1, public: 2 }, suffix: true
   validate :home_page_must_be_public
 
+  default_scope { order(:order, :title) }
+
   def content_html
     Kramdown::Document.new(content).to_html
   end

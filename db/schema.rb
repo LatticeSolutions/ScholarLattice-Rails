@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_19_033151) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_24_012650) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -36,6 +36,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_033151) do
     t.timestamptz "submissions_close_on"
     t.boolean "submittable"
     t.string "time_zone"
+    t.integer "order"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
   end
 
@@ -72,6 +73,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_033151) do
     t.datetime "updated_at", null: false
     t.boolean "is_home", default: false
     t.integer "visibility", default: 2
+    t.integer "order"
     t.index ["collection_id"], name: "index_pages_on_collection_id"
   end
 
