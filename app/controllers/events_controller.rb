@@ -104,12 +104,18 @@ class EventsController < ApplicationController
       render :new_subevents, status: :unprocessable_entity
       return
     end
+    if number_of_subevents > 100
+      flash.now[:alert] = "Too many subevents requested. Please request fewer than 100 subevents."
+      render :new_subevents, status: :unprocessable_entity
+      return
+    end
     subevents = []
     number_of_subevents.times do |i|
       subevent = @event.dup
       subevent.collection = collection
       subevent.parent = @event
-      subevent.title = "#{title} \##{i + 1}"
+      subevent.order = i+1
+      subevent.title = "#{title} \##{subevent.order}"
       if !same_times && @event.starts_at.present?
         subevent.starts_at = @event.starts_at + i * length_of_each_subevent.minutes + i * length_of_break.minutes
         if @event.ends_at.present?
