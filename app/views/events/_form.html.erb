@@ -12,21 +12,24 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :title %>
+    <%= form.label :title, class: "block text-xs font-medium text-gray-700" %>
     <%= form.text_field :title, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= form.label :description %>
+    <%= form.label :description, class: "block text-xs font-medium text-gray-700" %>
     <%= form.text_field :description, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= form.label :location %>
+    <%= form.label :location, class: "block text-xs font-medium text-gray-700" %>
     <%= form.text_field :location, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
   </div>
+
   <div class="mb-3">
-    <%= form.label :starts_at, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.label :starts_at, class: "block text-xs font-medium text-gray-700" do %>
+      Starts at [<%= @event.collection.inherited_time_zone %>]
+    <% end %>
     <% Time.use_zone(@event.collection.inherited_time_zone) do %>
       <%= form.datetime_field :starts_at, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %> 
     <% end %>
@@ -35,14 +38,20 @@
     <% end %>
   </div>
   <div class="mb-3">
-    <%= form.label :ends_at, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.label :ends_at, class: "block text-xs font-medium text-gray-700" do %>
+      Ends at [<%= @event.collection.inherited_time_zone %>]
+    <% end %>
     <% Time.use_zone(@event.collection.inherited_time_zone) do %>
-
       <%= form.datetime_field :ends_at, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %> 
     <% end %>
     <% @event.collection.errors.full_messages_for(:ends_at).each do |message| %>
       <div class="text-red-800"><%= message %></div>
     <% end %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :order, "Order", class: "block text-xs font-medium text-gray-700" %>
+    <%= form.number_field :order, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
