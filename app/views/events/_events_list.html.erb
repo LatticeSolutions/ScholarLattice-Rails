@@ -15,7 +15,7 @@
             <%= event.submission.profile.name %>
         <% end %>
         <% if event.children.present? %>
-            <% unless defined?(children_limit) && event.children.count > children_limit %>
+            <% unless defined?(children_limit) && children_limit && event.children.count > children_limit %>
                 <%= render partial: "events/events_list", locals: { events: event.children, hide_same_times: true, children_limit: defined?(children_limit) && children_limit } %>
             <% end %>
         <% end %>
