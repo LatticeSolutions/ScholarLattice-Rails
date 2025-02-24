@@ -90,17 +90,21 @@ class Collection < ApplicationRecord
   end
 
   def all_events
+    Event.where(collection: subtree)
+  end
+
+  def all_top_events
     # remove events that are descendants of other events in the collection
-    reject_ids = Event.where(collection: subtree).map(&:descendant_ids).flatten.uniq
-    Event.where(collection: subtree).where.not(id: reject_ids)
+    reject_ids = all_events.map(&:descendant_ids).flatten.uniq
+    all_events.where.not(id: reject_ids)
   end
 
   def all_scheduled_events
-    all_events.where.not(starts_at: nil)
+    all_top_events.where.not(starts_at: nil)
   end
 
   def all_unscheduled_events
-    all_events.where(starts_at: nil)
+    all_top_events.where(starts_at: nil)
   end
 
   def admin_emails_validation
