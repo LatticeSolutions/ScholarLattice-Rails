@@ -133,6 +133,11 @@ class Collection < ApplicationRecord
     end
   end
 
+  def qr_code
+    require "rqrcode"
+    RQRCode::QRCode.new(Rails.application.routes.url_helpers.collection_url(self)).as_svg(module_size: 3)
+  end
+
   private
 
   def round_down_submission_times

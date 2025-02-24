@@ -1,11 +1,16 @@
 class CollectionsController < ApplicationController
   load_and_authorize_resource
+  before_action :set_time_zone, only: [ :show, :print ]
 
   def index
     @collections = Collection.roots
   end
 
   def show
+  end
+
+  def print
+    render layout: false
   end
 
   def new
@@ -83,5 +88,9 @@ class CollectionsController < ApplicationController
       if @collection.submissions_close_on.present? && @collection.submissions_close_on_changed?
         @collection.submissions_close_on = @collection.submissions_close_on.asctime.in_time_zone(@collection.inherited_time_zone)
       end
+    end
+
+    def set_time_zone
+      Time.zone = @collection.inherited_time_zone
     end
 end

@@ -75,3 +75,5 @@ gem "kramdown", "~> 2.5"
 gem "cancancan", "~> 3.6"
 
 gem "simple_calendar", "~> 3.1"
+
+gem "rqrcode", "~> 2.2"
