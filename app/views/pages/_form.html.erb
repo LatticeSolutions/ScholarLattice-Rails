@@ -21,6 +21,11 @@
     <%= form.text_area :content, class: "h-48 mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
   </div>
 
+  <div class="mb-3">
+    <%= form.label :order, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.number_field :order, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
+  </div>
+
   <div class="my-5">
     <%= form.label :visibility, class: "block text-xs font-medium text-gray-700" %>
     <%= form.select :visibility, Page.visibilities.keys.map {|key| [key.humanize, key]}, selected: page.visibility || :public %>

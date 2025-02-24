@@ -15,6 +15,13 @@
     <% end %>
   </div>
   <div class="mb-3">
+    <%= form.label :order, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.number_field :order, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
+    <% collection.errors.full_messages_for(:order).each do |message| %>
+      <div class="text-red-800"><%= message %></div>
+    <% end %>
+  </div>
+  <div class="mb-3">
     <%= form.label :description, class: "block text-xs font-medium text-gray-700" %>
     <%= form.text_area :description, class: "mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm" %>
     <% collection.errors.full_messages_for(:description).each do |message| %>

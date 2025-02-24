@@ -56,6 +56,6 @@ class PagesController < ApplicationController
   private
     # Only allow a list of trusted parameters through.
     def page_params
-      params.require(:page).permit(:title, :content, :visibility, :is_home)
+      params.require(:page).permit(:title, :content, :visibility, :is_home, :order)
     end
 end
