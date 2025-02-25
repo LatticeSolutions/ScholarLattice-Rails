@@ -1,6 +1,6 @@
 class CollectionsController < ApplicationController
   load_and_authorize_resource
-  before_action :set_time_zone, only: [ :show, :print ]
+  around_action :set_time_zone, only: [ :show, :print ]
 
   def index
     @collections = Collection.roots
@@ -90,7 +90,7 @@ class CollectionsController < ApplicationController
       end
     end
 
-    def set_time_zone
-      Time.zone = @collection.inherited_time_zone
+    def set_time_zone(&block)
+      Time.use_zone(@collection.inherited_time_zone, &block)
     end
 end

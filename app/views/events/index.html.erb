@@ -18,7 +18,8 @@
     <% end %>
   </div>
   <p>
-    All times <%= Time.zone.name %>. Current time: <%= Time.zone.now.strftime("%I:%M %p") %>
+    All times <%= Time.zone.name %>.
+    Page loaded at <%= Time.current.strftime("%I:%M %p") %> <%= Time.zone.name %>.
   </p>
   
   <% if @collection.parent.present? %>

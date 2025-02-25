@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   load_and_authorize_resource :collection
   load_and_authorize_resource :event, through: :collection, shallow: true
-  before_action :set_time_zone
+  around_action :set_time_zone
 
   # GET /events or /events.json
   def index
@@ -14,7 +14,7 @@ class EventsController < ApplicationController
     @scheduled_events = @collection.all_scheduled_events
     @unscheduled_events = @collection.all_unscheduled_events
     @happening_soon_events = @collection.all_events.where(
-      starts_at: (Time.now - 10.minutes)..(Time.now + 1.hour)
+      starts_at: (Time.current - 10.minutes)..(Time.current + 1.hour)
     )
   end
 
@@ -152,7 +152,12 @@ class EventsController < ApplicationController
       end
     end
 
-    def set_time_zone
-      Time.zone = @event.present? ? @event.collection.inherited_time_zone : @collection.inherited_time_zone
+    def set_time_zone(&block)
+      Time.use_zone(
+        @event.present? ?
+        @event.collection.inherited_time_zone :
+        @collection.inherited_time_zone,
+        &block
+      )
     end
 end
