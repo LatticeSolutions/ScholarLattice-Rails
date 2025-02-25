@@ -64,17 +64,17 @@
 
     <% if @collection.submittable? %>
         <h2 class="text-1.5xl font-light text-gray-900 md:text-2xl pb-5">
-            <% open_time = @collection.submissions_open_on&.in_time_zone(@collection.inherited_time_zone)&.strftime("%Y-%m-%d %-I:%M%p") %>
-            <% close_time = @collection.submissions_close_on&.in_time_zone(@collection.inherited_time_zone)&.strftime("%Y-%m-%d %-I:%M%p") %>
-            <% if @collection.submissions_close_on.blank? && @collection.submissions_open_on.blank? %>
+            <% open_time = @collection.submissions_open_on&.strftime("%Y-%m-%d %-I:%M%p") %>
+            <% close_time = @collection.submissions_close_on&.strftime("%Y-%m-%d %-I:%M%p") %>
+            <% if close_time.blank? && open_time.blank? %>
                 Submissions are now open.
-            <% elsif @collection.submissions_close_on.blank? %>
+            <% elsif close_time.blank? %>
                 <% if @collection.submissions_open? %>
                     Submissions opened on <%= open_time %> [<%= @collection.inherited_time_zone %>].
                 <% else %>
                     Submissions will open on <%= open_time %> [<%= @collection.inherited_time_zone %>].
                 <% end %>
-            <% elsif @collection.submissions_open_on.blank? %>
+            <% elsif open_time.blank? %>
                 <% if @collection.submissions_closed? %>
                     Submissions closed on <%= close_time %> [<%= @collection.inherited_time_zone %>].
                 <% else %>
