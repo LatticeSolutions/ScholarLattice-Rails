@@ -23,6 +23,10 @@ class Event < ApplicationRecord
     ((ends_at - starts_at) / 60).round
   end
 
+  def children_have_same_times?
+    children.where.not(starts_at: starts_at, ends_at: ends_at).empty?
+  end
+
   private
 
   def submission_does_not_have_another_event
