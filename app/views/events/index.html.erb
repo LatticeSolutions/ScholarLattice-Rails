@@ -55,7 +55,10 @@
     <h2 class="font-bold text-2xl mt-3">
       Calendar
     </h2>
-    <%= render partial: "calendar", locals: { events: @scheduled_events, unscheduled_events: @unscheduled_events } %>
+    <%= render partial: "calendar", locals: { 
+      events: @scheduled_events, 
+      unscheduled_events: @unscheduled_events
+    } %>
   </div>
   <div class="sm:hidden mt-4 italic border rounded-lg p-4">
     <p>Sorry, your device's current display is too narrow to display the calendar view of events.</p>

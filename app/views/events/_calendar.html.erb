@@ -1,5 +1,16 @@
+<%
+    time_zone = events.first.collection.inherited_time_zone
+    first_day = events.minimum(:starts_at)&.in_time_zone(time_zone).to_date
+    last_day = events.maximum(:starts_at)&.in_time_zone(time_zone).to_date
+    if first_day.nil?
+      number_of_days = 0
+    else
+      number_of_days = (last_day - first_day).to_i + 1
+    end
+%>
 
-  <div id="events" class="min-w-full text-sm md:text-base">
+<div id="events" class="min-w-full text-sm md:text-base">
+  <% if number_of_days > 7 %>
     <%= month_calendar(events: events, attribute: :starts_at) do |date, events| %>
       <%= date.strftime("%b %d") %>
       <% events.each do |event| %>
@@ -13,4 +24,19 @@
         <% end %>
       <% end %>
     <% end %>
-  </div>
+  <% else %>
+    <%= calendar(number_of_days: number_of_days, events: events, attribute: :starts_at) do |date, events| %>
+      <%= date.strftime("%b %d") %>
+      <% events.each do |event| %>
+        <%= link_to event, class: "mt-2 border border-gray-200 rounded-md p-2 block hover:bg-blue-50 overflow-hidden text-ellipsis" do %>
+          <%= event.starts_at.strftime('%I:%M%p')%>:
+          <span class="text-blue-600 text-sm lg:text-base"><%= event.title %></span>
+          <% if event.location.present? %>
+            <br>
+            <span class="text-green-800 text-sm"><%= event.location %></span>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
