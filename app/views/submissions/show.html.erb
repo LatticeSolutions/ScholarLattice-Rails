@@ -12,7 +12,7 @@
         <strong class="block font-medium mb-1">Scheduled for:</strong>     
         <% if @submission.event.starts_at %>
           <%= @submission.event.starts_at
-            .in_time_zone(@submission.collection.time_zone)
+            .in_time_zone(@submission.collection.inherited_time_zone)
             .strftime("%Y-%m-%d %I:%M %p") %>:
         <% end %>
         <%= link_to @submission.event.title, @submission.event, class: "text-blue-600 hover:underline" %>
