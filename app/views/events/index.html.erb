@@ -21,6 +21,17 @@
     All times <%= Time.zone.name %>.
     Page loaded at <%= Time.current.strftime("%I:%M %p") %> <%= Time.zone.name %>.
   </p>
+  <% if Time.zone.name == "UTC" %>
+    <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 mx-auto md:w-2/3">
+      <p>
+        We're aware of a bug that causes this Events page to occassionally display the
+        incorrect timezone.
+        As we work on a fix, please note that the time zone is usually corrected by clicking
+        through to an event's details.
+        Thanks for your patience!
+      </p>
+    </div>
+  <% end %>
   
   <% if @collection.parent.present? %>
     <div class="mt-4">
