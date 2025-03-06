@@ -4,12 +4,12 @@ class Collection < ApplicationRecord
   validate :submissions_open_before_closing_validation
   validate :admin_emails_validation
   has_ancestry
-  has_many :admins
-  has_many :likes
+  has_many :admins, dependent: :destroy
+  has_many :likes, dependent: :destroy
   has_many :favorite_users, through: :likes, source: :user
-  has_many :pages
-  has_many :submissions
-  has_many :events
+  has_many :pages, dependent: :destroy
+  has_many :submissions, dependent: :destroy
+  has_many :events, dependent: :destroy
   after_save :update_admins_after_save
   before_save :round_down_submission_times
 
