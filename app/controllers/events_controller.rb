@@ -21,6 +21,9 @@ class EventsController < ApplicationController
     @happening_soon_events = @collection.all_events.where(
       starts_at: (Time.current - 10.minutes)..(Time.current + 1.hour)
     )
+    @happening_soon_events = @happening_soon_events.reject do |event|
+      event.descendants.any? { |d| @happening_soon_events.include?(d) }
+    end
   end
 
   # GET /events/1 or /events/1.json
