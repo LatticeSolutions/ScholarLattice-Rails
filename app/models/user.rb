@@ -8,7 +8,7 @@ class User < ApplicationRecord
 
   has_many :admins
   has_many :direct_admin_collections, through: :admins, source: :collection
-  has_many :likes
+  has_many :likes, dependent: :destroy
   has_many :favorite_collections, through: :likes, source: :collection
   has_and_belongs_to_many :profiles
 
