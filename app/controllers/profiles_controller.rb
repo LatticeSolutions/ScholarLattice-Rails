@@ -7,7 +7,8 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/new
   def new
-    @profile = Profile.new email: @current_user.email
+    @profile = Profile.new
+    @profile.email = @current_user.email if @current_user.profiles.empty?
   end
 
   # GET /profiles/1/edit
@@ -17,6 +18,12 @@ class ProfilesController < ApplicationController
   # POST /profiles or /profiles.json
   def create
     @profile.users = [ @current_user ]
+    if @current_user.profiles.empty? && @profile.email != @current_user.email
+      @profile.errors.add(:profile, "email must match #{@current_user.email}")
+      @profile.email = @current_user.email
+      render :new, status: :unprocessable_entity
+      return
+    end
     if @profile.save
       redirect_to @profile, notice: "Profile was successfully created."
     else
