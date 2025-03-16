@@ -46,4 +46,8 @@ class User < ApplicationRecord
       Submission.where profile: profiles, collection: collection
     end
   end
+
+  def primary_profile
+    profiles.where(email: email).first
+  end
 end

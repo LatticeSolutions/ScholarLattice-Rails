@@ -1,0 +1,20 @@
+<% content_for :title, "New Invitations | #{@collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+<%= render partial: "breadcrumb", locals: { collection: @collection, action: "Invite" } %>
+  <h1 class="font-bold text-4xl">New invitations for <%= @collection.title %></h1>
+
+<%= form_with url: collection_create_invitations_path(@collection), method: :post, local: true do |form| %>
+    <div class="my-4">
+        <%= form.label :invites, "Invite Info", class: "block text-gray-700 text-sm font-bold mb-2" %>
+        <p class="text-gray-500">Enter one email address per line in <code>FirstName LastName &lt;email@example.com&gt;</code> format.</p>
+        <%= form.text_area :invites, value: @invite_info, rows: 5, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+    <div class="flex items-center justify-between">
+        <%= form.submit "Create Invitations",
+            class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+        <%= link_to "Back to collection", @collection, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    </div>
+<% end %>
+    
+</div>

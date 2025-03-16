@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   resources :collections do
     resources :pages, shallow: true, except: :index
+    get "submissions/invite", to: "submissions#new_invitations", as: "new_invitations"
+    post "submissions/invite", to: "submissions#create_invitations", as: "create_invitations"
     resources :submissions, shallow: true
     resources :events, shallow: true
   end
