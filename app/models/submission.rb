@@ -2,7 +2,7 @@ class Submission < ApplicationRecord
   belongs_to :profile
   belongs_to :collection
   has_one :event, required: false
-  enum :status, { submitted: 0, accepted: 1, declined: 2, draft: 3 }
+  enum :status, { submitted: 0, accepted: 1, declined: 2, draft: 3, invited: 4 }
 
   default_scope { order(:title) }
 

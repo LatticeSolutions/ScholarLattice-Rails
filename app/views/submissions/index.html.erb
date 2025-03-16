@@ -22,7 +22,7 @@
         <span class="size-4 inline-block">
             <%= render IconComponent.new(:key) %>
         </span>
-        Unreviewed Submissions:
+        Unsolicited Submissions:
     </h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <% @submissions.where(status: :submitted).each do |submission| %>
@@ -33,6 +33,24 @@
         Emails:
         <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
             @submissions.where(status: :submitted).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
+
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        <span class="size-4 inline-block">
+            <%= render IconComponent.new(:key) %>
+        </span>
+        Invited Submissions:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @submissions.where(status: :invited).each do |submission| %>
+            <%= render partial: "submissions/card", locals: { submission: submission, collection: @collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @submissions.where(status: :invited).map{|s| s.profile.email }.join("; ")
         %></textarea>
     </div>
     <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
