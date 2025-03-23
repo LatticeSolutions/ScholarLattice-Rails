@@ -1,1 +1,17 @@
---- {}
+john_submission_research_papers:
+  id: <%= SecureRandom.uuid %>
+  title: "John's Research Paper"
+  abstract: "A detailed research paper submitted by John."
+  profile_id: <%= Profile.find_by(email: "john@example.com").id %>
+  collection_id: <%= Collection.find_by(title: "Research Papers").id %>
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+jane_submission_conference_materials:
+  id: <%= SecureRandom.uuid %>
+  title: "Jane's Conference Material"
+  abstract: "Conference material submitted by Jane."
+  profile_id: <%= Profile.find_by(email: "jane@example.com").id %>
+  collection_id: <%= Collection.find_by(title: "Conference Materials").id %>
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>

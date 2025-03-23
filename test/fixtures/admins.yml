@@ -1,0 +1,13 @@
+john_admin_research_papers:
+  id: "82e8c142-a8e1-45ea-bda2-82bc79887425"
+  user_id: <%= User.find_by(email: "john@example.com").id %>
+  collection_id: <%= Collection.find_by(title: "Research Papers").id %>
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+jane_admin_conference_materials:
+  id: "a09fd46a-6114-437a-8fc5-53475be5f172"
+  user_id: <%= User.find_by(email: "jane@example.com").id %>
+  collection_id: <%= Collection.find_by(title: "Conference Materials").id %>
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>

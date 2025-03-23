@@ -1,0 +1,15 @@
+about_research_papers:
+  id: "603b17ba-568d-4407-b9c6-684963c2ea70"
+  title: "About Research Papers"
+  content: "This page provides information about the Research Papers collection."
+  collection_id: <%= Collection.find_by(title: "Research Papers").id %>
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+about_conference_materials:
+  id: "ee29d39a-b0a2-4184-aa46-a08b0c98a782"
+  title: "About Conference Materials"
+  content: "This page provides information about the Conference Materials collection."
+  collection_id: <%= Collection.find_by(title: "Conference Materials").id %>
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
