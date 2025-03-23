@@ -1,131 +1,44 @@
----
-item-1-1:
-  title: Summer Topology and Its Applications
-  short_title: SumTopo
-  description: 'A long standing research conference series that allows topologists
-    and those interested in the development and applications of topology to meet together
-    in a collaborative environment. '
-  subcollection_name: Conference
-  page_id:
-  submissions_open_on:
-  submissions_close_on:
-  submittable:
-item-1-2:
-  title: 39th Summer Topology and Its Applications Conference
-  short_title: SumTopo2025
-  description: Held at the University of South Alabama on 2025 August 11-15, this
-    conference will feature special sessions in Set-Theoretic Topology, Topological
-    Graph Theory, Topological Dynamics and Continuum Theory, Low-dimensional Topology,
-    and Topology and Computing.
-  subcollection_name: Special Session
-  page_id:
-  submissions_open_on:
-  submissions_close_on:
-  submittable:
-item-1-3:
-  title: MAA Southeastern Section
-  short_title: MAA-SE
-  description: The Southeastern Section of the MAA (MAA SE) advances the mathematical
-    sciences within the states of Alabama, Georgia, North Carolina, South Carolina,
-    and Tennessee by considering mathematical professionals at all levels in the design
-    of its program and activities, with a special emphasis on the collegiate level.
-  subcollection_name: Meeting
-  page_id:
-  submissions_open_on:
-  submissions_close_on:
-  submittable:
-item-1-4:
-  title: Geometric Topology
-  short_title: STDC2025-GT
-  description: Details TBA
-  subcollection_name: Subcollection
-  page_id:
-  submissions_open_on:
-  submissions_close_on:
-  submittable:
-item-1-5:
-  title: Spring Topology and Dynamics
-  short_title: STDC
-  description: An annual conference series focusing on continuum theory, dynamical
-    systems, geometric group theory, geometric topology, and set-theoretic topology.
-  subcollection_name: Conference
-  page_id:
-  submissions_open_on:
-  submissions_close_on:
-  submittable:
-item-1-6:
-  title: 'code4math: Consortium of Digital Ecosystems for Mathematics'
-  short_title: code4math
-  description: 'code4math is a professional organization dedicated to the advancement
-    of mathematical research through the development of high-quality sociotechnical
-    infrastructure: software, databases, communities, and more.'
-  subcollection_name: Subcollection
-  page_id:
-  submissions_open_on:
-  submissions_close_on:
-  submittable:
-item-1-7:
-  title: Topological Dynamics and Continuum Theory
-  short_title: SumTopo2025-TDCT
-  description: 'Talks related to topological dynamics, continuum theory, and the interaction
-    between them. Organizers: Lori Alvin, James Kelly.'
-  subcollection_name: Subcollection
-  page_id:
-  submissions_open_on:
-  submissions_close_on:
-  submittable:
-item-1-8:
-  title: Plenary and Semi-Plenary Talks
-  short_title: SumTopo2025-Plenary
-  description: SumTopo 2025 will feature plenary and semi-plenary talks from several
-    notable researchers.
-  subcollection_name: Subcollection
-  page_id:
-  submissions_open_on:
-  submissions_close_on:
-  submittable:
-item-1-9:
-  title: 104th Annual MAA-SE Sectional Meeting
-  short_title: MAA-SE-2025
-  description: Join us in 2025 at High Point University for our 104th Annual Meeting
-    from February 27th to March 1st!
-  subcollection_name: Subcollection
-  page_id:
-  submissions_open_on:
-  submissions_close_on:
-  submittable:
-item-1-10:
-  title: Continuum Theory
-  short_title: STDC2025-CT
-  description: Details TBA
-  subcollection_name: Subcollection
-  page_id:
-  submissions_open_on:
-  submissions_close_on:
-  submittable:
-item-1-11:
-  title: 58th Spring Topology and Dynamics Conference
-  short_title: STDC2025
-  description: Christopher Newport University (Newport News, VA) will host STDC 2025
-    on March 6-8. This conference will feature special sessions in continuum theory,
-    dynamical systems, geometric group theory, geometric topology, set-theoretic topology,
-    and (new this year) applied topology.
-  subcollection_name: Special Session
-  page_id:
-  submissions_open_on:
-  submissions_close_on:
-  submittable:
-item-1-12:
-  title: Set-Theoretic Topology
-  short_title: STDC2025-STT
-  description: 'Research related to general topology and its interplay with axiomatic
-    set theory. Organizers: Jocelyn Bell, Christopher Caruvana, Steven Clontz.'
-  subcollection_name: Subcollection
-  page_id:
-  submissions_open_on:
-  submissions_close_on: !ruby/object:ActiveSupport::TimeWithZone
-    utc: 2025-02-23 23:59:59.000000000 Z
-    zone: &1 !ruby/object:ActiveSupport::TimeZone
-      name: Etc/UTC
-    time: 2025-02-23 23:59:59.000000000 Z
+research_papers:
+  id: "cecf7398-650d-4050-a62f-74ec332cc1ad"
+  title: "Research Papers"
+  short_title: "Papers"
+  description: "A collection of research papers."
+  ancestry: "/"
+  subcollection_name: "Subcollection"
+  submissions_open_on: <%= 1.week.ago %>
+  submissions_close_on: <%= 1.week.from_now %>
   submittable: true
+  time_zone: "UTC"
+  order: 1
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+research_papers_sub:
+  id: "0fbd496f-fc0f-45d4-83eb-06cceea5dc6c"
+  title: "Mathematics"
+  short_title: "Math"
+  description: "Mathematical papers."
+  ancestry: "/cecf7398-650d-4050-a62f-74ec332cc1ad/"
+  subcollection_name: "Subcollection"
+  submissions_open_on: <%= 1.week.ago %>
+  submissions_close_on: <%= 1.week.from_now %>
+  submittable: true
+  time_zone: "UTC"
+  order: 1
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+conference_materials:
+  id: "088db36d-517f-4c48-bf56-2e45bb258cb8"
+  title: "Conference Materials"
+  short_title: "Materials"
+  description: "A collection of materials from conferences."
+  ancestry: "/"
+  subcollection_name: "Subcollection"
+  submissions_open_on: <%= 2.weeks.ago %>
+  submissions_close_on: <%= 2.days.from_now %>
+  submittable: true
+  time_zone: "UTC"
+  order: 2
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>

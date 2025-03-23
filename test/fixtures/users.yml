@@ -1,7 +1,14 @@
----
-item-3-2:
-  email: sclontz@southalabama.edu
-  site_admin: false
-item-3-1:
-  email: admin@scholarlattice.org
+# Sample user fixtures for testing
+
+john_doe:
+  id: "2cd648b6-202e-4641-b7a4-645abb7f8420"
+  email: john@example.com
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+jane_smith:
+  id: "7b6cd810-b122-4f42-bdd8-2ce0452437dc"
+  email: jane@example.com
   site_admin: true
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>

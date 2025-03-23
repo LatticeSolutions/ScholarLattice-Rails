@@ -1,17 +1,19 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+research_papers_event:
+  id: "4baf535e-d9c9-43a9-a502-fe2faf906ec2"
+  title: "Research Papers Office Hours"
+  description: "Information on submitting research papers."
+  starts_at: <%= 1.week.from_now %>
+  ends_at: <%= 2.weeks.from_now %>
+  collection_id: <%= Collection.find_by(title: "Research Papers").id %>
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
 
-one:
-  title: MyString
-  description: MyText
-  location: MyString
-  starts_at: 2025-02-13 01:06:51
-  ends_at: 2025-02-13 01:06:51
-  collection: one
-
-two:
-  title: MyString
-  description: MyText
-  location: MyString
-  starts_at: 2025-02-13 01:06:51
-  ends_at: 2025-02-13 01:06:51
-  collection: two
+conference_materials_event:
+  id: "b2f67716-b488-4eb9-9fe2-8f008ba369ab"
+  title: "Conference Materials Review"
+  description: "The review period for conference materials."
+  starts_at: <%= 3.days.from_now %>
+  ends_at: <%= 1.week.from_now %>
+  collection_id: "088db36d-517f-4c48-bf56-2e45bb258cb8"
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>

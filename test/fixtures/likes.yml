@@ -1,0 +1,13 @@
+john_likes_research_papers:
+  id: "94de661e-6e3e-4a2b-a757-bee2e4a1606c"
+  user_id: <%= User.find_by(email: "john@example.com").id %>
+  collection_id: <%= Collection.find_by(title: "Research Papers").id %>
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+jane_likes_conference_materials:
+  id: "3172bece-eccc-4599-a02d-dd0eaa554351"
+  user_id: <%= User.find_by(email: "jane@example.com").id %>
+  collection_id: <%= Collection.find_by(title: "Conference Materials").id %>
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
