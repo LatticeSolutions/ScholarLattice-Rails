@@ -6,4 +6,12 @@ class Invitation < ApplicationRecord
   def message_html
     Kramdown::Document.new(message).to_html
   end
+
+  def submissions
+    profile.submissions.where(collection: collection)
+  end
+
+  def submitted?
+    submissions.any?
+  end
 end

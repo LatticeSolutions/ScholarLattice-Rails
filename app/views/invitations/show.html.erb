@@ -30,5 +30,16 @@
             class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
             </div>
     <% end %>
+
+    <% if @invitation.submitted? %>
+      <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+          Invited Submissions:
+      </h2>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+          <% @invitation.submissions.each do |submission| %>
+              <%= render partial: "submissions/card", locals: { submission: submission } %>
+          <% end %>
+      </div>
+    <% end %>
   </div>
 </div>
