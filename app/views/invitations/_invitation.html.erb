@@ -5,7 +5,8 @@
   </h2>
 
   <p class="pb-3">
-    <strong class="font-medium">Status:</strong> <%= invitation.status.humanize %>
+    <strong class="font-bold">Status:</strong>
+    <span class="font-medium <%= 'text-blue-500' if invitation.status == 'accepted' %> <%= 'text-red-500' if invitation.status == 'declined' %>"><%= invitation.status.humanize %></span>
   </p>
 
   <% if invitation.message.blank? %>

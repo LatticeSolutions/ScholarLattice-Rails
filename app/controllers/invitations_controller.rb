@@ -56,6 +56,16 @@ class InvitationsController < ApplicationController
     end
   end
 
+  def accept
+    @invitation.update! status: :accepted
+    redirect_to @invitation, notice: "Invitation accepted."
+  end
+
+  def decline
+    @invitation.update! status: :declined
+    redirect_to @invitation, notice: "Invitation declined."
+  end
+
   private
     # Only allow a list of trusted parameters through.
     def invitation_params

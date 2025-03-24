@@ -47,8 +47,11 @@ class Ability
     can :manage, Invitation do |i|
       i.collection.has_admin?(user)
     end
-    can [ :read, :respond_to ], Invitation do |i|
-      i.profile.in? user.profiles
+    can :read, Invitation do |i|
+      i.profile.in?(user.profiles)
+    end
+    can :respond_to, Invitation do |i|
+      i.profile.in?(user.profiles) && i.status != :revoked
     end
 
     can :create, Profile

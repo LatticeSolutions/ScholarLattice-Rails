@@ -18,11 +18,17 @@
 
     <% if can? :respond_to, @invitation %>
       <div class="my-3">
-        <%= button_to "Accept this invitation", accept_invitation_path(@invitation),
-          class: "mt-2 rounded-lg py-3 px-5 bg-sky-100 text-sky-900 inline-block font-medium", form_class: "inline-block", method: :post %>
-        <%= button_to "Decline this invitation", decline_invitation_path(@invitation),
-          class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-red-100 text-red-900 inline-block font-medium", form_class: "inline-block", method: :post %>
-      </div>
+        <% unless @invitation.accepted? %>
+          <%= button_to "Accept this invitation", accept_invitation_path(@invitation),
+            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-sky-100 text-sky-900 inline-block font-medium", form_class: "inline-block", method: :post %>
+        <% end %>
+        <% unless @invitation.declined? %>
+          <%= button_to "Decline this invitation", decline_invitation_path(@invitation),
+            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-red-100 text-red-900 inline-block font-medium", form_class: "inline-block", method: :post %>
+        <% end %>
+        <%= link_to "Email organizers", "mailto:#{@invitation.collection.admin_emails.delete(' ')}",
+            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+            </div>
     <% end %>
   </div>
 </div>
