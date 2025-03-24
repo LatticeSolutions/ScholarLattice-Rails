@@ -27,8 +27,7 @@
             class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-red-100 text-red-900 inline-block font-medium", form_class: "inline-block", method: :post %>
         <% end %>
         <%= link_to "Email organizers", "mailto:#{@invitation.collection.admin_emails.delete(' ')}",
-            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-            </div>
+            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", target: "_blank" %>
     <% end %>
 
     <% if @invitation.submitted? %>
