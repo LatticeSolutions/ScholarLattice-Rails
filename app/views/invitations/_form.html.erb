@@ -1,0 +1,51 @@
+<%= form_with(model: invitation, url: (@invitation.new_record? ? [@invitation.collection, @invitation] : [@invitation]), class: "contents") do |form| %>
+  <% if invitation.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(invitation.errors.count, "error") %> prohibited this invitation from being saved:</h2>
+
+      <ul>
+        <% invitation.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if invitation.profile.nil? %>
+    <div class="my-5">
+      <%= form.label :email %>
+      <%= form.email_field :profile_email, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :first_name %>
+      <%= form.text_field :profile_first_name, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :last_name %>
+      <%= form.text_field :profile_last_name, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+    </div>
+  <% else %>
+    <div class="my-5">
+      <%= form.label :profile %>
+      <%= form.text_field :profile, value: invitation.profile.name_with_email, disabled: true, class: "block shadow rounded-md border border-gray-400 bg-gray-200 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      <%= form.hidden_field :profile_id, value: invitation.profile_id %>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :message %>
+    <%= form.text_area :message, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full", rows: 5 %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :status %>
+    <%= form.select :status, Invitation.statuses.keys.map {|key| [key.humanize, key]},
+        {selected: invitation.status || :pending}, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

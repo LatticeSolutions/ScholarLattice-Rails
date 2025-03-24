@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :invitations
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root "landing#index"
 
@@ -6,6 +7,7 @@ Rails.application.routes.draw do
     resources :pages, shallow: true, except: :index
     resources :submissions, shallow: true
     resources :events, shallow: true
+    resources :invitations, shallow: true
   end
   get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"
   post "/collections/:id/like", to: "collections#like", as: "like_collection"
@@ -14,6 +16,8 @@ Rails.application.routes.draw do
   get "/events/:id/copy", to: "events#copy", as: "copy_event"
   get "/events/:id/subevents", to: "events#new_subevents", as: "new_subevents"
   post "/events/:id/subevents", to: "events#create_subevents", as: "create_subevents"
+  post "/invitations/:id/accept", to: "invitations#accept", as: "accept_invitation"
+  post "/invitations/:id/decline", to: "invitations#decline", as: "decline_invitation"
 
   resources :profiles, except: :index
 

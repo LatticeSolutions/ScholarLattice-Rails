@@ -10,6 +10,7 @@ class Collection < ApplicationRecord
   has_many :pages, dependent: :destroy
   has_many :submissions, dependent: :destroy
   has_many :events, dependent: :destroy
+  has_many :invitations, dependent: :destroy
   after_save :update_admins_after_save
   before_save :round_down_submission_times
 

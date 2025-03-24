@@ -1,0 +1,17 @@
+<div id="<%= dom_id invitation %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Profile:</strong>
+    <%= invitation.profile.name_with_email %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Collection:</strong>
+    <%= invitation.collection.title %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Status:</strong>
+    <%= invitation.status.humanize %>
+  </p>
+
+</div>

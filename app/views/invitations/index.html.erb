@@ -1,0 +1,23 @@
+<% content_for :title, "New Invitation | #{@collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+  <%= render partial: "breadcrumb", locals: { collection: @collection } %>
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Invitations</h1>
+    <%= link_to "New invitation", new_collection_invitation_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+
+  <div id="invitations" class="min-w-full">
+    <ul class="list-disc pl-5">
+    <% @invitations.each do |invitation| %>
+      <li>
+        <%= invitation.profile.name_with_email %>
+        (<%= invitation.status.humanize %>)
+        <%= link_to "Show", invitation, class: "ml-2 text-blue-600 underline" %>
+        <%= link_to "Edit", edit_invitation_path(invitation), class: "ml-2 text-blue-600 underline" %>
+      </li>
+    <% end %>
+    </ul>
+  </div>
+</div>

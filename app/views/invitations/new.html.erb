@@ -1,0 +1,10 @@
+<% content_for :title, "New Invitation | #{@invitation.collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+  <%= render partial: "breadcrumb", locals: { collection: @invitation.collection, action: "New" } %>
+  <h1 class="font-bold text-4xl">New invitation</h1>
+
+  <%= render "form", invitation: @invitation %>
+
+  <%= link_to "Back to invitations", invitations_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+</div>
