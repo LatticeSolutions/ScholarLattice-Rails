@@ -1,17 +1,20 @@
 <div id="<%= dom_id invitation %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Profile:</strong>
-    <%= invitation.profile.name_with_email %>
+  <h2 class="font-bold text-4xl pb-3">
+    Invitation to submit to
+    <%= link_to invitation.collection.title, invitation.collection, class: "text-sky-700 hover:underline" %>
+  </h2>
+
+  <p class="pb-3">
+    <strong class="font-medium">Status:</strong> <%= invitation.status.humanize %>
   </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Collection:</strong>
-    <%= invitation.collection.title %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Status:</strong>
-    <%= invitation.status.humanize %>
-  </p>
+  <% if invitation.message.blank? %>
+    <p>To <%= invitation.profile.name_with_email %>.</p>
+  <% else %>
+    <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+      <p>Dear <%= invitation.profile.name_with_email %>,</p>
+      <%= sanitize invitation.message_html %>
+    </div>
+  <% end %>
 
 </div>
