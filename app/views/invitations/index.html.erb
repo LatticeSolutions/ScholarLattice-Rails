@@ -5,7 +5,10 @@
 
   <div class="flex justify-between items-center">
     <h2 class="font-bold text-4xl">Invitations</h1>
-    <%= link_to "New invitation", new_collection_invitation_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <div class="flex">
+      <%= link_to "New batch", batch_collection_invitations_path, class: "rounded-lg py-3 px-5 mr-3 bg-blue-600 text-white block font-medium" %>
+      <%= link_to "New invitation", new_collection_invitation_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    </div>
   </div>
 
   <div id="invitations" class="min-w-full">

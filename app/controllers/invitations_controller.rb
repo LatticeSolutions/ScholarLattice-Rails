@@ -32,6 +32,40 @@ class InvitationsController < ApplicationController
     end
   end
 
+  def new_batch
+    @profiles = ""
+    @message = ""
+  end
+
+  def create_batch
+    @profiles = params[:profiles]
+    @message = params[:message]
+    invitations = []
+    @profiles.split("\n").each do |profile_string|
+      if profile_string.match(/(.+)\s+(.+)\s+<(.+)>/)
+        first_name, last_name, email = profile_string.match(/(.+)\s+(.+)\s+<(.+)>/).captures
+        user = User.find_or_create_by! email: email
+        profile = user.profiles.find_by email: email
+        profile ||= user.profiles.create!(email: email, first_name: first_name, last_name: last_name)
+      else
+        flash.now[:alert] = "Could not parse invitation names/emails."
+        render :new_batch, status: :unprocessable_entity
+        return
+      end
+      invitations << @collection.invitations.new(profile: profile, message: @message)
+    end
+
+    invalid_invitations = invitations.reject(&:valid?)
+    if invalid_invitations.any?
+      flash.now[:alert] = "Some invitations could not be created: #{invalid_invitations.map { |inv| inv.errors.full_messages.join(', ') }.join('; ')}"
+      render :new_batch, status: :unprocessable_entity
+      return
+    end
+
+    invitations.each(&:save!)
+    redirect_to collection_invitations_path(@collection), notice: "Invitations sent."
+  end
+
   # PATCH/PUT /invitations/1 or /invitations/1.json
   def update
     respond_to do |format|
