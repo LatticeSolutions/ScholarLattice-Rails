@@ -46,4 +46,8 @@ class User < ApplicationRecord
       Submission.where profile: profiles, collection: collection
     end
   end
+
+  def invitations
+    Invitation.where profile: profiles
+  end
 end
