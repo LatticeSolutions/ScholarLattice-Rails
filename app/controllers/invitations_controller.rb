@@ -1,6 +1,7 @@
 class InvitationsController < ApplicationController
   load_and_authorize_resource :collection
-  load_and_authorize_resource :invitation, through: :collection, shallow: true
+  load_and_authorize_resource :invitation, through: :collection, shallow: true, except: [ :accept, :decline ]
+  load_resource :invitation, only: [ :accept, :decline ]
 
   # GET /invitations or /invitations.json
   def index
@@ -95,11 +96,13 @@ class InvitationsController < ApplicationController
   end
 
   def accept
+    authorize! :respond_to, @invitation
     @invitation.update! status: :accepted
     redirect_to @invitation, notice: "Invitation accepted."
   end
 
   def decline
+    authorize! :respond_to, @invitation
     @invitation.update! status: :declined
     redirect_to @invitation, notice: "Invitation declined."
   end
