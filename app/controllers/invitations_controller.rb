@@ -23,6 +23,7 @@ class InvitationsController < ApplicationController
   def create
     respond_to do |format|
       if @invitation.save!
+        InvitationMailer.invitation_created(@invitation).deliver_later
         format.html { redirect_to @invitation, notice: "Invitation was successfully created." }
         format.json { render :show, status: :created, location: @invitation }
       else
@@ -62,7 +63,10 @@ class InvitationsController < ApplicationController
       return
     end
 
-    invitations.each(&:save!)
+    invitations.each do |invitation|
+      invitation.save!
+      InvitationMailer.invitation_created(invitation).deliver_later
+    end
     redirect_to collection_invitations_path(@collection), notice: "Invitations sent."
   end
 

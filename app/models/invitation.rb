@@ -14,4 +14,11 @@ class Invitation < ApplicationRecord
   def submitted?
     submissions.any?
   end
+
+  def notification_emails
+    [
+      profile.email,
+      *collection.admins.map(&:user).map(&:email)
+    ].uniq
+  end
 end
