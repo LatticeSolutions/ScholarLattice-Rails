@@ -9,6 +9,22 @@
         <span class="px-3">Dashboard</span>
     </h1>
 
+    <% if @current_user.invitations.where(status: :pending).any? %>
+        <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
+            <span class="size-8">
+                <%= render IconComponent.new(:invitation) %>
+            </span>
+            <span class="px-3">Your Pending Invitations</span>
+        </h2>
+        <ul class="list-disc pl-5">
+            <% @current_user.invitations.where(status: :pending).each do |invitation| %>
+            <li class="py-2">
+                <%= link_to invitation.collection.title, invitation, class: "text-blue-600 hover:underline" %>
+            </li>
+            <% end %>
+        </ul>
+    <% end %>
+
     <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
         <span class="size-8">
             <%= render IconComponent.new(:profile) %>
