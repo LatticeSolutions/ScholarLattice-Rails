@@ -1,0 +1,25 @@
+<h1>Invitation to submit to <%= @invitation.collection.title %></h1>
+<p>
+    Dear <%= @invitation.profile.name %>,
+</p>
+<% if @invitation.message.present? %>
+    <%= sanitize @invitation.message_html %>
+<% else %>
+    <p>
+        You have been invited to submit to the collection
+        <strong><%= @invitation.collection.title %></strong>.
+    </p>
+<% end %>
+<p>
+    To accept or decline this invitation, please visit the following link on ScholarLattice:
+    <%= link_to "Accept or Decline Invitation", invitation_url(@invitation) %> or copy-paste
+    the URL below into your browser:
+</p>
+<p>
+    <code><%= invitation_url(@invitation) %></code>
+</p>
+<p>
+    For your security, you may be required to enter and verify your email
+    <code><%= @invitation.profile.email %></code>
+    before you can accept or decline this invitation.
+</p>

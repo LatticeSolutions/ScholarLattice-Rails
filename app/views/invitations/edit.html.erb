@@ -1,0 +1,11 @@
+<% content_for :title, "Edit Invitation | #{@invitation.collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+  <%= render partial: "breadcrumb", locals: { collection: @invitation.collection, action: "Edit" } %>
+  <h1 class="font-bold text-4xl">Editing invitation</h1>
+
+  <%= render "form", invitation: @invitation %>
+
+  <%= link_to "Show this invitation", @invitation, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  <%= link_to "Back to invitations", collection_invitations_path(@invitation.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+</div>

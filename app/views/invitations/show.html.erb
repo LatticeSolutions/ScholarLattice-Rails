@@ -1,0 +1,44 @@
+<% content_for :title, "Show Invitation | #{@invitation.collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+  <%= render partial: "breadcrumb", locals: { collection: @invitation.collection, action: "Show" } %>
+  <div class="mx-auto">
+    <%= render @invitation %>
+
+    <% if can? :manage, @invitation %>
+      <div class="my-3">
+        <%= link_to "Edit this invitation", edit_invitation_path(@invitation), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+        <%= link_to "Back to invitations", collection_invitations_path(@invitation.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+        <% if can? :destroy, @invitation %>
+          <%= button_to "Destroy this invitation", @invitation, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
+            class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if can? :respond_to, @invitation %>
+      <div class="my-3">
+        <% unless @invitation.accepted? %>
+          <%= button_to "Accept this invitation", accept_invitation_path(@invitation),
+            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-sky-100 text-sky-900 inline-block font-medium", form_class: "inline-block", method: :post %>
+        <% end %>
+        <% unless @invitation.declined? %>
+          <%= button_to "Decline this invitation", decline_invitation_path(@invitation),
+            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-red-100 text-red-900 inline-block font-medium", form_class: "inline-block", method: :post %>
+        <% end %>
+        <%= link_to "Email organizers", "mailto:#{@invitation.collection.admin_emails.delete(' ')}",
+            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", target: "_blank" %>
+    <% end %>
+
+    <% if @invitation.submitted? %>
+      <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+          Invited Submissions:
+      </h2>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+          <% @invitation.submissions.each do |submission| %>
+              <%= render partial: "submissions/card", locals: { submission: submission } %>
+          <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

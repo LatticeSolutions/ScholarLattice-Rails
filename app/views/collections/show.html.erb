@@ -11,6 +11,11 @@
             {icon: :collection, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
             {icon: :calendar, path: new_collection_event_path(@collection), text: "New Event"},
             {
+                icon: :invitation, 
+                path: collection_invitations_path(@collection), 
+                text: "View Invitations (#{@collection.subtree_invitations.count})"
+            },
+            {
                 icon: :submission, 
                 path: collection_submissions_path(@collection), 
                 text: "View Submissions (#{@collection.subtree_submissions.count})"

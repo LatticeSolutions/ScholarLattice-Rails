@@ -44,6 +44,16 @@ class Ability
     end
     cannot :destroy, Submission
 
+    can :manage, Invitation do |i|
+      i.collection.has_admin?(user)
+    end
+    can :read, Invitation do |i|
+      i.profile.in?(user.profiles)
+    end
+    can :respond_to, Invitation do |i|
+      i.profile.in?(user.profiles) && i.status != :revoked
+    end
+
     can :create, Profile
     can :manage, Profile do |p|
       user.in? p.users
