@@ -68,7 +68,7 @@ gem "resend", "~> 0.14.0"
 
 gem "rails_real_favicon", "~> 0.1.1", group: :development
 
-gem "view_component", "~> 3.20"
+gem "view_component", "~> 3.22"
 
 gem "kramdown", "~> 2.5"
 
