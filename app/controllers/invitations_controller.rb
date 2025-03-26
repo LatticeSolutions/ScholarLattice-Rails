@@ -22,7 +22,7 @@ class InvitationsController < ApplicationController
   # POST /invitations or /invitations.json
   def create
     respond_to do |format|
-      if @invitation.save!
+      if @invitation.save
         InvitationMailer.invitation_created(@invitation).deliver_later
         format.html { redirect_to @invitation, notice: "Invitation was successfully created." }
         format.json { render :show, status: :created, location: @invitation }
@@ -42,18 +42,17 @@ class InvitationsController < ApplicationController
     @profiles = params[:profiles]
     @message = params[:message]
     invitations = []
-    @profiles.split("\n").each do |profile_string|
-      if profile_string.match(/(.+)\s+(.+)\s+<(.+)>/)
-        first_name, last_name, email = profile_string.match(/(.+)\s+(.+)\s+<(.+)>/).captures
-        user = User.find_or_create_by! email: email
-        profile = user.profiles.find_by email: email
-        profile ||= user.profiles.create!(email: email, first_name: first_name, last_name: last_name)
+    @profiles.split(/[\n,;]+/).each do |profile_string|
+      name_email_regex = /(.+)\s+(.+)\s+<(.+)>/
+      if profile_string.strip.match(name_email_regex)
+        first_name, last_name, email = profile_string.match(name_email_regex).captures
+        profile_id = get_profile_id(email, first_name, last_name)
       else
-        flash.now[:alert] = "Could not parse invitation names/emails."
+        flash.now[:alert] = "Could not parse invitation name/email: `#{profile_string}`."
         render :new_batch, status: :unprocessable_entity
         return
       end
-      invitations << @collection.invitations.new(profile: profile, message: @message)
+      invitations << @collection.invitations.new(profile_id: profile_id, message: @message)
     end
 
     invalid_invitations = invitations.reject(&:valid?)
@@ -112,15 +111,27 @@ class InvitationsController < ApplicationController
         :profile_last_name, :status, :profile_id
       ])
       if ps[:profile_id].blank?
-        user = User.find_or_create_by! email: ps[:profile_email]
-        profile = user.profiles.find_by email: ps[:profile_email]
-        profile ||= user.profiles.create!(
-          email: ps[:profile_email],
-          first_name: ps[:profile_first_name],
-          last_name: ps[:profile_last_name]
+        ps[:profile_id] = get_profile_id(
+          ps[:profile_email], ps[:profile_first_name], ps[:profile_last_name]
         )
-        ps[:profile_id] = profile.id
       end
       ps.except(:profile_email, :profile_first_name, :profile_last_name)
+    end
+
+    def get_profile_id(profile_email, profile_first_name, profile_last_name)
+      user = User.find_or_create_by! email: profile_email
+      profile = user.profiles.find_by email: profile_email
+      if profile.nil?
+        if !profile_email.blank? && !profile_first_name.blank? && !profile_last_name.blank?
+          return user.profiles.create!(
+            email: profile_email,
+            first_name: profile_first_name,
+            last_name: profile_last_name
+          ).id
+        else
+          return nil
+        end
+      end
+      profile.id
     end
 end
