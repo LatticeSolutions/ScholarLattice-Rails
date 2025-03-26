@@ -5,7 +5,8 @@ class InvitationsController < ApplicationController
 
   # GET /invitations or /invitations.json
   def index
-    @invitations = Invitation.all
+    authorize! :manage, @collection
+    @invitations = @collection.subtree_invitations
   end
 
   # GET /invitations/1 or /invitations/1.json
