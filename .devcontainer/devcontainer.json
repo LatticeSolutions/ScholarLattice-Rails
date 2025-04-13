@@ -31,5 +31,5 @@
 
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "bin/setup"
+  "postCreateCommand": "bin/setup && bin/rails db:fixtures:load_ordered"
 }
