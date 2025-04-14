@@ -52,4 +52,8 @@ class User < ApplicationRecord
   def invitations
     Invitation.where profile: profiles
   end
+
+  def main_profile
+    profiles.where(email: email).first
+  end
 end

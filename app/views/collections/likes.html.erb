@@ -1,0 +1,36 @@
+<% content_for :title, "Favorites | #{@collection.title}" %>
+
+<section class="mx-auto md:w-3/4 w-full">
+    <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Favorites" } %>
+
+    <% if notice.present? %>
+      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+    <% end %>
+
+    <% content_for :title, "Favorites | #{@collection.title}" %>
+    
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        Users who have favorited <%= @collection.title %>
+    </h1>
+
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @favorite_users.map{|u| u.email }.uniq.join("; ")
+        %></textarea>
+    </div>
+    
+    <div>
+        <ul class="list-disc pl-5">
+            <% @favorite_users.each do |user| %>
+                <li class="text-gray-700">
+                    <% if user.main_profile.present? %>
+                        <%= user.main_profile.name_with_email %>
+                    <% else %>
+                        <%= user.email %>
+                    <% end %>
+                </li>
+            <% end %>
+        </ul>
+    </div>
+</section>
