@@ -7,18 +7,23 @@
         <div class="mt-3">
         <%= render AdminBarComponent.new(
             {icon: :edit, path: edit_collection_path, text: "Edit"},
+            {icon: :collection_outline, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
             {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
-            {icon: :collection, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
             {icon: :calendar, path: new_collection_event_path(@collection), text: "New Event"},
+            {
+                icon: :star, 
+                path: collection_likes_path(@collection), 
+                text: "Favorites (#{@collection.favorite_users.count})"
+            },
             {
                 icon: :invitation, 
                 path: collection_invitations_path(@collection), 
-                text: "View Invitations (#{@collection.subtree_invitations.count})"
+                text: "Invitations (#{@collection.subtree_invitations.count})"
             },
             {
                 icon: :submission, 
                 path: collection_submissions_path(@collection), 
-                text: "View Submissions (#{@collection.subtree_submissions.count})"
+                text: "Submissions (#{@collection.subtree_submissions.count})"
             },
         )%>
         </div>
