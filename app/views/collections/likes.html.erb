@@ -16,7 +16,7 @@
     <div class="text-gray-700 py-3">
         Emails:
         <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-            @favorite_users.map{|u| u.email }.join("; ")
+            @favorite_users.map{|u| u.email }.uniq.join("; ")
         %></textarea>
     </div>
     
