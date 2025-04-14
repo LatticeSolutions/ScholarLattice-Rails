@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_many :favorite_collections, through: :likes, source: :collection
   has_and_belongs_to_many :profiles
 
+  before_save :downcase_email
+
   delegate :can?, :cannot?, to: :ability
 
   def ability

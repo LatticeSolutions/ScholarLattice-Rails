@@ -19,7 +19,7 @@
     <% if can? :respond_to, @invitation %>
       <div class="my-3">
         <% if @invitation.accepted? %>
-          <%= link_to "Submit", new_collection_submission_path(@invitation.collection),
+          <%= link_to "Submit to #{@invitation.collection.short_title}", new_collection_submission_path(@invitation.collection),
             class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-blue-500 text-white inline-block font-medium" %>
         <% else %>
           <%= button_to "Accept this invitation", accept_invitation_path(@invitation),

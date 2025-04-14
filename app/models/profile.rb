@@ -3,8 +3,14 @@ class Profile < ApplicationRecord
   has_many :submissions
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :email,
+            presence: true,
+            uniqueness: { case_sensitive: false },
+            format: { with: URI::MailTo::EMAIL_REGEXP }
   validate :unique_email_among_users_validation
   enum :position_type, { faculty: 0, grad_student: 1, undergrad_student: 2, secondary_student: 3, other: 4 }
+
+  before_save :downcase_email
 
   default_scope { order(:last_name, :first_name) }
 

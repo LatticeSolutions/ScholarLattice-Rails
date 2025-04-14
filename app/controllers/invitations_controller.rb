@@ -123,12 +123,12 @@ class InvitationsController < ApplicationController
     end
 
     def get_profile_id(profile_email, profile_first_name, profile_last_name)
-      user = User.find_or_create_by! email: profile_email
-      profile = user.profiles.find_by email: profile_email
+      user = User.find_or_create_by! email: profile_email.downcase
+      profile = user.profiles.find_by email: profile_email.downcase
       if profile.nil?
         if !profile_email.blank? && !profile_first_name.blank? && !profile_last_name.blank?
           return user.profiles.create!(
-            email: profile_email,
+            email: profile_email.downcase,
             first_name: profile_first_name,
             last_name: profile_last_name
           ).id
