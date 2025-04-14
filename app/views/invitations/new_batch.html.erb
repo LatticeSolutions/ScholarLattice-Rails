@@ -2,7 +2,10 @@
 
 <div class="mx-auto md:w-2/3 w-full">
   <%= render partial: "breadcrumb", locals: { collection: @collection, action: "New Batch" } %>
-  <h1 class="font-bold text-4xl">New invitation batch</h1>
+  <h1 class="font-bold text-4xl">
+    New invitation batch for 
+    <%= link_to @collection.title, @collection, class: "text-sky-700 hover:underline" %>
+  </h1>
 
   <%= form_with url: batch_collection_invitations_path, method: :post, local: true do |f| %>
     <div class="mb-4">
