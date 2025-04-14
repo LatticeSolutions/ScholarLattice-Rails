@@ -14,7 +14,10 @@ class ApplicationController < ActionController::Base
   end
 
   def first_profile_redirect
-    if current_user && current_user.profiles.empty? && !request.path.include?("/profiles")
+    if current_user &&
+        current_user.profiles.empty? &&
+        !request.path.include?("/profiles") &&
+        !request.path.include?("/users")
       flash[:notice] = "Please create your profile to continue."
       redirect_to new_profile_path
     end
