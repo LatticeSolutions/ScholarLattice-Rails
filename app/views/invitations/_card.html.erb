@@ -1,0 +1,21 @@
+<%
+  if defined?(collection)
+    subpath = invitation.collection.path.filter do |c|
+      c.ancestors.include?(collection)
+    end
+    crumbs = subpath.map do |c|
+      { text: c.short_title }
+    end
+  else
+    crumbs = []
+  end
+%>
+
+<%= render CardComponent.new( 
+  title: "#{invitation.profile.name_with_email} (#{invitation.status.humanize.capitalize})",
+  description: "Invitation to #{invitation.collection.title}",
+  link_text: "View invitation",
+  link_url: invitation_path(invitation),
+  title_icon: :invitation,
+  crumbs: crumbs,
+) %>

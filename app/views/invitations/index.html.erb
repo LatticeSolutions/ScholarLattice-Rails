@@ -4,53 +4,79 @@
   <%= render partial: "breadcrumb", locals: { collection: @collection } %>
 
   <div class="flex justify-between items-center">
-    <h2 class="font-bold text-4xl">Invitations</h1>
+    <h2 class="font-bold text-4xl pb-3">
+      Invitations for
+      <%= link_to @collection.title, @collection, class: "text-sky-700 hover:underline" %>
+    </h2>
     <div class="flex">
       <%= link_to "New batch", batch_collection_invitations_path, class: "rounded-lg py-3 px-5 mr-3 bg-blue-600 text-white block font-medium" %>
       <%= link_to "New invitation", new_collection_invitation_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
     </div>
   </div>
 
-  <div id="invitations" class="min-w-full">
-    <h2 class="font-bold text-3xl mt-3">Pending Invitations</h1>
-    <ul class="list-disc pl-5">
-    <% @invitations.where(status: :pending).each do |invitation| %>
-      <li>
-        <%= invitation.profile.name_with_email %>
-        <%= link_to "Show", invitation, class: "ml-2 text-blue-600 underline" %>
-        <%= link_to "Edit", edit_invitation_path(invitation), class: "ml-2 text-blue-600 underline" %>
-      </li>
-    <% end %>
-    </ul>
-    <h2 class="font-bold text-3xl mt-3">Accepted Invitations</h1>
-    <ul class="list-disc pl-5">
-    <% @invitations.where(status: :accepted).each do |invitation| %>
-      <li>
-        <%= invitation.profile.name_with_email %>
-        <%= link_to "Show", invitation, class: "ml-2 text-blue-600 underline" %>
-        <%= link_to "Edit", edit_invitation_path(invitation), class: "ml-2 text-blue-600 underline" %>
-      </li>
-    <% end %>
-    </ul>
-    <h2 class="font-bold text-3xl mt-3">Declined Invitations</h1>
-    <ul class="list-disc pl-5">
-    <% @invitations.where(status: :declined).each do |invitation| %>
-      <li>
-        <%= invitation.profile.name_with_email %>
-        <%= link_to "Show", invitation, class: "ml-2 text-blue-600 underline" %>
-        <%= link_to "Edit", edit_invitation_path(invitation), class: "ml-2 text-blue-600 underline" %>
-      </li>
-    <% end %>
-    </ul>
-    <h2 class="font-bold text-3xl mt-3">Revoked Invitations</h1>
-    <ul class="list-disc pl-5">
-    <% @invitations.where(status: :revoked).each do |invitation| %>
-      <li>
-        <%= invitation.profile.name_with_email %>
-        <%= link_to "Show", invitation, class: "ml-2 text-blue-600 underline" %>
-        <%= link_to "Edit", edit_invitation_path(invitation), class: "ml-2 text-blue-600 underline" %>
-      </li>
-    <% end %>
-    </ul>
-  </div>
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        Pending:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @invitations.where(status: :pending).each do |invitation| %>
+            <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @invitations.where(status: :pending).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        <span class="size-4 inline-block">
+            <%= render IconComponent.new(:key) %>
+        </span>
+        Accepted:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @invitations.where(status: :accepted).each do |invitation| %>
+            <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @invitations.where(status: :accepted).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        <span class="size-4 inline-block">
+            <%= render IconComponent.new(:key) %>
+        </span>
+        Declined:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @invitations.where(status: :declined).each do |invitation| %>
+            <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @invitations.where(status: :declined).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        <span class="size-4 inline-block">
+            <%= render IconComponent.new(:key) %>
+        </span>
+        Revoked:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @invitations.where(status: :revoked).each do |invitation| %>
+            <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @invitations.where(status: :revoked).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
 </div>
