@@ -64,9 +64,9 @@ class InvitationsController < ApplicationController
       return
     end
 
-    invitations.each do |invitation|
+    invitations.each_with_index do |invitation, i|
       invitation.save!
-      InvitationMailer.invitation_created(invitation).deliver_later
+      InvitationMailer.invitation_created(invitation).deliver_later(wait: i.seconds)
     end
     redirect_to collection_invitations_path(@collection), notice: "Invitations sent."
   end
