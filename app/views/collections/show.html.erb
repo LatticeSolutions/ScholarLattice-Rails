@@ -7,6 +7,7 @@
         <div class="mt-3">
         <%= render AdminBarComponent.new(
             {icon: :edit, path: edit_collection_path, text: "Edit"},
+            {icon: :edit, path: @collection.home_page ? edit_page_path(@collection.home_page) : "/", text: "Edit Home Page", hidden: @collection.home_page.blank?},
             {icon: :collection_outline, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
             {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
             {icon: :calendar, path: new_collection_event_path(@collection), text: "New Event"},
@@ -135,14 +136,7 @@
         <% end %>
     <% end %>
 
-    <% unless @collection.home_page.nil? %>    
-        <% if can? :manage, @collection %>
-            <div class="mt-3">
-            <%= render AdminBarComponent.new(
-                {icon: :page, path: edit_page_path(@collection.home_page), text: "Edit Home Page"},
-            )%>
-            </div>
-        <% end %>
+    <% unless @collection.home_page.nil? %>   
         <div class="mathjax pt-4 prose sm:prose-xl mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
             <%= sanitize @collection.home_page.content_html %>
         </div>
