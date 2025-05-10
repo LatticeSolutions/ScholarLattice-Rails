@@ -115,7 +115,7 @@
         <div class="pt-4">
             <%= render BarComponent.new(
                 @collection.subcollection_name.pluralize,
-                :collection,
+                :collection_outline,
                 @collection.children.map{|c| {text: c.short_title, path: collection_path(c), color: "sky-800"}},
             )  %>
         </div>
@@ -128,7 +128,7 @@
     <% end %>
 
     <% unless @collection.non_public_pages.empty? %>
-        <% if @collection.has_admin? @current_user %>
+        <% if can? :manage, @collection %>
             <div class="pt-4">
                 <%= render PagesBarComponent.new(@collection.non_public_pages, public: false, label: "Non-public Pages")  %>
             </div>
@@ -136,7 +136,7 @@
     <% end %>
 
     <% unless @collection.home_page.nil? %>    
-        <% if @collection.has_admin? @current_user %>
+        <% if can? :manage, @collection %>
             <div class="mt-3">
             <%= render AdminBarComponent.new(
                 {icon: :page, path: edit_page_path(@collection.home_page), text: "Edit Home Page"},
