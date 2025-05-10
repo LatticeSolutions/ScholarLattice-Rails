@@ -6,7 +6,8 @@ Rails.application.routes.draw do
     resources :pages, shallow: true, except: :index
     resources :submissions, shallow: true
     resources :registrations, shallow: true
-    resources :registration_options, shallow: true, path: "registrations/options", only: [ :new, :create ]
+    resources :registration_options, shallow: true, path: "registrations/options",
+      only: [ :new, :create, :edit, :update, :destroy ]
     resources :events, shallow: true
     get "/followers", to: "collections#likes", as: "likes"
     resources :invitations, shallow: true do

@@ -9,7 +9,9 @@
 
     <% if can? :manage, @collection %>
         <div class="py-2">
-            <%= link_to "New Registration", new_collection_registration_path(@collection), class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+            <% if @registration_options.any? %>
+                <%= link_to "New Registration", new_collection_registration_path(@collection), class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+            <% end %>
             <%= link_to "New Option", new_collection_registration_option_path(@collection), class: "bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded" %>
         </div>
     <% end %>
@@ -17,6 +19,15 @@
     <% @registration_options.each do |option| %>
         <h1 class="text-2xl font-medium text-gray-800 md:text-3xl py-3">
             <%= option.name %>
+            <% if can? :manage, @collection %>
+                <%= link_to edit_registration_option_path(option), 
+                    class: "inline-flex items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 my-1 text-sm font-normal text-yellow-700 shadow-sm focus:relative" do %>
+                    <span class="size-4">
+                        <%= render IconComponent.new(:edit) %>
+                    </span>
+                    Edit Option
+                <% end %>
+            <% end %>
         </h1>
         <% if can? :manage, @collection %>
             <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
