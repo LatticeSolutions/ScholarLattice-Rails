@@ -26,6 +26,11 @@
                 path: collection_submissions_path(@collection), 
                 text: "Submissions (#{@collection.subtree_submissions.count})"
             },
+            {
+                icon: :registration, 
+                path: collection_submissions_path(@collection), 
+                text: "Registrations (#{@collection.subtree_submissions.count})"
+            },
         )%>
         </div>
         <p class="text-gray-500 text-sm">
