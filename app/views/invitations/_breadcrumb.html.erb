@@ -14,7 +14,7 @@
       { link: collection_path(c), text: c.short_title }
     end,
     { link: collection_path(collection), text: collection.short_title },
-    { text: "Invitations", icon: :invitation },
+    { link: collection_invitations_path(collection), text: "Invitations", icon: :invitation },
     { text: action }
   ) %>
 <% end %>

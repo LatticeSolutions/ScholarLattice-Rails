@@ -1,11 +1,11 @@
 class InvitationsController < ApplicationController
-  load_and_authorize_resource :collection
-  load_and_authorize_resource :invitation, through: :collection, shallow: true, except: [ :accept, :decline ]
+  load_and_authorize_resource :collection, except: [ :index ]
+  load_resource :collection, only: [ :index ]
+  load_and_authorize_resource :invitation, through: :collection, shallow: true, except: [ :index, :accept, :decline ]
   load_resource :invitation, only: [ :accept, :decline ]
 
   # GET /invitations or /invitations.json
   def index
-    authorize! :manage, @collection
     @invitations = @collection.subtree_invitations
   end
 
