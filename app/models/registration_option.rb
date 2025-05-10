@@ -29,7 +29,11 @@ class RegistrationOption < ApplicationRecord
 
   def cost_formated
     return "Free" if cost.blank? || cost == 0
-    dollars = "#{cost.abs / 100}.#{cents_formatted}"
+    if cost.abs % 100 == 0
+      dollars = "#{cost.abs / 100}"
+    else
+      dollars = "#{cost.abs / 100}.#{cents_formatted}"
+    end
     return "$#{dollars}" if cost > 0
     "-$#{dollars}"
   end

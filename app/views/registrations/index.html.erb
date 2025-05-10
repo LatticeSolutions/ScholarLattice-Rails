@@ -18,8 +18,8 @@
 
     <% @registration_options.each do |option| %>
         <h1 class="text-2xl font-medium text-gray-800 md:text-3xl py-3">
-            <%= option.name %>
             <% if can? :manage, @collection %>
+                <%= option.name_with_cost %>
                 <%= link_to edit_registration_option_path(option), 
                     class: "inline-flex items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 my-1 text-sm font-normal text-yellow-700 shadow-sm focus:relative" do %>
                     <span class="size-4">
@@ -27,6 +27,8 @@
                     </span>
                     Edit Option
                 <% end %>
+            <% else %>
+                <%= option.name %>
             <% end %>
         </h1>
         <% if can? :manage, @collection %>
