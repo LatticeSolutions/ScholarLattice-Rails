@@ -16,7 +16,7 @@
 
     <% @registration_options.each do |option| %>
         <h1 class="text-2xl font-medium text-gray-800 md:text-3xl py-3">
-            <%= option.name_with_cost %>
+            <%= option.name %>
         </h1>
         <% if can? :manage, @collection %>
             <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
@@ -53,7 +53,7 @@
                 Declined:
             </h1>
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-                <% option.registrations.where(status: :submitted).each do |registration| %>
+                <% option.registrations.where(status: :declined).each do |registration| %>
                     <%= render partial: "registrations/card", locals: { registration: registration, collection: @collection } %>
                 <% end %>
             </div>
