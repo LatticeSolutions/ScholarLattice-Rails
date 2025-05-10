@@ -1,0 +1,12 @@
+<% content_for :title, "New Registration | #{@collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+
+  <%= render partial: "breadcrumb", locals: { collection: @collection, action: "New" } %>
+
+  <h1 class="font-bold text-4xl">New Registration for <%= @collection.title %></h1>
+
+  <%= render "form", registration: @registration, collection: @collection %>
+
+  <%= link_to "Back to collection", collection_path(@collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+</div>

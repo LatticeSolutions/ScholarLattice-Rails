@@ -42,13 +42,23 @@ class Ability
     can [ :read, :update ], Submission do |s|
       s.profile.in? user.profiles
     end
+    can :read, Submission do |s|
+      s.accepted?
+    end
     cannot :destroy, Submission
+
+    can :manage, Registration do |r|
+      r.collection.has_admin?(user)
+    end
+    can :read, Registration do |s|
+      r.status == :accepted
+    end
 
     can :manage, Invitation do |i|
       i.collection.has_admin?(user)
     end
     can :read, Invitation do |i|
-      i.profile.in?(user.profiles)
+      i.profile.in?(user.profiles) || i.status == :accepted
     end
     can :respond_to, Invitation do |i|
       i.profile.in?(user.profiles) && i.status != :revoked

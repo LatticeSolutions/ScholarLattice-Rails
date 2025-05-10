@@ -9,6 +9,7 @@
     </span>
 
     <% @links.each do |link| %>
+        <% next if link[:hidden].present? %>
         <%= link_to(link[:path], class: "inline-flex items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 my-1 text-sm text-#{link[:color] || "blue-500"} shadow-sm focus:relative") do %>
             <% if link.key? :icon %>
                 <span class="size-4">

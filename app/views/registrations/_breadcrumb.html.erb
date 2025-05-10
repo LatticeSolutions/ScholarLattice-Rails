@@ -5,7 +5,7 @@
       { link: collection_path(c), text: c.short_title }
     end,
     { link: collection_path(collection), text: collection.short_title },
-    { text: "Invitations", icon: :invitation },
+    { text: "Registrations", icon: :registration },
   ) %>
 <% else %>
   <%= render BreadcrumbsComponent.new(
@@ -14,7 +14,7 @@
       { link: collection_path(c), text: c.short_title }
     end,
     { link: collection_path(collection), text: collection.short_title },
-    { link: collection_invitations_path(collection), text: "Invitations", icon: :invitation },
+    { link: collection_registrations_path(collection), text: "Registrations", icon: :registration },
     { text: action }
   ) %>
 <% end %>

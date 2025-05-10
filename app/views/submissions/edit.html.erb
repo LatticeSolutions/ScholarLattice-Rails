@@ -1,7 +1,10 @@
 <% content_for :title, "Edit Submission | #{@submission.collection.title}" %>
 
 <div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing submission</h1>
+
+  <%= render partial: "breadcrumb", locals: { collection: @submission.collection, action: "Edit" } %>
+
+  <h1 class="font-bold text-4xl">Editing Submission</h1>
 
   <%= render "form", submission: @submission %>
 

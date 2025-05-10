@@ -1,0 +1,42 @@
+<% content_for :title, "Registration for #{@registration.collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto">
+
+    <%= render partial: "breadcrumb", locals: { collection: @registration.collection, action: "Show" } %>
+
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Profile:</strong>
+      <%= @registration.profile.name_with_email %>
+      <% if @registration.profile.verified? %>
+          <span class="inline-block size-4"><%= render IconComponent.new(:profile_verified) %></span>
+      <% end %>
+    </p>
+
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Collection:</strong>
+      <%= @registration.collection.title %>
+    </p>
+
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Registration Option:</strong>
+      <%= @registration.registration_option.name_with_cost %>
+    </p>
+
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Status:</strong>
+      <%= @registration.status.humanize %>
+    </p>
+
+    <% if can? :update, @registration %>
+      <%= link_to "Edit this registration", edit_registration_path(@registration), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <% end %>
+    
+    <%= link_to "Back to collection", collection_path(@registration.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
+    <% if can? :destroy, @registration %>
+      <%= button_to "Destroy this registration", @registration, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
+        class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
+    <% end %>
+  </div>
+</div>

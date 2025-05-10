@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+faculty:
+  id: "fe99b624-aaf2-4d93-a4c0-4e2c411b4605"
+  collection_id: "cecf7398-650d-4050-a62f-74ec332cc1ad"
+  name: Faculty
+  cost: 5000
+  opens_on: <%= Time.now %>
+  closes_on: <%= Time.now + 1.month %>
+  stock: nil
+
+student:
+  id: "05efa1a6-d8d6-4f20-9f56-1ca19401e56d"
+  collection_id: "cecf7398-650d-4050-a62f-74ec332cc1ad"
+  name: Student
+  cost: 1000
+  opens_on: <%= Time.now %>
+  closes_on: <%= Time.now + 1.month %>
+  stock: 25

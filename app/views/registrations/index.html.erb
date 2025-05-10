@@ -1,0 +1,81 @@
+<% content_for :title, "Registrations | #{@collection.title}" %>
+
+<section class="mx-auto md:w-3/4 w-full">
+    <%= render partial: "breadcrumb", locals: { collection: @collection } %>
+    
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        Registrations for <%= @collection.title %>
+    </h1>
+
+    <% if can? :manage, @collection %>
+        <div class="py-2">
+            <% if @registration_options.any? %>
+                <%= link_to "New Registration", new_collection_registration_path(@collection), class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+            <% end %>
+            <%= link_to "New Option", new_collection_registration_option_path(@collection), class: "bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded" %>
+        </div>
+    <% end %>
+
+    <% @registration_options.each do |option| %>
+        <h1 class="text-2xl font-medium text-gray-800 md:text-3xl py-3">
+            <% if can? :manage, @collection %>
+                <%= option.name_with_cost %>
+                <%= link_to edit_registration_option_path(option), 
+                    class: "inline-flex items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 my-1 text-sm font-normal text-yellow-700 shadow-sm focus:relative" do %>
+                    <span class="size-4">
+                        <%= render IconComponent.new(:edit) %>
+                    </span>
+                    Edit Option
+                <% end %>
+            <% else %>
+                <%= option.name %>
+            <% end %>
+        </h1>
+        <% if can? :manage, @collection %>
+            <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+                Submitted:
+            </h1>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+                <% option.registrations.where(status: :submitted).each do |registration| %>
+                    <%= render partial: "registrations/card", locals: { registration: registration, collection: @collection } %>
+                <% end %>
+            </div>
+            <div class="text-gray-700 py-3">
+                Emails:
+                <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+                    option.registrations.where(status: :submitted).map{|s| s.profile.email }.join("; ")
+                %></textarea>
+            </div>
+        <% end %>
+            <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+                Accepted:
+            </h1>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+                <% option.registrations.where(status: :accepted).each do |registration| %>
+                    <%= render partial: "registrations/card", locals: { registration: registration, collection: @collection } %>
+                <% end %>
+            </div>
+        <% if can? :manage, @collection %>
+            <div class="text-gray-700 py-3">
+                Emails:
+                <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+                    option.registrations.where(status: :accepted).map{|s| s.profile.email }.join("; ")
+                %></textarea>
+            </div>
+            <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+                Declined:
+            </h1>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+                <% option.registrations.where(status: :declined).each do |registration| %>
+                    <%= render partial: "registrations/card", locals: { registration: registration, collection: @collection } %>
+                <% end %>
+            </div>
+            <div class="text-gray-700 py-3">
+                Emails:
+                <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+                    option.registrations.where(status: :submitted).map{|s| s.profile.email }.join("; ")
+                %></textarea>
+            </div>
+        <% end %>
+    <% end %>
+</section>

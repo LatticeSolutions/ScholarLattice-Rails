@@ -1,10 +1,10 @@
 class SubmissionsController < ApplicationController
-  load_and_authorize_resource :collection
-  load_and_authorize_resource :submission, through: :collection, shallow: true
+  load_and_authorize_resource :collection, except: [ :index ]
+  load_resource :collection, only: [ :index ]
+  load_and_authorize_resource :submission, through: :collection, shallow: true, except: [ :index ]
 
   # GET /submissions or /submissions.json
   def index
-    authorize! :manage, @collection
     @submissions = @collection.subtree_submissions
     respond_to do |format|
       format.html

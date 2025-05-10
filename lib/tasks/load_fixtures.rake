@@ -3,7 +3,8 @@ namespace :db do
     desc "Load fixtures in a specific order"
     task load_ordered: :environment do
       fixtures = %w[users collections admins events
-                  likes pages profiles profiles_users submissions]
+                  likes pages profiles profiles_users submissions
+                  registration_options registrations registration_payments]
       fixtures.each do |fixture|
         ENV["FIXTURES"] = fixture
         Rake::Task["db:fixtures:load"].invoke
