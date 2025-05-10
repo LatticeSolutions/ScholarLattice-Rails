@@ -26,9 +26,11 @@ class RegistrationsController < ApplicationController
   # POST /registrations or /registrations.json
   def create
     respond_to do |format|
+      if @registration.registration_option.collection_id != params[:collection_id]
+        @registration.errors.add(:registration_option, "does not match this collection")
+      end
       if @registration.save
-        registrationMailer.registration_created(@registration).deliver_later
-        format.html { redirect_to @registration, notice: "registration was successfully created." }
+        format.html { redirect_to @registration, notice: "Registration was successfully created." }
         format.json { render :show, status: :created, location: @registration }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,9 +42,12 @@ class RegistrationsController < ApplicationController
   # PATCH/PUT /registrations/1 or /registrations/1.json
   def update
     respond_to do |format|
+      if @registration.registration_option.collection_id !=
+          Registration.new(registration_params).registration_option.collection_id
+        @registration.errors.add(:registration_option, "does not match this collection")
+      end
       if @registration.update(registration_params)
-        registrationMailer.registration_updated(@registration).deliver_later
-        format.html { redirect_to @registration, notice: "registration was successfully updated." }
+        format.html { redirect_to @registration, notice: "Registration was successfully updated." }
         format.json { render :show, status: :ok, location: @registration }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -57,7 +62,7 @@ class RegistrationsController < ApplicationController
     @registration.destroy!
 
     respond_to do |format|
-      format.html { redirect_to collection_path(c), status: :see_other, notice: "registration was successfully destroyed." }
+      format.html { redirect_to collection_path(c), status: :see_other, notice: "Registration was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -66,9 +71,9 @@ class RegistrationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def registration_params
       if can? :manage, @registration
-        params.expect(registration: [ :title, :abstract, :notes, :profile_id, :status, :collection_id ])
+        params.expect(registration: [ :registration_option_id, :profile_id, :status ])
       else
-        params.expect(registration: [ :title, :abstract, :notes, :profile_id ])
+        params.expect(registration: [ :registration_option_id, :profile_id ])
       end
     end
 end
