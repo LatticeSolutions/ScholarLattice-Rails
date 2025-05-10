@@ -48,7 +48,7 @@ class Ability
     cannot :destroy, Submission
 
     can :manage, Registration do |r|
-      r.collection.has_admin?(user)
+      r.collection.nil? || r.collection.has_admin?(user)
     end
     can :read, Registration do |s|
       r.status == :accepted
