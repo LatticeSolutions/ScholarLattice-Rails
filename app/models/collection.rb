@@ -11,6 +11,9 @@ class Collection < ApplicationRecord
   has_many :submissions, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :invitations, dependent: :destroy
+  has_many :registration_options, dependent: :destroy
+  has_many :registrations, through: :registration_options
+  has_many :payments, through: :registrations
   after_save :update_admins_after_save
   before_save :round_down_submission_times
 

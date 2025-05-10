@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_14_152040) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_10_155952) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -121,6 +121,37 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_14_152040) do
     t.index ["user_id"], name: "index_profiles_users_on_user_id"
   end
 
+  create_table "registration_options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.integer "cost"
+    t.datetime "opens_on"
+    t.datetime "closes_on"
+    t.integer "stock"
+    t.uuid "collection_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_registration_options_on_collection_id"
+  end
+
+  create_table "registration_payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "amount", default: 0, null: false
+    t.text "memo"
+    t.uuid "registration_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["registration_id"], name: "index_registration_payments_on_registration_id"
+  end
+
+  create_table "registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.uuid "registration_option_id", null: false
+    t.uuid "profile_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_registrations_on_profile_id"
+    t.index ["registration_option_id"], name: "index_registrations_on_registration_option_id"
+  end
+
   create_table "submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.text "abstract"
@@ -151,6 +182,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_14_152040) do
   add_foreign_key "pages", "collections"
   add_foreign_key "profiles_users", "profiles"
   add_foreign_key "profiles_users", "users"
+  add_foreign_key "registration_options", "collections"
+  add_foreign_key "registration_payments", "registrations"
+  add_foreign_key "registrations", "profiles"
+  add_foreign_key "registrations", "registration_options"
   add_foreign_key "submissions", "collections"
   add_foreign_key "submissions", "profiles"
 end

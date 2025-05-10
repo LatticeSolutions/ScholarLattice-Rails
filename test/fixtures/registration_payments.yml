@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+john_doe:
+  id: <%= SecureRandom.uuid %>
+  registration_id: "26bfa6bd-61e0-4eae-879a-3052a77b5070"
+  amount: 5000
+  memo: "Full payment"
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+jane_smith1:
+  id: <%= SecureRandom.uuid %>
+  registration_id: "8011ed8c-0372-4860-a289-f20e82098a14"
+  amount: 500
+  memo: "Partial payment"
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+jane_smith2:
+  id: <%= SecureRandom.uuid %>
+  registration_id: "8011ed8c-0372-4860-a289-f20e82098a14"
+  amount: 300
+  memo: "Partial payment"
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
