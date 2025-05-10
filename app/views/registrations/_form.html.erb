@@ -1,0 +1,74 @@
+<%= form_with(model: submission, url: (@submission.new_record? ? [@submission.collection, @submission] : [@submission]), class: "contents") do |form| %>
+  <% if submission.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
+
+      <ul>
+        <% submission.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :profile_id %>
+    <% if @submission.profile.present? %>
+        <%= form.hidden_field :profile_id %>
+       <p><%= @submission.profile.name_with_email %></p>
+    <% else %>
+      <% unless @current_user.profiles.empty? %>
+        <%= form.select :profile_id, @current_user.profiles.map {|p| [p.name_with_email, p.id]} %>
+      <% end %>
+      <%= render partial: "profiles/new_button" %>
+    <% end %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :abstract do %>
+      Abstract
+      <span class="text-sm text-gray-500">
+        Standard <code>$\LaTeX$</code> commands are supported for mathematical notation.
+      </span>
+    <% end %>
+    <%= form.textarea :abstract, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :notes do %>
+      Notes
+      <span class="text-sm text-gray-500">
+        These are not part of your official abstract, but will be publicly available on ScholarLattice
+        and can be used to provide additional information (links to slides, references, etc.).
+      </span>
+    <% end %>
+    <%= form.textarea :notes, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <% if can? :manage, @submission %>
+    <div class="my-5">
+      <%= form.label :status %>
+      <%= form.select :status, Submission.statuses.keys.map {|key| [key.humanize, key]},
+        {selected: submission.status || :draft},
+        {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+    </div>
+    <% unless @collection %>
+      <div class="my-5">
+        <%= form.label :collection_id %>
+        <%= form.select :collection_id, 
+          @current_user.admin_collections.map {|c| [c.short_title_path, c.id]},
+          {selected: submission.collection_id},
+          {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="inline">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

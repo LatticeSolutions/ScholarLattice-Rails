@@ -1,0 +1,31 @@
+<div id="<%= dom_id submission %>">
+  <h1 class="text-2xl font-bold italic text-gray-900 md:text-3xl pt-1 mathjax">
+    <%= submission.title %>
+  </h1>
+  <h2 class="text-xl font-bold text-gray-900 md:text-2xl pt-1">
+    <%= submission.profile.name_with_email %>
+    <% if submission.profile.verified? %>
+        <span class="inline-block size-4"><%= render IconComponent.new(:profile_verified) %></span>
+    <% end %>
+  </h2>
+
+  <% if submission.abstract.present? %>
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Abstract:</strong>
+      <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+        <%= sanitize submission.abstract_html %>
+      </div>
+    </p>
+  <% end %>
+
+  <% if submission.notes.present? %>
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Notes:</strong>
+     
+      <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+         <%= sanitize submission.notes_html %>
+      </div>
+    </p>
+  <% end %>
+
+</div>

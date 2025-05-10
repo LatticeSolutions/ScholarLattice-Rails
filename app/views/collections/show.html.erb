@@ -14,7 +14,7 @@
             {
                 icon: :star, 
                 path: collection_likes_path(@collection), 
-                text: "Favorites (#{@collection.favorite_users.count})"
+                text: "Followers (#{@collection.favorite_users.count})"
             },
             {
                 icon: :invitation, 
@@ -28,8 +28,8 @@
             },
             {
                 icon: :registration, 
-                path: collection_submissions_path(@collection), 
-                text: "Registrations (#{@collection.subtree_submissions.count})"
+                path: collection_registrations_path(@collection), 
+                text: "Registrations (#{@collection.registrations.count})"
             },
         )%>
         </div>

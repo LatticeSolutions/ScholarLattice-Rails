@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   resources :collections do
     resources :pages, shallow: true, except: :index
     resources :submissions, shallow: true
+    resources :registrations, shallow: true
     resources :events, shallow: true
-    get "/favorites", to: "collections#likes", as: "likes"
+    get "/followers", to: "collections#likes", as: "likes"
     resources :invitations, shallow: true do
       get "/batch", to: "invitations#new_batch", on: :collection
       post "/batch", to: "invitations#create_batch", on: :collection

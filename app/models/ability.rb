@@ -44,6 +44,10 @@ class Ability
     end
     cannot :destroy, Submission
 
+    can :manage, Registration do |s|
+      s.collection.has_admin?(user)
+    end
+
     can :manage, Invitation do |i|
       i.collection.has_admin?(user)
     end

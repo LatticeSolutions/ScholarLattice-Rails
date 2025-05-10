@@ -1,0 +1,46 @@
+<% content_for :title, "Submission ‟#{@submission.title}” for #{@submission.collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto">
+
+    <%= render partial: "breadcrumb", locals: { collection: @submission.collection, action: "Show" } %>
+
+    <%= render @submission %>
+
+    <% if @submission.event.present? %>
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Scheduled for:</strong>     
+        <% if @submission.event.starts_at %>
+          <%= @submission.event.starts_at
+            .in_time_zone(@submission.collection.inherited_time_zone)
+            .strftime("%Y-%m-%d %I:%M %p") %>:
+        <% end %>
+        <%= link_to @submission.event.title, @submission.event, class: "text-blue-600 hover:underline" %>
+        <% if @submission.event.location.present? %>
+            <span class="text-sm">in <span class="text-green-800"><%= @submission.event.location %></span></span>
+        <% end %>
+      </p>
+    <% end %>
+
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Status:</strong>
+      <%= @submission.status.humanize %>
+    </p>
+
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Collection:</strong>
+      <%= @submission.collection.title %>
+    </p>
+
+    <% if can? :update, @submission %>
+      <%= link_to "Edit this submission", edit_submission_path(@submission), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <% end %>
+    
+    <%= link_to "Back to collection", collection_path(@submission.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
+    <% if can? :destroy, @submission %>
+      <%= button_to "Destroy this submission", @submission, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
+        class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
+    <% end %>
+  </div>
+</div>

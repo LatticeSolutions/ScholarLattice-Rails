@@ -1,4 +1,4 @@
-<% content_for :title, "Review Submissionns | #{@collection.title}" %>
+<% content_for :title, "Submissions | #{@collection.title}" %>
 
 <section class="mx-auto md:w-3/4 w-full">
     <%= render partial: "breadcrumb", locals: { collection: @collection } %>
@@ -6,8 +6,6 @@
     <% if notice.present? %>
       <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
     <% end %>
-
-    <% content_for :title, "Submissions" %>
     
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
         <%= @collection.title %>
