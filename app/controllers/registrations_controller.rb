@@ -1,9 +1,10 @@
 class RegistrationsController < ApplicationController
   load_and_authorize_resource :collection
-  load_and_authorize_resource :registration, through: :collection, shallow: true
+  load_and_authorize_resource :registration, through: :collection, shallow: true, except: [ :index ]
 
   # GET /registrations or /registrations.json
   def index
+    @registration_options = @collection.registration_options
     respond_to do |format|
       format.html
       format.csv { send_data @registrations.to_csv, filename: "registrations-#{@collection.short_title.underscore}-#{DateTime.now.strftime('%Q')}.csv" }
