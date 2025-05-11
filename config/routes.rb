@@ -5,7 +5,10 @@ Rails.application.routes.draw do
   resources :collections do
     resources :pages, shallow: true, except: :index
     resources :submissions, shallow: true
-    resources :registrations, shallow: true
+    resources :registrations, shallow: true do
+      resources :registration_payments, shallow: true, as: "payments", path: "payments",
+        only: [ :new, :create, :edit, :update, :destroy ]
+    end
     resources :registration_options, shallow: true, path: "registrations/options",
       only: [ :new, :create, :edit, :update, :destroy ]
     resources :events, shallow: true

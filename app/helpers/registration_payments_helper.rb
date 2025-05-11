@@ -1,0 +1,2 @@
+module RegistrationPaymentsHelper
+end

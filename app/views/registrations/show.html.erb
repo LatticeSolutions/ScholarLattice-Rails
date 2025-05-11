@@ -33,12 +33,20 @@
       Total:
       <%= Money.from_cents(@registration.payment_total, :usd).format %> /
       <%= Money.from_cents(@registration.registration_option.cost, :usd).format %>
+            <%= link_to "New Payment", new_registration_payment_path(@registration), class: "bg-emerald-500 hover:bg-emerald-700 text-white text-sm py-1 px-2 rounded" %>
       <% if @registration.registration_payments.any? %>
         <ul class="list-disc ml-5 pl-5">
           <% @registration.registration_payments.each do |payment| %>
             <li>
               <%= payment.created_at.strftime("%Y-%m-%d") %>:
               <%= Money.from_cents(payment.amount, :usd).format %>
+              <%= link_to edit_payment_path(payment), 
+                  class: "inline-flex items-center gap-2 rounded-md bg-white ml-1 px-2 py-1 my-1 text-sm font-normal text-lime-700 shadow-sm focus:relative" do %>
+                  <span class="size-4">
+                      <%= render IconComponent.new(:edit) %>
+                  </span>
+                  Edit
+              <% end %>
               <% if payment.memo.present? %>
                 <br>
                 Memo: <%= payment.memo %>

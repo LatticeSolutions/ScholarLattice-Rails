@@ -1,0 +1,12 @@
+<% content_for :title, "New Registration Payment | #{@registration.profile.name_with_email}" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+
+  <%= render partial: "registrations/breadcrumb", locals: { collection: @registration.collection, action: "New Payment" } %>
+
+  <h1 class="font-bold text-4xl">New Registration Payment for <%= @registration.profile.name_with_email %></h1>
+
+  <%= render "form", payment: @registration_payment, registration: @registration_payment.registration %>
+
+  <%= link_to "Back to registration", @registration_payment.registration, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+</div>
