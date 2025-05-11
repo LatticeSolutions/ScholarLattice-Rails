@@ -51,7 +51,10 @@ class Ability
       r.collection.nil? || r.collection.has_admin?(user)
     end
     can :read, Registration do |r|
-      r.status == :accepted
+      r.profile.in?(user.profiles) || r.status == :accepted
+    end
+    can :view_payments, Registration do |r|
+      r.profile.in?(user.profiles)
     end
 
     can :manage, Invitation do |i|

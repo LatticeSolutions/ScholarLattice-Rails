@@ -1,6 +1,7 @@
 class RegistrationPaymentsController < ApplicationController
   load_and_authorize_resource :registration
   load_resource :registration_payment, through: :registration, shallow: true
+  before_action :authorize_collection
 
   # GET /registrations/new
   def new
@@ -40,7 +41,7 @@ class RegistrationPaymentsController < ApplicationController
 
   # DELETE /registrations/1 or /registrations/1.json
   def destroy
-    c = @registration_payment.registration
+    c = @registration_payment.collection
     @registration_payment.destroy!
 
     respond_to do |format|
@@ -53,5 +54,8 @@ class RegistrationPaymentsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def registration_payment_params
         params.expect(registration_payment: [ :amount, :memo ])
+    end
+    def authorize_collection
+      authorize! :manage, @registration_payment.collection
     end
 end
