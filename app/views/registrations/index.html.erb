@@ -13,6 +13,9 @@
                 <%= link_to "New Registration", new_collection_registration_path(@collection), class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
             <% end %>
             <%= link_to "New Option", new_collection_registration_option_path(@collection), class: "bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded" %>
+            <% if @registration_options.any? %>
+                <%= link_to "Upload Registrations/Payments", new_collection_registration_path(@collection), class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+            <% end %>
         </div>
     <% end %>
 

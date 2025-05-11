@@ -67,6 +67,9 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  def upload
+  end
+
   private
     # Only allow a list of trusted parameters through.
     def registration_params

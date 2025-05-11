@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     end
     resources :registration_options, shallow: true, path: "registrations/options",
       only: [ :new, :create, :edit, :update, :destroy ]
+    get "/registrations/upload", to: "registrations#upload", as: "registrations_upload"
+    post "/registrations/upload", to: "registrations#import", as: "registrations_import"
     resources :events, shallow: true
     get "/followers", to: "collections#likes", as: "likes"
     resources :invitations, shallow: true do
