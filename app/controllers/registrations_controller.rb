@@ -78,6 +78,8 @@ class RegistrationsController < ApplicationController
       u = User.find_by(email: registration_data["email"])
       if u.nil?
         u = User.create!(email: registration_data["email"])
+      end
+      if u.main_profile.nil?
         u.profiles.create! registration_data.slice(
           "email",
           "first_name",
