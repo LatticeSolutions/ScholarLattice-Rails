@@ -11,13 +11,13 @@
   </p>
 
   <p class="text-gray-700 mt-2">
-    The file should have a header row with the following columns (some may be left blank):
+    The file must have a header row with the following columns:
     <ul class="pl-5 list-disc list-inside">
       <li><strong>email</strong>: The email address of the registrant.</li>
       <li><strong>first_name</strong>: The first name of the registrant.</li>
       <li><strong>last_name</strong>: The last name of the registrant.</li>
       <li><strong>affiliation</strong>: The affiliation of the registrant.</li>
-      <li><strong>position</strong>: The position of the registrant.</li>
+      <li><strong>position_type</strong>: The position of the registrant.</li>
       <li><strong>option_id</strong>: The ID of the registration option:
         <ul class="pl-5 list-disc list-inside">
           <% @collection.registration_options.each do |option| %>
