@@ -28,6 +28,27 @@
       <%= @registration.status.humanize %>
     </p>
 
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Payments:</strong>
+      Total:
+      <%= Money.from_cents(@registration.payment_total, :usd).format %> /
+      <%= Money.from_cents(@registration.registration_option.cost, :usd).format %>
+      <% if @registration.registration_payments.any? %>
+        <ul class="list-disc ml-5 pl-5">
+          <% @registration.registration_payments.each do |payment| %>
+            <li>
+              <%= payment.created_at.strftime("%Y-%m-%d") %>:
+              <%= Money.from_cents(payment.amount, :usd).format %>
+              <% if payment.memo.present? %>
+                <br>
+                Memo: <%= payment.memo %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </p>
+
     <% if can? :update, @registration %>
       <%= link_to "Edit this registration", edit_registration_path(@registration), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <% end %>
