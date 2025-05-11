@@ -67,6 +67,45 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  def upload
+  end
+
+  def import
+    registrations_csv = params[:file]
+    CSV.foreach(registrations_csv, headers: true) do |row|
+      registration_data = row.to_hash
+      u = User.find_by(email: registration_data["email"])
+      if u.nil?
+        u = User.create!(email: registration_data["email"])
+        u.profiles.create! registration_data.slice(
+          "email",
+          "first_name",
+          "last_name",
+          "affiliation",
+          "position_type",
+        )
+      end
+      registration_option = @collection.registration_options.find(
+        registration_data["option_id"]
+      )
+      registration = registration_option.registrations.find_or_create_by!(
+        profile_id: u.main_profile.id,
+        status: registration_data["status"] || :submitted,
+      )
+      unless registration_data["amount"].blank?
+        if registration_data["external_id"].blank? || !registration.registration_payments.exists?(external_id: registration_data["external_id"])
+          registration.registration_payments.create!(
+            amount: registration_data["amount"],
+            memo: "#{registration_data["memo"]}\n\n(Imported from CSV. External ID: #{registration_data["external_id"]})",
+            external_id: registration_data["external_id"],
+          )
+        end
+      end
+    end
+
+    redirect_to collection_registrations_path(@collection), notice: "Registrations imported successfully."
+  end
+
   private
     # Only allow a list of trusted parameters through.
     def registration_params

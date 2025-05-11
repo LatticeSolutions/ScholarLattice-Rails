@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_10_155952) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_11_195540) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -139,6 +139,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_10_155952) do
     t.uuid "registration_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "external_id"
     t.index ["registration_id"], name: "index_registration_payments_on_registration_id"
   end
 

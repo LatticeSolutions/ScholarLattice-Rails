@@ -1,0 +1,48 @@
+<% content_for :title, "Upload Registrations and Payments | #{@collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+
+  <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Upload" } %>
+
+  <h1 class="font-bold text-4xl">Upload Registrations and Payments</h1>
+
+  <p class="text-gray-700 mt-2">
+    Upload a CSV file with registrations and payments for the collection.
+  </p>
+
+  <p class="text-gray-700 mt-2">
+    The file must have a header row with the following columns:
+    <ul class="pl-5 list-disc list-inside">
+      <li><strong>email</strong>: The email address of the registrant.</li>
+      <li><strong>first_name</strong>: The first name of the registrant.</li>
+      <li><strong>last_name</strong>: The last name of the registrant.</li>
+      <li><strong>affiliation</strong>: The affiliation of the registrant.</li>
+      <li><strong>position_type</strong>: The position of the registrant.</li>
+      <li><strong>option_id</strong>: The ID of the registration option:
+        <ul class="pl-5 list-disc list-inside">
+          <% @collection.registration_options.each do |option| %>
+            <li>
+              <%= option.name_with_cost %>: 
+              <input type="text" value="<%= option.id %>" readonly class="bg-gray-100 border-none text-gray-700 px-2 py-1 rounded" />
+            </li>
+          <% end %>
+        </ul>
+      </li>
+      <li><strong>status</strong>: The status of the registration (e.g., "submitted", "accepted").</li>
+      <li><strong>amount</strong>: The amount paid (if applicable).</li>
+      <li><strong>external_id</strong>: Any unique external identifier for the payment.</li>
+      <li><strong>memo</strong>: Any additional notes for the payment.</li>
+    </ul>
+  </p>
+  <%= form_with url: collection_registrations_import_path(@collection), local: true, html: { multipart: true, class: "mt-4" } do |form| %>
+    <div class="mb-4">
+      <%= form.label :file, "Choose CSV file", class: "block text-gray-700 font-medium mb-2" %>
+      <%= form.file_field :file, class: "block w-full text-gray-700 border rounded-lg py-2 px-3" %>
+    </div>
+    <div>
+      <%= form.submit "Upload", class: "rounded-lg py-3 px-5 bg-blue-500 text-white font-medium" %>
+      <%= link_to "Back to registrations", collection_registrations_path(@collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    </div>
+  <% end %>
+
+</div>
