@@ -1,3 +1,3 @@
 class RegistrationPayment < ApplicationRecord
-  belongs_to :registration_option
+  belongs_to :registration
 end

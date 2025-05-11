@@ -77,3 +77,5 @@ gem "cancancan", "~> 3.6"
 gem "simple_calendar", "~> 3.1"
 
 gem "rqrcode", "~> 2.2"
+
+gem "money", "~> 6.19"

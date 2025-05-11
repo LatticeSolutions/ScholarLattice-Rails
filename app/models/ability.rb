@@ -50,7 +50,7 @@ class Ability
     can :manage, Registration do |r|
       r.collection.nil? || r.collection.has_admin?(user)
     end
-    can :read, Registration do |s|
+    can :read, Registration do |r|
       r.status == :accepted
     end
 

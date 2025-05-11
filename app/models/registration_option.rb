@@ -23,23 +23,8 @@ class RegistrationOption < ApplicationRecord
     in_stock? && opens_on <= Time.current && closes_on >= Time.current
   end
 
-  def cents_formatted
-    (cost.abs % 100).to_s.rjust(2, "0")
-  end
-
-  def cost_formated
-    return "Free" if cost.blank? || cost == 0
-    if cost.abs % 100 == 0
-      dollars = "#{cost.abs / 100}"
-    else
-      dollars = "#{cost.abs / 100}.#{cents_formatted}"
-    end
-    return "$#{dollars}" if cost > 0
-    "-$#{dollars}"
-  end
-
   def name_with_cost
     return name if cost.blank?
-    "#{name} (#{cost_formated})"
+    "#{name} (#{Money.from_cents(cost, :usd).format})"
   end
 end
