@@ -72,6 +72,7 @@ class RegistrationsController < ApplicationController
 
   def import
     registrations_csv = params[:file]
+    require "csv"
     CSV.foreach(registrations_csv, headers: true) do |row|
       registration_data = row.to_hash
       u = User.find_by(email: registration_data["email"])
