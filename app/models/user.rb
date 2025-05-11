@@ -53,6 +53,10 @@ class User < ApplicationRecord
     Invitation.where profile: profiles
   end
 
+  def registrations
+    Registration.where profile: profiles
+  end
+
   def main_profile
     profiles.where(email: email).first
   end

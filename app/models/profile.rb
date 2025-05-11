@@ -42,4 +42,12 @@ class Profile < ApplicationRecord
       end
     end
   end
+
+  def registered_for?(collection)
+    registrations_for(collection).any?
+  end
+
+  def registrations_for(collection)
+    registrations.select(collection: collection)
+  end
 end

@@ -12,8 +12,8 @@
 %>
 
 <%= render CardComponent.new( 
-  title: "#{registration.profile.name} | #{registration.collection.title}",
-  description: "#{registration.registration_option.name} — #{registration.status.humanize}",
+  title: "#{registration.profile.name_with_email} (#{registration.status.humanize})",
+  description: "#{registration.collection.title} — #{registration.registration_option.name}",
   link_text: "View Registration",
   link_url: registration_path(registration),
   title_icon: :registration,

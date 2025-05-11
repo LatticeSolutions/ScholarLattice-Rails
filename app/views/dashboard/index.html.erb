@@ -9,20 +9,6 @@
         <span class="px-3">Dashboard</span>
     </h1>
 
-    <% if @current_user.invitations.any? %>
-        <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
-            <span class="size-8">
-                <%= render IconComponent.new(:invitation) %>
-            </span>
-            <span class="px-3">Your Invitations</span>
-        </h2>
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-            <% @current_user.invitations.each do |invitation| %>
-                <%= render partial: "invitations/card", locals: { invitation: invitation } %>
-            <% end %>
-        </div>
-    <% end %>
-
     <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
         <span class="size-8">
             <%= render IconComponent.new(:profile) %>
@@ -42,6 +28,59 @@
         here:
         <%= render partial: "profiles/new_button" %>
     </p>
+
+    <% if @current_user.invitations.any? %>
+        <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
+            <span class="size-8">
+                <%= render IconComponent.new(:invitation) %>
+            </span>
+            <span class="px-3">Your Invitations</span>
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @current_user.invitations.each do |invitation| %>
+                <%= render partial: "invitations/card", locals: { invitation: invitation } %>
+            <% end %>
+        </div>
+    <% end %>
+
+    <% if @current_user.registrations.any? %>
+        <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
+            <span class="size-8">
+                <%= render IconComponent.new(:registration) %>
+            </span>
+            <span class="px-3">Your Registrations</span>
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @current_user.registrations.each do |registration| %>
+                <%= render partial: "registrations/card", locals: { registration: registration } %>
+            <% end %>
+        </div>
+    <% end %>
+
+    <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
+        <span class="size-8">
+            <%= render IconComponent.new(:submission) %>
+        </span>
+        <span class="px-3">Your Submissions</span>
+    </h2>
+    <% unless @current_user.submissions.empty? %>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @current_user.submissions.each do |submission| %>
+                <%= render partial: "submissions/card", locals: { submission: submission } %>
+            <% end %>
+        </div>
+    <% else %>
+        <p>
+            Nothing yet... Find a collection to submit to here! 
+            <%= link_to collections_path, 
+                class: "inline-block rounded-lg bg-blue-600 px-3 mx-3 py-2 text-sm font-medium text-white" do %>
+                <span class="inline-block size-4">
+                    <%= render IconComponent.new(:collection) %>
+                </span>
+                Collections
+            <% end %>
+        </p>
+    <% end %>
 
     <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
         <span class="size-8">
@@ -80,30 +119,5 @@
                 <%= render partial: "collections/card", locals: { collection: collection, user: @current_user } %>
             <% end %>
         </div>
-    <% end %>
-
-    <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
-        <span class="size-8">
-            <%= render IconComponent.new(:submission) %>
-        </span>
-        <span class="px-3">Your Submissions</span>
-    </h2>
-    <% unless @current_user.submissions.empty? %>
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-            <% @current_user.submissions.each do |submission| %>
-                <%= render partial: "submissions/card", locals: { submission: submission } %>
-            <% end %>
-        </div>
-    <% else %>
-        <p>
-            Nothing yet... Find a collection to submit to here! 
-            <%= link_to collections_path, 
-                class: "inline-block rounded-lg bg-blue-600 px-3 mx-3 py-2 text-sm font-medium text-white" do %>
-                <span class="inline-block size-4">
-                    <%= render IconComponent.new(:collection) %>
-                </span>
-                Collections
-            <% end %>
-        </p>
     <% end %>
 </section>
