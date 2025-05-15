@@ -48,6 +48,6 @@ class Profile < ApplicationRecord
   end
 
   def registrations_for(collection)
-    registrations.select { |r| r.collection == collection }
+    registrations.where(registration_option: collection.registration_options)
   end
 end
