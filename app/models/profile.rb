@@ -48,6 +48,6 @@ class Profile < ApplicationRecord
   end
 
   def registrations_for(collection)
-    registrations.select(collection: collection)
+    registrations.select { |r| r.collection == collection }
   end
 end
