@@ -146,6 +146,16 @@ class Collection < ApplicationRecord
     RQRCode::QRCode.new(Rails.application.routes.url_helpers.collection_url(self)).as_svg(module_size: 3)
   end
 
+  def connected_profiles
+    (
+      admin_users.map(&:main_profile) +
+      favorite_users.map(&:main_profile) +
+      registrations.map(&:profile) +
+      submissions.map(&:profile) +
+      invitations.map(&:profile)
+    ).compact.uniq
+  end
+
   private
 
   def round_down_submission_times
