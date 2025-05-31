@@ -2,12 +2,6 @@
 
 <section class="mx-auto md:w-3/4 w-full">
     <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Followers" } %>
-
-    <% if notice.present? %>
-      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-    <% end %>
-
-    <% content_for :title, "Followers | #{@collection.title}" %>
     
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
         Users who have favorited <%= @collection.title %>
@@ -32,5 +26,15 @@
                 </li>
             <% end %>
         </ul>
+    </div>
+    
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        All emails connected to <%= @collection.title %>
+    </h1>
+
+    <div class="text-gray-700 py-3">
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @collection.connected_profiles.map(&:email).uniq.join("; ")
+        %></textarea>
     </div>
 </section>
