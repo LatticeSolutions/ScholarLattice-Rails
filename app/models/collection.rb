@@ -147,13 +147,13 @@ class Collection < ApplicationRecord
   end
 
   def connected_profiles
-    (
+    subtree.map { |c| (
       admin_users.map(&:main_profile) +
       favorite_users.map(&:main_profile) +
       registrations.map(&:profile) +
       submissions.map(&:profile) +
       invitations.map(&:profile)
-    ).compact.uniq
+    ) }.flatten.compact.uniq
   end
 
   private
