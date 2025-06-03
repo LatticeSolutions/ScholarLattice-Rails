@@ -17,7 +17,7 @@
         <span class="size-4 inline-block">
             <%= render IconComponent.new(:key) %>
         </span>
-        Unreviewed:
+        Unreviewed (<%= @submissions.where(status: :submitted).count %>):
     </h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <% @submissions.where(status: :submitted).each do |submission| %>
@@ -36,7 +36,7 @@
         <span class="size-4 inline-block">
             <%= render IconComponent.new(:key) %>
         </span>
-        Accepted:
+        Accepted (<%= @submissions.where(status: :accepted).count %>):
     </h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <% @submissions.where(status: :accepted).each do |submission| %>
@@ -55,7 +55,7 @@
         <span class="size-4 inline-block">
             <%= render IconComponent.new(:key) %>
         </span>
-        Declined:
+        Declined  (<%= @submissions.where(status: :declined).count %>):
     </h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <% @submissions.where(status: :declined).each do |submission| %>
