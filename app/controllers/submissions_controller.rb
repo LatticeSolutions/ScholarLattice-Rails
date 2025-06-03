@@ -42,7 +42,9 @@ class SubmissionsController < ApplicationController
   def update
     respond_to do |format|
       if @submission.update(submission_params)
-        SubmissionMailer.submission_updated(@submission).deliver_later
+        if send_update_notification?
+          SubmissionMailer.submission_updated(@submission).deliver_later
+        end
         format.html { redirect_to @submission, notice: "Submission was successfully updated." }
         format.json { render :show, status: :ok, location: @submission }
       else
@@ -71,5 +73,12 @@ class SubmissionsController < ApplicationController
       else
         params.expect(submission: [ :title, :abstract, :notes, :profile_id ])
       end
+    end
+
+    def send_update_notification?
+      if can? :manage, @submission
+        return params[:submission][:send_notification] == "1"
+      end
+      false
     end
 end
