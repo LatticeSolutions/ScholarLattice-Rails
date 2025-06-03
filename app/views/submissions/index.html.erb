@@ -4,7 +4,9 @@
     <%= render partial: "breadcrumb", locals: { collection: @collection } %>
     
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        Submissions for <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
+        Submissions for
+        <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
+        (<%= @submissions.count %>)
     </h1>
 
     <% if can? :manage, @collection %>

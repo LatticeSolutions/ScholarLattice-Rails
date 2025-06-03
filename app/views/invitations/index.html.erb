@@ -7,6 +7,7 @@
     <h2 class="font-bold text-4xl pb-3">
       Invitations for
       <%= link_to @collection.title, @collection, class: "text-sky-700 hover:underline" %>
+        (<%= @invitations.count %>)
     </h2>
     <% if can? :manage, @collection %>
         <div class="flex">
