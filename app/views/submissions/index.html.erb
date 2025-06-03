@@ -44,7 +44,7 @@
         <% end %>
     </div>
 
-    <% if can? :manage, :collection %>
+    <% if can? :manage, @collection %>
     <div class="text-gray-700 py-3">
         Emails:
         <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
