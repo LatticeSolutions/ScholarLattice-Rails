@@ -2,6 +2,7 @@ class Profile < ApplicationRecord
   has_and_belongs_to_many :users
   has_many :submissions
   has_many :registrations
+  has_many :invitations
   validates :first_name, presence: true
   validates :last_name, presence: true
   validate :unique_email_among_users_validation
