@@ -7,6 +7,7 @@
     <h2 class="font-bold text-4xl pb-3">
       Invitations for
       <%= link_to @collection.title, @collection, class: "text-sky-700 hover:underline" %>
+        (<%= @invitations.count %>)
     </h2>
     <% if can? :manage, @collection %>
         <div class="flex">
@@ -18,7 +19,7 @@
 
     <% if can? :manage, @collection %>
         <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
-            Pending:
+            Pending (<%= @invitations.where(status: :pending).count %>):
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
             <% @invitations.where(status: :pending).each do |invitation| %>
@@ -34,7 +35,7 @@
     <% end %>
 
     <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
-        Accepted:
+        Accepted (<%= @invitations.where(status: :accepted).count %>):
     </h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <% @invitations.where(status: :accepted).each do |invitation| %>
@@ -52,7 +53,7 @@
             <span class="size-4 inline-block">
                 <%= render IconComponent.new(:key) %>
             </span>
-            Declined:
+            Declined (<%= @invitations.where(status: :declined).count %>):
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
             <% @invitations.where(status: :declined).each do |invitation| %>
@@ -69,7 +70,7 @@
             <span class="size-4 inline-block">
                 <%= render IconComponent.new(:key) %>
             </span>
-            Revoked:
+            Revoked (<%= @invitations.where(status: :revoked).count %>):
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
             <% @invitations.where(status: :revoked).each do |invitation| %>
