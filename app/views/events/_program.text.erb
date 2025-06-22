@@ -1,5 +1,10 @@
 \documentclass[12pt]{book}
 
+% Adapted from "A Basic Conference Abstract Booklet"
+% Author: LianTze Lim
+% License: Creative Commons CC BY 4.0
+% https://www.overleaf.com/latex/examples/a-basic-conference-abstract-booklet/tkjfcvzgjrnd
+
 \usepackage[a4paper,margin=3cm,innermargin=3cm]{geometry}
 
 \usepackage{needspace}
@@ -7,7 +12,14 @@
 \renewcommand*{\marginfont}{\sffamily\footnotesize}
 
 \usepackage{imakeidx}
+\usepackage{xcolor}
 \usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue!50!black},
+    citecolor={red!50!black},
+    urlcolor={blue!80!black}
+}
 \makeindex[intoc]
 
 \newenvironment{conf-abstract}[4][]{
@@ -41,8 +53,7 @@
 \usepackage{lipsum}
 
 \title{<%= collection.title %>}
-% \author{Association of Amiable Scientists}
-\date{Today}
+\date{}
 
 \begin{document}
 
@@ -55,14 +66,16 @@
 \mainmatter
 \chapter{Abstracts}
 
-\begin{conf-abstract}[23 Nov\\9:00am\\R301]
-{Proposal for a Model for Creative Procrastination Processes and Side Projects}
-{Smart Student}
-{E Research Lab}
-\indexauthors{Student!Smart}
+<% collection.submissions.where(status: :accepted).each do |s| %>
+\begin{conf-abstract}<% if s.event.present? %>[<%= s.event.info_in_latex %>]<% end %>
+{<%= s.title %>}
+{<%= s.profile.name_with_email %>}
+{<%= s.profile.affiliation %>}
+\indexauthors{<%= s.profile.last_name %>!<%= s.profile.first_name %>}
 
-\lipsum[2]
+<%= s.abstract %>
 \end{conf-abstract}
+<% end %>
 
 \backmatter
 \renewcommand{\indexname}{Author Index}
