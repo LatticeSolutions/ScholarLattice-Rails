@@ -27,6 +27,26 @@ class Event < ApplicationRecord
     children.where.not(starts_at: starts_at, ends_at: ends_at).empty?
   end
 
+  def starts_at_in_time_zone
+    starts_at || starts_at.in_time_zone(collection.inherited_time_zone)
+  end
+
+  def ends_at_in_time_zone
+    ends_at || ends_at.in_time_zone(collection.inherited_time_zone)
+  end
+
+  def info_in_latex
+    info = []
+    if starts_at.present?
+      info << starts_at_in_time_zone.strftime("%b %d")
+      info << starts_at_in_time_zone.strftime("%I:%M%p")
+    end
+    if location.present?
+      info << location
+    end
+    info.join("\\\\")
+  end
+
   private
 
   def submission_does_not_have_another_event

@@ -94,4 +94,17 @@
       </div>
     <% end %>
   </div>
+
+  <% if can? :edit, @collection %>
+    <div>
+      <h2 class="font-bold text-2xl my-3">Program LaTeX</h2>
+      <form action="https://www.overleaf.com/docs" method="post" target="_blank">
+        <textarea name="snip" readonly class="w-full h-60 bg-gray-100 p-2" ><%= @collection.program_tex %></textarea>
+        <input
+          type="submit"
+          value="Open program as PDF using Overleaf.com"
+          class="mt-2 rounded-lg py-2 px-4 bg-green-600 text-white font-medium hover:bg-green-700 transition-colors duration-200 hover:cursor-pointer">
+      </form>
+    </div>
+  <% end %>
 </div>
