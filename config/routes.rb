@@ -13,9 +13,7 @@ Rails.application.routes.draw do
       only: [ :new, :create, :edit, :update, :destroy ]
     get "/registrations/upload", to: "registrations#upload", as: "registrations_upload"
     post "/registrations/upload", to: "registrations#import", as: "registrations_import"
-    resources :events, shallow: true do
-      get "/program", to: "events#program", on: :collection
-    end
+    resources :events, shallow: true
     get "/followers", to: "collections#likes", as: "likes"
     resources :invitations, shallow: true do
       get "/batch", to: "invitations#new_batch", on: :collection

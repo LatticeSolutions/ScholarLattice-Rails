@@ -156,6 +156,10 @@ class Collection < ApplicationRecord
     ) }.flatten.compact.uniq
   end
 
+  def program_tex
+    ERB.new(File.read("#{Rails.root}/app/views/events/_program.text.erb")).result_with_hash(collection: self)
+  end
+
   private
 
   def round_down_submission_times

@@ -1,6 +1,5 @@
 class EventsController < ApplicationController
   load_and_authorize_resource :collection
-  load_resource :collection, only: :program
   load_and_authorize_resource :event, through: :collection, shallow: true
   around_action :set_time_zone
 
@@ -145,11 +144,6 @@ class EventsController < ApplicationController
     end
     subevents.each(&:save!)
     redirect_to @event, notice: "All subevents were successfully created."
-  end
-
-  def program
-    output = render_to_string "program", layout: false
-    render plain: output, format: :tex
   end
 
   private
