@@ -14,6 +14,10 @@ class Submission < ApplicationRecord
     Kramdown::Document.new(notes).to_html
   end
 
+  def private_notes_html
+    Kramdown::Document.new(private_notes).to_html
+  end
+
   def has_admin?(user)
     user.profiles.include? profile or
     collection.has_admin? user or

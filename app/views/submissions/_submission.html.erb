@@ -28,4 +28,14 @@
     </p>
   <% end %>
 
+  <% if submission.private_notes.present? and can? :edit, submission %>
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Private notes (only visible to submitter and organizers):</strong>
+     
+      <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+         <%= sanitize submission.private_notes_html %>
+      </div>
+    </p>
+  <% end %>
+
 </div>

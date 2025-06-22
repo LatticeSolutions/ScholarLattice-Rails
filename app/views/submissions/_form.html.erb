@@ -50,6 +50,17 @@
     <%= form.textarea :notes, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
+  <div class="my-5">
+    <%= form.label :private_notes do %>
+      Private notes
+      <span class="text-sm text-gray-500">
+        This field may be used by submitters and organizers to record any private
+        notes that will not be shown publicly.
+      </span>
+    <% end %>
+    <%= form.textarea :private_notes, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
   <% if can? :manage, submission %>
     <div class="my-5">
       <%= form.label :status %>
