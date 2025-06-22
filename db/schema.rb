@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_11_195540) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_22_220117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -162,6 +162,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_11_195540) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
+    t.string "private_notes"
     t.index ["collection_id"], name: "index_submissions_on_collection_id"
     t.index ["profile_id"], name: "index_submissions_on_profile_id"
   end
