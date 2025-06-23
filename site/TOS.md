@@ -1,8 +1,8 @@
-*Last updated 2024 November 13*
+*Last updated 2025 June 23*
 
 ## AGREEMENT TO TERMS
 
-These Terms and Conditions constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and ScholarLattice (“we,” “us” or “our”), concerning your access to and use of the ScholarLattice website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”).
+These Terms and Conditions constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and Lattice Solutions, LLC (“we,” “us” or “our”), concerning your access to and use of the ScholarLattice service as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”).
 
 You agree that by accessing the Site, you have read, understood, and agree to be bound by all of these Terms and Conditions. If you do not agree with all of these Terms and Conditions, then you are expressly prohibited from using the Site and you must discontinue use immediately.
 
@@ -432,4 +432,4 @@ You hereby waive any and all defenses you may have based on the electronic form 
 
 ### CONTACT US
 
-In order to resolve a complaint regarding the Site or to receive further information regarding use of the Site, please contact us at <ScholarLattice@clontz.org>.
+In order to resolve a complaint regarding the Site or to receive further information regarding use of the Site, please contact us at <steven@scholarlattice.org>.
