@@ -1,12 +1,14 @@
 class InvitationsController < ApplicationController
-  load_and_authorize_resource :collection, except: [ :index ]
-  load_resource :collection, only: [ :index ]
+  load_and_authorize_resource :collection
   load_and_authorize_resource :invitation, through: :collection, shallow: true, except: [ :index, :accept, :decline ]
   load_resource :invitation, only: [ :accept, :decline ]
 
   # GET /invitations or /invitations.json
   def index
     @invitations = @collection.subtree_invitations
+    @pending_invitations = @invitations.where(status: :pending)
+    @accepted_invitations = @invitations.where(status: :accepted)
+    @declined_invitations = @invitations.where(status: :declined)
   end
 
   # GET /invitations/1 or /invitations/1.json

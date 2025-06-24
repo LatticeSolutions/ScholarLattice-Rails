@@ -4,7 +4,9 @@
     <%= render partial: "breadcrumb", locals: { collection: @collection } %>
     
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        Registrations for <%= @collection.title %>
+        Registrations for 
+        <%= link_to @collection.title, @collection, class: "text-sky-700 hover:underline" %>
+        (<%= @collection.registrations.count %>)
     </h1>
 
     <% if can? :manage, @collection %>
@@ -36,7 +38,7 @@
         </h1>
         <% if can? :manage, @collection %>
             <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
-                Submitted:
+                Submitted (<%= option.registrations.where(status: :submitted).count %>):
             </h1>
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
                 <% option.registrations.where(status: :submitted).each do |registration| %>
@@ -51,7 +53,7 @@
             </div>
         <% end %>
             <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
-                Accepted:
+                Accepted (<%= option.registrations.where(status: :accepted).count %>):
             </h1>
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
                 <% option.registrations.where(status: :accepted).each do |registration| %>
@@ -66,7 +68,7 @@
                 %></textarea>
             </div>
             <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
-                Declined:
+                Declined (<%= option.registrations.where(status: :declined).count %>):
             </h1>
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
                 <% option.registrations.where(status: :declined).each do |registration| %>

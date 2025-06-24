@@ -42,7 +42,9 @@ class SubmissionsController < ApplicationController
   def update
     respond_to do |format|
       if @submission.update(submission_params)
-        SubmissionMailer.submission_updated(@submission).deliver_later
+        if send_update_notification?
+          SubmissionMailer.submission_updated(@submission).deliver_later
+        end
         format.html { redirect_to @submission, notice: "Submission was successfully updated." }
         format.json { render :show, status: :ok, location: @submission }
       else
@@ -67,9 +69,16 @@ class SubmissionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def submission_params
       if can? :manage, @submission
-        params.expect(submission: [ :title, :abstract, :notes, :profile_id, :status, :collection_id ])
+        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :profile_id, :status, :collection_id ])
       else
-        params.expect(submission: [ :title, :abstract, :notes, :profile_id ])
+        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :profile_id ])
       end
+    end
+
+    def send_update_notification?
+      if can? :manage, @submission
+        return params[:submission][:send_notification] == "1"
+      end
+      false
     end
 end

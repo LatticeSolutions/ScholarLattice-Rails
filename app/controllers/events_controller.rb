@@ -5,6 +5,14 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
+    unless @collection.show_events?
+      if can? :manage, @collection
+        flash[:alert] = "This collection is configured to not show events to the public."
+      else
+        redirect_to collection_path(@collection)
+        return
+      end
+    end
     params[:start_date] = params.fetch(
       :start_date,
       (

@@ -73,7 +73,6 @@ class CollectionsController < ApplicationController
   def likes
     @collection = Collection.find(params[:collection_id])
     authorize! :manage, @collection
-    @favorite_users = @collection.favorite_users
   end
 
 
@@ -83,7 +82,7 @@ class CollectionsController < ApplicationController
       params.require(:collection).permit(
         :title, :short_title, :description, :parent_id, :subcollection_name,
         :submittable, :admin_emails, :time_zone, :submissions_open_on, :submissions_close_on,
-        :order
+        :order, :show_events
       )
     end
 

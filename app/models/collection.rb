@@ -150,10 +150,22 @@ class Collection < ApplicationRecord
     subtree.map { |c| (
       c.admin_users.map(&:main_profile) +
       c.favorite_users.map(&:main_profile) +
-      c.registrations.map(&:profile) +
-      c.submissions.map(&:profile) +
-      c.invitations.map(&:profile)
+      c.registrations.where.not(status: :declined).map(&:profile) +
+      c.submissions.where.not(status: [ :declined, :draft ]).map(&:profile) +
+      c.invitations.where.not(status: [ :declined, :revoked ]).map(&:profile)
     ) }.flatten.compact.uniq
+  end
+
+  def connected_unsubmitted_profiles
+    connected_profiles.select { |p| p.submissions.where(collection: subtree).empty? }
+  end
+
+  def connected_unregistered_profiles
+    connected_profiles.select { |p| p.registrations.select { |r| subtree.include? r.collection }.empty? }
+  end
+
+  def program_tex
+    ERB.new(File.read("#{Rails.root}/app/views/events/_program.text.erb")).result_with_hash(collection: self)
   end
 
   private

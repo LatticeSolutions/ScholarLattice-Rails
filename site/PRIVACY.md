@@ -1,6 +1,6 @@
-*Last updated 2024 November 13*
+*Last updated 2025 June 23*
 
-This privacy notice for ScholarLattice (“Company,” “we,” “us,” or “our“), describes how and why we might collect, store, use, and/or share
+This privacy notice for Lattice Solutions, LLC (“Company,” “we,” “us,” or “our“), describes how and why we might collect, store, use, and/or share
 (“process“) your information when you use our services (“Services“), such as when you:
 
 - Visit any website of ours that links to this privacy notice
@@ -8,7 +8,7 @@ This privacy notice for ScholarLattice (“Company,” “we,” “us,” or �
 
 **Questions or concerns?** Reading this privacy notice will help you understand your privacy rights and choices. 
 If you do not agree with our policies and practices, please do not use our Services.
-If you still have any questions or concerns, please contact us at <scholarlattice@clontz.org>.
+If you still have any questions or concerns, please contact us at <steven@scholarlattice.org>.
 
 ## SUMMARY OF KEY POINTS
 
@@ -264,7 +264,7 @@ We have implemented appropriate and reasonable technical and organizational secu
 
 **In Short:** We do not knowingly collect data from or market to children under 18 years of age.
 
-We do not knowingly solicit data from or market to children under 18 years of age. By using the Services, you represent that you are at least 18 or that you are the parent or guardian of such a minor and consent to such minor dependent’s use of the Services. If we learn that personal information from users less than 18 years of age has been collected, we will deactivate the account and take reasonable measures to promptly delete such data from our records. If you become aware of any data we may have collected from children under age 18, please contact us at <scholarlattice@clontz.org>.
+We do not knowingly solicit data from or market to children under 18 years of age. By using the Services, you represent that you are at least 18 or that you are the parent or guardian of such a minor and consent to such minor dependent’s use of the Services. If we learn that personal information from users less than 18 years of age has been collected, we will deactivate the account and take reasonable measures to promptly delete such data from our records. If you become aware of any data we may have collected from children under age 18, please contact us at <steven@scholarlattice.org>.
 
 ### 12. WHAT ARE YOUR PRIVACY RIGHTS?
 
@@ -295,7 +295,7 @@ Upon your request to terminate your account, we will deactivate or delete your a
 
 **Cookies and similar technologies:** Most Web browsers are set to accept cookies by default. If you prefer, you can usually choose to set your browser to remove cookies and to reject cookies. If you choose to remove cookies or reject cookies, this could affect certain features or services of our Services. To opt out of interest-based advertising by advertisers on our Services visit http://www.aboutads.info/choices/.
 
-If you have questions or comments about your privacy rights, you may email us at <scholarlattice@clontz.org>.
+If you have questions or comments about your privacy rights, you may email us at <steven@scholarlattice.org>.
 
 ### 13. CONTROLS FOR DO-NOT-TRACK FEATURES
 
@@ -351,7 +351,7 @@ We may also collect other personal information outside of these categories insta
 
 #### How do we use and share your personal information?
 
-ScholarLattice may collect and share your personal information through:
+Lattice Solutions, LLC may collect and share your personal information through:
 
 - Targeting cookies/Marketing cookies
 - Social media cookies
@@ -359,7 +359,7 @@ ScholarLattice may collect and share your personal information through:
 - Click redirects
 - Social media plugins
 
-You may contact us by email at <scholarlattice@clontz.org>, or by referring to the contact details at the bottom of this document.
+You may contact us by email at <steven@scholarlattice.org>, or by referring to the contact details at the bottom of this document.
 
 If you are using an authorized agent to exercise your right to opt out we may deny a request if the authorized agent does not submit proof that they have been validly authorized to act on your behalf.
 
@@ -368,23 +368,6 @@ If you are using an authorized agent to exercise your right to opt out we may de
 We may disclose your personal information with our service providers pursuant to a written contract between us and each service provider. Each service provider is a for-profit entity that processes the information on our behalf, following the same strict privacy protection obligations mandated by the CCPA.
 
 We may use your personal information for our own business purposes, such as for undertaking internal research for technological development and demonstration. This is not considered to be “selling” of your personal information.
-
-ScholarLattice has disclosed the following categories of personal information to third parties for a business or commercial purpose in the preceding twelve (12) months:
-
-- Category A. Identifiers, such as contact details like your real name, alias, postal address, telephone or mobile contact number, unique personal identifier, online identifier, Internet Protocol address, email address, and account name.
-- Category B. Personal information, as defined in the California Customer Records law, such as your name, contact information, education, employment, employment history, and financial information.
-- Category C. Characteristics of protected classifications under California or federal law, such as gender or date of birth.
-- Category D. Commercial information, such as transaction information, purchase history, financial details, and payment information.
-- Category E. Biometric information, such as fingerprints and voiceprints.
-- Category F. Internet or other electronic network activity information, such as browsing history, search history, online behavior, interest data, and interactions with our and other websites, applications, systems, and advertisements.
-- Category G. Geolocation data, such as device location.
-- Category H. Audio, electronic, visual, and similar information, such as images and audio, video, or call recordings created in connection with our business activities.
-- Category I. Professional or employment-related information, such as business contact details in order to provide you our services at a business level or job title, work history, and professional qualifications if you apply for a job with us.
-- Category J. Education information, such as student records and directory information.
-- Category K. Inferences drawn from any of the personal information listed above to create a profile or summary about, for example, an individual’s preferences and characteristics.
-- Category L. Sensitive personal information, such as account login information, drivers’ licenses, health data, precise geolocation, racial or ethnic origin, religious or philosophical beliefs, and sex life or sexual orientation.
-
-The categories of third parties to whom we disclosed personal information for a business or commercial purpose can be found under “WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?“.
 
 ScholarLattice has not sold or shared any personal information to third parties for a business or commercial purpose in the preceding twelve (12) months.
 
@@ -432,7 +415,7 @@ Once a business receives your request, they are no longer allowed to use or disc
 
 Please note that sensitive personal Information that is collected or processed without the purpose of inferring characteristics about a consumer is not covered by this right, as well as the publicly available information.
 
-To exercise your right to limit use and disclosure of sensitive personal Information, please email <scholarlattice@clontz.org>.
+To exercise your right to limit use and disclosure of sensitive personal Information, please email <steven@scholarlattice.org>.
 
 #### Verification process
 
@@ -446,7 +429,7 @@ We will only use personal information provided in your request to verify your id
 - You may request correction of your personal data if it is incorrect or no longer relevant, or ask to restrict the processing of the information.
 - You can designate an authorized agent to make a request under the CCPA on your behalf. We may deny a request from an authorized agent that does not submit proof that they have been validly authorized to act on your behalf in accordance with the CCPA.
 
-To exercise these rights, you can contact us by email at <scholarlattice@clontz.org>, or by referring to the contact details at the bottom of this document. If you have a complaint about how we handle your data, we would like to hear from you.
+To exercise these rights, you can contact us by email at <steven@scholarlattice.org>, or by referring to the contact details at the bottom of this document. If you have a complaint about how we handle your data, we would like to hear from you.
 
 #### Financial Incentives
 
@@ -462,7 +445,7 @@ We may decide to offer a financial incentive (e.g., price or service difference)
 If we decide to offer a financial incentive, we will notify you of such financial incentive and explain the price difference, as well as material terms of the financial incentive or price of service difference, including the categories of personal information that are implicated by the financial incentive or price or service difference.
 
 If you choose to participate in the financial incentive you can withdraw from the financial incentive at any time by emailing us at 
-<scholarlattice@clontz.org> or by referring to the contact details at the bottom of this document.
+<steven@scholarlattice.org> or by referring to the contact details at the bottom of this document.
 
 ### 15. DO VIRGINIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
 
@@ -499,7 +482,7 @@ ScholarLattice has not sold any personal data to third parties for business or c
 
 **Exercise your rights provided under the Virginia CDPA**
 
-You may contact us by email at <scholarlattice@clontz.org> or by referring to the contact details at the bottom of this document.
+You may contact us by email at <steven@scholarlattice.org> or by referring to the contact details at the bottom of this document.
 
 If you are using an authorized agent to exercise your rights, we may deny a request if the authorized agent does not submit proof that they have been validly authorized to act on your behalf.
 
@@ -511,7 +494,7 @@ Upon receiving your request, we will respond without undue delay, but in all cas
 
 **Right to appeal**
 
-If we decline to take action regarding your request, we will inform you of our decision and reasoning behind it. If you wish to appeal our decision, please email us at <scholarlattice@clontz.org>. Within sixty (60) days of receipt of an appeal, we will inform you in writing of any action taken or not taken in response to the appeal, including a written explanation of the reasons for the decisions. If your appeal is denied, you may contact the Attorney General to submit a complaint.
+If we decline to take action regarding your request, we will inform you of our decision and reasoning behind it. If you wish to appeal our decision, please email us at <steven@scholarlattice.org>. Within sixty (60) days of receipt of an appeal, we will inform you in writing of any action taken or not taken in response to the appeal, including a written explanation of the reasons for the decisions. If your appeal is denied, you may contact the Attorney General to submit a complaint.
 
 ### 16. DO WE MAKE UPDATES TO THIS NOTICE?
 
@@ -521,8 +504,8 @@ We may update this privacy notice from time to time. The updated version will be
 
 ### 17. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
 
-If you have questions or comments about this notice, you may contact us by email at <scholarlattice@clontz.org>.
+If you have questions or comments about this notice, you may contact us by email at <steven@scholarlattice.org>.
 
 ### 18. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
 
-Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or delete it in some circumstances. To request to review, update, or delete your personal information, please email <scholarlattice@clontz.org>.
+Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or delete it in some circumstances. To request to review, update, or delete your personal information, please email <steven@scholarlattice.org>.
