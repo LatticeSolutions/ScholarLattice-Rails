@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_22_220117) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_24_155309) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -37,6 +37,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_22_220117) do
     t.boolean "submittable"
     t.string "time_zone"
     t.integer "order"
+    t.boolean "show_events", default: true, null: false
     t.index ["ancestry"], name: "index_collections_on_ancestry"
   end
 

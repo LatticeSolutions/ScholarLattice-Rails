@@ -10,7 +10,7 @@
             {icon: :edit, path: @collection.home_page ? edit_page_path(@collection.home_page) : "/", text: "Edit Home Page", hidden: @collection.home_page.blank?},
             {icon: :collection_outline, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
             {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
-            {icon: :calendar, path: new_collection_event_path(@collection), text: "New Event"},
+            {icon: :calendar, path: collection_events_path(@collection), text: "Events (#{@collection.all_events.count})"},
             {
                 icon: :star, 
                 path: collection_likes_path(@collection), 
@@ -65,7 +65,7 @@
                 </span>
             <% end %>
         <% end %>
-        <% if @collection.all_events.any? %>
+        <% if @collection.all_events.any? and @collection.show_events? %>
             <%= link_to collection_events_path(@collection), 
                 class: "inline-flex items-center gap-2 rounded-md bg-green-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-400" do %>
                 <span class="size-4">

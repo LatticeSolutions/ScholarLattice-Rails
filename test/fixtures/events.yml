@@ -1,10 +1,10 @@
 research_papers_event:
   id: "4baf535e-d9c9-43a9-a502-fe2faf906ec2"
-  title: "Research Papers Office Hours"
+  title: "Math Research Papers Office Hours"
   description: "Information on submitting research papers."
   starts_at: <%= 1.week.from_now %>
   ends_at: <%= 2.weeks.from_now %>
-  collection_id: <%= Collection.find_by(title: "Research Papers").id %>
+  collection_id: "0fbd496f-fc0f-45d4-83eb-06cceea5dc6c"
   created_at: <%= Time.now %>
   updated_at: <%= Time.now %>
 

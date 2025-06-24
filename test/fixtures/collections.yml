@@ -8,6 +8,7 @@ research_papers:
   submissions_open_on: <%= 1.week.ago %>
   submissions_close_on: <%= 1.week.from_now %>
   submittable: true
+  show_events: false
   time_zone: "UTC"
   order: 1
   created_at: <%= Time.now %>
@@ -23,6 +24,7 @@ research_papers_sub:
   submissions_open_on: <%= 1.week.ago %>
   submissions_close_on: <%= 1.week.from_now %>
   submittable: true
+  show_events: true
   time_zone: "UTC"
   order: 1
   created_at: <%= Time.now %>
@@ -38,6 +40,7 @@ conference_materials:
   submissions_open_on: <%= 2.weeks.ago %>
   submissions_close_on: <%= 2.days.from_now %>
   submittable: true
+  show_events: true
   time_zone: "UTC"
   order: 2
   created_at: <%= Time.now %>
