@@ -17,71 +17,93 @@
     <% end %>
   </div>
 
-    <% if can? :manage, @collection %>
-        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
-            Pending (<%= @invitations.where(status: :pending).count %>):
-        </h2>
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-            <% @invitations.where(status: :pending).each do |invitation| %>
-                <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
-            <% end %>
-        </div>
-        <div class="text-gray-700 py-3">
-            Emails:
-            <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-                @invitations.where(status: :pending).map{|s| s.profile.email }.join("; ")
-            %></textarea>
-        </div>
-    <% end %>
-
     <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
-        Accepted (<%= @invitations.where(status: :accepted).count %>):
+        Pending, no submission (<%= @pending_invitations.reject(&:submitted?).length %>):
     </h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-        <% @invitations.where(status: :accepted).each do |invitation| %>
+        <% @pending_invitations.reject(&:submitted?).each do |invitation| %>
             <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
         <% end %>
     </div>
-    <% if can? :manage, @collection %>
-        <div class="text-gray-700 py-3">
-            Emails:
-            <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-                @invitations.where(status: :accepted).map{|s| s.profile.email }.join("; ")
-            %></textarea>
-        </div>
-        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
-            <span class="size-4 inline-block">
-                <%= render IconComponent.new(:key) %>
-            </span>
-            Declined (<%= @invitations.where(status: :declined).count %>):
-        </h2>
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-            <% @invitations.where(status: :declined).each do |invitation| %>
-                <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
-            <% end %>
-        </div>
-        <div class="text-gray-700 py-3">
-            Emails:
-            <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-                @invitations.where(status: :declined).map{|s| s.profile.email }.join("; ")
-            %></textarea>
-        </div>
-        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
-            <span class="size-4 inline-block">
-                <%= render IconComponent.new(:key) %>
-            </span>
-            Revoked (<%= @invitations.where(status: :revoked).count %>):
-        </h2>
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-            <% @invitations.where(status: :revoked).each do |invitation| %>
-                <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
-            <% end %>
-        </div>
-        <div class="text-gray-700 py-3">
-            Emails:
-            <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-                @invitations.where(status: :revoked).map{|s| s.profile.email }.join("; ")
-            %></textarea>
-        </div>
-    <% end %>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @pending_invitations.reject(&:submitted?).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
+    
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        Pending, has submission (<%= @pending_invitations.filter(&:submitted?).length %>):
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @pending_invitations.filter(&:submitted?).each do |invitation| %>
+            <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @pending_invitations.filter(&:submitted?).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
+
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        Accepted, no submission (<%= @accepted_invitations.reject(&:submitted?).length %>):
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @accepted_invitations.reject(&:submitted?).each do |invitation| %>
+            <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @accepted_invitations.reject(&:submitted?).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
+    
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        Accepted, has submission (<%= @accepted_invitations.filter(&:submitted?).length %>):
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @accepted_invitations.filter(&:submitted?).each do |invitation| %>
+            <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @accepted_invitations.filter(&:submitted?).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
+
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        Declined, no submission (<%= @declined_invitations.reject(&:submitted?).length %>):
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @declined_invitations.reject(&:submitted?).each do |invitation| %>
+            <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @declined_invitations.reject(&:submitted?).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
+    
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        Declined, has submission (<%= @declined_invitations.filter(&:submitted?).length %>):
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @declined_invitations.filter(&:submitted?).each do |invitation| %>
+            <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @declined_invitations.filter(&:submitted?).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
 </div>

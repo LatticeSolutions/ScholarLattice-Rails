@@ -73,7 +73,6 @@ class CollectionsController < ApplicationController
   def likes
     @collection = Collection.find(params[:collection_id])
     authorize! :manage, @collection
-    @favorite_users = @collection.favorite_users
   end
 
 

@@ -18,6 +18,10 @@ class Submission < ApplicationRecord
     Kramdown::Document.new(private_notes).to_html
   end
 
+  def invited?
+    collection.invitations.where(profile: profile).any?
+  end
+
   def has_admin?(user)
     user.profiles.include? profile or
     collection.has_admin? user or
