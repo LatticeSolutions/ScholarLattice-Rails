@@ -7,45 +7,91 @@ class MergeProfilesIntoUsers < ActiveRecord::Migration[8.0]
     add_column :users, :position, :string
     add_column :users, :position_type, :integer, default: 0
 
-    # Add foreign keys for users instead of profiles
-    add_reference :invitations, :user, foreign_key: true
-    add_reference :submissions, :user, foreign_key: true
-    add_reference :registrations, :user, foreign_key: true
+    # Add table for UserManagers
+    create_table :user_managers, id: false do |t|
+      t.references :user, null: false, foreign_key: true, type: :uuid
+      t.references :manager, null: false, foreign_key: { to_table: :users }, type: :uuid
+      t.timestamps
+    end
 
-    # Copy data from profiles to users
+    # Add foreign keys for users instead of profiles
+    add_reference :invitations, :user, foreign_key: true, null: true, type: :uuid
+    add_reference :submissions, :user, foreign_key: true, null: true, type: :uuid
+    add_reference :registrations, :user, foreign_key: true, null: true, type: :uuid
+
+    handled_profile_ids = []
+    handled_user_ids = []
+
+    # Copy data from main profiles to users
+    User.all.each do |user|
+      profile = user.main_profile
+      next unless profile
+      # Update existing user with profile data
+      user.update(
+        first_name: profile.first_name,
+        last_name: profile.last_name,
+        affiliation: profile.affiliation,
+        position: profile.position,
+        position_type: profile.position_type
+      )
+      # Associate all foreign keys to the appropriate user
+      profile.invitations.update_all(user_id: user.id)
+      profile.registrations.update_all(user_id: user.id)
+      profile.submissions.update_all(user_id: user.id)
+      handled_profile_ids << profile.id
+      handled_user_ids << user.id
+    end
+
+    # Associate all profiles with users
     Profile.all.each do |profile|
-      user = profile.users.where(email: profile.email).first
-      if user
-        # Update existing user with profile data
-        user.update(
+      next if handled_profile_ids.include?(profile.id)
+      user = User.find_by(email: profile.email.downcase)
+      if user.nil?
+        # create a new user if not found
+        user = User.create!(
+          email: profile.email.downcase,
           first_name: profile.first_name,
           last_name: profile.last_name,
           affiliation: profile.affiliation,
           position: profile.position,
           position_type: profile.position_type
         )
-      else
-        user = User.find_by(email: profile.email)
-        # If no user exists with email, create it
-        if user.nil?
-          user = User.create(
-            email: profile.email,
-            first_name: profile.first_name,
-            last_name: profile.last_name,
-            affiliation: profile.affiliation,
-            position: profile.position,
-            position_type: profile.position_type
-          )
-        end
       end
-      # In any case we now have a user, so associate
-      # all foreign keys to the appropriate user
+      # Associate all foreign keys to the user
       profile.invitations.update_all(user_id: user.id)
       profile.registrations.update_all(user_id: user.id)
       profile.submissions.update_all(user_id: user.id)
+      # if the user is not already handled, create user managers
+      unless handled_user_ids.include?(user.id)
+        profile.users.each do |p_user|
+          next if p_user.id == user.id # skip self
+          UserManager.create!(
+            user: user,
+            manager: p_user,
+          )
+        end
+      end
     end
 
+    if Invitation.where(user_id: nil).any?
+      raise "There are Invitations without a user_id after migration!"
+    end
+    if Registration.where(user_id: nil).any?
+      raise "There are Registrations without a user_id after migration!"
+    end
+    if Submission.where(user_id: nil).any?
+      raise "There are Submissions without a user_id after migration!"
+    end
+
+    change_column_null :invitations, :user_id, false
+    change_column_null :submissions, :user_id, false
+    change_column_null :registrations, :user_id, false
+
     # Drop the profiles table
+    remove_column :invitations, :profile_id
+    remove_column :submissions, :profile_id
+    remove_column :registrations, :profile_id
+    drop_table :profiles_users
     drop_table :profiles
   end
 end

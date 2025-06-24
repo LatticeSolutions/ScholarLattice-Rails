@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  profile: one
-  collection: one
+  user_id: "6649d0d6-1c35-4dee-b6cf-3959a5f85398"
+  collection_id: "cecf7398-650d-4050-a62f-74ec332cc1ad"
   status: 1
 
 two:
-  profile: two
-  collection: two
+  user_id: "005649bc-1005-4b22-9bd9-c4365db6c131"
+  collection_id: "088db36d-517f-4c48-bf56-2e45bb258cb8"
   status: 1

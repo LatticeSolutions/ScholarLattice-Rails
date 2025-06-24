@@ -7,13 +7,13 @@ class Ability
     # default abilities
     can :read, Collection
     can :read, Page, visibility: [ :public, :unlisted ]
-    can :read, Profile
+    can :read, User
     can :read, Submission, status: :accepted
     can :read, Event
 
     return unless user.present?
 
-    can :read, :dashboard if user.profiles.any?
+    can :read, :dashboard if user.first_name.present?
 
     can [ :like, :dislike ], Collection
     can :manage, Collection do |c|
@@ -37,10 +37,10 @@ class Ability
       s.collection.submissions_open?
     end
     can :create, Submission do |s|
-      s.collection.submissions_open? and s.profile.in? user.profiles
+      s.collection.submissions_open? and s.user.in? user.managed_users
     end
     can [ :read, :update ], Submission do |s|
-      s.profile.in? user.profiles
+      s.user.in? user.managed_users
     end
     can :read, Submission do |s|
       s.accepted?
@@ -51,29 +51,20 @@ class Ability
       r.collection.nil? || r.collection.has_admin?(user)
     end
     can :read, Registration do |r|
-      r.profile.in?(user.profiles) || r.status == :accepted
+      r.user.in?(user.managed_users) || r.status == :accepted
     end
     can :view_payments, Registration do |r|
-      r.profile.in?(user.profiles)
+      r.user.in?(user.managed_users)
     end
 
     can :manage, Invitation do |i|
       i.collection.has_admin?(user)
     end
     can :read, Invitation do |i|
-      i.profile.in?(user.profiles) || i.status == :accepted
+      i.user.in?(user.managed_users) || i.status == :accepted
     end
     can :respond_to, Invitation do |i|
-      i.profile.in?(user.profiles) && i.status != :revoked
-    end
-
-    can :create, Profile
-    can :manage, Profile do |p|
-      user.in? p.users
-    end
-    can :manage, Profile, email: user.email
-    cannot :destroy, Profile do |p|
-      p.submissions.any?
+      i.user.in?(user.managed_users) && i.status != :revoked
     end
 
     return unless user.site_admin?

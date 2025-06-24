@@ -10,7 +10,6 @@ class User < ApplicationRecord
   has_many :direct_admin_collections, through: :admins, source: :collection
   has_many :likes, dependent: :destroy
   has_many :favorite_collections, through: :likes, source: :collection
-  has_and_belongs_to_many :profiles
 
   before_save :downcase_email
 
@@ -18,6 +17,10 @@ class User < ApplicationRecord
 
   def ability
     @ability ||= Ability.new(self)
+  end
+
+  def managed_users
+    (UserManager.where(manager: self).map(&:user) + [ self ]).uniq
   end
 
   def self.fetch_resource_for_passwordless(email)
@@ -43,21 +46,17 @@ class User < ApplicationRecord
 
   def submissions(collection = nil)
     if collection.nil?
-      Submission.where profile: profiles
+      Submission.where user: managed_users
     else
-      Submission.where profile: profiles, collection: collection
+      Submission.where user: managed_users, collection: collection
     end
   end
 
   def invitations
-    Invitation.where profile: profiles
+    Invitation.where user: managed_users
   end
 
   def registrations
-    Registration.where profile: profiles
-  end
-
-  def main_profile
-    profiles.where(email: email).first
+    Registration.where user: managed_users
   end
 end
