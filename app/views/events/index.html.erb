@@ -10,7 +10,8 @@
         <%= render IconComponent.new(:calendar) %>
       </span>
       <span>
-        Events
+        Events for
+        <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
       </span>
     </h1>
     <% if can? :create, Event %>
@@ -22,7 +23,7 @@
     Page loaded at <%= Time.current.strftime("%I:%M %p") %> <%= Time.zone.name %>.
   </p>
   
-  <% if @collection.parent.present? %>
+  <% if @collection.parent.present? and @collection.parent.show_events? %>
     <div class="mt-4">
       <%= link_to "View all events for #{@collection.parent.title}", collection_events_path(@collection.parent), class: "text-blue-600 hover:underline" %>
     </div>
