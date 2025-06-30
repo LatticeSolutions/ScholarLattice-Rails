@@ -75,7 +75,7 @@ class RegistrationsController < ApplicationController
     require "csv"
     CSV.foreach(registrations_csv, headers: true) do |row|
       registration_data = row.to_hash
-      u = User.find_by(email: registration_data["email"])
+      u = User.find_by(email: registration_data["email"].downcase)
       if u.nil?
         u = User.create!(email: registration_data["email"])
       end
