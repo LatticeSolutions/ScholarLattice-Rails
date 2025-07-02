@@ -1,14 +1,14 @@
 <p>
-  Note that profiles on ScholarLattice are <strong>public</strong>.
+  Note that profile data on ScholarLattice are <strong>public</strong>.
 </p>
 
-<%= form_with(model: profile, class: "contents") do |form| %>
-  <% if profile.errors.any? %>
+<%= form_with(model: user, class: "contents") do |form| %>
+  <% if user.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
       <ul>
-        <% profile.errors.each do |error| %>
+        <% user.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -28,13 +28,9 @@
   <div class="my-5">
     <%= form.label :email do %>
       Email 
-      <span class="text-sm text-gray-500">
-        Anyone with access to this email can claim this profile.
-      </span>
     <% end %>
     <%= form.text_field :email, 
-      class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full #{@current_user.profiles.empty? ? 'opacity-50 cursor-not-allowed' : '' }",
-      disabled: @current_user.profiles.empty? %>
+      class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
@@ -49,8 +45,8 @@
 
   <div class="my-5">
     <%= form.label :position_type %>
-    <%= form.select :position_type, Profile.position_types.keys.map { |key| [key.humanize, key] }, 
-      {selected: profile.position_type || :faculty}, 
+    <%= form.select :position_type, User.position_types.keys.map { |key| [key.humanize, key] }, 
+      {selected: user.position_type || :faculty}, 
       {class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"} %>
   </div>
 

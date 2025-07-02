@@ -1,0 +1,7 @@
+<%= render CardComponent.new( 
+  title: "#{user.first_name} #{user.last_name} ⟨#{user.email}⟩",
+  description: user.description,
+  link_text: "View user",
+  link_url: user_path(user),
+  crumbs: []
+) %>

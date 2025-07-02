@@ -1,36 +1,33 @@
-<div id="<%= dom_id profile %>">
+<div id="<%= dom_id user %>">
 
   <p class="my-5">
     <strong class="block font-medium mb-1">First name:</strong>
-    <%= profile.first_name %>
+    <%= user.first_name %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Last name:</strong>
-    <%= profile.last_name %>
+    <%= user.last_name %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Email:</strong>
-    <%= profile.email %>
-    <% if profile.verified? %>
-        <span class="inline-block size-4"><%= render IconComponent.new(:profile_verified) %></span>
-    <% end %>
+    <%= user.email %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Affiliation:</strong>
-    <%= profile.affiliation %>
+    <%= user.affiliation %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Position Title:</strong>
-    <%= profile.position %>
+    <%= user.position %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Position Type:</strong>
-    <%= profile.position_type.humanize %>
+    <%= user.position_type.humanize %>
   </p>
 
 </div>
