@@ -3,6 +3,49 @@
 <section class="mx-auto md:w-3/4 w-full">
     <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Connections" } %>
     
+    <table>
+        <thead>
+            <tr>
+                <th class="text-left px-2">Name</th>
+                <th class="text-left px-2">Affiliation</th>
+                <th class="text-left px-2">Email</th>
+                <th class="text-left px-2">Invitations</th>
+                <th class="text-left px-2">Submissions</th>
+                <th class="text-left px-2">Registrations</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @collection.connected_profiles.each do |profile| %>
+                <tr class="hover:bg-gray-100">
+                    <td class="p-2"><%= profile.name %></td>
+                    <td class="p-2"><%= profile.affiliation %></td>
+                    <td class="p-2"><%= profile.email %></td>
+                    <td class="p-2">
+                        <% profile.invitations.where(collection: @collection.subtree).each do |i| %>
+                            <%= link_to i, class: "text-blue-600 hover:underline block" do %>
+                                <%= i.status %>
+                            <% end %>
+                        <% end %>
+                    </td>
+                    <td class="p-2">
+                        <% profile.submissions.where(collection: @collection.subtree).each do |s| %>
+                            <%= link_to s, class: "text-blue-600 hover:underline block" do %>
+                                <%= s.title %> (<%= s.status %>)
+                            <% end %>
+                        <% end %>
+                    </td>
+                    <td class="p-2">
+                        <% profile.registrations.joins(:registration_option).where(registration_option: {collection: @collection.path}).each do |r| %>
+                            <%= link_to r, class: "text-blue-600 hover:underline block" do %>
+                                <%= r.collection.short_title %> (<%= r.status %>)
+                            <% end %>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
         All emails connected to <%= @collection.title %>
         (<%= @collection.connected_profiles.length %>)
