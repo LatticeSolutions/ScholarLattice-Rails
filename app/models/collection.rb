@@ -153,7 +153,7 @@ class Collection < ApplicationRecord
       c.registrations.where.not(status: :declined).map(&:profile) +
       c.submissions.where.not(status: [ :declined, :draft ]).map(&:profile) +
       c.invitations.where.not(status: [ :declined, :revoked ]).map(&:profile)
-     ) }.flatten.compact.uniq
+     ) }.flatten.compact.uniq.sort_by { |p| [ p.last_name, p.first_name ] }
   end
 
   def connected_unsubmitted_profiles
