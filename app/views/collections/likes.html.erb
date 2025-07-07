@@ -37,7 +37,7 @@
                     <td class="p-2">
                         <% profile.registrations.joins(:registration_option).where(registration_option: {collection: @collection.path}).each do |r| %>
                             <%= link_to r, class: "text-blue-600 hover:underline block" do %>
-                                <%= r.collection.short_title %> (<%= r.status %>)
+                                <%= r.collection.short_title %>: <%= r.registration_option.name %> (<%= r.status %>)
                             <% end %>
                         <% end %>
                     </td>
