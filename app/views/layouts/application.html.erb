@@ -6,6 +6,13 @@
     </title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta property="og:title" content="<%= content_for(:title).present? ? "#{content_for(:title)} | ScholarLattice" : "ScholarLattice" %>">
+    <meta name="twitter:title" content="<%= content_for(:title).present? ? "#{content_for(:title)} | ScholarLattice" : "ScholarLattice" %>">
+    <meta name="description" content="Learn more on ScholarLattice.org!">
+    <meta property="og:description" content="Learn more on ScholarLattice.org!">
+    <meta name="twitter:description" content="Learn more on ScholarLattice.org!">
+    <meta property="og:image" content="<%= url_to_image("logo.png") %>">
+    <meta name="twitter:image" content="<%= url_to_image("logo.png") %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
