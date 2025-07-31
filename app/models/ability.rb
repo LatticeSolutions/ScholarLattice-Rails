@@ -50,8 +50,11 @@ class Ability
     can :manage, Registration do |r|
       r.collection.nil? || r.collection.has_admin?(user)
     end
+    can :create, Registration do |r|
+      r.registration_option.nil? or (r.registration_option.collection.registrations_open? and r.profile.in? user.profiles)
+    end
     can :read, Registration do |r|
-      r.profile.in?(user.profiles) || r.status == :accepted
+      r.profile.in?(user.profiles)
     end
     can :view_payments, Registration do |r|
       r.profile.in?(user.profiles)
