@@ -77,6 +77,10 @@ class Collection < ApplicationRecord
     end
   end
 
+  def registrations_open?
+    registerable and registration_options.count > 0
+  end
+
   def home_page
     pages.where(is_home: true).first
   end
