@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_31_164246) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_04_231655) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -54,7 +54,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_31_164246) do
     t.string "ancestry", default: "/", null: false, collation: "C"
     t.uuid "submission_id"
     t.integer "order"
+    t.uuid "attached_page_id"
+    t.uuid "attached_collection_id"
     t.index ["ancestry"], name: "index_events_on_ancestry"
+    t.index ["attached_collection_id"], name: "index_events_on_attached_collection_id", unique: true
+    t.index ["attached_page_id"], name: "index_events_on_attached_page_id", unique: true
     t.index ["collection_id"], name: "index_events_on_collection_id"
     t.index ["submission_id"], name: "index_events_on_submission_id", unique: true
   end
@@ -178,6 +182,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_31_164246) do
   end
 
   add_foreign_key "events", "collections"
+  add_foreign_key "events", "collections", column: "attached_collection_id"
+  add_foreign_key "events", "pages", column: "attached_page_id"
   add_foreign_key "events", "submissions"
   add_foreign_key "invitations", "collections"
   add_foreign_key "invitations", "profiles"
