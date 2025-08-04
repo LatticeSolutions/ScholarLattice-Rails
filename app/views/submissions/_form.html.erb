@@ -30,13 +30,17 @@
   </div>
 
   <div class="my-5">
-    <%= form.label :abstract do %>
-      Abstract
-      <span class="text-sm text-gray-500">
-        Standard <code>$\LaTeX$</code> commands are supported for mathematical notation.
-      </span>
-    <% end %>
-    <%= form.textarea :abstract, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.label :abstract do %>
+        Abstract
+        <span class="text-sm text-gray-500">
+          Standard <code>$\LaTeX$</code> commands are supported for mathematical notation.
+        </span>
+      <% end %>
+      <% if can? :manage, submission or submission.new_record? %>
+        <%= form.textarea :abstract, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+      <% else %>
+        <%= form.textarea :abstract, rows: 4, class: "block cursor-not-allowed shadow bg-gray-200 rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full", disabled: true %>
+      <% end %>
   </div>
 
   <div class="my-5">
