@@ -24,10 +24,17 @@
       <%= event.times_in_time_zone %> (<%= event.collection.inherited_time_zone %>)
     </p>
 
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Web conference link:</strong>
-      <%= link_to event.web_conference_link, event.web_conference_link, target: "_blank", class: "text-blue-600 hover:text-blue-500 hover:underline break-all" %>
-    </p>
+    <% if event.web_conference_link.present? %>
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Web conference link:</strong>
+        <%= link_to event.web_conference_link, target: "_blank", class: "inline-flex items-center gap-2 rounded-md bg-purple-600 px-2 py-1 text-base text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400 break-all" do %>
+          <span class="inline-block size-3">
+              <%= render IconComponent.new(:video) %>
+          </span>
+          Web Conference
+        <% end %>
+      </p>
+    <% end %>
 
     <% if event.submission.present? %>
       <div class="border p-4 mx-auto md:w-3/4 rounded-lg">
