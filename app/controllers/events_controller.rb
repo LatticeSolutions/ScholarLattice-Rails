@@ -36,6 +36,10 @@ class EventsController < ApplicationController
 
   # GET /events/1 or /events/1.json
   def show
+    if @event.attached_collection.present?
+      redirect_to collection_path(@event.attached_collection)
+      return
+    end
     params[:start_date] = params.fetch(
       :start_date,
       (
@@ -158,7 +162,10 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.expect(event: [ :title, :description, :location, :starts_at, :ends_at, :collection_id, :parent_id, :submission_id, :order ])
+      params.expect(event: [
+        :title, :description, :location, :starts_at, :ends_at, :collection_id, :parent_id,
+        :submission_id, :attached_page_id, :attached_collection_id, :order
+      ])
     end
 
     def adjust_datetime_params

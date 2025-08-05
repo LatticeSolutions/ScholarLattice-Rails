@@ -99,6 +99,23 @@
         <% end %>
     </h1>
 
+    <% if @collection.attached_event.present? %>
+        <h2 class="text-1.5xl font-light text-gray-900 md:text-2xl pb-5">
+            <% start_date = @collection.attached_event.starts_at&.strftime("%Y-%m-%d %H:%M") %>
+            <% end_date = @collection.attached_event.ends_at&.strftime("%Y-%m-%d %H:%M") %>
+            <% if start_date.present? %>
+                <% if end_date.present? %>
+                    <%= start_date %> to <%= end_date %>
+                <% else %>
+                    <%= start_date %>
+                <% end %>
+            <% end %>
+            <% if can? :manage, @collection.attached_event %>
+                <%= link_to "[Edit event]", edit_event_path(@collection.attached_event), class: "text-blue-600 text-xl hover:text-blue-500 hover:underline" %>
+            <% end %>
+        </h2>
+    <% end %>
+
     <% if @collection.submittable? %>
         <h2 class="text-1.5xl font-light text-gray-900 md:text-2xl pb-5">
             <% open_time = @collection.submissions_open_on&.strftime("%Y-%m-%d %-I:%M%p") %>

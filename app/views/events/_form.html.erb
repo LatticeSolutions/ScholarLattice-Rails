@@ -84,6 +84,24 @@
       {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
   </div>
 
+  <div class="my-5">
+    <%= form.label "Attached Collection", class: "block text-xs font-medium text-gray-700" %>
+    <%= form.select :attached_collection_id, 
+      [["(None)", nil]] + 
+        @event.collection.children.map {|c| [c.short_title_path, c.id]},
+      {selected: event.attached_collection_id},
+      {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Attached Page", class: "block text-xs font-medium text-gray-700" %>
+    <%= form.select :attached_page_id, 
+      [["(None)", nil]] + 
+        @event.collection.pages.map {|p| ["#{p.title}", p.id]},
+      {selected: event.attached_page_id},
+      {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+  </div>
+
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>

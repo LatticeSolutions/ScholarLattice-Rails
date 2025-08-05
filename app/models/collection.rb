@@ -14,6 +14,7 @@ class Collection < ApplicationRecord
   has_many :registration_options, dependent: :destroy
   has_many :registrations, through: :registration_options
   has_many :payments, through: :registrations
+  has_one :attached_event, class_name: "Event", foreign_key: "attached_collection_id", dependent: :nullify
   after_save :update_admins_after_save
   before_save :round_down_submission_times
 
