@@ -15,21 +15,18 @@
           <%= event.location %>
       </h3>
     <% end %>
-    <h3 class="text-lg font-bold text-gray-500 md:text-xl pt-1">
-        <%= event.collection.inherited_time_zone %>
-    </h3>
     <p class="text-lg font-light">
         <%= @event.description %>
     </p>
 
     <p class="my-5">
-      <strong class="block font-medium mb-1">Starts at:</strong>
-      <%= event.starts_at.present? ? event.starts_at_in_time_zone.strftime("%Y-%m-%d %I:%M%p") : "" %>
+      <strong class="block font-medium mb-1">Times:</strong>
+      <%= event.times_in_time_zone %> (<%= event.collection.inherited_time_zone %>)
     </p>
 
     <p class="my-5">
-      <strong class="block font-medium mb-1">Ends at:</strong>
-      <%= event.ends_at.present? ? event.ends_at_in_time_zone.strftime("%Y-%m-%d %I:%M%p") : "" %>
+      <strong class="block font-medium mb-1">Web conference link:</strong>
+      <%= link_to event.web_conference_link, event.web_conference_link, target: "_blank", class: "text-blue-600 hover:text-blue-500 hover:underline break-all" %>
     </p>
 
     <% if event.submission.present? %>
