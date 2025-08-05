@@ -27,11 +27,15 @@
     <% if event.inherited(:web_conference_link).present? %>
       <p class="my-5">
         <strong class="block font-medium mb-1">Web conference link:</strong>
-        <%= link_to event.inherited(:web_conference_link), target: "_blank", class: "inline-flex items-center gap-2 rounded-md bg-purple-600 px-2 py-1 text-base text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400 break-all" do %>
-          <span class="inline-block size-3">
-              <%= render IconComponent.new(:video) %>
-          </span>
-          Web Conference
+        <% if @current_user.present? %>
+          <%= link_to event.inherited(:web_conference_link), target: "_blank", class: "inline-flex items-center gap-2 rounded-md bg-purple-600 px-2 py-1 text-base text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400 break-all" do %>
+            <span class="inline-block size-3">
+                <%= render IconComponent.new(:video) %>
+            </span>
+            Web Conference
+          <% end %>
+        <% else %>
+          Must log in to see web conference link.
         <% end %>
       </p>
     <% end %>
