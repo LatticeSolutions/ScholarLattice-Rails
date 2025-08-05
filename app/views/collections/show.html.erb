@@ -101,17 +101,20 @@
 
     <% if @collection.attached_event.present? %>
         <h2 class="text-1.5xl font-light text-gray-900 md:text-2xl pb-5">
-            <% start_date = @collection.attached_event.starts_at&.strftime("%Y-%m-%d %H:%M") %>
-            <% end_date = @collection.attached_event.ends_at&.strftime("%Y-%m-%d %H:%M") %>
-            <% if start_date.present? %>
-                <% if end_date.present? %>
-                    <%= start_date %> to <%= end_date %>
-                <% else %>
-                    <%= start_date %>
+            <%= @collection.attached_event.times_in_time_zone %> (<%= @collection.attached_event.collection.inherited_time_zone %>)
+            <% if @collection.attached_event.inherited(:location).present? %>
+              in <%= @collection.attached_event.inherited(:location) %>
+            <% end %>
+            <% if @collection.attached_event.web_conference_link.present? %>
+                <%= link_to @collection.attached_event.web_conference_link, target: "_blank", class: "inline-flex items-center gap-2 rounded-md bg-purple-600 px-2 py-1 text-base text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400 break-all" do %>
+                    <span class="inline-block size-3">
+                        <%= render IconComponent.new(:video) %>
+                    </span>
+                    Web Conference
                 <% end %>
             <% end %>
             <% if can? :manage, @collection.attached_event %>
-                <%= link_to "[Edit event]", edit_event_path(@collection.attached_event), class: "text-blue-600 text-xl hover:text-blue-500 hover:underline" %>
+                <%= link_to "Edit event", edit_event_path(@collection.attached_event), class: "inline-flex items-center gap-2 rounded-md bg-white px-2 py-1 text-base text-green-600 shadow-sm hover:bg-green-50 focus:outline-none focus:ring focus:ring-green-400 break-all" %>
             <% end %>
         </h2>
     <% end %>

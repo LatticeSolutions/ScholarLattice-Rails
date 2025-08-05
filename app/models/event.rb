@@ -10,6 +10,8 @@ class Event < ApplicationRecord
   validate :starts_within_parent
   validate :ends_within_parent
 
+  validates :web_conference_link, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]), message: "must be a valid URL" }, allow_blank: true
+
   validates :title, presence: true
 
   validate :collection_is_in_subtree_of_parents_collection
@@ -30,11 +32,27 @@ class Event < ApplicationRecord
   end
 
   def starts_at_in_time_zone
-    starts_at || starts_at.in_time_zone(collection.inherited_time_zone)
+    starts_at&.in_time_zone(collection.inherited_time_zone)
   end
 
   def ends_at_in_time_zone
-    ends_at || ends_at.in_time_zone(collection.inherited_time_zone)
+    ends_at&.in_time_zone(collection.inherited_time_zone)
+  end
+
+  def times_in_time_zone
+    if starts_at.present? && ends_at.present?
+      if starts_at.to_date == ends_at.to_date
+        "#{starts_at_in_time_zone.strftime("%Y %b %d")} from #{starts_at_in_time_zone.strftime("%I:%M%p")} to #{ends_at_in_time_zone.strftime("%I:%M%p")}"
+      else
+        "#{starts_at_in_time_zone.strftime("%Y %b %d %I:%M%p")} to #{ends_at_in_time_zone.strftime("%Y %b %d %I:%M%p")}"
+      end
+    elsif starts_at.present?
+      "Starts at #{starts_at_in_time_zone.strftime("%Y %b %d %I:%M%p")}"
+    elsif ends_at.present?
+      "Ends at #{ends_at_in_time_zone.strftime("%Y %b %d %I:%M%p")}"
+    else
+      "No scheduled time"
+    end
   end
 
   def info_in_latex

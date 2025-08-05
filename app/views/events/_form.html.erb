@@ -26,6 +26,11 @@
     <%= form.text_field :location, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
   </div>
 
+  <div class="my-5">
+    <%= form.label :web_conference_link, "Web conference link (include http:// or https://)", class: "block text-xs font-medium text-gray-700" %>
+    <%= form.url_field :web_conference_link, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  </div>
+
   <div class="mb-3">
     <%= form.label :starts_at, class: "block text-xs font-medium text-gray-700" do %>
       Starts at [<%= @event.collection.inherited_time_zone %>]
@@ -74,7 +79,7 @@
   </div>
 
   <div class="my-5">
-    <%= form.label "Scheduled Submission", class: "block text-xs font-medium text-gray-700" %>
+    <%= form.label "Attached Submission", class: "block text-xs font-medium text-gray-700" %>
     <%= form.select :submission_id, 
       [["(None)", nil]] + 
         Submission.where(event: event).map {|s| ["#{s.title} | #{s.profile.name}", s.id]} +

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_04_231655) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_05_221533) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -56,6 +56,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_04_231655) do
     t.integer "order"
     t.uuid "attached_page_id"
     t.uuid "attached_collection_id"
+    t.string "web_conference_link"
     t.index ["ancestry"], name: "index_events_on_ancestry"
     t.index ["attached_collection_id"], name: "index_events_on_attached_collection_id", unique: true
     t.index ["attached_page_id"], name: "index_events_on_attached_page_id", unique: true
