@@ -10,9 +10,9 @@
             Subevent of <%= link_to event.parent.title, event.parent, class: "text-blue-600 hover:text-blue-500 hover:underline" %>
       </h3>
     <% end %>
-    <% if event.location.present? %>
+    <% if event.inherited(:location).present? %>
       <h3 class="text-lg font-bold text-gray-900 md:text-xl pt-1">
-          <%= event.location %>
+          <%= event.inherited(:location) %>
       </h3>
     <% end %>
     <p class="text-lg font-light">
@@ -24,10 +24,10 @@
       <%= event.times_in_time_zone %> (<%= event.collection.inherited_time_zone %>)
     </p>
 
-    <% if event.web_conference_link.present? %>
+    <% if event.inherited(:web_conference_link).present? %>
       <p class="my-5">
         <strong class="block font-medium mb-1">Web conference link:</strong>
-        <%= link_to event.web_conference_link, target: "_blank", class: "inline-flex items-center gap-2 rounded-md bg-purple-600 px-2 py-1 text-base text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400 break-all" do %>
+        <%= link_to event.inherited(:web_conference_link), target: "_blank", class: "inline-flex items-center gap-2 rounded-md bg-purple-600 px-2 py-1 text-base text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400 break-all" do %>
           <span class="inline-block size-3">
               <%= render IconComponent.new(:video) %>
           </span>
