@@ -10,6 +10,8 @@ class Event < ApplicationRecord
   validate :starts_within_parent
   validate :ends_within_parent
 
+  validate :web_conference_link, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]), message: "must be a valid URL" }, allow_blank: true
+
   validates :title, presence: true
 
   validate :collection_is_in_subtree_of_parents_collection
