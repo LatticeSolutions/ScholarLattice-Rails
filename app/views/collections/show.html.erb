@@ -71,7 +71,7 @@
                 <span class="size-4">
                     <%= render IconComponent.new(:registration) %>
                 </span>
-                <span>
+                <span class="hidden md:inline">
                     Registered!
                 </span>
             <% end %>
@@ -81,7 +81,7 @@
                 <span class="size-4">
                     <%= render IconComponent.new(:registration) %>
                 </span>
-                <span>
+                <span class="hidden md:inline">
                     Register here
                 </span>
             <% end %>
@@ -92,9 +92,20 @@
                 <span class="size-4">
                     <%= render IconComponent.new(:calendar) %>
                 </span>
-                <span>
+                <span class="hidden md:inline">
                     Events
                 </span>
+            <% end %>
+            <% if @collection.has_webinars? %>
+                <%= link_to collection_events_path(@collection), 
+                    class: "inline-flex items-center gap-2 rounded-md bg-purple-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400" do %>
+                    <span class="size-4">
+                        <%= render IconComponent.new(:video) %>
+                    </span>
+                    <span class="hidden md:inline">
+                        Webinars available
+                    </span>
+                <% end %>
             <% end %>
         <% end %>
     </h1>
@@ -110,7 +121,7 @@
                     <span class="inline-block size-3">
                         <%= render IconComponent.new(:video) %>
                     </span>
-                    Web Conference
+                    Webinar
                 <% end %>
             <% end %>
             <% if can? :manage, @collection.attached_event %>

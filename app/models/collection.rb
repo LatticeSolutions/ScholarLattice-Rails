@@ -173,6 +173,10 @@ class Collection < ApplicationRecord
     ERB.new(File.read("#{Rails.root}/app/views/events/_program.text.erb")).result_with_hash(collection: self)
   end
 
+  def has_webinars?
+    attached_event.blank? and all_events.where(webinar_link: [ nil, "" ]).empty?
+  end
+
   private
 
   def round_down_submission_times
