@@ -9,6 +9,7 @@ class Profile < ApplicationRecord
   enum :position_type, { faculty: 0, grad_student: 1, undergrad_student: 2, secondary_student: 3, other: 4, postdoc: 5 }
 
   before_save :downcase_email
+  before_save :strip_whitespace
 
   default_scope { order(:last_name, :first_name) }
 
@@ -50,5 +51,15 @@ class Profile < ApplicationRecord
 
   def registrations_for(collection)
     registrations.where(registration_option: collection.registration_options)
+  end
+
+  private
+
+  def strip_whitespace
+    self.first_name = first_name.strip if first_name.present?
+    self.last_name = last_name.strip if last_name.present?
+    self.email = email.strip if email.present?
+    self.affiliation = affiliation.strip if affiliation.present?
+    self.position = position.strip if position.present?
   end
 end
