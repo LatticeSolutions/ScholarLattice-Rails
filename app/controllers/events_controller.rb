@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   load_and_authorize_resource :collection
   load_and_authorize_resource :event, through: :collection, shallow: true
-  around_action :set_time_zone
+  around_action :set_time_zone, except: [ :webinar ]
 
   # GET /events or /events.json
   def index
@@ -53,6 +53,16 @@ class EventsController < ApplicationController
       starts_at: month_starts_at..month_ends_at
     )
     @unscheduled_subevents = @event.children.where(starts_at: nil)
+  end
+
+  def webinar
+    @event = Event.find(params[:event_id])
+    unless @event.inherited(:webinar_link).present?
+      redirect_to event_path(@event), alert: "This event does not have a webinar link."
+      return
+    end
+    authorize! :access_webinar, @event, message: "Must have an accepted registration to #{@event.collection.title} to access this webinar."
+    redirect_to @event.inherited(:webinar_link), allow_other_host: true
   end
 
   # GET /events/new
