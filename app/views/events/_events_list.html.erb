@@ -8,8 +8,8 @@
         <% if event.location.present? %>
             <span class="text-sm">in <span class="text-green-800"><%= event.location %></span></span>
         <% end %>
-        <% if @current_user.present? and event.web_conference_link.present? %>
-            <%= link_to event.web_conference_link, 
+        <% if event.webinar_link.present? %>
+            <%= link_to event_webinar_path(event), 
                 class: "inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold px-1 py-1 rounded transition-colors duration-150 ml-2", 
                 target: "_blank", 
                 rel: "noopener" do %>

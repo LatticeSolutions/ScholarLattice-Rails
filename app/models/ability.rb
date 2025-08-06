@@ -29,6 +29,13 @@ class Ability
     can :manage, Event do |e|
       e.collection.has_admin?(user)
     end
+    can :access_webinar, Event do |e|
+      Registration.where(
+        profile: user.profiles,
+        registration_option: e.collection.path.collect(&:registration_options),
+        status: :accepted
+      ).any?
+    end
 
     can :manage, Submission do |s|
       s.collection.has_admin?(user)
