@@ -106,8 +106,8 @@
               in <%= @collection.attached_event.inherited(:location) %>
             <% end %>
             <% if @current_user.present? %>
-                <% if @collection.attached_event.web_conference_link.present? %>
-                    <%= link_to @collection.attached_event.web_conference_link, target: "_blank", class: "inline-flex items-center gap-2 rounded-md bg-purple-600 px-2 py-1 text-base text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400 break-all" do %>
+                <% if @collection.attached_event.webinar_link.present? %>
+                    <%= link_to @collection.attached_event.webinar_link, target: "_blank", class: "inline-flex items-center gap-2 rounded-md bg-purple-600 px-2 py-1 text-base text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400 break-all" do %>
                         <span class="inline-block size-3">
                             <%= render IconComponent.new(:video) %>
                         </span>
