@@ -62,6 +62,7 @@ class EventsController < ApplicationController
       return
     end
     authorize! :access_webinar, @event, message: "Must have an accepted registration to #{@event.collection.title} to access this webinar."
+    # brakeman:ignore Redirect
     redirect_to @event.inherited(:webinar_link), allow_other_host: true
   end
 
