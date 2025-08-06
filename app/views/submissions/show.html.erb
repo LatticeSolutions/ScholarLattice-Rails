@@ -16,10 +16,20 @@
             .strftime("%Y-%m-%d %I:%M %p") %>:
         <% end %>
         <%= link_to @submission.event.title, @submission.event, class: "text-blue-600 hover:underline" %>
-        <% if @submission.event.location.present? %>
-            <span class="text-sm">in <span class="text-green-800"><%= @submission.event.location %></span></span>
+        <% if @submission.event.inherited(:location).present? %>
+            <span class="text-sm">in <span class="text-green-800"><%= @submission.event.inherited(:location) %></span></span>
         <% end %>
       </p>
+      <% if @submission.event.inherited(:webinar_link).present? %>
+        <p class="my-5">
+          <%= link_to event_webinar_path(@submission.event), target: "_blank", class: "inline-flex items-center gap-2 rounded-md bg-purple-600 px-2 py-1 text-base text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400 break-all" do %>
+            <span class="inline-block size-3">
+                <%= render IconComponent.new(:video) %>
+            </span>
+            Webinar
+          <% end %>
+        </p>
+      <% end %>
     <% end %>
 
     <p class="my-5">

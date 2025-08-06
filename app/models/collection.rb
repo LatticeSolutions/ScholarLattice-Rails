@@ -174,7 +174,7 @@ class Collection < ApplicationRecord
   end
 
   def has_webinars?
-    attached_event.blank? and all_events.where(webinar_link: [ nil, "" ]).empty?
+    attached_event.blank? and all_events.where.not(webinar_link: [ nil, "" ]).any?
   end
 
   private
