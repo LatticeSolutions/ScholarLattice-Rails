@@ -32,7 +32,7 @@ class Ability
     can :access_webinar, Event do |e|
       Registration.where(
         profile: user.profiles,
-        registration_option: e.collection.path.collect(&:registration_options),
+        registration_option: e.collection.path.collect(&:registration_options).flatten,
         status: :accepted
       ).any?
     end
