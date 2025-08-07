@@ -5,9 +5,12 @@ class RegistrationsController < ApplicationController
   # GET /registrations or /registrations.json
   def index
     @registration_options = @collection.registration_options
+    @registrations = Registration.where(registration_option: @registration_options)
     respond_to do |format|
       format.html
-      format.csv { send_data @registrations.to_csv, filename: "registrations-#{@collection.short_title.underscore}-#{DateTime.now.strftime('%Q')}.csv" }
+      if can? :manage, @collection
+        format.csv { send_data @registrations.to_csv, filename: "registrations-#{@collection.short_title.underscore}-#{DateTime.now.strftime('%Q')}.csv" }
+      end
     end
   end
 
