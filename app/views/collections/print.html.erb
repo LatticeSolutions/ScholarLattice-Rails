@@ -46,22 +46,17 @@
         <p class="text-lg font-light">
             <%= @collection.description %>
         </p>
-        <% unless @collection.home_page.nil? %>
-            <div class="mathjax pt-4 prose sm:prose-xl mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
-                <%= sanitize @collection.home_page.content_html %>
-            </div>
-        <% end %>
         <% if @collection.all_top_events.present? %>
             <div>
-                <h2 class="font-bold text-2xl md:text-4xl mt-3">
+                <h2 class="font-bold text-2xl mt-3">
                     Schedule
                 </h2>
                 <p>
                     All times <%= Time.zone %>
                 </p>
-                <% @collection.all_scheduled_events.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
+                <% @collection.all_top_events.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
                     <h3 class="font-bold text-xl mt-3"><%= day %></h3>
-                    <%= render partial: "events/events_list", locals: { events: @collection.all_scheduled_events, children_limit: 3 } %>
+                    <%= render partial: "events/events_list", locals: { events: events, children_limit: 0, hide_webinar_links: true } %>
                 <% end %>
             </div>
         <% end %>
