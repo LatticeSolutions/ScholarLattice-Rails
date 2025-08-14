@@ -39,7 +39,7 @@
           <%= event.starts_at.strftime("%I:%M %p") %>:
           <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
           <% if event.inherited(:location).present? %>
-            <span class="text-sm">in <span class="text-green-800"><%= event.location %></span></span>
+            <span class="text-sm">in <span class="text-green-800"><%= event.inherited(:location) %></span></span>
           <% end %>
           <% if event.inherited(:webinar_link).present? %>
               <%= link_to event_webinar_path(event), 
