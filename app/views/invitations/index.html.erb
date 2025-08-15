@@ -106,4 +106,19 @@
             @declined_invitations.filter(&:submitted?).map{|s| s.profile.email }.join("; ")
         %></textarea>
     </div>
+    
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        Revoked (<%= @invitations.where(status: :revoked).count %>):
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @invitations.where(status: :revoked).each do |invitation| %>
+            <%= render partial: "invitations/card", locals: { invitation: invitation, collection: @collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @invitations.where(status: :revoked).map{|s| s.profile.email }.join("; ")
+        %></textarea>
+    </div>
 </div>
