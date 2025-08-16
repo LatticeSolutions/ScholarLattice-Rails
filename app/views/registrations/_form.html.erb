@@ -26,8 +26,11 @@
 
   <div class="my-5">
     <%= form.label :registration_option_id %>
-    <%= form.select :registration_option_id, collection.registration_options.map {|o| [o.name_with_cost, o.id]},
-        {selected: registration.registration_option_id || nil},
+    <%= form.select :registration_option_id, collection.registration_options.map {|o| [o.name_with_cost_and_stock, o.id]},
+        {
+          selected: registration.registration_option_id || nil,
+          disabled: (can? :manage, collection) ? [] : collection.registration_options.reject(&:in_stock?).map(&:id)
+        },
         {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
   </div>
 

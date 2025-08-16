@@ -32,9 +32,6 @@
       <p class="my-5">
         <strong class="block font-medium mb-1">
           Payments:
-          <span class="size-4 inline-block">
-            <%= render IconComponent.new(:key) %>
-          </span>
         </strong>
         Total:
         <%= Money.from_cents(@registration.payment_total, :usd).format %> /

@@ -31,6 +31,9 @@ class RegistrationsController < ApplicationController
 
   # POST /registrations or /registrations.json
   def create
+    unless can? :manage, @collection or @registration.registration_option.in_stock?
+        @registration.errors.add(:registration_option, "has no remaining stock available")
+    end
     if @registration.registration_option.auto_accept?
       @registration.status = :accepted
     end

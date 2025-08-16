@@ -14,6 +14,10 @@ class RegistrationOption < ApplicationRecord
     opens_on <= Time.now
   end
 
+  def remaining_stock
+    stock - registrations.count
+  end
+
   def in_stock?
     return true if stock.blank?
     registrations.count < stock
@@ -26,5 +30,10 @@ class RegistrationOption < ApplicationRecord
   def name_with_cost
     return name if cost.blank?
     "#{name} (#{Money.from_cents(cost, :usd).format})"
+  end
+
+  def name_with_cost_and_stock
+    return name if cost.blank?
+    "#{name_with_cost} (#{remaining_stock} / #{stock} available)"
   end
 end
