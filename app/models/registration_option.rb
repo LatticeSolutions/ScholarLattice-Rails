@@ -35,7 +35,7 @@ class RegistrationOption < ApplicationRecord
   end
 
   def name_with_cost_and_stock
-    return name if cost.blank?
+    return name if stock.blank?
     "#{name_with_cost} (#{remaining_stock} / #{stock} available)"
   end
 
