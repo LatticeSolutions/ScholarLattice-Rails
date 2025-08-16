@@ -33,7 +33,12 @@
 
   <% if can? :manage, registration %>
     <div class="my-5">
-      <%= form.label :status %>
+      <%= form.label :status do %>
+        <span class="size-4 inline-block">
+          <%= render IconComponent.new(:key) %>
+        </span>
+        Status
+      <% end %>
       <%= form.select :status, Registration.statuses.keys.map {|key| [key.humanize, key]},
         {selected: registration.status || :draft},
         {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>

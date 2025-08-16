@@ -55,7 +55,7 @@ class Ability
     cannot :destroy, Submission
 
     can :manage, Registration do |r|
-      r.collection.nil? || r.collection.has_admin?(user)
+      r.collection.present? and r.collection.has_admin?(user)
     end
     can :create, Registration do |r|
       r.registration_option.nil? or (r.registration_option.collection.registrations_open? and r.profile.in? user.profiles)
@@ -64,7 +64,7 @@ class Ability
       r.profile.in?(user.profiles)
     end
     can :view_payments, Registration do |r|
-      r.profile.in?(user.profiles)
+      r.profile.in?(user.profiles) and r.registration_option.cost.present?
     end
 
     can :manage, Invitation do |i|
