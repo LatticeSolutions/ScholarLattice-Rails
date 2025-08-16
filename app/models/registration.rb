@@ -6,6 +6,7 @@ class Registration < ApplicationRecord
   enum :status, { submitted: 0, accepted: 1, declined: 2 }
 
   validate :profile_domain_allowed?
+  validates :profile, uniqueness: { scope: :registration_option_id, message: "has already registered using this option" }
 
   def payment_total
     registration_payments.sum(:amount)
