@@ -31,6 +31,9 @@ class RegistrationsController < ApplicationController
 
   # POST /registrations or /registrations.json
   def create
+    if @registration.registration_option.auto_accept?
+      @registration.status = :accepted
+    end
     respond_to do |format|
       if @registration.registration_option.collection_id != params[:collection_id]
         @registration.errors.add(:registration_option, "does not match this collection")

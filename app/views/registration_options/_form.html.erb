@@ -12,21 +12,28 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :name %>
+    <%= form.label :name, class: "block text-xs font-medium text-gray-700" %>
     <%= form.text_field :name, value: option.name,
         class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= form.label :cost do %>Cost in USD cents<% end %>
+    <%= form.label :cost, class: "block text-xs font-medium text-gray-700" do %>
+      Cost in USD cents (leave blank for no-cost events)
+    <% end %>
     <%= form.number_field :cost, value: option.cost,
         class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>   
   </div>
 
   <div class="my-5">
-    <%= form.label :stock %>
+    <%= form.label :stock, class: "block text-xs font-medium text-gray-700" %>
     <%= form.number_field :stock, value: option.stock,
         class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>   
+  </div>
+
+  <div class="my-5">
+    <%= form.label :auto_accept, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.check_box :auto_accept, class: "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm" %>
   </div>
 
   <div class="my-5">
