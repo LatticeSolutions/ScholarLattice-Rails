@@ -4,6 +4,9 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations or /registrations.json
   def index
+    unless can? :manage, @collection
+      redirect_to collection_path(@collection)
+    end
     @registration_options = @collection.registration_options
     @registrations = Registration.where(registration_option: @registration_options)
     respond_to do |format|
