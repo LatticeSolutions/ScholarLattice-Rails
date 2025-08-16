@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_16_142917) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_16_145446) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -138,6 +138,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_16_142917) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "auto_accept", default: false, null: false
+    t.string "allowed_domains"
     t.index ["collection_id"], name: "index_registration_options_on_collection_id"
   end
 
