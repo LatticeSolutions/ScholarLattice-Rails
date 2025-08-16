@@ -7,19 +7,13 @@
     <p class="mt-4 text-gray-500">
       To log in as 
       <span class="font-medium"><%= @session.authenticatable.email %></span>,
-    </p>
-    <p class="mt-1 text-gray-500">
       either click the magic link emailed with the subject
-    </p>
-    <p class="mt-1 text-gray-500">
       <span class="font-medium"><%= I18n.t("passwordless.mailer.sign_in.subject") %></span>
-    </p>
-    <p class="mt-1 text-gray-500">
       to your inbox on
-      <span class="font-medium"><%= @session.created_at %></span>,
-    </p>
-    <p class="mt-1 text-gray-500">
-      or copy/paste the token provided in that email below.
+      <span class="font-medium"><%= @session.created_at %></span>, or
+      copy/paste the 
+      <span class="font-medium">eight-character token</span>
+      provided in that email below.
     </p>
 
   <%= form_with(model: @session, url: url_for(action: 'update'), scope: 'passwordless', method: 'patch', data: { turbo: 'false' }, 
@@ -35,6 +29,7 @@
             required: true,
             autofocus: true,
             autocomplete: "one-time-code",
+            placeholder: "Token sent by email (for example, ABCD1234)",
             class: "w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm" %>
 
         <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
@@ -48,8 +43,8 @@
 
     <div class="flex flex-row-reverse">
       <%= f.submit(
-        t(".confirm"), 
-        class: "inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white") %>
+        "Sign in as #{@session.authenticatable.email}", 
+        class: "inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white cursor-pointer") %>
       <%= link_to "Sign in as someone else", users_sign_in_path, class: "inline-block rounded-lg text-blue-500 px-5 py-3 text-sm font-medium" %>
     </div>
   <% end %>

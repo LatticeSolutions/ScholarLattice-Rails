@@ -52,6 +52,8 @@ class RegistrationOptionsController < ApplicationController
   private
     # Only allow a list of trusted parameters through.
     def registration_option_params
-        params.expect(registration_option: [ :name, :cost, :stock, :opens_on, :closes_on ])
+        params.expect(registration_option: [
+          :name, :cost, :stock, :opens_on, :closes_on, :auto_accept, :allowed_domains
+        ])
     end
 end

@@ -30,7 +30,9 @@
 
     <% if can? :view_payments, @registration %>
       <p class="my-5">
-        <strong class="block font-medium mb-1">Payments:</strong>
+        <strong class="block font-medium mb-1">
+          Payments:
+        </strong>
         Total:
         <%= Money.from_cents(@registration.payment_total, :usd).format %> /
         <%= Money.from_cents(@registration.registration_option.cost, :usd).format %>

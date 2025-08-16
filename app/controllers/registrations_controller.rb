@@ -4,6 +4,9 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations or /registrations.json
   def index
+    unless can? :manage, @collection
+      redirect_to collection_path(@collection)
+    end
     @registration_options = @collection.registration_options
     @registrations = Registration.where(registration_option: @registration_options)
     respond_to do |format|
@@ -28,10 +31,16 @@ class RegistrationsController < ApplicationController
 
   # POST /registrations or /registrations.json
   def create
+    unless can? :manage, @collection or @registration.registration_option.in_stock?
+        @registration.errors.add(:registration_option, "has no remaining stock available")
+    end
+    if @registration.registration_option.collection_id != params[:collection_id]
+      @registration.errors.add(:registration_option, "does not match this collection")
+    end
+    if @registration.registration_option.auto_accept?
+      @registration.status = :accepted
+    end
     respond_to do |format|
-      if @registration.registration_option.collection_id != params[:collection_id]
-        @registration.errors.add(:registration_option, "does not match this collection")
-      end
       if @registration.save
         format.html { redirect_to @registration, notice: "Registration was successfully created." }
         format.json { render :show, status: :created, location: @registration }
