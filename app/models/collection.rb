@@ -102,6 +102,11 @@ class Collection < ApplicationRecord
     @admin_emails = email_string
   end
 
+  def reply_to_emails
+    return admin_emails if admins.any?
+    "no-reply@scholarlattice.org"
+  end
+
   def all_events
     Event.where(collection: subtree)
   end
