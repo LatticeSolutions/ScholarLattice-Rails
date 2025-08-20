@@ -35,9 +35,9 @@ en:
         email:
           label: "E-mail address"
           placeholder: "username@example.edu"
-        submit: "Sign up / Sign in"
+        submit: "Sign up or sign in"
       create:
-        email_sent: "We've sent you an email with a secret token"
+        email_sent: "" # "We've sent you an email with a secret token"
         not_found: "We couldn't find a user with that email address"
         error: "An error occured"
       show:
