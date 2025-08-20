@@ -3,7 +3,8 @@ class InvitationMailer < ApplicationMailer
     @invitation = invitation
     mail(
       to: invitation.notification_emails,
-      subject: "Invitation to submit to #{invitation.collection.title} on ScholarLattice"
+      subject: "Invitation to submit to #{invitation.collection.title} on ScholarLattice",
+      reply_to: invitation.collection.reply_to_emails,
     )
   end
 end
