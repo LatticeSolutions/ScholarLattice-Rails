@@ -67,7 +67,7 @@
         <% end %>
         <% if @current_user && @current_user.main_profile.registered_for?(@collection) %>
             <%= link_to @current_user.main_profile.registrations_for(@collection).first, 
-                class: "inline-flex items-center gap-2 rounded-md bg-amber-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-amber-700 focus:outline-none focus:ring focus:ring-green-400" do %>
+                class: "inline-flex items-center gap-2 rounded-md bg-orange-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-orange-700 focus:outline-none focus:ring focus:ring-green-400" do %>
                 <span class="size-4">
                     <%= render IconComponent.new(:registration) %>
                 </span>
@@ -77,7 +77,7 @@
             <% end %>
         <% elsif @collection.registrations_open? %>
             <%= link_to new_collection_registration_path(@collection), 
-                class: "inline-flex font-normal items-center gap-2 rounded-md border-amber-600 bg-white ml-1 px-4 py-2 text-sm text-amber-600 shadow-sm focus:relative hover:bg-amber-100 focus:outline-none focus:ring focus:ring-amber-400" do %>
+                class: "inline-flex font-normal items-center gap-2 rounded-md border-2 border-orange-400 bg-white ml-1 px-4 py-2 text-sm text-orange-600 shadow-sm focus:relative hover:bg-orange-100 focus:outline-none focus:ring focus:ring-orange-400" do %>
                 <span class="size-4">
                     <%= render IconComponent.new(:registration) %>
                 </span>
