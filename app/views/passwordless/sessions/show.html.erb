@@ -7,11 +7,13 @@
     <p class="mt-4 text-gray-500">
       To log in as 
       <span class="font-medium"><%= @session.authenticatable.email %></span>,
-      either click the magic link emailed with the subject
+      click the magic link emailed with the subject
       <span class="font-medium"><%= I18n.t("passwordless.mailer.sign_in.subject") %></span>
       to your inbox on
-      <span class="font-medium"><%= @session.created_at %></span>, or
-      copy/paste the 
+      <span class="font-medium"><%= @session.created_at %></span>.
+    </p>
+    <p class="mt-4 text-gray-500">
+      Or, copy/paste the 
       <span class="font-medium">eight-character token</span>
       provided in that email below.
     </p>
@@ -42,8 +44,9 @@
 
 
     <div class="flex flex-row-reverse">
-      <%= f.submit(
+      <%= f.button(
         "Sign in as #{@session.authenticatable.email}", 
+        type: "submit",
         class: "inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white cursor-pointer") %>
       <%= link_to "Sign in as someone else", users_sign_in_path, class: "inline-block rounded-lg text-blue-500 px-5 py-3 text-sm font-medium" %>
     </div>

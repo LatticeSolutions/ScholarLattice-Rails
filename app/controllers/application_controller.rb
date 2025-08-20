@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
       if current_user
         format.html { redirect_to dashboard_path, alert: exception.message }
       else
-        format.html { redirect_to users_sign_in_path, alert: "You must be logged in to access this page." }
+        format.html { redirect_to users_sign_in_path }
       end
     end
   end
