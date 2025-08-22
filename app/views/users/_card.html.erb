@@ -1,0 +1,8 @@
+<%= render CardComponent.new( 
+  title: "#{user.first_name} #{user.last_name} ⟨#{user.email}⟩",
+  description: user.description,
+  link_text: "View profile",
+  link_url: user_path(user),
+  title_icon: user.verified? ? :user_verified : :user,
+  crumbs: []
+) %>
