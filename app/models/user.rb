@@ -21,15 +21,12 @@ class User < ApplicationRecord
 
   has_and_belongs_to_many :profiles
 
-  has_many :user_managements
-  has_many :managed_users,
-            class_name: "User",
-            through: :user_managements,
-            source: :user
-  has_many :managing_users,
-            class_name: "User",
-            through: :user_managements,
-            source: :manager
+
+  has_many :managed_users_link, foreign_key: :manager_id, class_name: "UserManagement"
+  has_many :managed_users, through: :managed_users_link, source: :user
+
+  has_many :managing_users_link, foreign_key: :user_id, class_name: "UserManagement"
+  has_many :managing_users, through: :managing_users_link, source: :manager
 
   has_many :submissions
   has_many :registrations
