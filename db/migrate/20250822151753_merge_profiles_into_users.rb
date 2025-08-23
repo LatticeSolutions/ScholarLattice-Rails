@@ -6,9 +6,10 @@ class MergeProfilesIntoUsers < ActiveRecord::Migration[8.0]
     add_column :users, :affiliation, :string, null: false, default: 'Unaffiliated'
     add_column :users, :position, :string, null: false, default: 'None'
     add_column :users, :position_type, :integer, null: false, default: 4
+    add_column :users, :verified_email, :boolean, null: false, default: false
 
-    # Add table for UserManagers
-    create_table :user_managers, id: false do |t|
+    # Add table for UserManagements
+    create_table :user_managements, id: false do |t|
       t.references :user, null: false, foreign_key: true, type: :uuid
       t.references :manager, null: false, foreign_key: { to_table: :users }, type: :uuid
       t.timestamps
@@ -32,7 +33,8 @@ class MergeProfilesIntoUsers < ActiveRecord::Migration[8.0]
         last_name: profile.last_name,
         affiliation: profile.affiliation || 'Unaffiliated',
         position: profile.position || 'None',
-        position_type: profile.position_type || 4
+        position_type: profile.position_type || 4,
+        verified_email: true,
       )
       # Associate all foreign keys to the appropriate user
       profile.invitations.update_all(user_id: user.id)
@@ -56,22 +58,21 @@ class MergeProfilesIntoUsers < ActiveRecord::Migration[8.0]
           position: profile.position || 'None',
           position_type: profile.position_type || 4
         )
+        profile.users.each do |manager|
+          UserManagement.create!(
+            user: user,
+            manager: manager
+          )
+        end
       end
       # Associate all foreign keys to the user
       profile.invitations.update_all(user_id: user.id)
       profile.registrations.update_all(user_id: user.id)
       profile.submissions.update_all(user_id: user.id)
-      # if the user is not already handled, create user managers
       unless handled_user_ids.include?(user.id)
-        profile.users.each do |p_user|
-          next if p_user.id == user.id # skip self
-          UserManager.create!(
-            user: user,
-            manager: p_user,
-          )
-        end
         handled_user_ids << user.id
       end
+      handled_profile_ids << profile.id
     end
 
     if Invitation.where(user_id: nil).any?
@@ -88,11 +89,11 @@ class MergeProfilesIntoUsers < ActiveRecord::Migration[8.0]
     change_column_null :submissions, :user_id, false
     change_column_null :registrations, :user_id, false
 
-    # Drop the profiles table
-    remove_column :invitations, :profile_id
-    remove_column :submissions, :profile_id
-    remove_column :registrations, :profile_id
-    drop_table :profiles_users
-    drop_table :profiles
+    # # Drop the profiles table
+    # remove_column :invitations, :profile_id
+    # remove_column :submissions, :profile_id
+    # remove_column :registrations, :profile_id
+    # drop_table :profiles_users
+    # drop_table :profiles
   end
 end
