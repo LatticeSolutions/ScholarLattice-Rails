@@ -5,22 +5,11 @@ class ApplicationController < ActionController::Base
   # passwordless
   include Passwordless::ControllerHelpers
   before_action :current_user
-  before_action :first_profile_redirect
 
   private
 
   def current_user
     @current_user ||= authenticate_by_session(User)
-  end
-
-  def first_profile_redirect
-    if current_user &&
-        current_user.profiles.empty? &&
-        !request.path.include?("/profiles") &&
-        !request.path.include?("/users")
-      flash[:notice] = "Please create your profile to continue."
-      redirect_to new_profile_path
-    end
   end
 
   rescue_from CanCan::AccessDenied do |exception|
