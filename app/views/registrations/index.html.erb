@@ -49,7 +49,7 @@
             <div class="text-gray-700 py-3">
                 Emails:
                 <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-                    option.registrations.where(status: :submitted).map{|s| s.profile.email }.join("; ")
+                    option.registrations.where(status: :submitted).map{|r| r.user.email }.join("; ")
                 %></textarea>
             </div>
         <% end %>
@@ -65,7 +65,7 @@
             <div class="text-gray-700 py-3">
                 Emails:
                 <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-                    option.registrations.where(status: :accepted).map{|s| s.profile.email }.join("; ")
+                    option.registrations.where(status: :accepted).map{|r| r.user.email }.join("; ")
                 %></textarea>
             </div>
             <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
@@ -79,7 +79,7 @@
             <div class="text-gray-700 py-3">
                 Emails:
                 <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-                    option.registrations.where(status: :declined).map{|s| s.profile.email }.join("; ")
+                    option.registrations.where(status: :declined).map{|r| r.user.email }.join("; ")
                 %></textarea>
             </div>
         <% end %>

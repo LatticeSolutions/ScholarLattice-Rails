@@ -90,10 +90,7 @@ class RegistrationsController < ApplicationController
       registration_data = row.to_hash
       u = User.find_by(email: registration_data["email"].downcase)
       if u.nil?
-        u = User.create!(email: registration_data["email"])
-      end
-      if u.main_profile.nil?
-        u.profiles.create! registration_data.slice(
+        u = User.create! registration_data.slice(
           "email",
           "first_name",
           "last_name",
@@ -105,7 +102,7 @@ class RegistrationsController < ApplicationController
         registration_data["option_id"]
       )
       registration = registration_option.registrations.find_or_create_by!(
-        profile_id: u.main_profile.id,
+        user: u,
         status: registration_data["status"] || :submitted,
       )
       unless registration_data["amount"].blank?
@@ -126,9 +123,9 @@ class RegistrationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def registration_params
       if can? :manage, @registration
-        params.expect(registration: [ :registration_option_id, :profile_id, :status ])
+        params.expect(registration: [ :registration_option_id, :user_id, :status ])
       else
-        params.expect(registration: [ :registration_option_id, :profile_id ])
+        params.expect(registration: [ :registration_option_id, :user_id ])
       end
     end
 end
