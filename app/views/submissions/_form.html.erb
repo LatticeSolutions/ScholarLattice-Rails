@@ -12,7 +12,7 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :user_id %>
+    <%= form.label :user_id do %>Profile<% end %>
     <% if submission.user.present? %>
         <%= form.hidden_field :user_id %>
        <p><%= submission.user.name_with_email %></p>

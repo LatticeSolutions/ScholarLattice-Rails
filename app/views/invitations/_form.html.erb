@@ -13,18 +13,23 @@
 
   <% if invitation.user.nil? %>
     <div class="my-5">
-      <%= form.label :email %>
+      <%= form.label :user_email do %>Email<% end %>
       <%= form.email_field :user_email, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
     </div>
 
     <div class="my-5">
-      <%= form.label :first_name %>
+      <%= form.label :user_first_name do %>First Name<% end %>
       <%= form.text_field :user_first_name, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
     </div>
 
     <div class="my-5">
-      <%= form.label :last_name %>
+      <%= form.label :user_last_name do %>Last Name<% end %>
       <%= form.text_field :user_last_name, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :user_affiliation do %>Institutional Affiliation<% end %>
+      <%= form.text_field :user_affiliation, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
     </div>
   <% else %>
     <div class="my-5">

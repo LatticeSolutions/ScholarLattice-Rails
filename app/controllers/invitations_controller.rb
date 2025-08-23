@@ -131,8 +131,8 @@ class InvitationsController < ApplicationController
         email: email.downcase.strip,
         first_name: first_name.strip,
         last_name: last_name.strip,
-        affiliation: affiliation.strip,
-        position: "",
+        affiliation: affiliation.strip.present? ? affiliation.strip : "Unaffiliated",
+        position: "N/A",
         position_type: 4,
       ).id
     end
