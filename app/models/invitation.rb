@@ -1,5 +1,5 @@
 class Invitation < ApplicationRecord
-  belongs_to :profile
+  belongs_to :user
   belongs_to :collection
   enum :status, { pending: 0, accepted: 1, declined: 2, revoked: 3 }
 
@@ -8,7 +8,7 @@ class Invitation < ApplicationRecord
   end
 
   def submissions
-    profile.submissions.where(collection: collection)
+    user.submissions.where(collection: collection)
   end
 
   def submitted?
@@ -17,7 +17,7 @@ class Invitation < ApplicationRecord
 
   def notification_emails
     [
-      profile.email,
+      user.email,
       *collection.admins.map(&:user).map(&:email)
     ].uniq
   end
