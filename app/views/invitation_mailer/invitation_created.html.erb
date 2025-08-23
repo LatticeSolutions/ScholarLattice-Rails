@@ -1,6 +1,6 @@
 <h1>Invitation to submit to <%= @invitation.collection.title %></h1>
 <p>
-    Dear <%= @invitation.profile.name %>,
+    Dear <%= @invitation.user.name %>,
 </p>
 <% if @invitation.message.present? %>
     <%= sanitize @invitation.message_html %>
@@ -20,6 +20,6 @@
 </p>
 <p>
     For your security, you may be required to enter and verify your email
-    <code><%= @invitation.profile.email %></code>
+    <code><%= @invitation.user.email %></code>
     before you can accept or decline this invitation.
 </p>
