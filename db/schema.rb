@@ -65,7 +65,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_22_151753) do
   end
 
   create_table "invitations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "profile_id", null: false
+    t.uuid "profile_id"
     t.uuid "collection_id", null: false
     t.integer "status", default: 0, null: false
     t.text "message"
@@ -157,7 +157,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_22_151753) do
   create_table "registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.uuid "registration_option_id", null: false
-    t.uuid "profile_id", null: false
+    t.uuid "profile_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
@@ -170,7 +170,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_22_151753) do
     t.string "title"
     t.text "abstract"
     t.text "notes"
-    t.uuid "profile_id", null: false
+    t.uuid "profile_id"
     t.uuid "collection_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

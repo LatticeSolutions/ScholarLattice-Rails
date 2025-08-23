@@ -19,6 +19,8 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :favorite_collections, through: :likes, source: :collection
 
+  has_and_belongs_to_many :profiles
+
   has_many :user_managements
   has_many :managed_users,
             class_name: "User",
@@ -85,6 +87,10 @@ class User < ApplicationRecord
 
   def registrations_for(collection)
     registrations.where(registration_option: collection.registration_options)
+  end
+
+  def main_profile
+    profiles.first
   end
 
   private
