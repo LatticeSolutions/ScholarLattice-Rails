@@ -15,6 +15,7 @@ class User < ApplicationRecord
   enum :position_type, { faculty: 0, grad_student: 1, undergrad_student: 2, secondary_student: 3, other: 4, postdoc: 5 }
 
   has_many :admins
+  has_many :direct_admin_collections, through: :admins, source: :collection
   has_many :likes, dependent: :destroy
   has_many :favorite_collections, through: :likes, source: :collection
 
