@@ -82,9 +82,9 @@
     <%= form.label "Attached Submission", class: "block text-xs font-medium text-gray-700" %>
     <%= form.select :submission_id, 
       [["(None)", nil]] + 
-        Submission.where(event: event).map {|s| ["#{s.title} | #{s.profile.name}", s.id]} +
+        Submission.where(event: event).map {|s| ["#{s.title} | #{s.user.name}", s.id]} +
         Submission.where(collection_id: @event.collection.subtree_ids, status: :accepted).left_outer_joins(:event).where(events: { id: nil })
-        .map {|s| ["#{s.title} | #{s.profile.name}", s.id]},
+        .map {|s| ["#{s.title} | #{s.user.name}", s.id]},
       {selected: event.submission_id},
       {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
   </div>

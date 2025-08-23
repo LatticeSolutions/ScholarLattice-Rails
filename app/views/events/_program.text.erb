@@ -69,9 +69,9 @@
 <% collection.subtree_submissions.where(status: :accepted).each do |s| %>
 \begin{conf-abstract}<% if s.event.present? %>[<%= s.event.info_in_latex %>]<% end %>
 {<%= s.title %>}
-{<%= s.profile.name_with_email %>}
-{<%= s.profile.affiliation %>}
-\indexauthors{<%= s.profile.last_name %>!<%= s.profile.first_name %>}
+{<%= s.user.name_with_email %>}
+{<%= s.user.affiliation %>}
+\indexauthors{<%= s.user.last_name %>!<%= s.user.first_name %>}
 
 <%= s.abstract %>
 \end{conf-abstract}

@@ -156,22 +156,22 @@ class Collection < ApplicationRecord
     RQRCode::QRCode.new(Rails.application.routes.url_helpers.collection_url(self)).as_svg(module_size: 3)
   end
 
-  def connected_profiles
+  def connected_users
     subtree.map { |c| (
-      c.admin_users.map(&:main_profile) +
-      c.favorite_users.map(&:main_profile) +
-      c.registrations.where.not(status: :declined).map(&:profile) +
-      c.submissions.where.not(status: [ :declined, :draft ]).map(&:profile) +
-      c.invitations.where.not(status: [ :declined, :revoked ]).map(&:profile)
-     ) }.flatten.compact.uniq.sort_by { |p| [ p.last_name, p.first_name ] }
+      c.admin_users +
+      c.favorite_users +
+      c.registrations.where.not(status: :declined).map(&:user) +
+      c.submissions.where.not(status: [ :declined, :draft ]).map(&:user) +
+      c.invitations.where.not(status: [ :declined, :revoked ]).map(&:user)
+     ) }.flatten.compact.uniq.sort_by { |u| [ u.last_name, u.first_name ] }
   end
 
-  def connected_unsubmitted_profiles
-    connected_profiles.select { |p| p.submissions.where(collection: subtree).empty? }
+  def connected_unsubmitted_users
+    connected_users.select { |p| p.submissions.where(collection: subtree).empty? }
   end
 
-  def connected_unregistered_profiles
-    connected_profiles.select { |p| p.registrations.select { |r| subtree.include? r.collection }.empty? }
+  def connected_unregistered_users
+    connected_users.select { |p| p.registrations.select { |r| subtree.include? r.collection }.empty? }
   end
 
   def program_tex

@@ -32,8 +32,6 @@ Rails.application.routes.draw do
   post "/invitations/:id/accept", to: "invitations#accept", as: "accept_invitation"
   post "/invitations/:id/decline", to: "invitations#decline", as: "decline_invitation"
 
-  resources :profiles, except: :index
-
   get "/dashboard/", to: "dashboard#index"
   get "/privacy/", to: "static_pages#privacy"
   get "/tos/", to: "static_pages#tos"
