@@ -10,10 +10,10 @@
   </p>
 
   <% if invitation.message.blank? %>
-    <p>To <%= invitation.profile.name_with_email %>.</p>
+    <p>To <%= invitation.user.name_with_email %>.</p>
   <% else %>
     <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
-      <p>Dear <%= invitation.profile.name_with_email %>,</p>
+      <p>Dear <%= invitation.user.name_with_email %>,</p>
       <%= sanitize invitation.message_html %>
     </div>
   <% end %>

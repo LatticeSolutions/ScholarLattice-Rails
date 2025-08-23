@@ -90,6 +90,10 @@ class MergeProfilesIntoUsers < ActiveRecord::Migration[8.0]
     change_column_null :submissions, :user_id, false
     change_column_null :registrations, :user_id, false
 
+    change_column_null :invitations, :profile_id, true
+    change_column_null :submissions, :profile_id, true
+    change_column_null :registrations, :profile_id, true
+
     # # Drop the profiles table
     # remove_column :invitations, :profile_id
     # remove_column :submissions, :profile_id
