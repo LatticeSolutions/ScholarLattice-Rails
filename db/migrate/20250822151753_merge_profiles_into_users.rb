@@ -31,9 +31,9 @@ class MergeProfilesIntoUsers < ActiveRecord::Migration[8.0]
       user.update(
         first_name: profile.first_name,
         last_name: profile.last_name,
-        affiliation: profile.affiliation || 'Unaffiliated',
-        position: profile.position || 'None',
-        position_type: profile.position_type || 4,
+        affiliation: profile.affiliation.present? ? profile.affiliation : 'Unaffiliated',
+        position: profile.position.present? ? profile.position : 'None',
+        position_type: profile.position_type.present? ? profile.position_type : 4,
         verified_email: true,
       )
       # Associate all foreign keys to the appropriate user
@@ -55,9 +55,9 @@ class MergeProfilesIntoUsers < ActiveRecord::Migration[8.0]
           email: profile.email.downcase,
           first_name: profile.first_name,
           last_name: profile.last_name,
-          affiliation: profile.affiliation || 'Unaffiliated',
-          position: profile.position || 'None',
-          position_type: profile.position_type || 4
+          affiliation: profile.affiliation.present? ? profile.affiliation : 'Unaffiliated',
+          position: profile.position.present? ? profile.position : 'None',
+          position_type: profile.position_type.present? ? profile.position_type : 4
         )
         profile.users.each do |manager|
           UserManagement.create!(
