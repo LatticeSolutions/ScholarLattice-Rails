@@ -12,7 +12,7 @@
 %>
 
 <%= render CardComponent.new( 
-  title: "#{invitation.profile.name_with_email} (#{invitation.status.humanize.capitalize})",
+  title: "#{invitation.user.name_with_email} (#{invitation.status.humanize.capitalize})",
   description: "Invitation to #{invitation.collection.title}",
   link_text: "View invitation",
   link_url: invitation_path(invitation),

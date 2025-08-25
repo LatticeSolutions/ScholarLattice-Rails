@@ -32,14 +32,14 @@ Rails.application.routes.draw do
   post "/invitations/:id/accept", to: "invitations#accept", as: "accept_invitation"
   post "/invitations/:id/decline", to: "invitations#decline", as: "decline_invitation"
 
-  resources :profiles, except: :index
-
   get "/dashboard/", to: "dashboard#index"
   get "/privacy/", to: "static_pages#privacy"
   get "/tos/", to: "static_pages#tos"
 
   # Passwordless routes
   passwordless_for :users, controller: "sessions"
+
+  resources :users, only: [ :index, :new, :create ]
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

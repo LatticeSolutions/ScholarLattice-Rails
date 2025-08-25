@@ -12,15 +12,13 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :profile_id %>
-    <% if submission.profile.present? %>
-        <%= form.hidden_field :profile_id %>
-       <p><%= submission.profile.name_with_email %></p>
+    <%= form.label :user_id do %>Profile<% end %>
+    <% if submission.user.present? %>
+        <%= form.hidden_field :user_id %>
+       <p><%= submission.user.name_with_email %></p>
     <% else %>
-      <% unless @current_user.profiles.empty? %>
-        <%= form.select :profile_id, @current_user.profiles.map {|p| [p.name_with_email, p.id]} %>
-      <% end %>
-      <%= render partial: "profiles/new_button" %>
+        <%= form.hidden_field :user_id, value: @current_user.id %>
+       <p><%= @current_user.name_with_email %></p>
     <% end %>
   </div>
 

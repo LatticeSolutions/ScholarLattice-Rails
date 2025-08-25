@@ -6,22 +6,59 @@ class User < ApplicationRecord
 
   passwordless_with :email
 
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :affiliation, presence: true
+  validates :position, presence: true
+  validates :position_type, presence: true
+
+  enum :position_type, {
+    faculty: 0,
+    postdoc: 5,
+    graduate_student: 1,
+    undergraduate_student: 2,
+    secondary_student: 3,
+    staff: 6,
+    other: 4
+  }
+
   has_many :admins
   has_many :direct_admin_collections, through: :admins, source: :collection
   has_many :likes, dependent: :destroy
   has_many :favorite_collections, through: :likes, source: :collection
+
   has_and_belongs_to_many :profiles
 
+
+  has_many :managed_users_link, foreign_key: :manager_id, class_name: "UserManagement"
+  has_many :managed_users, through: :managed_users_link, source: :user
+
+  has_many :managing_users_link, foreign_key: :user_id, class_name: "UserManagement"
+  has_many :managing_users, through: :managing_users_link, source: :manager
+
+  has_many :submissions
+  has_many :registrations
+  has_many :invitations
+
   before_save :downcase_email
+  before_save :strip_whitespace
 
-  delegate :can?, :cannot?, to: :ability
+  default_scope { order(:last_name, :first_name) }
 
-  def ability
-    @ability ||= Ability.new(self)
+  def description
+    if affiliation.present? and position.present?
+      "#{position} at #{affiliation}"
+    elsif affiliation.present?
+      affiliation
+    elsif position.present?
+      position
+    else
+      ""
+    end
   end
 
   def self.fetch_resource_for_passwordless(email)
-    find_or_create_by(email: email)
+    find_by(email: email)
   end
 
   def admin_collections
@@ -41,23 +78,33 @@ class User < ApplicationRecord
     !Like.where(user: self, collection: collection).empty?
   end
 
-  def submissions(collection = nil)
-    if collection.nil?
-      Submission.where profile: profiles
-    else
-      Submission.where profile: profiles, collection: collection
-    end
+  def name
+    "#{first_name} #{last_name}"
   end
 
-  def invitations
-    Invitation.where profile: profiles
+  def name_with_email
+    "#{name} ⟨#{email}⟩"
   end
 
-  def registrations
-    Registration.where profile: profiles
+  def registered_for?(collection)
+    registrations_for(collection).any?
+  end
+
+  def registrations_for(collection)
+    registrations.where(registration_option: collection.registration_options)
   end
 
   def main_profile
-    profiles.where(email: email).first
+    profiles.first
+  end
+
+  private
+
+  def strip_whitespace
+    self.first_name = first_name&.strip
+    self.last_name = last_name&.strip
+    self.email = email&.strip
+    self.affiliation = affiliation&.strip
+    self.position = position&.strip
   end
 end

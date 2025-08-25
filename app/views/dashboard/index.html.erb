@@ -9,25 +9,19 @@
         <span class="px-3">Dashboard</span>
     </h1>
 
-    <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
-        <span class="size-8">
-            <%= render IconComponent.new(:profile) %>
-        </span>
-        <span class="px-3">Your Profiles</span>
-    </h2>
-    <% unless @current_user.profiles.empty? %>
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 pb-5">
-            <% @current_user.profiles.each do |profile| %>
-                <%= render partial: "profiles/card", locals: { profile: profile, current_user: @current_user } %>
+    <% if @current_user.registrations.any? %>
+        <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
+            <span class="size-8">
+                <%= render IconComponent.new(:registration) %>
+            </span>
+            <span class="px-3">Your Registrations</span>
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @current_user.registrations.each do |registration| %>
+                <%= render partial: "registrations/card", locals: { registration: registration } %>
             <% end %>
         </div>
     <% end %>
-    <p>
-        Create a new profile
-        <% unless @current_user.profiles.empty? %>(e.g. for a student)<% end %>
-        here:
-        <%= render partial: "profiles/new_button" %>
-    </p>
 
     <% if @current_user.invitations.any? %>
         <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
@@ -39,20 +33,6 @@
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
             <% @current_user.invitations.each do |invitation| %>
                 <%= render partial: "invitations/card", locals: { invitation: invitation } %>
-            <% end %>
-        </div>
-    <% end %>
-
-    <% if @current_user.registrations.any? %>
-        <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
-            <span class="size-8">
-                <%= render IconComponent.new(:registration) %>
-            </span>
-            <span class="px-3">Your Registrations</span>
-        </h2>
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-            <% @current_user.registrations.each do |registration| %>
-                <%= render partial: "registrations/card", locals: { registration: registration } %>
             <% end %>
         </div>
     <% end %>

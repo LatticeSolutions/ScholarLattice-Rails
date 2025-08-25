@@ -7,10 +7,7 @@
 
     <p class="my-5">
       <strong class="block font-medium mb-1">Profile:</strong>
-      <%= @registration.profile.name_with_email %>
-      <% if @registration.profile.verified? %>
-          <span class="inline-block size-4"><%= render IconComponent.new(:profile_verified) %></span>
-      <% end %>
+      <%= @registration.user.name_with_email %>
     </p>
 
     <p class="my-5">

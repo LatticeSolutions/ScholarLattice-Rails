@@ -38,25 +38,25 @@ class InvitationsController < ApplicationController
   end
 
   def new_batch
-    @profiles = ""
+    @user_info = ""
     @message = ""
   end
 
   def create_batch
-    @profiles = params[:profiles]
+    @user_info = params[:user_info]
     @message = params[:message]
     invitations = []
-    @profiles.split(/[\n,;]+/).each do |profile_string|
+    @user_info.split(/[\n,;]+/).each do |user_string|
       name_email_regex = /(.+)\s+(.+)\s+<(.+)>/
-      if profile_string.strip.match(name_email_regex)
-        first_name, last_name, email = profile_string.match(name_email_regex).captures
-        profile_id = get_profile_id(email, first_name, last_name)
+      if user_string.strip.match(name_email_regex)
+        first_name, last_name, email = user_string.match(name_email_regex).captures
+        user_id = get_user_id(email, first_name, last_name)
       else
-        flash.now[:alert] = "Could not parse invitation name/email: `#{profile_string}`."
+        flash.now[:alert] = "Could not parse invitation name/email: `#{user_string}`."
         render :new_batch, status: :unprocessable_entity
         return
       end
-      invitations << @collection.invitations.new(profile_id: profile_id, message: @message)
+      invitations << @collection.invitations.new(user_id: user_id, message: @message)
     end
 
     invalid_invitations = invitations.reject(&:valid?)
@@ -113,31 +113,27 @@ class InvitationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def invitation_params
       ps = params.expect(invitation: [
-        :collection_id, :message, :profile_email, :profile_first_name,
-        :profile_last_name, :status, :profile_id
+        :collection_id, :message, :user_email, :user_first_name,
+        :user_last_name, :user_affiliation, :status, :user_id
       ])
-      if ps[:profile_id].blank?
-        ps[:profile_id] = get_profile_id(
-          ps[:profile_email], ps[:profile_first_name], ps[:profile_last_name]
+      if ps[:user_id].blank?
+        ps[:user_id] = get_user_id(
+          ps[:user_email], ps[:user_first_name], ps[:user_last_name], ps[:user_affiliation]
         )
       end
-      ps.except(:profile_email, :profile_first_name, :profile_last_name)
+      ps.except(:user_email, :user_first_name, :user_last_name, :user_affiliation)
     end
 
-    def get_profile_id(profile_email, profile_first_name, profile_last_name)
-      user = User.find_or_create_by! email: profile_email.downcase
-      profile = user.profiles.find_by email: profile_email.downcase
-      if profile.nil?
-        if !profile_email.blank? && !profile_first_name.blank? && !profile_last_name.blank?
-          return user.profiles.create!(
-            email: profile_email.downcase,
-            first_name: profile_first_name,
-            last_name: profile_last_name
-          ).id
-        else
-          return nil
-        end
-      end
-      profile.id
+    def get_user_id(email, first_name, last_name, affiliation)
+      user = User.find_by(email: email.downcase.strip)
+      return user if user.present?
+      User.create!(
+        email: email.downcase.strip,
+        first_name: first_name.strip,
+        last_name: last_name.strip,
+        affiliation: affiliation.strip.present? ? affiliation.strip : "Unaffiliated",
+        position: "N/A",
+        position_type: 4,
+      ).id
     end
 end

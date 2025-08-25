@@ -69,9 +69,9 @@ class SubmissionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def submission_params
       if can? :manage, @submission
-        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :profile_id, :status, :collection_id ])
+        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :user_id, :status, :collection_id ])
       else
-        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :profile_id ])
+        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :user_id ])
       end
     end
 

@@ -10,10 +10,11 @@ class Ability
     can :read, Profile
     can :read, Submission, status: :accepted
     can :read, Event
+    can [ :read, :create ], User
 
     return unless user.present?
 
-    can :read, :dashboard if user.profiles.any?
+    can :read, :dashboard
 
     can [ :like, :dislike ], Collection
     can :manage, Collection do |c|
@@ -24,14 +25,13 @@ class Ability
     can :manage, Page do |p|
       p.has_admin? user
     end
-    cannot :destroy, Page
 
     can :manage, Event do |e|
       e.collection.has_admin?(user)
     end
     can :access_webinar, Event do |e|
       Registration.where(
-        profile: user.profiles,
+        user: user,
         registration_option: e.collection.path.collect(&:registration_options).flatten,
         status: :accepted
       ).any?
@@ -44,10 +44,10 @@ class Ability
       s.collection.submissions_open?
     end
     can :create, Submission do |s|
-      s.collection.submissions_open? and s.profile.in? user.profiles
+      s.collection.submissions_open? and s.user_id == user.id
     end
     can [ :read, :update ], Submission do |s|
-      s.profile.in? user.profiles
+      s.user_id == user.id
     end
     can :read, Submission do |s|
       s.accepted?
@@ -58,32 +58,27 @@ class Ability
       r.collection.present? and r.collection.has_admin?(user)
     end
     can :create, Registration do |r|
-      r.registration_option.nil? or (r.registration_option.collection.registrations_open? and r.profile.in? user.profiles)
+      r.registration_option.nil? or (r.registration_option.collection.registrations_open? and r.user_id == user.id)
     end
     can :read, Registration do |r|
-      r.profile.in?(user.profiles)
+      r.user_id == user.id
     end
     can :view_payments, Registration do |r|
-      r.profile.in?(user.profiles) and r.registration_option.cost.present?
+      r.user_id == user.id and r.registration_option.cost.present?
     end
 
     can :manage, Invitation do |i|
       i.collection.has_admin?(user)
     end
     can :read, Invitation do |i|
-      i.profile.in?(user.profiles) || i.status == :accepted
+      i.user_id == user.id || i.status == :accepted
     end
     can :respond_to, Invitation do |i|
-      i.profile.in?(user.profiles) && i.status != :revoked
+      i.user_id == user.id && i.status != :revoked
     end
 
-    can :create, Profile
-    can :manage, Profile do |p|
-      user.in? p.users
-    end
-    can :manage, Profile, email: user.email
-    cannot :destroy, Profile do |p|
-      p.submissions.any?
+    can :manage, User do |u|
+      u.id == user.id
     end
 
     return unless user.site_admin?

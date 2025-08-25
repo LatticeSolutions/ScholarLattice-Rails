@@ -22,7 +22,7 @@
             <br>
             <span class="italic mathjax"><%= event.submission.title %></span>
             &mdash;
-            <%= event.submission.profile.name %>
+            <%= event.submission.user.name %>
         <% end %>
         <% if event.children.present? %>
             <% unless defined?(children_limit) && children_limit && event.children.count > children_limit %>

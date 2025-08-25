@@ -12,7 +12,7 @@
 %>
 
 <%= render CardComponent.new( 
-  title: "#{submission.title} — #{submission.profile.name}",
+  title: "#{submission.title} — #{submission.user.name_with_email}",
   description: submission.abstract,
   link_text: "View Submission",
   link_url: submission_path(submission),
