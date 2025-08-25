@@ -12,7 +12,15 @@ class User < ApplicationRecord
   validates :position, presence: true
   validates :position_type, presence: true
 
-  enum :position_type, { faculty: 0, grad_student: 1, undergrad_student: 2, secondary_student: 3, other: 4, postdoc: 5 }
+  enum :position_type, {
+    faculty: 0,
+    postdoc: 5,
+    graduate_student: 1,
+    undergraduate_student: 2,
+    secondary_student: 3,
+    staff: 6,
+    other: 4
+  }
 
   has_many :admins
   has_many :direct_admin_collections, through: :admins, source: :collection
@@ -50,7 +58,7 @@ class User < ApplicationRecord
   end
 
   def self.fetch_resource_for_passwordless(email)
-    find_or_create_by(email: email)
+    find_by(email: email)
   end
 
   def admin_collections

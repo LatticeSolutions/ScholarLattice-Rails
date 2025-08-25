@@ -10,6 +10,7 @@ class Ability
     can :read, Profile
     can :read, Submission, status: :accepted
     can :read, Event
+    can [ :read, :create ], User
 
     return unless user.present?
 
@@ -24,7 +25,6 @@ class Ability
     can :manage, Page do |p|
       p.has_admin? user
     end
-    cannot :destroy, Page
 
     can :manage, Event do |e|
       e.collection.has_admin?(user)
@@ -75,6 +75,10 @@ class Ability
     end
     can :respond_to, Invitation do |i|
       i.user_id == user.id && i.status != :revoked
+    end
+
+    can :manage, User do |u|
+      u.id == user.id
     end
 
     return unless user.site_admin?
