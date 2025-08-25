@@ -15,8 +15,8 @@ class User < ApplicationRecord
   enum :position_type, {
     faculty: 0,
     postdoc: 5,
-    graduate_student: 1,
-    undergraduate_student: 2,
+    grad_student: 1,
+    undergrad_student: 2,
     secondary_student: 3,
     staff: 6,
     other: 4
