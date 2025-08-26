@@ -45,6 +45,7 @@ class RegistrationsController < ApplicationController
         flash[:notice] = "Verify your email to complete your registration."
         render :new
       else
+        @registration.user = new_user
         render :new, status: :unprocessable_entity
       end
       return
