@@ -41,11 +41,7 @@ class RegistrationsController < ApplicationController
       @session = build_passwordless_session(new_user)
       if new_user.save && @session.save
         @registration.user = new_user
-        if Passwordless.config.after_session_save.arity == 2
-          Passwordless.config.after_session_save.call(@session, request)
-        else
-          Passwordless.config.after_session_save.call(@session)
-        end
+        RegistrationMailer.verify_email(new_user.email, @registration.collection.title, @session.token).deliver_later
         flash[:notice] = "Verify your email to complete your registration."
         render :new
       else

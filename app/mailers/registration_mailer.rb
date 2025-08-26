@@ -7,4 +7,12 @@ class RegistrationMailer < ApplicationMailer
       reply_to: registration.collection.reply_to_emails,
     )
   end
+  def verify_email(email, title, token)
+    @title = title
+    @token = token
+    mail(
+      to: email,
+      subject: "Verify email to register for #{title} on ScholarLattice"
+    )
+  end
 end
