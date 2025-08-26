@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_22_151753) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_26_204115) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -196,11 +196,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_22_151753) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "site_admin", default: false, null: false
-    t.string "first_name", default: "FirstName", null: false
-    t.string "last_name", default: "LastName", null: false
-    t.string "affiliation", default: "Unaffiliated", null: false
-    t.string "position", default: "None", null: false
-    t.integer "position_type", default: 4, null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "affiliation", null: false
+    t.string "position", null: false
+    t.integer "position_type", null: false
     t.boolean "verified_email", default: false, null: false
     t.index "lower((email)::text)", name: "index_users_on_lowercase_email", unique: true
   end

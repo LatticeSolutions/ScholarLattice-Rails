@@ -23,6 +23,11 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/new
   def new
+    if @current_user.present?
+      @registration.user = @current_user
+    else
+      @registration.user = User.new
+    end
   end
 
   # GET /registrations/1/edit
@@ -31,8 +36,35 @@ class RegistrationsController < ApplicationController
 
   # POST /registrations or /registrations.json
   def create
+    if user_params.present?
+      new_user = User.new(user_params)
+      @session = build_passwordless_session(new_user)
+      if new_user.save && @session.save
+        @registration.user = new_user
+        RegistrationMailer.verify_email(new_user.email, @registration.collection.title, @session.token).deliver_later
+        flash[:notice] = "Verify your email to complete your registration."
+        render :new
+      else
+        @registration.user = new_user
+        render :new, status: :unprocessable_entity
+      end
+      return
+    end
+    if session_params.present?
+      @session =  Passwordless::Session.find_by!(
+        identifier: session_params[:identifier]
+      )
+      BCrypt::Password.create(session_params[:token])
+      if @session.authenticate(session_params[:token])
+        sign_in(@session)
+      else
+        flash[:notice] = "Invalid token provided."
+        render :new, status: :unprocessable_entity
+        return
+      end
+    end
     unless can? :manage, @collection or @registration.registration_option.in_stock?
-        @registration.errors.add(:registration_option, "has no remaining stock available")
+      @registration.errors.add(:registration_option, "has no remaining stock available")
     end
     if @registration.registration_option.collection_id != params[:collection_id]
       @registration.errors.add(:registration_option, "does not match this collection")
@@ -127,5 +159,13 @@ class RegistrationsController < ApplicationController
       else
         params.expect(registration: [ :registration_option_id, :user_id ])
       end
+    end
+    def user_params
+      return nil unless params[:user].present?
+      params.expect(user: [ :first_name, :last_name, :email, :affiliation, :position_type, :position ])
+    end
+    def session_params
+      return nil unless params[:session].present? && params[:session][:token].present?
+      params.expect(session: [ :identifier, :token ])
     end
 end

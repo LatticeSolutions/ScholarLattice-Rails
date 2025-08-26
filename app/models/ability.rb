@@ -11,6 +11,7 @@ class Ability
     can :read, Submission, status: :accepted
     can :read, Event
     can [ :read, :create ], User
+    can [ :read, :create ], Registration
 
     return unless user.present?
 
