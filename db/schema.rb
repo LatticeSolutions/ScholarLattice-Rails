@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_26_204115) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_29_094337) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -130,6 +130,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_204115) do
     t.index ["user_id"], name: "index_profiles_users_on_user_id"
   end
 
+  create_table "questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.text "prompt"
+    t.uuid "collection_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_questions_on_collection_id"
+  end
+
   create_table "registration_options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.integer "cost"
@@ -217,6 +226,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_204115) do
   add_foreign_key "pages", "collections"
   add_foreign_key "profiles_users", "profiles"
   add_foreign_key "profiles_users", "users"
+  add_foreign_key "questions", "collections"
   add_foreign_key "registration_options", "collections"
   add_foreign_key "registration_payments", "registrations"
   add_foreign_key "registrations", "profiles"

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       get "/batch", to: "invitations#new_batch", on: :collection
       post "/batch", to: "invitations#create_batch", on: :collection
     end
+    resources :questions, shallow: true
   end
   get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"
   post "/collections/:id/like", to: "collections#like", as: "like_collection"

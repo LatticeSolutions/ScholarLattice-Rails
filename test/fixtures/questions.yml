@@ -1,0 +1,12 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  collection_id: "cecf7398-650d-4050-a62f-74ec332cc1ad"
+  name: School ID
+  prompt: What is your school ID number?
+
+two:
+  collection_id: "cecf7398-650d-4050-a62f-74ec332cc1ad"
+  name: College
+  prompt: Which college do you belong to?
+  
