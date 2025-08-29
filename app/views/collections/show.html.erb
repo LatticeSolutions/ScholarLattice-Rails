@@ -31,6 +31,11 @@
                 path: collection_registrations_path(@collection), 
                 text: "Registrations (#{@collection.registrations.count})"
             },
+            {
+                icon: :question, 
+                path: collection_questions_path(@collection), 
+                text: "Questions (#{@collection.questions.count})"
+            },
         )%>
         </div>
         <p class="text-gray-500 text-sm">
