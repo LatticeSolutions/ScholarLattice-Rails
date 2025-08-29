@@ -1,0 +1,18 @@
+<% content_for :title, "Questions | #{@collection.title}" %>
+
+<%= render partial: "breadcrumb", locals: { collection: @collection } %>
+<div class="w-full">
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Questions</h1>
+    <%= link_to "New question", new_collection_question_path(@collection), class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+
+  <div id="questions" class="min-w-full">
+    <% @questions.each do |question| %>
+      <%= render question %>
+      <p>
+        <%= link_to "Show this question", question, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      </p>
+    <% end %>
+  </div>
+</div>

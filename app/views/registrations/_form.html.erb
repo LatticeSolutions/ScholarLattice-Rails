@@ -79,6 +79,12 @@
         {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
   </div>
 
+  <% registration.answers.each do |a| %>
+    <%= fields_for "answers[]", a do |answer_fields| %>
+      <%= render "answers/fields_for", answer: a, form: answer_fields %>
+    <% end %>
+  <% end %>
+
   <% if can? :manage, collection %>
     <div class="my-5">
       <%= form.label :status do %>

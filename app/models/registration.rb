@@ -5,6 +5,7 @@ class Registration < ApplicationRecord
   has_one :collection, through: :registration_option
   enum :status, { submitted: 0, accepted: 1, declined: 2 }
 
+
   validate :user_domain_allowed?
   validates :user, uniqueness: { scope: :registration_option_id, message: "has already registered using this option" }
 
@@ -37,6 +38,16 @@ class Registration < ApplicationRecord
       all.each do |submission|
         csv << submission.csv_row
       end
+    end
+  end
+
+  def questions
+    collection.queried_questions
+  end
+
+  def answers
+    questions.map do |q|
+      Answer.find_or_initialize_by(question: q, user: user)
     end
   end
 

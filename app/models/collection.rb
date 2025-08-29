@@ -9,6 +9,7 @@ class Collection < ApplicationRecord
   has_many :favorite_users, through: :likes, source: :user
   has_many :pages, dependent: :destroy
   has_many :submissions, dependent: :destroy
+  has_many :questions, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :invitations, dependent: :destroy
   has_many :registration_options, dependent: :destroy
@@ -180,6 +181,10 @@ class Collection < ApplicationRecord
 
   def has_webinars?
     attached_event.blank? and all_events.where.not(webinar_link: [ nil, "" ]).any?
+  end
+
+  def queried_questions
+    registration_options.map(&:questions).flatten.compact
   end
 
   private

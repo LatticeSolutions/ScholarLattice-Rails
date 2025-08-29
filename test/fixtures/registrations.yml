@@ -3,7 +3,7 @@
 john_doe:
   id: "26bfa6bd-61e0-4eae-879a-3052a77b5070"
   registration_option_id: "fe99b624-aaf2-4d93-a4c0-4e2c411b4605"
-  profile_id: "6649d0d6-1c35-4dee-b6cf-3959a5f85398"
+  user_id: "2cd648b6-202e-4641-b7a4-645abb7f8420"
   status: 0
   created_at: <%= Time.now %>
   updated_at: <%= Time.now %>
@@ -11,7 +11,7 @@ john_doe:
 jane_smith:
   id: "8011ed8c-0372-4860-a289-f20e82098a14"
   registration_option_id: "05efa1a6-d8d6-4f20-9f56-1ca19401e56d"
-  profile_id: "005649bc-1005-4b22-9bd9-c4365db6c131"
+  user_id: "7b6cd810-b122-4f42-bdd8-2ce0452437dc"
   status: 1
   created_at: <%= Time.now %>
   updated_at: <%= Time.now %>

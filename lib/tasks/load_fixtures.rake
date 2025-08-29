@@ -4,7 +4,8 @@ namespace :db do
     task load_ordered: :environment do
       fixtures = %w[users collections admins events
                   likes pages profiles profiles_users submissions
-                  registration_options registrations registration_payments]
+                  registration_options registrations registration_payments
+                  questions queries]
       fixtures.each do |fixture|
         ENV["FIXTURES"] = fixture
         Rake::Task["db:fixtures:load"].invoke

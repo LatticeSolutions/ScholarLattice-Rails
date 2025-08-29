@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_26_204115) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_29_102824) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -22,6 +22,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_204115) do
     t.datetime "updated_at", null: false
     t.index ["collection_id"], name: "index_admins_on_collection_id"
     t.index ["user_id"], name: "index_admins_on_user_id"
+  end
+
+  create_table "answers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "response"
+    t.uuid "question_id", null: false
+    t.uuid "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id", "user_id"], name: "index_answers_on_question_id_and_user_id", unique: true
+    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
   create_table "collections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -130,6 +141,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_204115) do
     t.index ["user_id"], name: "index_profiles_users_on_user_id"
   end
 
+  create_table "queries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "registration_option_id", null: false
+    t.uuid "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_queries_on_question_id"
+    t.index ["registration_option_id", "question_id"], name: "index_queries_on_registration_option_id_and_question_id", unique: true
+    t.index ["registration_option_id"], name: "index_queries_on_registration_option_id"
+  end
+
+  create_table "questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.text "prompt"
+    t.uuid "collection_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_questions_on_collection_id"
+  end
+
   create_table "registration_options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.integer "cost"
@@ -205,6 +235,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_204115) do
     t.index "lower((email)::text)", name: "index_users_on_lowercase_email", unique: true
   end
 
+  add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "users"
   add_foreign_key "events", "collections"
   add_foreign_key "events", "collections", column: "attached_collection_id"
   add_foreign_key "events", "pages", column: "attached_page_id"
@@ -217,6 +249,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_204115) do
   add_foreign_key "pages", "collections"
   add_foreign_key "profiles_users", "profiles"
   add_foreign_key "profiles_users", "users"
+  add_foreign_key "queries", "questions"
+  add_foreign_key "queries", "registration_options"
+  add_foreign_key "questions", "collections"
   add_foreign_key "registration_options", "collections"
   add_foreign_key "registration_payments", "registrations"
   add_foreign_key "registrations", "profiles"
