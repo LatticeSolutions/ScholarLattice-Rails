@@ -1,9 +1,10 @@
 class QuestionsController < ApplicationController
   load_and_authorize_resource :collection
-  load_and_authorize_resource :question, through: :collection, shallow: true
+  load_and_authorize_resource :question, through: :collection, shallow: true, except: [ :index ]
 
   # GET /questions or /questions.json
   def index
+    @questions = @collection.questions
   end
 
   # GET /questions/1 or /questions/1.json

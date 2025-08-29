@@ -10,6 +10,7 @@ class Ability
     can :read, Profile
     can :read, Submission, status: :accepted
     can :read, Event
+    can :read, Question
     can [ :read, :create ], User
     can [ :read, :create ], Registration
 
@@ -24,6 +25,10 @@ class Ability
     cannot :destroy, Collection
 
     can :manage, Page do |p|
+      p.has_admin? user
+    end
+
+    can :manage, Question do |p|
       p.has_admin? user
     end
 
