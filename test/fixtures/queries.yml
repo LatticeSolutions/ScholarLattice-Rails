@@ -1,9 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  registration_option: faculty
-  question: school_id
+  registration_option_id: "fe99b624-aaf2-4d93-a4c0-4e2c411b4605"
+  question_id: <%= Question.find_by(name: "School ID").id %>
 
 two:
-  registration_option: faculty
-  question: college
+  registration_option_id: "fe99b624-aaf2-4d93-a4c0-4e2c411b4605"
+  question_id: <%= Question.find_by(name: "College").id %>
