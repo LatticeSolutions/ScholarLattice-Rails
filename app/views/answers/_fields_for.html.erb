@@ -1,0 +1,7 @@
+<div class="mb-4">
+    <%= form.label :response, class: "block font-medium mb-1" do %>
+        <%= answer.question.prompt %>
+    <% end %>
+    <%= form.textarea :response, class: "w-full rounded border px-3 py-2" %>
+    <%= form.hidden_field :question_id, class: "w-full rounded border px-3 py-2" %>
+</div>
