@@ -183,6 +183,10 @@ class Collection < ApplicationRecord
     attached_event.blank? and all_events.where.not(webinar_link: [ nil, "" ]).any?
   end
 
+  def queried_questions
+    registration_options.map(&:questions).flatten.compact
+  end
+
   private
 
   def round_down_submission_times

@@ -2,6 +2,8 @@ class RegistrationOption < ApplicationRecord
   belongs_to :collection
   has_many :registrations, dependent: :destroy
   has_many :payments, through: :registrations
+  has_many :queries
+  has_many :questions, through: :queries
 
   before_save :clean_allowed_domains
 
