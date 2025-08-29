@@ -47,7 +47,7 @@ class Registration < ApplicationRecord
 
   def answers
     questions.map do |q|
-      Answer.where(question: q, user: user).first || Answer.new(question: q, user: user)
+      Answer.find_or_initialize_by(question: q, user: user)
     end
   end
 
