@@ -1,4 +1,4 @@
-john_doe:
+john_doe_p:
   id: "6649d0d6-1c35-4dee-b6cf-3959a5f85398"
   first_name: "John"
   last_name: "Doe"
@@ -9,7 +9,7 @@ john_doe:
   created_at: <%= Time.now %>
   updated_at: <%= Time.now %>
 
-jane_smith:
+jane_smith_p:
   id: "005649bc-1005-4b22-9bd9-c4365db6c131"
   first_name: "Jane"
   last_name: "Smith"

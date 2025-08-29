@@ -3,12 +3,24 @@
 john_doe:
   id: "2cd648b6-202e-4641-b7a4-645abb7f8420"
   email: john@example.com
+  first_name: "John"
+  last_name: "Doe"
+  email: "john@example.com"
+  affiliation: "Example University"
+  position: "Researcher"
+  position_type: 1
   created_at: <%= Time.now %>
   updated_at: <%= Time.now %>
 
 jane_smith:
   id: "7b6cd810-b122-4f42-bdd8-2ce0452437dc"
   email: jane@example.com
+  first_name: "Jane"
+  last_name: "Smith"
+  email: "jane@example.com"
+  affiliation: "Tech Corp"
+  position: "Engineer"
+  position_type: 2
   site_admin: true
   created_at: <%= Time.now %>
   updated_at: <%= Time.now %>
