@@ -23,10 +23,20 @@
 <%= form.label :affiliation, class: "block font-medium mb-1" do %>
     Affiliation
     <span class="text-sm text-gray-500 font-normal">
-    (e.g., University of Example)
+    (e.g. University of Example)
     </span>
 <% end %>
 <%= form.text_field :affiliation, class: "w-full rounded border px-3 py-2" %>
+</div>
+
+<div class="mb-4">
+<%= form.label :affiliation_identifier, class: "block font-medium mb-1" do %>
+    Affiliation ID
+    <span class="text-sm text-gray-500 font-normal">
+    (e.g. J00123456) (optional)
+    </span>
+<% end %>
+<%= form.text_field :affiliation_identifier, class: "w-full rounded border px-3 py-2" %>
 </div>
 
 <div class="my-5">
@@ -40,7 +50,7 @@
 <%= form.label :position, class: "block font-medium mb-1" do %>
     Position
     <span class="text-sm text-gray-500 font-normal">
-    (e.g., Assistant Professor, Sophomore)
+    (e.g. Assistant Professor, Sophomore)
     </span>
 <% end %>
 <%= form.text_field :position, class: "w-full rounded border px-3 py-2" %>
