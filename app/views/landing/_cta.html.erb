@@ -24,8 +24,13 @@
           </p>
 
           <div class="mt-4 md:mt-8">
+            <% if @current_user.present? %>
+            <%= link_to "Connect with your colleagues", dashboard_path,
+              class: "inline-block rounded bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring focus:ring-sky-400" %>
+            <% else %>
             <%= link_to "Get started with just your email", users_sign_in_path,
               class: "inline-block rounded bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring focus:ring-sky-400" %>
+            <% end %>
           </div>
         </div>
       </div>
