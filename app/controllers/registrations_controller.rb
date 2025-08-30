@@ -36,8 +36,8 @@ class RegistrationsController < ApplicationController
 
   # POST /registrations or /registrations.json
   def create
-    if user_params.present?
-      new_user = User.new(user_params)
+    if registration_params[:user_attributes].present?
+      new_user = User.new(registration_params[:user_attributes])
       @session = build_passwordless_session(new_user)
       if new_user.save && @session.save
         @registration.user = new_user
@@ -155,14 +155,10 @@ class RegistrationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def registration_params
       if can? :manage, @registration
-        params.expect(registration: [ :registration_option_id, :user_id, :status ])
+        params.expect(registration: [ :registration_option_id, :user_id, :status, user_attributes: [ :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       else
-        params.expect(registration: [ :registration_option_id, :user_id ])
+        params.expect(registration: [ :registration_option_id, :user_id, user_attributes: [ :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       end
-    end
-    def user_params
-      return nil unless params[:user].present?
-      params.expect(user: [ :first_name, :last_name, :email, :affiliation, :position_type, :position ])
     end
     def session_params
       return nil unless params[:session].present? && params[:session][:token].present?

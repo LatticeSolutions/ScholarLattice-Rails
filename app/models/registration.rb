@@ -8,6 +8,8 @@ class Registration < ApplicationRecord
   validate :user_domain_allowed?
   validates :user, uniqueness: { scope: :registration_option_id, message: "has already registered using this option" }
 
+  accepts_nested_attributes_for :user
+
   def payment_total
     registration_payments.sum(:amount)
   end

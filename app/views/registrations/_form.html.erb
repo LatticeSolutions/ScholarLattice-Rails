@@ -61,8 +61,8 @@
           (<span class="italic">Not your first time using ScholarLattice?</span>
           <%= link_to "Log in!", users_sign_in_path, class: "text-blue-600 hover:underline" %>)
         </p>
-        <%= fields_for :user, registration.user do |user_fields| %>
-          <%= render "users/form_fields", user: registration.user, form: user_fields %>
+        <%= form.fields_for :user do |user_fields| %>
+          <%= render "users/fields_for", user: registration.user, form: user_fields %>
         <% end %>
         <h2 class="font-bold text-2xl">Registration Info</h2>
       <% end %>
