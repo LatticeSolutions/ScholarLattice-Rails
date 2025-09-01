@@ -36,8 +36,25 @@ class RegistrationsController < ApplicationController
 
   # POST /registrations or /registrations.json
   def create
-    if user_params.present?
-      new_user = User.new(user_params)
+    if session_params.present?
+      @session =  Passwordless::Session.find_by!(
+        identifier: session_params[:identifier]
+      )
+      @registration.user = @session.authenticatable
+      @registration.user.assign_attributes(registration_params[:user_attributes])
+      BCrypt::Password.create(session_params[:token])
+      if @session.authenticate(session_params[:token])
+        sign_in(@session)
+      else
+        puts @registration.user.to_json
+        puts @registration.to_json
+        puts @session.to_json
+        flash[:notice] = "Invalid token provided."
+        render :new, status: :unprocessable_entity
+        return
+      end
+    elsif @current_user.blank?
+      new_user = User.new(registration_params[:user_attributes])
       @session = build_passwordless_session(new_user)
       if new_user.save && @session.save
         @registration.user = new_user
@@ -45,23 +62,11 @@ class RegistrationsController < ApplicationController
         flash[:notice] = "Verify your email to complete your registration."
         render :new
       else
-        @registration.user = new_user
         render :new, status: :unprocessable_entity
       end
       return
-    end
-    if session_params.present?
-      @session =  Passwordless::Session.find_by!(
-        identifier: session_params[:identifier]
-      )
-      BCrypt::Password.create(session_params[:token])
-      if @session.authenticate(session_params[:token])
-        sign_in(@session)
-      else
-        flash[:notice] = "Invalid token provided."
-        render :new, status: :unprocessable_entity
-        return
-      end
+    else
+      @registration.user = @current_user
     end
     unless can? :manage, @collection or @registration.registration_option.in_stock?
       @registration.errors.add(:registration_option, "has no remaining stock available")
@@ -155,14 +160,10 @@ class RegistrationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def registration_params
       if can? :manage, @registration
-        params.expect(registration: [ :registration_option_id, :user_id, :status ])
+        params.expect(registration: [ :registration_option_id, :user_id, :status, user_attributes: [ :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       else
-        params.expect(registration: [ :registration_option_id, :user_id ])
+        params.expect(registration: [ :registration_option_id, :user_id, user_attributes: [ :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       end
-    end
-    def user_params
-      return nil unless params[:user].present?
-      params.expect(user: [ :first_name, :last_name, :email, :affiliation, :position_type, :position ])
     end
     def session_params
       return nil unless params[:session].present? && params[:session][:token].present?

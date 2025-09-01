@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_26_204115) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_30_011148) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -202,6 +202,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_204115) do
     t.string "position", null: false
     t.integer "position_type", null: false
     t.boolean "verified_email", default: false, null: false
+    t.string "affiliation_identifier"
     t.index "lower((email)::text)", name: "index_users_on_lowercase_email", unique: true
   end
 
