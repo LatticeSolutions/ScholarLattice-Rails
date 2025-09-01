@@ -5,6 +5,9 @@
 <%= form.email_field :email, 
     class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full #{'bg-gray-100 hover:cursor-not-allowed' if !user.new_record?}", 
     disabled: !user.new_record? %>
+<% if !user.new_record? %>
+  <%= form.hidden_field :email, value: user.email %>
+<% end %>
 </div>
 
 <div class="mb-4">

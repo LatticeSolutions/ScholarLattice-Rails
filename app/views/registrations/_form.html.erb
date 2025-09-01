@@ -19,55 +19,41 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <% if !registration.user.new_record? %>
-      <%= form.label :user_id do %>Profile<% end %>
-      <%= form.hidden_field :user_id %>
-      <p><%= registration.user.name_with_email %></p>
-      <% unless @current_user.present? %>
-        <%= fields_for :session, @session do |session_fields| %>
-          <div class="mt-2">
-            <%= session_fields.label :token,
-                t(".token"),
-                for: "passwordless_session_token" %>
-
-            <div class="relative">
-              <%= session_fields.text_field :token,
-                  required: true,
-                  autofocus: true,
-                  autocomplete: "one-time-code",
-                  placeholder: "Token sent by email (for example, ABCD1234)",
-                  value: nil,
-                  class: "w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm" %>
-
-              <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
-                <span class="size-4 text-gray-600">
-                  <%= render IconComponent.new(:key) %>
-                </span>
-              </span>
-            </div>
-            <%= session_fields.hidden_field :identifier, value: @session.identifier %>
-        <% end %>
-      <% end %>
-    <% else %>
-      <% if @current_user.present? %>
-        <%= form.label :user_id do %>Profile<% end %>
-        <%= form.hidden_field :user_id, value: @current_user.id %>
-        <p><%= @current_user.name_with_email %></p>
-      <% else %>
-        <h2 class="font-bold text-2xl">Profile Info</h2>
-        <p>
-          Complete the following fields to create your ScholarLattice profile.
-          (<span class="italic">Not your first time using ScholarLattice?</span>
-          <%= link_to "Log in!", users_sign_in_path, class: "text-blue-600 hover:underline" %>)
-        </p>
-        <%= form.fields_for :user do |user_fields| %>
-          <%= render "users/fields_for", user: registration.user, form: user_fields %>
-        <% end %>
-        <h2 class="font-bold text-2xl">Registration Info</h2>
-      <% end %>
+  <% if @session.present? %>
+    <%= fields_for :session, @session do |session_fields| %>
+      <div class="mt-2">
+        <%= session_fields.label :token,
+            t(".token"),
+            for: "passwordless_session_token" %>
+        <div class="relative">
+          <%= session_fields.text_field :token,
+              required: true,
+              autofocus: true,
+              autocomplete: "one-time-code",
+              placeholder: "Token sent by email (for example, ABCD1234)",
+              value: nil,
+              class: "w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm" %>
+          <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
+            <span class="size-4 text-gray-600">
+              <%= render IconComponent.new(:key) %>
+            </span>
+          </span>
+        </div>
+        <%= session_fields.hidden_field :identifier, value: @session.identifier %>
     <% end %>
-  </div>
+  <% elsif @current_user.blank? %>
+    <p class="p-3 text-center">
+      Welcome to ScholarLattice! If this is not your first time here, please
+      <%= link_to "sign in", users_sign_in_path, class: "text-blue-600 hover:text-blue-800 hover:underline" %>.
+    </p>
+  <% end %>
+
+  <h2 class="font-bold text-2xl">Profile Info</h2>
+  <%= form.fields_for :user do |user_fields| %>
+    <%= render "users/fields_for", user: registration.user, form: user_fields %>
+  <% end %>
+
+  <h2 class="font-bold text-2xl">Registration Info</h2>
 
   <div class="my-5">
     <%= form.label :registration_option_id %>
@@ -94,6 +80,6 @@
   <% end %>
 
   <div class="inline">
-    <%= form.submit "Register", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>

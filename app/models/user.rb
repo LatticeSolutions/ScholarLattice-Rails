@@ -42,6 +42,7 @@ class User < ApplicationRecord
 
   before_save :downcase_email
   before_save :strip_whitespace
+  before_save :preserve_email
 
   default_scope { order(:last_name, :first_name) }
 
@@ -106,5 +107,11 @@ class User < ApplicationRecord
     self.email = email&.strip
     self.affiliation = affiliation&.strip
     self.position = position&.strip
+  end
+
+  def preserve_email
+    if persisted? && email_changed?
+      errors.add(:email, "cannot be changed")
+    end
   end
 end
