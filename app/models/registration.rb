@@ -25,6 +25,7 @@ class Registration < ApplicationRecord
       user.first_name,
       user.email,
       user.affiliation,
+      user.affiliation_identifier,
       user.position,
       user.position_type
     ]
