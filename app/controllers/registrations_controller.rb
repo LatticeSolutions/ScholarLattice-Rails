@@ -1,6 +1,6 @@
 class RegistrationsController < ApplicationController
   load_and_authorize_resource :collection
-  load_and_authorize_resource :registration, through: :collection, shallow: true, except: [ :index, :update ]
+  load_and_authorize_resource :registration, through: :collection, shallow: true, except: [ :index ]
 
   # GET /registrations or /registrations.json
   def index
@@ -68,9 +68,6 @@ class RegistrationsController < ApplicationController
     unless can? :manage, @collection or @registration.registration_option.in_stock?
       @registration.errors.add(:registration_option, "has no remaining stock available")
     end
-    if @registration.registration_option.collection_id != params[:collection_id]
-      @registration.errors.add(:registration_option, "does not match this collection")
-    end
     if @registration.registration_option.auto_accept?
       @registration.status = :accepted
     end
@@ -88,15 +85,8 @@ class RegistrationsController < ApplicationController
 
   # PATCH/PUT /registrations/1 or /registrations/1.json
   def update
-    @registration = Registration.find(params[:id])
-    @registration.user.assign_attributes(registration_params[:user_attributes].except(:email))
-    @registration.assign_attributes(registration_params.except(:user_attributes))
-    authorize! :update, @registration
+    @registration.user.assign_attributes(registration_params[:user_attributes]) if registration_params[:user_attributes].present?
     respond_to do |format|
-      if @registration.registration_option.collection_id !=
-          Registration.new(registration_params).registration_option.collection_id
-        @registration.errors.add(:registration_option, "does not match this collection")
-      end
       if @registration.save
         format.html { redirect_to @registration, notice: "Registration was successfully updated." }
         format.json { render :show, status: :ok, location: @registration }
@@ -161,9 +151,9 @@ class RegistrationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def registration_params
       if can? :manage, @registration
-        params.expect(registration: [ :registration_option_id, :user_id, :status, user_attributes: [ :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(registration: [ :registration_option_id, :status, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       else
-        params.expect(registration: [ :registration_option_id, :user_id, user_attributes: [ :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(registration: [ :registration_option_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       end
     end
     def session_params

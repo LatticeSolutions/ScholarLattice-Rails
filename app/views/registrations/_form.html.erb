@@ -7,14 +7,6 @@
         <% registration.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
-        <% registration.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-        <% if registration.user&.errors&.any? %>
-          <% registration.user.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        <% end %>
       </ul>
     </div>
   <% end %>
@@ -64,8 +56,6 @@
         },
         {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
   </div>
-
-  <%= form.hidden_field :user_id, value: registration.user_id %>
 
   <% if can? :manage, collection %>
     <div class="my-5">
