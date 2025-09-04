@@ -64,9 +64,6 @@ class RegistrationsController < ApplicationController
     unless can? :manage, @collection or @registration.registration_option.in_stock?
       @registration.errors.add(:registration_option, "has no remaining stock available")
     end
-    if @registration.registration_option.auto_accept?
-      @registration.status = :accepted
-    end
     respond_to do |format|
       if @registration.save
         RegistrationMailer.registration_created(@registration).deliver_later

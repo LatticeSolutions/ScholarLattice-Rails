@@ -10,6 +10,8 @@ class Registration < ApplicationRecord
 
   validate :registration_option_collection_unchanged, on: :update
 
+  before_save :run_auto_accept
+
   accepts_nested_attributes_for :user
 
   def payment_total
@@ -59,6 +61,12 @@ class Registration < ApplicationRecord
       if old_option.collection_id != registration_option.collection_id
         errors.add(:registration_option, "cannot change collection once set")
       end
+    end
+  end
+
+  def run_auto_accept
+    if registration_option&.auto_accept && new_record?
+      self.status = :accepted
     end
   end
 end
