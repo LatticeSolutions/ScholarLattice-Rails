@@ -1,11 +1,7 @@
 
       <blockquote class="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8">
         <div class="flex items-center gap-4">
-          <img
-            alt=""
-            src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
-            class="size-14 rounded-full object-cover"
-          />
+          <%= image_tag image, class: "size-14 rounded-full object-cover" %>
 
           <div>
             <div class="flex justify-left gap-0.5 text-sky-500">
@@ -61,14 +57,13 @@
               </svg>
             </div>
 
-            <p class="mt-0.5 text-lg font-medium text-gray-900">Your Name Here</p>
+            <p class="mt-0.5 text-lg font-medium text-gray-900">
+              <%= name %>
+            </p>
           </div>
         </div>
 
         <p class="mt-4 text-gray-700">
-          We'd love to share your opinion of ScholarLattice here! Email
-          <%= link_to "ScholarLattice@clontz.org", "mailto:ScholarLattice@clontz.org",
-            class: "underline text-sky-800" %>
-          to share your story.
+          <%= yield %>
         </p>
       </blockquote>
