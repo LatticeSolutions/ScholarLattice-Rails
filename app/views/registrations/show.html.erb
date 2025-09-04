@@ -25,7 +25,7 @@
       <%= @registration.status.humanize %>
     </p>
 
-    <% if can? :view_payments, @registration %>
+    <% if can? :view_payments, @registration && @registration.registration_option.cost.present? %>
       <p class="my-5">
         <strong class="block font-medium mb-1">
           Payments:
@@ -64,13 +64,13 @@
     <% end %>
 
     <% if can? :update, @registration %>
-      <%= link_to "Edit this registration", edit_registration_path(@registration), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= link_to "Update this registration", edit_registration_path(@registration), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <% end %>
     
     <%= link_to "Back to collection", collection_path(@registration.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 
     <% if can? :destroy, @registration %>
-      <%= button_to "Destroy this registration", @registration, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
+      <%= button_to "Cancel this registration", @registration, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
         class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
     <% end %>
   </div>

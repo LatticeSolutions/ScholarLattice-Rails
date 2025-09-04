@@ -40,15 +40,10 @@ class RegistrationsController < ApplicationController
       @session =  Passwordless::Session.find_by!(
         identifier: session_params[:identifier]
       )
-      @registration.user = @session.authenticatable
-      @registration.user.assign_attributes(registration_params[:user_attributes])
       BCrypt::Password.create(session_params[:token])
-      if @session.authenticate(session_params[:token])
+      if @session.authenticate(session_params[:token]) && @session.authenticatable.id == registration_params[:user_attributes][:id]
         sign_in(@session)
       else
-        puts @registration.user.to_json
-        puts @registration.to_json
-        puts @session.to_json
         flash[:notice] = "Invalid token provided."
         render :new, status: :unprocessable_entity
         return
@@ -65,17 +60,9 @@ class RegistrationsController < ApplicationController
         render :new, status: :unprocessable_entity
       end
       return
-    else
-      @registration.user = @current_user
     end
     unless can? :manage, @collection or @registration.registration_option.in_stock?
       @registration.errors.add(:registration_option, "has no remaining stock available")
-    end
-    if @registration.registration_option.collection_id != params[:collection_id]
-      @registration.errors.add(:registration_option, "does not match this collection")
-    end
-    if @registration.registration_option.auto_accept?
-      @registration.status = :accepted
     end
     respond_to do |format|
       if @registration.save
@@ -91,12 +78,9 @@ class RegistrationsController < ApplicationController
 
   # PATCH/PUT /registrations/1 or /registrations/1.json
   def update
+    @registration.user.assign_attributes(registration_params[:user_attributes]) if registration_params[:user_attributes].present?
     respond_to do |format|
-      if @registration.registration_option.collection_id !=
-          Registration.new(registration_params).registration_option.collection_id
-        @registration.errors.add(:registration_option, "does not match this collection")
-      end
-      if @registration.update(registration_params)
+      if @registration.save
         format.html { redirect_to @registration, notice: "Registration was successfully updated." }
         format.json { render :show, status: :ok, location: @registration }
       else
@@ -160,9 +144,9 @@ class RegistrationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def registration_params
       if can? :manage, @registration
-        params.expect(registration: [ :registration_option_id, :user_id, :status, user_attributes: [ :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(registration: [ :registration_option_id, :user_id, :status, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       else
-        params.expect(registration: [ :registration_option_id, :user_id, user_attributes: [ :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(registration: [ :registration_option_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       end
     end
     def session_params

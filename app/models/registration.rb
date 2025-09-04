@@ -8,6 +8,10 @@ class Registration < ApplicationRecord
   validate :user_domain_allowed?
   validates :user, uniqueness: { scope: :registration_option_id, message: "has already registered using this option" }
 
+  validate :registration_option_collection_unchanged, on: :update
+
+  before_save :run_auto_accept
+
   accepts_nested_attributes_for :user
 
   def payment_total
@@ -48,6 +52,21 @@ class Registration < ApplicationRecord
   def user_domain_allowed?
     unless registration_option.allowed_domains_array.nil? || registration_option.allowed_domains_array.include?(user.email.split("@").last)
       errors.add(:user, "email domain is not allowed for this registration option")
+    end
+  end
+
+  def registration_option_collection_unchanged
+    if registration_option_id_changed?
+      old_option = RegistrationOption.find(registration_option_id_was)
+      if old_option.collection_id != registration_option.collection_id
+        errors.add(:registration_option, "cannot change collection once set")
+      end
+    end
+  end
+
+  def run_auto_accept
+    if registration_option&.auto_accept && new_record?
+      self.status = :accepted
     end
   end
 end
