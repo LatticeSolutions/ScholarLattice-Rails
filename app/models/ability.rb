@@ -58,6 +58,9 @@ class Ability
     can :manage, Registration do |r|
       r.collection.present? and (r.collection.has_admin?(user) || r.user_id == user.id)
     end
+    cannot :destroy, Registration do |r|
+      r.registration_option.closes_on <= Time.current
+    end
     can :view_payments, Registration do |r|
       r.user_id == user.id and r.registration_option.cost.present?
     end
