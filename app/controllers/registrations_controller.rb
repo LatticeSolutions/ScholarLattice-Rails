@@ -40,10 +40,8 @@ class RegistrationsController < ApplicationController
       @session =  Passwordless::Session.find_by!(
         identifier: session_params[:identifier]
       )
-      @registration.user = @session.authenticatable
-      @registration.user.assign_attributes(registration_params[:user_attributes])
       BCrypt::Password.create(session_params[:token])
-      if @session.authenticate(session_params[:token])
+      if @session.authenticate(session_params[:token]) && @session.authenticatable.id == registration_params[:user_attributes][:id]
         sign_in(@session)
       else
         flash[:notice] = "Invalid token provided."
@@ -62,8 +60,6 @@ class RegistrationsController < ApplicationController
         render :new, status: :unprocessable_entity
       end
       return
-    else
-      @registration.user = @current_user
     end
     unless can? :manage, @collection or @registration.registration_option.in_stock?
       @registration.errors.add(:registration_option, "has no remaining stock available")
@@ -151,9 +147,9 @@ class RegistrationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def registration_params
       if can? :manage, @registration
-        params.expect(registration: [ :registration_option_id, :status, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(registration: [ :registration_option_id, :user_id, :status, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       else
-        params.expect(registration: [ :registration_option_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(registration: [ :registration_option_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       end
     end
     def session_params
