@@ -56,13 +56,7 @@ class Ability
     cannot :destroy, Submission
 
     can :manage, Registration do |r|
-      r.collection.present? and r.collection.has_admin?(user)
-    end
-    can :create, Registration do |r|
-      r.registration_option.nil? or (r.registration_option.collection.registrations_open? and r.user_id == user.id)
-    end
-    can :read, Registration do |r|
-      r.user_id == user.id
+      r.collection.present? and (r.collection.has_admin?(user) || r.user_id == user.id)
     end
     can :view_payments, Registration do |r|
       r.user_id == user.id and r.registration_option.cost.present?

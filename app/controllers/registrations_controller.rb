@@ -1,6 +1,6 @@
 class RegistrationsController < ApplicationController
   load_and_authorize_resource :collection
-  load_and_authorize_resource :registration, through: :collection, shallow: true, except: [ :index ]
+  load_and_authorize_resource :registration, through: :collection, shallow: true, except: [ :index, :update ]
 
   # GET /registrations or /registrations.json
   def index
@@ -46,9 +46,6 @@ class RegistrationsController < ApplicationController
       if @session.authenticate(session_params[:token])
         sign_in(@session)
       else
-        puts @registration.user.to_json
-        puts @registration.to_json
-        puts @session.to_json
         flash[:notice] = "Invalid token provided."
         render :new, status: :unprocessable_entity
         return
@@ -91,12 +88,16 @@ class RegistrationsController < ApplicationController
 
   # PATCH/PUT /registrations/1 or /registrations/1.json
   def update
+    @registration = Registration.find(params[:id])
+    @registration.user.assign_attributes(registration_params[:user_attributes].except(:email))
+    @registration.assign_attributes(registration_params.except(:user_attributes))
+    authorize! :update, @registration
     respond_to do |format|
       if @registration.registration_option.collection_id !=
           Registration.new(registration_params).registration_option.collection_id
         @registration.errors.add(:registration_option, "does not match this collection")
       end
-      if @registration.update(registration_params)
+      if @registration.save
         format.html { redirect_to @registration, notice: "Registration was successfully updated." }
         format.json { render :show, status: :ok, location: @registration }
       else
