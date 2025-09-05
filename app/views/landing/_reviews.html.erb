@@ -5,25 +5,22 @@
     </h2>
 
     <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
-      <%= render "review", image: "will.jpg", name: "Will Brian, UNC Charlotte" do %>
+      <%= render "review", 
+                  image: "james.jpg",
+                  name: "James Kelly, Christopher Newport University" do %>
+          ScholarLattice is an intuitive and very helpful resource when organizing a conference.
+      <% end %>
+      <%= render "review", 
+                  image: "https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
+                  name: "Your Name Here" do %>
+          We'd love to share your opinion of ScholarLattice here! Email
+          <%= link_to "review@scholarlattice.org", "mailto:review@scholarlattice.org",
+            class: "underline text-sky-800" %>
+          to share your story.
+      <% end %>
+      <%= render "review", image: "will.jpg", name: "Will Brian, University of North Carolina at Charlotte" do %>
         I organized a conference. It was a lot of work, and sometimes kind of terrible.
         Using this site made it less terrible.
-      <% end %>
-      <%= render "review", 
-                  image: "https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
-                  name: "Your Name Here" do %>
-          We'd love to share your opinion of ScholarLattice here! Email
-          <%= link_to "review@scholarlattice.org", "mailto:review@scholarlattice.org",
-            class: "underline text-sky-800" %>
-          to share your story.
-      <% end %>
-      <%= render "review", 
-                  image: "https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
-                  name: "Your Name Here" do %>
-          We'd love to share your opinion of ScholarLattice here! Email
-          <%= link_to "review@scholarlattice.org", "mailto:review@scholarlattice.org",
-            class: "underline text-sky-800" %>
-          to share your story.
       <% end %>
     </div>
   </div>
