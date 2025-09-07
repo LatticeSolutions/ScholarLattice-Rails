@@ -7,6 +7,4 @@
   <h1 class="font-bold text-4xl">Edit Registration Option for <%= @registration_option.collection.title %></h1>
 
   <%= render "form", option: @registration_option, collection: @registration_option.collection %>
-
-  <%= link_to "Back to collection", collection_path(@registration_option.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>
