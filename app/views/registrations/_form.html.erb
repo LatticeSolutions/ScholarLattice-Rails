@@ -44,7 +44,10 @@
 
   <h2 class="font-bold text-2xl">Profile Info</h2>
   <%= form.fields_for :user do |user_fields| %>
-    <%= render "users/fields_for", user: registration.user, form: user_fields %>
+    <%= render "users/fields_for", 
+          user: registration.user, 
+          form: user_fields, 
+          affiliation_identifier_alias: collection.inherited(:affiliation_identifier_alias) %>
   <% end %>
 
   <h2 class="font-bold text-2xl">Registration Info</h2>
