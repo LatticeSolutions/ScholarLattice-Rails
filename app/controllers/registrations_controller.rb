@@ -49,14 +49,16 @@ class RegistrationsController < ApplicationController
         return
       end
     elsif @current_user.blank?
-      new_user = User.new(registration_params[:user_attributes])
-      @session = build_passwordless_session(new_user)
-      if new_user.save && @session.save
-        @registration.user = new_user
-        RegistrationMailer.verify_email(new_user.email, @registration.collection.title, @session.token).deliver_later
+      @registration.user = User.new(registration_params[:user_attributes])
+      @session = build_passwordless_session(@registration.user)
+      if @registration.user.save && @session.save
+        @registration.user_id = @registration.user.id
+        RegistrationMailer.verify_email(@registration.user.email, @registration.collection.title, @session.token).deliver_later
         flash[:notice] = "Verify your email to complete your registration."
         render :new
       else
+        @session = nil
+        flash[:notice] = "There was an error creating your account."
         render :new, status: :unprocessable_entity
       end
       return

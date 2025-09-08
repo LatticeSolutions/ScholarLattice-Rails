@@ -34,10 +34,14 @@
 
 <div class="mb-4">
 <%= form.label :affiliation_identifier, class: CssClass::LABEL do %>
-    Affiliation ID
-    <span class="text-xs text-gray-400 ml-1 font-normal">
-    (e.g. J00123456) (optional)
-    </span>
+    <% unless defined?(affiliation_identifier_alias) && affiliation_identifier_alias.present? %>
+        Affiliation ID
+        <span class="text-sm text-gray-500 font-normal">
+        (e.g. J00123456) (optional)
+        </span>
+    <% else %>
+        <%= affiliation_identifier_alias %>
+    <% end %>
 <% end %>
 <%= form.text_field :affiliation_identifier, class: CssClass::TEXT_FIELD %>
 </div>

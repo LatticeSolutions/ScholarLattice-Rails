@@ -36,6 +36,13 @@
     <% end %>
   </div>
   <div class="mb-3">
+    <%= form.label :affiliation_identifier_alias, class: CssClass::LABEL %>
+    <%= form.text_field :affiliation_identifier_alias, class: CssClass::TEXT_FIELD %>
+    <% collection.errors.full_messages_for(:affiliation_identifier_alias).each do |message| %>
+      <div class="text-red-800"><%= message %></div>
+    <% end %>
+  </div>
+  <div class="mb-3">
     <%= form.label :admin_emails, class: CssClass::LABEL do %>
       Admin emails
       <span class="text-gray-400">(comma-separated)</span>
@@ -93,6 +100,13 @@
     <%= form.label :registerable, class: CssClass::LABEL %>
     <%= form.check_box :registerable, class: CssClass::CHECK_BOX %>
     <% collection.errors.full_messages_for(:registerable).each do |message| %>
+      <div class="text-red-800"><%= message %></div>
+    <% end %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :public_webinars, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.check_box :public_webinars, class: "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm" %>
+    <% collection.errors.full_messages_for(:public_webinars).each do |message| %>
       <div class="text-red-800"><%= message %></div>
     <% end %>
   </div>
