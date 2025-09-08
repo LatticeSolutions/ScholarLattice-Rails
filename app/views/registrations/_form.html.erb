@@ -1,11 +1,14 @@
 <%= form_with(model: registration, url: (registration.new_record? ? [collection, registration] : [registration]), class: "contents") do |form| %>
-  <% if registration.errors.any? or registration.user&.errors&.any? %>
+  <% if registration.errors.any? or registration.user&.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(registration.errors.count, "error") %> prohibited this registration from being saved:</h2>
+      <h2>Errors prohibited this registration from being saved:</h2>
 
       <ul>
         <% registration.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+          <li>Registration <%= error.full_message %></li>
+        <% end %>
+        <% registration&.user.errors.each do |error| %>
+          <li>User <%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
