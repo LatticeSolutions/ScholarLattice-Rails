@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_180736) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_08_041828) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -40,6 +40,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_180736) do
     t.boolean "show_events", default: true, null: false
     t.boolean "registerable", default: false, null: false
     t.boolean "public_webinars", default: false, null: false
+    t.string "affiliation_identifier_alias"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
   end
 
