@@ -5,7 +5,7 @@
   <%= render partial: "breadcrumb", locals: { collection: @collection, action: "New" } %>
 
   <h1 class="font-bold text-4xl">
-    New Registration for <%= link_to @collection.title, @collection, collection_events_path(@collection.parent), class: "text-blue-600 hover:underline" %>
+    New Registration for <%= link_to @collection.title, @collection, class: "text-blue-600 hover:underline" %>
   </h1>
 
   <%= render "form", registration: @registration, collection: @collection %>
