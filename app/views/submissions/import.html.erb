@@ -11,22 +11,14 @@
 
   <%= form_with url: collection_submissions_import_path(@collection), local: true, html: { multipart: true, class: "my-8" } do |form| %>
     <%= form.hidden_field :submission_csv_data, value: @submission_data_array.to_json %>
-    <div class="my-5">
-      <%= form.label :title_header %>
-      <%= form.select :title_header, @submission_data_header_selections, {selected: nil}, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
-    <div class="my-5">
-      <%= form.label :abstract_header %>
-      <%= form.select :abstract_header, @submission_data_header_selections, {selected: nil}, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
-    <div class="my-5">
-      <%= form.label :notes_header %>
-      <%= form.select :notes_header, @submission_data_header_selections, {selected: nil}, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
-    <div class="my-5">
-      <%= form.label :private_notes_header %>
-      <%= form.select :private_notes_header, @submission_data_header_selections, {selected: nil}, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
+    <h3>Select the appropriate CSV header for each field (or mark none if not applicable):</h3>
+    <% @submission_param_symbols.each do |symb| %>
+      <div class="my-5">
+        <%= form.label symb %>
+        <%= form.select "#{symb}_header", @submission_data_header_selections, {selected: nil}, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      </div>
+    <% end %>
+    <hr>
     <div class="my-5">
       <%= form.label :status %>
       <%= form.select :status, Submission.statuses.keys.map {|key| [key.humanize, key]},

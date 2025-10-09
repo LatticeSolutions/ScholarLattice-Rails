@@ -72,6 +72,11 @@ class SubmissionsController < ApplicationController
   def import
     authorize! :manage, @collection
     submissions_csv = params[:file]
+    submission_csv_data = params[:submission_csv_data]
+    @submission_param_symbols = [
+      :title, :abstract, :notes, :private_notes, :submitter_email, :submitter_first_name, :submitter_last_name,
+      :submitter_affiliation, :submitter_position
+    ]
     if submissions_csv.present?
       require "csv"
       begin
@@ -84,6 +89,35 @@ class SubmissionsController < ApplicationController
         flash[:alert] = "Error reading CSV file: #{e.message}"
         redirect_to collection_submissions_upload_path(@collection) and return
       end
+    elsif submission_csv_data.present?
+      JSON.parse(submission_csv_data).each do |row|
+        # find or create user by email
+        u = User.find_or_create_by(email: row[params[:submitter_email_header]])
+        if u.new_record?
+          u.assign_attributes(
+            first_name: row[params[:submitter_first_name_header]] || "Unknown",
+            last_name: row[params[:submitter_last_name_header]] || "Unknown",
+            affiliation: row[params[:submitter_affiliation_header]] || "Unknown",
+            position: row[params[:submitter_position_header]] || "Unknown",
+            position_type: :faculty,
+          )
+          u.save!
+        end
+        # create submission
+        @collection.submissions.create!(
+          title: row[params[:title_header]],
+          abstract: row[params[:abstract_header]],
+          notes: row[params[:notes_header]],
+          private_notes: row[params[:private_notes_header]],
+          user: u,
+          status: params[:status] || :submitted,
+        )
+      end
+      flash[:alert] = "Submissions have been imported."
+      redirect_to collection_submissions_path(@collection) and return
+    else
+      flash[:alert] = "Please select a CSV file to upload."
+      redirect_to collection_submissions_upload_path(@collection) and return
     end
   end
 
