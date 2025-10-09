@@ -1,0 +1,35 @@
+<% content_for :title, "Import Submissions | #{@collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+
+  <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Import" } %>
+
+  <h1 class="font-bold text-4xl">
+    Import Submissions for 
+    <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
+  </h1>
+
+  <%= form_with url: collection_submissions_import_path(@collection), local: true, html: { multipart: true, class: "my-8" } do |form| %>
+    <%= form.hidden_field :submission_csv_data, value: @submission_data_array.to_json %>
+    <h3>Select the appropriate CSV header for each field (or mark none if not applicable):</h3>
+    <% @submission_param_symbols.each do |symb| %>
+      <div class="my-5">
+        <%= form.label symb %>
+        <%= form.select "#{symb}_header", @submission_data_header_selections, {selected: nil}, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      </div>
+    <% end %>
+    <hr>
+    <div class="my-5">
+      <%= form.label :status %>
+      <%= form.select :status, Submission.statuses.keys.map {|key| [key.humanize, key]},
+        {selected: :accepted},
+        {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+    </div>
+    <%= form.submit "Import", class: "bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800" %>
+  <% end %>
+
+  <p><%= @submission_data_headers %></p>
+
+  <p><%= @submission_data_array %></p>
+
+</div>
