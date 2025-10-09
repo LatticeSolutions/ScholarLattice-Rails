@@ -77,7 +77,9 @@ class SubmissionsController < ApplicationController
       begin
         csv_table = CSV.read(submissions_csv, headers: true)
         @submission_data_array = csv_table.map(&:to_hash)
-        @submission_data_headers = CSV.read(submissions_csv, headers: true).headers
+        @submission_data_headers = CSV.read(submissions_csv, headers: true).headers.reject(&:blank?)
+        @submission_data_header_selections = [ [ "(none)", nil ] ] +
+          @submission_data_headers.map { |h| [ "#{h} (#{@submission_data_array.first[h]&.truncate(40)})", h ] }
       rescue => e
         flash[:alert] = "Error reading CSV file: #{e.message}"
         redirect_to collection_submissions_upload_path(@collection) and return
