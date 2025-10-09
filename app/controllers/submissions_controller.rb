@@ -1,7 +1,7 @@
 class SubmissionsController < ApplicationController
-  load_and_authorize_resource :collection, except: [ :index ]
-  load_resource :collection, only: [ :index ]
-  load_and_authorize_resource :submission, through: :collection, shallow: true, except: [ :index ]
+  load_and_authorize_resource :collection, except: [ :index, :upload, :import ]
+  load_resource :collection, only: [ :index, :upload, :import ]
+  load_and_authorize_resource :submission, through: :collection, shallow: true, except: [ :index, :upload, :import ]
 
   # GET /submissions or /submissions.json
   def index
@@ -62,6 +62,26 @@ class SubmissionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to collection_path(c), status: :see_other, notice: "Submission was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def upload
+    authorize! :manage, @collection
+  end
+
+  def import
+    authorize! :manage, @collection
+    submissions_csv = params[:file]
+    if submissions_csv.present?
+      require "csv"
+      begin
+        csv_table = CSV.read(submissions_csv, headers: true)
+        @submission_data_array = csv_table.map(&:to_hash)
+        @submission_data_headers = CSV.read(submissions_csv, headers: true).headers
+      rescue => e
+        flash[:alert] = "Error reading CSV file: #{e.message}"
+        redirect_to collection_submissions_upload_path(@collection) and return
+      end
     end
   end
 

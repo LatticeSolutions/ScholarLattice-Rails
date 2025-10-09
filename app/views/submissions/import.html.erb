@@ -1,0 +1,16 @@
+<% content_for :title, "Import Submissions | #{@collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+
+  <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Import" } %>
+
+  <h1 class="font-bold text-4xl">
+    Import Submissions for 
+    <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
+  </h1>
+
+  <p><%= @submission_data_headers %></p>
+
+  <p><%= @submission_data_array %></p>
+
+</div>
