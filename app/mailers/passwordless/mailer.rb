@@ -27,7 +27,7 @@ module Passwordless
       email_field = session.authenticatable.class.passwordless_email_field
 
       mail(
-        from: "verify@mailer.scholarlattice.org",
+        from: "ScholarLattice SignIn <sign.in@mailer.scholarlattice.org>",
         to: session.authenticatable.send(email_field),
         subject: I18n.t("passwordless.mailer.sign_in.subject", token: @token)
       )

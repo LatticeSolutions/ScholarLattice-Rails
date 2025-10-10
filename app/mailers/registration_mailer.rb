@@ -11,7 +11,7 @@ class RegistrationMailer < ApplicationMailer
     @title = title
     @token = token
     mail(
-      from: "registration@mailer.scholarlattice.org",
+      from: "ScholarLattice Registrations <registrations@mailer.scholarlattice.org>",
       to: email,
       subject: "Verify email to register for #{title} on ScholarLattice"
     )

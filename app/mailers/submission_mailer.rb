@@ -12,7 +12,7 @@ class SubmissionMailer < ApplicationMailer
   def submission_updated(submission)
     @submission = submission
     mail(
-      from: "submissions@mailer.scholarlattice.org",
+      from: "ScholarLattice Submissions <submissions@mailer.scholarlattice.org>",
       to: submission.notification_emails,
       subject: "Submission updated on ScholarLattice",
       reply_to: submission.collection.reply_to_emails,
