@@ -90,11 +90,14 @@ class SubmissionsController < ApplicationController
         redirect_to collection_submissions_upload_path(@collection) and return
       end
     elsif submission_csv_data.present?
+      users_to_save = []
+      submissions_to_save = []
+      user_cache = {}
       JSON.parse(submission_csv_data).each do |row|
         next if row[params[:submitter_email_header]].blank?
-        # find or create user by email
-        u = User.find_or_initialize_by(email: row[params[:submitter_email_header]])
-        if u.new_record?
+        email = row[params[:submitter_email_header]]
+        u = user_cache[email] || User.find_or_initialize_by(email: email)
+        if u.new_record? && !user_cache[email]
           u.assign_attributes(
             first_name: row[params[:submitter_first_name_header]] || "Unknown",
             last_name: row[params[:submitter_last_name_header]] || "Unknown",
@@ -102,10 +105,10 @@ class SubmissionsController < ApplicationController
             position: row[params[:submitter_position_header]] || "Unknown",
             position_type: :faculty,
           )
-          u.save!
+          users_to_save << u
         end
-        # create submission
-        @collection.submissions.create!(
+        user_cache[email] = u
+        submissions_to_save << @collection.submissions.build(
           title: row[params[:title_header]],
           abstract: row[params[:abstract_header]],
           notes: row[params[:notes_header]],
@@ -114,6 +117,21 @@ class SubmissionsController < ApplicationController
           status: params[:status] || :submitted,
         )
       end
+      invalid_users = users_to_save.reject(&:valid?)
+      invalid_submissions = submissions_to_save.reject(&:valid?)
+      if invalid_users.any? || invalid_submissions.any?
+        error_messages = []
+        error_messages += invalid_users.map { |u| "User #{u.email}: #{u.errors.full_messages.join(', ')}" }
+        error_messages += invalid_submissions.map { |s| "Submission #{s.title}: #{s.errors.full_messages.join(', ')}" }
+        flash[:alert] = "Some records could not be imported: #{error_messages.join('; ')}"
+        @submission_data_array = JSON.parse(submission_csv_data)
+        @submission_data_headers = @submission_data_array.first.keys.reject(&:blank?)
+        @submission_data_header_selections = [ [ "(none)", nil ] ] +
+          @submission_data_headers.map { |h| [ "#{h} (#{@submission_data_array.first[h]&.truncate(40)})", h ] }
+        render :import and return
+      end
+      users_to_save.each(&:save!)
+      submissions_to_save.each(&:save!)
       flash[:alert] = "Submissions have been imported."
       redirect_to collection_submissions_path(@collection) and return
     else
