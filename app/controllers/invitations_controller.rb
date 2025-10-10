@@ -61,7 +61,7 @@ class InvitationsController < ApplicationController
 
     invalid_invitations = invitations.reject(&:valid?)
     if invalid_invitations.any?
-      flash.now[:alert] = "Some invitations could not be created: #{invalid_invitations.map { |inv| inv.errors.full_messages.join(', ') }.join('; ')}"
+      flash.now[:alert] = "Some invitations were invalid: #{invalid_invitations.map { |inv| inv.email + ": " + inv.errors.full_messages.join(', ') }.join('; ')}"
       render :new_batch, status: :unprocessable_entity
       return
     end
@@ -126,7 +126,7 @@ class InvitationsController < ApplicationController
 
     def get_user_id(email, first_name, last_name, affiliation)
       user = User.find_by(email: email.downcase.strip)
-      return user if user.present?
+      return user.id if user.present?
       User.create!(
         email: email.downcase.strip,
         first_name: first_name.strip,
