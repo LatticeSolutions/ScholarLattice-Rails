@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_subdomains
     if Rails.env.production? && request.subdomain.present?
-      redirect_to url_for(request.params.merge(subdomain: nil)), status: :moved_permanently, allow_other_host: true
+      redirect_to url_for(request.params.merge(subdomain: "www")), status: :moved_permanently, allow_other_host: true
     end
   end
 
