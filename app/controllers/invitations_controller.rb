@@ -50,7 +50,7 @@ class InvitationsController < ApplicationController
       name_email_regex = /(.+)\s+(.+)\s+<(.+)>/
       if user_string.strip.match(name_email_regex)
         first_name, last_name, email = user_string.match(name_email_regex).captures
-        user_id = get_user_id(email, first_name, last_name)
+        user_id = get_user_id(email, first_name, last_name, "")
       else
         flash.now[:alert] = "Could not parse invitation name/email: `#{user_string}`."
         render :new_batch, status: :unprocessable_entity
