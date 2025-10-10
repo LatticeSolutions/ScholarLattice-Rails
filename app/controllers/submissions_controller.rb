@@ -91,8 +91,9 @@ class SubmissionsController < ApplicationController
       end
     elsif submission_csv_data.present?
       JSON.parse(submission_csv_data).each do |row|
+        next if row[params[:submitter_email_header]].blank?
         # find or create user by email
-        u = User.find_or_create_by(email: row[params[:submitter_email_header]])
+        u = User.find_or_initialize_by(email: row[params[:submitter_email_header]])
         if u.new_record?
           u.assign_attributes(
             first_name: row[params[:submitter_first_name_header]] || "Unknown",
