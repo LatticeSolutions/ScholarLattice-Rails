@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  if Rails.env.production?
+    constraints subdomain: /.+/ do
+      get "*", to: "redirects#index"
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root "landing#index"
 
