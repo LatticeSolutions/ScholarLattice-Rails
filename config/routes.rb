@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   if Rails.env.production?
     constraints subdomain: /.+/ do
+      get "/", to: "redirects#index"
       get "*", to: "redirects#index"
     end
   end
