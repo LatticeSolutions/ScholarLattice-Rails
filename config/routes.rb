@@ -45,6 +45,8 @@ Rails.application.routes.draw do
   get "/privacy/", to: "static_pages#privacy"
   get "/tos/", to: "static_pages#tos"
 
+  get "/r/:slug", to: "redirects#show"
+
   # Passwordless routes
   passwordless_for :users, controller: "sessions"
 
