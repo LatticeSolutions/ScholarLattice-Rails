@@ -26,8 +26,8 @@ module ScholarLatticeRailsSandbox
     #
 
     # host info
-    config.action_mailer.default_url_options = { host: "preview.scholarlattice.org" }
+    config.action_mailer.default_url_options = { host: "scholarlattice.org" }
     config.action_mailer.delivery_method = :resend
-    routes.default_url_options[:host] ||= "preview.scholarlattice.org"
+    routes.default_url_options[:host] ||= "scholarlattice.org"
   end
 end
