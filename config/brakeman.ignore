@@ -1,28 +1,5 @@
 {
   "ignored_warnings": [
-    {
-      "warning_type": "Redirect",
-      "warning_code": 18,
-      "fingerprint": "62bd559394189f30718d47816dd0fdf8ba9228a1762acd6483312a47c95a0884",
-      "check_name": "Redirect",
-      "message": "Possible unprotected redirect",
-      "file": "app/controllers/events_controller.rb",
-      "line": 66,
-      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(Event.find(params[:event_id]).inherited(:webinar_link), :allow_other_host => true)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "EventsController",
-        "method": "webinar"
-      },
-      "user_input": "Event.find(params[:event_id]).inherited(:webinar_link)",
-      "confidence": "Weak",
-      "cwe_id": [
-        601
-      ],
-      "note": "Allowing external redirects here"
-    }
   ],
   "brakeman_version": "7.1.0"
 }

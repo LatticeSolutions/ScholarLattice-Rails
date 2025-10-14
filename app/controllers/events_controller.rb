@@ -64,7 +64,7 @@ class EventsController < ApplicationController
     unless @event.collection.public_webinars
       authorize! :access_webinar, @event, message: "Must have an accepted registration to #{@event.collection.title} to access this webinar."
     end
-    redirect_to @event.inherited(:webinar_link), allow_other_host: true
+    redirect_to_if_allowed @event.inherited(:webinar_link)
   end
 
   # GET /events/new

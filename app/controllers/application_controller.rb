@@ -29,4 +29,22 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def redirect_to_if_allowed(url)
+    allowed_domains = [
+      "scholarlattice.org",
+      "zoom.us",
+      "zulipchat.com",
+      "google.com",
+      "slack.com",
+      "discord.com"
+    ]
+    uri = URI.parse(url) rescue nil
+    apex_domain = uri.host.split(".").last(2).join(".") if uri&.host.present?
+    if uri.present? && allowed_domains.include?(apex_domain)
+      redirect_to url, status: :moved_permanently, allow_other_host: true
+    else
+      redirect_to(root_url, alert: "Redirects to `#{apex_domain}` are not supported.")
+    end
+  end
 end
