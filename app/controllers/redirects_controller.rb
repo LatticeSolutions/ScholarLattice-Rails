@@ -3,7 +3,6 @@ class RedirectsController < ApplicationController
     if request.subdomain.present?
       redirect = Redirect.find_by(slug: request.subdomain)
       redirect_to_if_allowed redirect.target_url if redirect.present?
-      return
     end
     redirect_to "#{request.protocol}#{request.domain}#{request.fullpath}",
       status: :moved_permanently, allow_other_host: true
