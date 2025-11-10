@@ -134,6 +134,9 @@ class Collection < ApplicationRecord
       unless email.strip.match?(valid_email_regex)
         errors.add(:admin_emails, "contains invalid email: #{email}")
       end
+      unless User.find_by email: email
+        errors.add(:admin_emails, "contains unregistered email: #{email}")
+      end
     end
   end
 
@@ -142,8 +145,10 @@ class Collection < ApplicationRecord
 
     @admin_emails.split(",").each do |email|
       next if email.strip.blank?
-      user = User.find_or_create_by(email: email.strip)
-      admins.find_or_create_by(user: user) unless admins.exists?(user: user)
+      user = User.find_by(email: email.strip)
+      if user.present?
+        admins.find_or_create_by(user: user) unless admins.exists?(user: user)
+      end
     end
 
     admins.each do |admin|
