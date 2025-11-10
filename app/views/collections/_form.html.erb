@@ -45,7 +45,7 @@
   <div class="mb-3">
     <%= form.label :admin_emails, class: "block text-xs font-medium text-gray-700" do %>
       Admin emails
-      <span class="text-gray-400">(comma-separated)</span>
+      <span class="text-gray-400">(comma-separated, must be registered)</span>
     <% end %>
     <%= form.text_field :admin_emails, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
     <% collection.errors.full_messages_for(:admin_emails).each do |message| %>
