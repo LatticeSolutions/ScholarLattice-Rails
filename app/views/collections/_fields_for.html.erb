@@ -1,109 +1,95 @@
 <%= form.hidden_field :parent_id %>
+
 <div class="mb-3">
-<%= form.label :title, class: "block text-xs font-medium text-gray-700" %>
-<%= form.text_field :title, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:title).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
+  <%= form.label :title, class: CssClass::LABEL %>
+  <%= form.text_field :title, class: CssClass::TEXT_FIELD %>
+  <%= render "errors", object: collection, attribute: :title %>
 </div>
+
 <div class="mb-3">
-<%= form.label :short_title, class: "block text-xs font-medium text-gray-700" %>
-<%= form.text_field :short_title, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:short_title).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
+  <%= form.label :short_title, class: CssClass::LABEL %>
+  <%= form.text_field :short_title, class: CssClass::TEXT_FIELD %>
+  <%= render "errors", object: collection, attribute: :short_title %>
 </div>
+
 <div class="mb-3">
-<%= form.label :order, class: "block text-xs font-medium text-gray-700" %>
-<%= form.number_field :order, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:order).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
+  <%= form.label :order, class: CssClass::LABEL %>
+  <%= form.number_field :order, class: CssClass::NUMBER_FIELD %>
+  <%= render "errors", object: collection, attribute: :order %>
 </div>
+
 <div class="mb-3">
-<%= form.label :description, class: "block text-xs font-medium text-gray-700" %>
-<%= form.text_area :description, class: "mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:description).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
+  <%= form.label :description, class: CssClass::LABEL %>
+  <%= form.text_area :description, class: CssClass::TEXT_AREA %>
+  <%= render "errors", object: collection, attribute: :description %>
 </div>
+
 <div class="mb-3">
-<%= form.label :subcollection_name, class: "block text-xs font-medium text-gray-700" %>
-<%= form.text_field :subcollection_name, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:subcollection_name).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
+  <%= form.label :subcollection_name, class: CssClass::LABEL %>
+  <%= form.text_field :subcollection_name, class: CssClass::TEXT_FIELD %>
+  <%= render "errors", object: collection, attribute: :subcollection_name %>
 </div>
+
 <div class="mb-3">
-<%= form.label :affiliation_identifier_alias, class: "block text-xs font-medium text-gray-700" %>
-<%= form.text_field :affiliation_identifier_alias, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:affiliation_identifier_alias).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
+  <%= form.label :affiliation_identifier_alias, class: CssClass::LABEL %>
+  <%= form.text_field :affiliation_identifier_alias, class: CssClass::TEXT_FIELD %>
+  <%= render "errors", object: collection, attribute: :affiliation_identifier_alias %>
 </div>
+
 <div class="mb-3">
-<%= form.label :admin_emails, class: "block text-xs font-medium text-gray-700" do %>
+  <%= form.label :admin_emails, class: CssClass::LABEL do %>
     Admin emails
     <span class="text-gray-400">(comma-separated, must be registered)</span>
-<% end %>
-<%= form.text_field :admin_emails, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:admin_emails).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
-</div>
-<div class="mb-3">
-<%= form.label :time_zone, class: "block text-xs font-medium text-gray-700" %>
-<%= form.select :time_zone, [["Use default time zone (#{collection.parent_time_zone})", nil]] + ActiveSupport::TimeZone.all.map { |tz| ["#{tz.name} (UTC #{tz.formatted_offset})", tz.name] }, {}, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:time_zone).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
-</div>
-<div class="mb-3">
-<%= form.label :submittable, class: "block text-xs font-medium text-gray-700" %>
-<%= form.check_box :submittable, class: "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:submittable).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
-</div>
-<div class="mb-3">
-<%= form.label :submissions_open_on, class: "block text-xs font-medium text-gray-700" %>
-<% Time.use_zone(collection.inherited_time_zone) do %>
-    <%= form.datetime_field :submissions_open_on, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %> 
-<% end %>
-<% collection.errors.full_messages_for(:submissions_open_on).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
-</div>
-<div class="mb-3">
-<%= form.label :submissions_close_on, class: "block text-xs font-medium text-gray-700" %>
-<% Time.use_zone(collection.inherited_time_zone) do %>
+  <% end %>
 
-    <%= form.datetime_field :submissions_close_on, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %> 
-<% end %>
-<% collection.errors.full_messages_for(:submissions_close_on).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
+  <%= form.text_field :admin_emails, class: CssClass::TEXT_FIELD %>
+  <%= render "errors", object: collection, attribute: :admin_emails %>
 </div>
+
 <div class="mb-3">
-<%= form.label :show_events, class: "block text-xs font-medium text-gray-700" %>
-<%= form.check_box :show_events, class: "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:show_events).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
+  <%= form.label :time_zone, class: CssClass::LABEL %>
+  <%= form.select :time_zone, [["Use default time zone (#{collection.parent_time_zone})", nil]] + ActiveSupport::TimeZone.all.map { |tz| ["#{tz.name} (UTC #{tz.formatted_offset})", tz.name] }, {}, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
+  <%= render "errors", object: collection, attribute: :time_zone %>
 </div>
+
 <div class="mb-3">
-<%= form.label :registerable, class: "block text-xs font-medium text-gray-700" %>
-<%= form.check_box :registerable, class: "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:registerable).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
+  <%= form.label :submissions_open_on, class: CssClass::LABEL %>
+  <% Time.use_zone(collection.inherited_time_zone) do %>
+    <%= form.datetime_field :submissions_open_on, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
+  <% end %>
+
+  <%= render "errors", object: collection, attribute: :submissions_open_on %>
 </div>
+
 <div class="mb-3">
-<%= form.label :public_webinars, class: "block text-xs font-medium text-gray-700" %>
-<%= form.check_box :public_webinars, class: "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm" %>
-<% collection.errors.full_messages_for(:public_webinars).each do |message| %>
-    <div class="text-red-800"><%= message %></div>
-<% end %>
+  <%= form.label :submissions_close_on, class: CssClass::LABEL %>
+  <% Time.use_zone(collection.inherited_time_zone) do %>
+    <%= form.datetime_field :submissions_close_on, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
+  <% end %>
+
+  <%= render "errors", object: collection, attribute: :submissions_close_on %>
 </div>
-<div>
+
+<div class="mb-3">
+  <%= form.label :submittable, class: CssClass::LABEL %>
+  <%= form.check_box :submittable, class: CssClass::CHECK_BOX %>
+  <%= render "errors", object: collection, attribute: :submittable %>
+</div>
+
+<div class="mb-3">
+  <%= form.label :show_events, class: CssClass::LABEL %>
+  <%= form.check_box :show_events, class: CssClass::CHECK_BOX %>
+  <%= render "errors", object: collection, attribute: :show_events %>
+</div>
+
+<div class="mb-3">
+  <%= form.label :registerable, class: CssClass::LABEL %>
+  <%= form.check_box :registerable, class: CssClass::CHECK_BOX %>
+  <%= render "errors", object: collection, attribute: :registerable %>
+</div>
+
+<div class="mb-3">
+  <%= form.label :public_webinars, class: CssClass::LABEL %>
+  <%= form.check_box :public_webinars, class: CssClass::CHECK_BOX %>
+  <%= render "errors", object: collection, attribute: :public_webinars %>
 </div>
