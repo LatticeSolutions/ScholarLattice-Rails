@@ -1,11 +1,11 @@
 <%= form.hidden_field :id, value: user.id %>
 
 <div class="my-5">
-<%= form.label :email, class: "block font-medium mb-1" do %>
+<%= form.label :email, class: CssClass::LABEL do %>
     Email
 <% end %>
 <%= form.email_field :email, 
-    class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full #{'bg-gray-100 hover:cursor-not-allowed' if !user.new_record?}", 
+    class: "#{CssClass::EMAIL_FIELD} #{'bg-gray-100 hover:cursor-not-allowed' if !user.new_record?}", 
     disabled: !user.new_record? %>
 <% if !user.new_record? %>
   <%= form.hidden_field :email, value: user.email %>
@@ -13,27 +13,27 @@
 </div>
 
 <div class="mb-4">
-<%= form.label :first_name, class: "block font-medium mb-1" %>
-<%= form.text_field :first_name, class: "w-full rounded border px-3 py-2" %>
+<%= form.label :first_name, class: CssClass::LABEL %>
+<%= form.text_field :first_name, class: CssClass::TEXT_FIELD %>
 </div>
 
 <div class="mb-4">
-<%= form.label :last_name, class: "block font-medium mb-1" %>
-<%= form.text_field :last_name, class: "w-full rounded border px-3 py-2" %>
+<%= form.label :last_name, class: CssClass::LABEL %>
+<%= form.text_field :last_name, class: CssClass::TEXT_FIELD %>
 </div>
 
 <div class="mb-4">
-<%= form.label :affiliation, class: "block font-medium mb-1" do %>
+<%= form.label :affiliation, class: CssClass::LABEL do %>
     Affiliation
-    <span class="text-sm text-gray-500 font-normal">
+    <span class="text-xs text-gray-400 ml-1 font-normal">
     (e.g. University of Example)
     </span>
 <% end %>
-<%= form.text_field :affiliation, class: "w-full rounded border px-3 py-2" %>
+<%= form.text_field :affiliation, class: CssClass::TEXT_FIELD %>
 </div>
 
 <div class="mb-4">
-<%= form.label :affiliation_identifier, class: "block font-medium mb-1" do %>
+<%= form.label :affiliation_identifier, class: CssClass::LABEL do %>
     <% unless defined?(affiliation_identifier_alias) && affiliation_identifier_alias.present? %>
         Affiliation ID
         <span class="text-sm text-gray-500 font-normal">
@@ -43,22 +43,22 @@
         <%= affiliation_identifier_alias %>
     <% end %>
 <% end %>
-<%= form.text_field :affiliation_identifier, class: "w-full rounded border px-3 py-2" %>
+<%= form.text_field :affiliation_identifier, class: CssClass::TEXT_FIELD %>
 </div>
 
 <div class="my-5">
-<%= form.label :position_type, class: "block font-medium mb-1" %>
+<%= form.label :position_type, class: CssClass::LABEL %>
 <%= form.select :position_type, User.position_types.keys.map { |key| [key.humanize, key] }, 
     {selected: user.position_type || :faculty}, 
-    {class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"} %>
+    {class: CssClass::SELECT} %>
 </div>
 
 <div class="mb-4">
-<%= form.label :position, class: "block font-medium mb-1" do %>
+<%= form.label :position, class: CssClass::LABEL do %>
     Position
-    <span class="text-sm text-gray-500 font-normal">
+    <span class="text-xs text-gray-400 ml-1 font-normal">
     (e.g. Assistant Professor, Sophomore)
     </span>
 <% end %>
-<%= form.text_field :position, class: "w-full rounded border px-3 py-2" %>
+<%= form.text_field :position, class: CssClass::TEXT_FIELD %>
 </div>

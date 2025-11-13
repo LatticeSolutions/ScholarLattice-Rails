@@ -12,7 +12,7 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :user_id do %>Profile<% end %>
+    <%= form.label :user_id, class: CssClass::LABEL do %>Profile<% end %>
     <% if submission.user.present? %>
         <%= form.hidden_field :user_id %>
        <p><%= submission.user.name_with_email %></p>
@@ -23,52 +23,52 @@
   </div>
 
   <div class="my-5">
-    <%= form.label :title %>
-    <%= form.text_field :title, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :title, class: CssClass::LABEL %>
+    <%= form.text_field :title, class: CssClass::TEXT_FIELD %>
   </div>
 
   <div class="my-5">
-      <%= form.label :abstract do %>
+      <%= form.label :abstract, class: CssClass::LABEL do %>
         Abstract
-        <span class="text-sm text-gray-500">
+        <span class="text-xs text-gray-400 ml-1 font-normal">
           Standard <code>$\LaTeX$</code> commands are supported for mathematical notation.
         </span>
       <% end %>
       <% if can? :manage, submission or submission.new_record? %>
-        <%= form.textarea :abstract, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+        <%= form.text_area :abstract, rows: 4, class: CssClass::TEXT_AREA %>
       <% else %>
-        <%= form.textarea :abstract, rows: 4, class: "block cursor-not-allowed shadow bg-gray-200 rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full", disabled: true %>
+        <%= form.text_area :abstract, rows: 4, class: "#{CssClass::TEXT_AREA} cursor-not-allowed bg-gray-200", disabled: true %>
       <% end %>
   </div>
 
   <div class="my-5">
-    <%= form.label :notes do %>
+    <%= form.label :notes, class: CssClass::LABEL do %>
       Notes
-      <span class="text-sm text-gray-500">
+      <span class="text-xs text-gray-400 ml-1 font-normal">
         These are not part of your official abstract, but will be publicly available on ScholarLattice
         and can be used to provide additional information (links to slides, references, etc.).
       </span>
     <% end %>
-    <%= form.textarea :notes, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_area :notes, rows: 4, class: CssClass::TEXT_AREA %>
   </div>
 
   <div class="my-5">
-    <%= form.label :private_notes do %>
+    <%= form.label :private_notes, class: CssClass::LABEL do %>
       Private notes
-      <span class="text-sm text-gray-500">
+      <span class="text-xs text-gray-400 ml-1 font-normal">
         This field may be used by submitters and organizers to record any private
         notes that will not be shown publicly.
       </span>
     <% end %>
-    <%= form.textarea :private_notes, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_area :private_notes, rows: 4, class: CssClass::TEXT_AREA %>
   </div>
 
   <% if can? :manage, submission %>
     <div class="my-5">
-      <%= form.label :status %>
+      <%= form.label :status, class: CssClass::LABEL %>
       <%= form.select :status, Submission.statuses.keys.map {|key| [key.humanize, key]},
         {selected: submission.status || :draft},
-        {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+        {class: CssClass::SELECT} %>
     </div>
     <% unless @collection %>
       <div class="my-5">
@@ -76,19 +76,19 @@
         <%= form.select :collection_id, 
           @current_user.admin_collections.map {|c| [c.short_title_path, c.id]},
           {selected: submission.collection_id},
-          {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+          {class: CssClass::SELECT} %>
       </div>
     <% end %>
 
     <% unless submission.new_record? %>
       <div class="my-5 flex items-center">
+        <%= form.label :send_notification, "Send notification upon update", class: CssClass::LABEL %>
         <%= form.check_box :send_notification %>
-        <%= form.label :send_notification, "Send notification upon update", class: "ml-2" %>
       </div>
     <% end %>
   <% end %>
 
   <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit class: CssClass::SUBMIT %>
   </div>
 <% end %>

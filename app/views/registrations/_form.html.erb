@@ -19,7 +19,8 @@
       <div class="mt-2">
         <%= session_fields.label :token,
             t(".token"),
-            for: "passwordless_session_token" %>
+            for: "passwordless_session_token",
+            class: CssClass::LABEL %>
         <div class="relative">
           <%= session_fields.text_field :token,
               required: true,
@@ -36,7 +37,7 @@
         </div>
         <%= session_fields.hidden_field :identifier, value: @session.identifier %>
     <% end %>
-  <% elsif @current_user.blank? %>
+  <% elsif @current_user.blank? || registration.errors.any? %>
     <p class="p-3 text-center">
       Welcome to ScholarLattice! If this is not your first time here, please
       <%= link_to "sign in", users_sign_in_path, class: "text-blue-600 hover:text-blue-800 hover:underline" %>.
@@ -56,13 +57,13 @@
   <h2 class="font-bold text-2xl">Registration Info</h2>
 
   <div class="my-5">
-    <%= form.label :registration_option_id %>
+    <%= form.label :registration_option_id, class: CssClass::LABEL do %>Option<% end %>
     <%= form.select :registration_option_id, collection.registration_options.map {|o| [o.name_with_cost_and_stock, o.id]},
         {
           selected: registration.registration_option_id || nil,
           disabled: (can? :manage, collection) ? [] : collection.registration_options.reject(&:in_stock?).map(&:id)
         },
-        {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+        {class: CssClass::SELECT} %>
   </div>
 
   <% if can? :manage, collection %>
@@ -75,11 +76,11 @@
       <% end %>
       <%= form.select :status, Registration.statuses.keys.map {|key| [key.humanize, key]},
         {selected: registration.status || :draft},
-        {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+        {class: CssClass::SELECT} %>
     </div>
   <% end %>
 
   <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit class: CssClass::SUBMIT %>
   </div>
 <% end %>
