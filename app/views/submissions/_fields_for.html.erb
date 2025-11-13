@@ -1,0 +1,89 @@
+
+  <% if submission.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
+
+      <ul>
+        <% submission.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :user_id do %>Profile<% end %>
+    <% if submission.user.present? %>
+        <%= form.hidden_field :user_id %>
+       <p><%= submission.user.name_with_email %></p>
+    <% else %>
+        <%= form.hidden_field :user_id, value: @current_user.id %>
+       <p><%= @current_user.name_with_email %></p>
+    <% end %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+      <%= form.label :abstract do %>
+        Abstract
+        <span class="text-sm text-gray-500">
+          Standard <code>$\LaTeX$</code> commands are supported for mathematical notation.
+        </span>
+      <% end %>
+      <% if can? :manage, submission or submission.new_record? %>
+        <%= form.textarea :abstract, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+      <% else %>
+        <%= form.textarea :abstract, rows: 4, class: "block cursor-not-allowed shadow bg-gray-200 rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full", disabled: true %>
+      <% end %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :notes do %>
+      Notes
+      <span class="text-sm text-gray-500">
+        These are not part of your official abstract, but will be publicly available on ScholarLattice
+        and can be used to provide additional information (links to slides, references, etc.).
+      </span>
+    <% end %>
+    <%= form.textarea :notes, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :private_notes do %>
+      Private notes
+      <span class="text-sm text-gray-500">
+        This field may be used by submitters and organizers to record any private
+        notes that will not be shown publicly.
+      </span>
+    <% end %>
+    <%= form.textarea :private_notes, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <% if can? :manage, submission %>
+    <div class="my-5">
+      <%= form.label :status %>
+      <%= form.select :status, Submission.statuses.keys.map {|key| [key.humanize, key]},
+        {selected: submission.status || :draft},
+        {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+    </div>
+    <% unless @collection %>
+      <div class="my-5">
+        <%= form.label :collection_id %>
+        <%= form.select :collection_id, 
+          @current_user.admin_collections.map {|c| [c.short_title_path, c.id]},
+          {selected: submission.collection_id},
+          {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
+      </div>
+    <% end %>
+
+    <% unless submission.new_record? %>
+      <div class="my-5 flex items-center">
+        <%= form.check_box :send_notification %>
+        <%= form.label :send_notification, "Send notification upon update", class: "ml-2" %>
+      </div>
+    <% end %>
+  <% end %>

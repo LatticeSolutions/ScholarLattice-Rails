@@ -1,0 +1,63 @@
+  <% if option.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(option.errors.count, "error") %> prohibited this option from being saved:</h2>
+
+      <ul>
+        <% option.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :name, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.text_field :name, value: option.name,
+        class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cost, class: "block text-xs font-medium text-gray-700" do %>
+      Cost in USD cents (leave blank for no-cost events)
+    <% end %>
+    <%= form.number_field :cost, value: option.cost,
+        class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>   
+  </div>
+
+  <div class="my-5">
+    <%= form.label :stock, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.number_field :stock, value: option.stock,
+        class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>   
+  </div>
+
+  <div class="my-5">
+    <%= form.label :allowed_domains, class: "block text-xs font-medium text-gray-700" do %>
+      Comma-separated list of allowed domains (leave blank to not restrict domains)
+    <% end %>
+    <%= form.text_field :allowed_domains, value: option.allowed_domains,
+        class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :auto_accept, class: "block text-xs font-medium text-gray-700" %>
+    <%= form.check_box :auto_accept, class: "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :opens_on, class: "block text-xs font-medium text-gray-700" %>
+    <% Time.use_zone(collection.inherited_time_zone) do %>
+      <%= form.datetime_field :opens_on, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %> 
+    <% end %>
+    <% collection.errors.full_messages_for(:opens_on).each do |message| %>
+      <div class="text-red-800"><%= message %></div>
+    <% end %>
+  </div>
+  <div class="my-5">
+    <%= form.label :closes_on, class: "block text-xs font-medium text-gray-700" %>
+    <% Time.use_zone(collection.inherited_time_zone) do %>
+      <%= form.datetime_field :closes_on, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %> 
+    <% end %>
+    <% collection.errors.full_messages_for(:closes_on).each do |message| %>
+      <div class="text-red-800"><%= message %></div>
+    <% end %>
+  </div>
