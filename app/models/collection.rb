@@ -130,12 +130,13 @@ class Collection < ApplicationRecord
     valid_email_regex = URI::MailTo::EMAIL_REGEXP
 
     @admin_emails.split(",").each do |email|
-      next if email.strip.blank?
-      unless email.strip.match?(valid_email_regex)
-        errors.add(:admin_emails, "contains invalid email: #{email}")
+      e = email.strip
+      next if e.blank?
+      unless e.match?(valid_email_regex)
+        errors.add(:admin_emails, "contains invalid email: #{e}")
       end
-      unless User.find_by email: email
-        errors.add(:admin_emails, "contains unregistered email: #{email}")
+      unless User.find_by(email: e).present?
+        errors.add(:admin_emails, "contains unregistered email: #{e}")
       end
     end
   end
