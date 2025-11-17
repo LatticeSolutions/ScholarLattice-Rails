@@ -89,4 +89,12 @@
         %></textarea>
     </div>
     <% end %>
+
+  <h2 class="font-bold text-4xl pb-3">
+    Invitation list
+  </h2>
+
+  <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+        @submissions.where(status: :accepted).map{|s| "#{s.user.name} <#{s.user.email}>" }.join("\n")
+    %></textarea>
 </section>
