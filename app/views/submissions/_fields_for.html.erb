@@ -12,6 +12,7 @@
 <div class="my-5">
   <%= form.label :title, class: CssClass::LABEL %>
   <%= form.text_field :title, class: CssClass::TEXT_FIELD %>
+  <%= render "errors", object: submission, attribute: :title %>
 </div>
 
 <div class="my-5">
@@ -26,6 +27,7 @@
     <% else %>
       <%= form.textarea :abstract, rows: 4, class: CssClass::TEXT_AREA, disabled: true %>
     <% end %>
+  <%= render "errors", object: submission, attribute: :abstract %>
 </div>
 
 <div class="my-5">
@@ -37,6 +39,7 @@
     </span>
   <% end %>
   <%= form.textarea :notes, rows: 4, class: CssClass::TEXT_AREA %>
+  <%= render "errors", object: submission, attribute: :notes %>
 </div>
 
 <div class="my-5">
@@ -48,6 +51,7 @@
     </span>
   <% end %>
   <%= form.textarea :private_notes, rows: 4, class: CssClass::TEXT_AREA %>
+  <%= render "errors", object: submission, attribute: :private_notes %>
 </div>
 
 <% if can? :manage, submission %>
@@ -56,6 +60,7 @@
     <%= form.select :status, Submission.statuses.keys.map {|key| [key.humanize, key]},
       {selected: submission.status || :draft},
       {class: CssClass::SELECT} %>
+    <%= render "errors", object: submission, attribute: :status %>
   </div>
   <% unless @collection %>
     <div class="my-5">
@@ -64,13 +69,14 @@
         @current_user.admin_collections.map {|c| [c.short_title_path, c.id]},
         {selected: submission.collection_id},
         {class: CssClass::SELECT} %>
+    <%= render "errors", object: submission, attribute: :collection_id %>
     </div>
   <% end %>
-
   <% unless submission.new_record? %>
     <div class="my-5 flex items-center">
       <%= form.label :send_notification, "Send notification upon update ", class: CssClass::LABEL %>
       <%= form.check_box :send_notification, class: CssClass::CHECK_BOX %>
+      <%= render "errors", object: submission, attribute: :send_notification %>
     </div>
   <% end %>
 <% end %>
