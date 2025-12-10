@@ -2,5 +2,10 @@
   <%= render "fields_for", event: event, form: form %>
   <span class="<%= CssClass::BUTTON_BAR %>">
     <%= form.submit class: CssClass::SUBMIT %>
+    <% if event.new_record? %>
+      <%= link_to "Cancel", collection_events_path(event.collection), class: CssClass::SUBMIT %>
+    <% else %>
+      <%= link_to "Cancel", event, class: CssClass::SUBMIT %>
+    <% end %>
   </span>
 <% end %>
