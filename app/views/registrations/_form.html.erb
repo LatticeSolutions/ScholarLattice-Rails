@@ -1,5 +1,5 @@
 <%= form_with(model: registration, url: (registration.new_record? ? [collection, registration] : [registration]), class: "contents") do |form| %>
-  <%= render "fields_for", registration: registration, form: form %>
+  <%= render "fields_for", registration: registration, collection: registration.collection || collection, form: form %>
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
