@@ -1,0 +1,11 @@
+<div class="my-5">
+  <%= form.label :amount, class: CssClass::LABEL do %>Amount in USD cents<% end %>
+  <%= form.number_field :amount, value: payment.amount,
+      class: CssClass::NUMBER_FIELD %>   
+</div>
+
+<div class="my-5">
+  <%= form.label :memo, class: CssClass::LABEL %>
+  <%= form.text_area :memo, value: payment.memo,
+      class: CssClass::TEXT_AREA %>   
+</div>

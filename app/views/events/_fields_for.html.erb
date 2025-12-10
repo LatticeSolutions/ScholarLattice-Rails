@@ -1,0 +1,101 @@
+<div class="my-5">
+    <%= form.label :title, class: CssClass::LABEL %>
+    <%= form.text_field :title, class: CssClass::TEXT_FIELD %>
+    <%= render "errors", object: event, attribute: :title %>
+</div>
+
+<div class="my-5">
+    <%= form.label :description, class: CssClass::LABEL %>
+    <%= form.text_field :description, class: CssClass::TEXT_FIELD %>
+    <%= render "errors", object: event, attribute: :description %>
+</div>
+
+<div class="my-5">
+    <%= form.label :location, class: CssClass::LABEL %>
+    <%= form.text_field :location, class: CssClass::TEXT_FIELD %>
+    <%= render "errors", object: event, attribute: :location %>
+</div>
+
+<div class="my-5">
+    <%= form.label :webinar_link, "Webinar link (include http:// or https://)", class: CssClass::LABEL %>
+    <%= form.url_field :webinar_link, class: CssClass::URL_FIELD %>
+    <%= render "errors", object: event, attribute: :webinar_link %>
+</div>
+
+<div class="mb-3">
+    <%= form.label :starts_at, class: CssClass::LABEL do %>
+        Starts at [<%= event.collection.inherited_time_zone %>]
+    <% end %>
+    <% Time.use_zone(event.collection.inherited_time_zone) do %>
+        <%= form.datetime_field :starts_at, class: CssClass::DATETIME_FIELD %> 
+    <% end %>
+    <%= render "errors", object: event, attribute: :starts_at %>
+</div>
+<div class="mb-3">
+    <%= form.label :ends_at, class: CssClass::LABEL do %>
+        Ends at [<%= event.collection.inherited_time_zone %>]
+    <% end %>
+    <% Time.use_zone(event.collection.inherited_time_zone) do %>
+        <%= form.datetime_field :ends_at, class: CssClass::DATETIME_FIELD %> 
+    <% end %>
+    <%= render "errors", object: event, attribute: :ends_at %>
+</div>
+
+<div class="my-5">
+    <%= form.label :order, "Order", class: CssClass::LABEL %>
+    <%= form.number_field :order, class: CssClass::NUMBER_FIELD %>
+    <%= render "errors", object: event, attribute: :order %>
+</div>
+
+<div class="my-5">
+    <%= form.label :collection_id, class: CssClass::LABEL %>
+    <%= form.select :collection_id, 
+        @current_user.admin_collections.filter{|c| event.parent.blank? || event.parent.collection.subtree.include?(c)}
+        .map {|c| [c.short_title_path, c.id]},
+        {selected: event.collection_id},
+        {class: CssClass::SELECT} %>
+    <%= render "errors", object: event, attribute: :collection_id %>
+</div>
+
+<div class="my-5">
+    <%= form.label "Subevent of", class: CssClass::LABEL %>
+    <%= form.select :parent_id, 
+        [["(None)", nil]] +
+        Event.where(collection_id: event.collection.path_ids)
+        .map {|e| ["#{e.collection.short_title_path}: #{e.title} (Starts: #{e.starts_at&.strftime('%Y-%m-%d %I:%M %p')}) (Ends: #{e.ends_at&.strftime('%Y-%m-%d %I:%M %p')})", e.id]},
+        {selected: event.parent_id},
+        {class: CssClass::SELECT} %>
+    <%= render "errors", object: event, attribute: :parent_id %>
+</div>
+
+<div class="my-5">
+    <%= form.label "Attached Submission", class: CssClass::LABEL %>
+    <%= form.select :submission_id, 
+        [["(None)", nil]] + 
+        Submission.where(event: event).map {|s| ["#{s.title} | #{s.user.name}", s.id]} +
+        Submission.where(collection_id: event.collection.subtree_ids, status: :accepted).left_outer_joins(:event).where(events: { id: nil })
+        .map {|s| ["#{s.title} | #{s.user.name}", s.id]},
+        {selected: event.submission_id},
+        {class: CssClass::SELECT} %>
+    <%= render "errors", object: event, attribute: :submission_id %>
+</div>
+
+<div class="my-5">
+    <%= form.label "Attached Collection", class: CssClass::LABEL %>
+    <%= form.select :attached_collection_id, 
+        [["(None)", nil]] + 
+        event.collection.children.map {|c| [c.short_title_path, c.id]},
+        {selected: event.attached_collection_id},
+        {class: CssClass::SELECT} %>
+    <%= render "errors", object: event, attribute: :attached_collection_id %>
+</div>
+
+<div class="my-5">
+    <%= form.label "Attached Page", class: CssClass::LABEL %>
+    <%= form.select :attached_page_id, 
+        [["(None)", nil]] + 
+        event.collection.pages.map {|p| ["#{p.title}", p.id]},
+        {selected: event.attached_page_id},
+        {class: CssClass::SELECT} %>
+    <%= render "errors", object: event, attribute: :attached_page_id %>
+</div>

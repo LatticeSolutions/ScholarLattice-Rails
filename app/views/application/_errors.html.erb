@@ -1,0 +1,7 @@
+<% if object.errors.full_messages_for(attribute).present? %>
+  <ul class="ml-2 list-disc list-inside text-red-800 text-sm">
+    <% object.errors.full_messages_for(attribute).each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
