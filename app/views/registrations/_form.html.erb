@@ -3,7 +3,7 @@
   <div class="<%= CssClass::BUTTON_BAR %>">
     <%= form.submit class: CssClass::SUBMIT %>
     <% if registration.new_record? %>
-      <%= link_to "Cancel", collection_path(registration.collection), class: CssClass::CANCEL %>
+      <%= link_to "Cancel", collection_path(collection), class: CssClass::CANCEL %>
     <% else %>
       <%= link_to "Cancel", registration, class: CssClass::CANCEL %>
     <% end %>

@@ -47,7 +47,7 @@
             <%= affiliation_identifier_alias %>
         <% end %>
     <% end %>
-    <%= form.text_field :affiliation_identifier, class: "w-full rounded border px-3 py-2" %>
+    <%= form.text_field :affiliation_identifier, class: CssClass::TEXT_FIELD %>
     <%= render "errors", object: user, attribute: :affiliation_identifier %>
 </div>
 
