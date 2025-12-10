@@ -1,6 +1,11 @@
 <%= form_with(model: option, url: option.new_record? ? [collection, option] : option, class: "contents") do |form| %>
-  <%= render "fields_for", option: option, form: form %>
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  <%= render "fields_for", option: option, collection: option.collection || collection, form: form %>
+  <div class="<%= CssClass::BUTTON_BAR %>">
+    <%= form.submit class: CssClass::SUBMIT %>
+    <% if option.new_record? %>
+      <%= link_to "Cancel", collection_registrations_path(option.collection), class: CssClass::CANCEL %>
+    <% else %>
+      <%= link_to "Cancel", option, class: CssClass::CANCEL %>
+    <% end %>
   </div>
 <% end %>
