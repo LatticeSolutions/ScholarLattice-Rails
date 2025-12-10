@@ -9,6 +9,7 @@ module CssClass
   TEXT_AREA = "mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm"
   CHECK_BOX = "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm"
   SUBMIT = "cursor-pointer inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative"
+  CANCEL = "cursor-pointer inline-block px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50 focus:relative"
   LINK_BUTTON = "cursor-pointer inline-block px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:relative"
   BUTTON_BAR = "inline-flex -space-x-px overflow-hidden rounded-md border bg-white shadow-sm"
 end

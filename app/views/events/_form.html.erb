@@ -3,9 +3,9 @@
   <span class="<%= CssClass::BUTTON_BAR %>">
     <%= form.submit class: CssClass::SUBMIT %>
     <% if event.new_record? %>
-      <%= link_to "Cancel", collection_events_path(event.collection), class: CssClass::SUBMIT %>
+      <%= link_to "Cancel", collection_events_path(event.collection), class: CssClass::CANCEL %>
     <% else %>
-      <%= link_to "Cancel", event, class: CssClass::SUBMIT %>
+      <%= link_to "Cancel", event, class: CssClass::CANCEL %>
     <% end %>
   </span>
 <% end %>
