@@ -1,6 +1,11 @@
 <%= form_with(model: registration, url: (registration.new_record? ? [collection, registration] : [registration]), class: "contents") do |form| %>
   <%= render "fields_for", registration: registration, collection: registration.collection || collection, form: form %>
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  <div class="<%= CssClass::BUTTON_BAR %>">
+    <%= form.submit class: CssClass::SUBMIT %>
+    <% if registration.new_record? %>
+      <%= link_to "Cancel", collection_path(registration.collection), class: CssClass::CANCEL %>
+    <% else %>
+      <%= link_to "Cancel", registration, class: CssClass::CANCEL %>
+    <% end %>
   </div>
 <% end %>
