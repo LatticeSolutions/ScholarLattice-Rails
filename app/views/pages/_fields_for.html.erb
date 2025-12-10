@@ -1,16 +1,19 @@
 <div class="my-5">
   <%= form.label :title, class: CssClass::LABEL %>
   <%= form.text_field :title, class: CssClass::TEXT_FIELD %>
+  <%= render "errors", object: page, attribute: :title %>
 </div>
 
 <div class="my-5">
   <%= form.label :content, class: CssClass::LABEL do %>Content (supports Markdown)<% end %>
   <%= form.text_area :content, class: CssClass::TEXT_AREA %>
+  <%= render "errors", object: page, attribute: :content %>
 </div>
 
 <div class="mb-3">
   <%= form.label :order, class: CssClass::LABEL %>
   <%= form.number_field :order, class: CssClass::NUMBER_FIELD %>
+  <%= render "errors", object: page, attribute: :order %>
 </div>
 
 <div class="my-5">
@@ -18,9 +21,11 @@
   <%= form.select :visibility, 
     Page.visibilities.keys.map { |key| [key.humanize, key] }, { selected: page.visibility || :public }, 
     class: CssClass::SELECT %>
+  <%= render "errors", object: page, attribute: :visibility %>
 </div>
 
 <div class="my-5">
   <%= form.label :is_home, class: CssClass::LABEL do %>Make this the home page<% end %>
   <%= form.check_box :is_home, class: CssClass::CHECK_BOX %>
+  <%= render "errors", object: page, attribute: :is_home %>
 </div>
