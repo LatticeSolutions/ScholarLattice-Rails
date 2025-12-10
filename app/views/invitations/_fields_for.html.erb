@@ -1,50 +1,45 @@
-  <% if invitation.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(invitation.errors.count, "error") %> prohibited this invitation from being saved:</h2>
-
-      <ul>
-        <% invitation.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <% if invitation.user.nil? %>
-    <div class="my-5">
-      <%= form.label :user_email do %>Email<% end %>
-      <%= form.email_field :user_email, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
-
-    <div class="my-5">
-      <%= form.label :user_first_name do %>First Name<% end %>
-      <%= form.text_field :user_first_name, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
-
-    <div class="my-5">
-      <%= form.label :user_last_name do %>Last Name<% end %>
-      <%= form.text_field :user_last_name, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
-
-    <div class="my-5">
-      <%= form.label :user_affiliation do %>Institutional Affiliation<% end %>
-      <%= form.text_field :user_affiliation, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
-  <% else %>
-    <div class="my-5">
-      <%= form.label :user %>
-      <%= form.text_field :user, value: invitation.user.name_with_email, disabled: true, class: "block shadow rounded-md border border-gray-400 bg-gray-200 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-      <%= form.hidden_field :user_id, value: invitation.user_id %>
-    </div>
-  <% end %>
-
+<% if invitation.user.nil? %>
   <div class="my-5">
-    <%= form.label :message %>
-    <%= form.text_area :message, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full", rows: 5 %>
+    <%= form.label :user_email, class: CssClass::LABEL do %>Email<% end %>
+    <%= form.email_field :user_email, class: CssClass::EMAIL_FIELD %>
+    <%= render "errors", object: invitation, attribute: :user_email %>
   </div>
 
   <div class="my-5">
-    <%= form.label :status %>
-    <%= form.select :status, Invitation.statuses.keys.map {|key| [key.humanize, key]},
-        {selected: invitation.status || :pending}, class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+    <%= form.label :user_first_name, class: CssClass::LABEL do %>First Name<% end %>
+    <%= form.text_field :user_first_name, class: CssClass::TEXT_FIELD %>
+    <%= render "errors", object: invitation, attribute: :user_first_name %>
   </div>
+
+  <div class="my-5">
+    <%= form.label :user_last_name, class: CssClass::LABEL do %>Last Name<% end %>
+    <%= form.text_field :user_last_name, class: CssClass::TEXT_FIELD %>
+    <%= render "errors", object: invitation, attribute: :user_last_name %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :user_affiliation, class: CssClass::LABEL do %>Institutional Affiliation<% end %>
+    <%= form.text_field :user_affiliation, class: CssClass::TEXT_FIELD %>
+    <%= render "errors", object: invitation, attribute: :user_affiliation %>
+  </div>
+<% else %>
+  <div class="my-5">
+    <%= form.label :user, class: CssClass::LABEL %>
+    <%= form.text_field :user, value: invitation.user.name_with_email, disabled: true, class: CssClass::TEXT_FIELD %>
+    <%= form.hidden_field :user_id, value: invitation.user_id %>
+    <%= render "errors", object: invitation, attribute: :user %>
+  </div>
+<% end %>
+
+<div class="my-5">
+  <%= form.label :message, class: CssClass::LABEL %>
+  <%= form.text_area :message, class: CssClass::TEXT_AREA, rows: 5 %>
+  <%= render "errors", object: invitation, attribute: :message %>
+</div>
+
+<div class="my-5">
+  <%= form.label :status, class: CssClass::LABEL %>
+  <%= form.select :status, Invitation.statuses.keys.map {|key| [key.humanize, key]},
+      {selected: invitation.status || :pending}, class: CssClass::SELECT %>
+  <%= render "errors", object: invitation, attribute: :status %>
+</div>
