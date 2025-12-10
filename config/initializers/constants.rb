@@ -1,5 +1,5 @@
 module CssClass
-  LABEL = "text-xs font-medium text-gray-700"
+  LABEL = "text-xs font-medium text-gray-700 select-none"
   TEXT_FIELD = "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
   NUMBER_FIELD = TEXT_FIELD
   SELECT = TEXT_FIELD
