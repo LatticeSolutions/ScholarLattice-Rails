@@ -18,7 +18,7 @@
 <div class="my-5">
     <%= form.label :abstract, class: CssClass::LABEL do %>
       Abstract
-      <span class="text-gray-500">
+      <span class="<%= CssClass::SUBLABEL %>">
         Standard <code>$\LaTeX$</code> commands are supported for mathematical notation.
       </span>
     <% end %>
@@ -33,7 +33,7 @@
 <div class="my-5">
   <%= form.label :notes, class: CssClass::LABEL do %>
     Notes
-    <span class="text-gray-500">
+    <span class="<%= CssClass::SUBLABEL %>">
       These are not part of your official abstract, but will be publicly available on ScholarLattice
       and can be used to provide additional information (links to slides, references, etc.).
     </span>
@@ -45,7 +45,7 @@
 <div class="my-5">
   <%= form.label :private_notes, class: CssClass::LABEL do %>
     Private notes
-    <span class="text-gray-500">
+    <span class="<%= CssClass::SUBLABEL %>">
       This field may be used by submitters and organizers to record any private
       notes that will not be shown publicly.
     </span>

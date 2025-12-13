@@ -1,7 +1,7 @@
 <%= form_with(model: submission, url: (submission.new_record? ? [submission.collection, submission] : [submission]), class: "contents") do |form| %>
   <%= render "fields_for", submission: submission, form: form %>
   <div class="<%= CssClass::BUTTON_BAR %>">
-    <%= form.submit class: CssClass::BUTTON %>
+    <%= form.submit class: CssClass::SUBMIT %>
     <% if submission.new_record? %>
       <%= link_to "Cancel", collection_submissions_path(submission.collection), class: CssClass::CANCEL %>
     <% else %>
