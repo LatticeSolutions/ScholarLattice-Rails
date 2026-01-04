@@ -36,35 +36,53 @@ class RegistrationsController < ApplicationController
 
   # POST /registrations or /registrations.json
   def create
-    if session_params.present?
-      @session =  Passwordless::Session.find_by!(
-        identifier: session_params[:identifier]
-      )
-      BCrypt::Password.create(session_params[:token])
-      if @session.authenticate(session_params[:token]) && @session.authenticatable.id == registration_params[:user_attributes][:id]
-        sign_in(@session)
+    # not logged in
+    if @current_user.blank?
+      # trying to log in
+      if session_params.present?
+        @session =  Passwordless::Session.find_by!(
+          identifier: session_params[:identifier]
+        )
+        BCrypt::Password.create(session_params[:token])
+        # success! sign in and continue creation
+        if @session.authenticate(session_params[:token]) && @session.authenticatable.id == registration_params[:user_attributes][:id]
+          sign_in(@session)
+        # failure... return to the form
+        else
+          flash[:notice] = "Invalid token provided."
+          render :new, status: :unprocessable_entity && return
+        end
+      # submitted but need to log in
       else
-        flash[:notice] = "Invalid token provided."
-        render :new, status: :unprocessable_entity
-        return
+        @registration.user = User.new(registration_params[:user_attributes])
+        @session = build_passwordless_session(@registration.user)
+        # success! created new user and set up session
+        if @registration.user.save && @session.save
+          @registration.user_id = @registration.user.id
+          RegistrationMailer.verify_email(@registration.user.email, @registration.collection.title, @session.token).deliver_later
+          flash[:notice] = "Verify your email to complete your registration."
+          render :new
+          return
+        # failure... send back
+        else
+          @session = nil
+          flash[:notice] = "There was an error creating your account."
+          render :new, status: :unprocessable_entity
+          return
+        end
       end
-    elsif @current_user.blank?
-      @registration.user = User.new(registration_params[:user_attributes])
-      @session = build_passwordless_session(@registration.user)
-      if @registration.user.save && @session.save
-        @registration.user_id = @registration.user.id
-        RegistrationMailer.verify_email(@registration.user.email, @registration.collection.title, @session.token).deliver_later
-        flash[:notice] = "Verify your email to complete your registration."
-        render :new
-      else
-        @session = nil
-        flash[:notice] = "There was an error creating your account."
-        render :new, status: :unprocessable_entity
-      end
-      return
     end
+    # logged in
     unless can? :manage, @collection or @registration.registration_option.in_stock?
       @registration.errors.add(:registration_option, "has no remaining stock available")
+    end
+    unless can? :manage, @collection or @registration.user.email == @current_user&.email
+      @registration.errors.add(:registration, "must be for yourself")
+    end
+    if can? :manage, @collection and @registration.user.email != @current_user.email
+      user_params = registration_params[:user_attributes].except(:id)
+      @registration.user = User.find_or_create_by(email: user_params[:email])
+      @registration.user.assign_attributes(user_params)
     end
     respond_to do |format|
       if @registration.save
