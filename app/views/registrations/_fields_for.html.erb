@@ -35,7 +35,7 @@
   <%= render "users/fields_for", 
         user: registration.user, 
         form: user_fields, 
-        email_disabled: (cannot? :manage, collection),
+        email_disabled: ((@current_user.present? or @session.present?) and cannot? :manage, collection),
         affiliation_identifier_alias: collection.inherited(:affiliation_identifier_alias) %>
 <% end %>
 

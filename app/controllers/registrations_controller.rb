@@ -61,12 +61,14 @@ class RegistrationsController < ApplicationController
           @registration.user_id = @registration.user.id
           RegistrationMailer.verify_email(@registration.user.email, @registration.collection.title, @session.token).deliver_later
           flash[:notice] = "Verify your email to complete your registration."
-          render :new && return
+          render :new
+          return
         # failure... send back
         else
           @session = nil
           flash[:notice] = "There was an error creating your account."
-          render :new, status: :unprocessable_entity && return
+          render :new, status: :unprocessable_entity
+          return
         end
       end
     end
