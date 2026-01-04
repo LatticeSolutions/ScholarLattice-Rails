@@ -1,6 +1,6 @@
 <%= form_with(model: user, class: "contents") do |form| %>
 
-  <%= render "fields_for", user: user, form: form %>
+  <%= render "fields_for", user: user, form: form, email_disabled: !user.new_record? %>
 
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
