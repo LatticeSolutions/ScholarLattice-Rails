@@ -4,6 +4,7 @@ research_papers:
   short_title: "Papers"
   description: "A collection of research papers."
   ancestry: "/"
+  registerable: true
   subcollection_name: "Subcollection"
   submissions_open_on: <%= 1.week.ago %>
   submissions_close_on: <%= 1.week.from_now %>
