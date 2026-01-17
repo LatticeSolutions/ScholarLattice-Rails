@@ -70,7 +70,7 @@ class CollectionsController < ApplicationController
     redirect_to @collection
   end
 
-  def likes
+  def people
     @collection = Collection.find(params[:collection_id])
     authorize! :manage, @collection
   end

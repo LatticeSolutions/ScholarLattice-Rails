@@ -6,7 +6,7 @@
                     <% if crumb.key? :link %>
                         <a href="<%= crumb[:link] %>" class="hover:text-gray-800 hover:font-medium gap-1 flex items-center justify-center">
                     <% end %>
-                    <% if crumb.key? :icon %>
+                    <% if crumb.key? :icon and crumb[:icon].present? %>
                         <span class="inline-block size-5">
                             <%= render IconComponent.new(crumb[:icon]) %>
                         </span>

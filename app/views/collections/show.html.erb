@@ -12,9 +12,9 @@
             {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
             {icon: :calendar, path: collection_events_path(@collection), text: "Events (#{@collection.all_events.count})"},
             {
-                icon: :star, 
-                path: collection_likes_path(@collection), 
-                text: "Connections (#{@collection.connected_users.length})"
+                icon: :profile, 
+                path: collection_people_path(@collection), 
+                text: "People (#{@collection.connected_users.length})"
             },
             {
                 icon: :invitation, 

@@ -1,8 +1,55 @@
-<% content_for :title, "Connections | #{@collection.title}" %>
+<% content_for :title, "People | #{@collection.title}" %>
 
 <section class="mx-auto md:w-3/4 w-full">
-    <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Connections" } %>
+    <%= render partial: "breadcrumb", locals: { collection: @collection, action: "People", icon: :profile } %>
+
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        All admins of <%= @collection.title %> and its subcollections
+        (<%= @collection.sub_admins.count %>)
+    </h1>
+
+    <div class="text-gray-700 py-3">
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @collection.sub_admin_emails
+        %></textarea>
+    </div>
+
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        All emails connected to <%= @collection.title %>
+        (<%= @collection.connected_users.length %>)
+    </h1>
+
+    <div class="text-gray-700 py-3">
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @collection.connected_users.map(&:email).uniq.join("; ")
+        %></textarea>
+    </div>
     
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        Connected emails who have not submitted
+        (<%= @collection.connected_unsubmitted_users.length %>)
+    </h1>
+
+    <div class="text-gray-700 py-3">
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @collection.connected_unsubmitted_users.map(&:email).uniq.join("; ")
+        %></textarea>
+    </div>
+    
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        Connected emails who have not registered
+        (<%= @collection.connected_unregistered_users.length %>)
+    </h1>
+
+    <div class="text-gray-700 py-3">
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @collection.connected_unregistered_users.map(&:email).uniq.join("; ")
+        %></textarea>
+    </div>
+
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        Table of connected users
+    </h1>
     <table>
         <thead>
             <tr>
@@ -45,37 +92,4 @@
             <% end %>
         </tbody>
     </table>
-
-    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        All emails connected to <%= @collection.title %>
-        (<%= @collection.connected_users.length %>)
-    </h1>
-
-    <div class="text-gray-700 py-3">
-        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-            @collection.connected_users.map(&:email).uniq.join("; ")
-        %></textarea>
-    </div>
-    
-    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        Connected emails who have not submitted
-        (<%= @collection.connected_unsubmitted_users.length %>)
-    </h1>
-
-    <div class="text-gray-700 py-3">
-        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-            @collection.connected_unsubmitted_users.map(&:email).uniq.join("; ")
-        %></textarea>
-    </div>
-    
-    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        Connected emails who have not registered
-        (<%= @collection.connected_unregistered_users.length %>)
-    </h1>
-
-    <div class="text-gray-700 py-3">
-        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-            @collection.connected_unregistered_users.map(&:email).uniq.join("; ")
-        %></textarea>
-    </div>
 </section>

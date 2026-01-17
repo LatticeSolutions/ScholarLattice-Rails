@@ -102,6 +102,14 @@ class Collection < ApplicationRecord
     @admin_emails = email_string
   end
 
+  def sub_admins
+    Admin.where(collection: subtree)
+  end
+
+  def sub_admin_emails
+    sub_admins.map { |a| a.user.email } .to_a.join(", ")
+  end
+
   def reply_to_emails
     return admin_emails if admins.any?
     "no-reply@scholarlattice.org"

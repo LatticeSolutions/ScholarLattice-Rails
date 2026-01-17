@@ -13,6 +13,6 @@
       { link: collection_path(c), text: c.short_title }
     end,
     { link: collection_path(collection), text: collection.short_title },
-    { text: action }
+    { text: action, icon: defined?(icon).nil? ? nil : icon }
   ) %>
 <% end %>

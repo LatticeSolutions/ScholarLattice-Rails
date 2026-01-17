@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :events, shallow: true do
       get "/webinar", to: "events#webinar", as: "webinar"
     end
-    get "/followers", to: "collections#likes", as: "likes"
+    get "/people", to: "collections#people", as: "people"
     resources :invitations, shallow: true do
       get "/batch", to: "invitations#new_batch", on: :collection
       post "/batch", to: "invitations#create_batch", on: :collection
