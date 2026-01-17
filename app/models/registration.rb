@@ -6,7 +6,7 @@ class Registration < ApplicationRecord
   enum :status, { submitted: 0, accepted: 1, declined: 2 }
 
   validate :user_domain_allowed?
-  validates :user, uniqueness: { scope: :registration_option_id, message: "has already registered using this regisration option" }
+  validates :user, uniqueness: { scope: :registration_option_id, message: "is already registered for the selected registration option" }
 
   validate :registration_option_collection_unchanged, on: :update
 
