@@ -42,6 +42,7 @@
 <h2 class="font-bold text-2xl">Registration Info</h2>
 
 <div class="my-5">
+  <%= render "errors", object: registration, attribute: :user %>
   <%= form.label :registration_option_id, class: CssClass::LABEL %>
   <%= form.select :registration_option_id, collection.registration_options.map {|o| [o.name_with_cost_and_stock, o.id]},
       {
@@ -49,6 +50,7 @@
         disabled: (can? :manage, collection) ? [] : collection.registration_options.reject(&:in_stock?).map(&:id)
       },
       {class: CssClass::SELECT} %>
+  <%= render "errors", object: registration, attribute: :registration_option_id %>
 </div>
 
 <% if can? :manage, collection %>
