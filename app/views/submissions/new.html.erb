@@ -4,7 +4,12 @@
 
   <%= render partial: "breadcrumb", locals: { collection: @submission.collection, action: "Edit" } %>
 
-  <h1 class="font-bold text-4xl">New submission for <%= @submission.collection.title %></h1>
+  <h1 class="font-bold text-4xl">
+    New Submission for <%= link_to @submission.collection.title, @submission.collection, class: "text-blue-600 hover:underline" %>
+  </h1>
+  <p class="text-lg font-light">
+      <%= @submission.collection.description %>
+  </p>
 
   <%= render "form", submission: @submission %>
 </div>

@@ -4,6 +4,8 @@ class Submission < ApplicationRecord
   has_one :event, required: false
   enum :status, { submitted: 0, accepted: 1, declined: 2, draft: 3 }
 
+  accepts_nested_attributes_for :user
+
   default_scope { order(:title) }
 
   def abstract_html

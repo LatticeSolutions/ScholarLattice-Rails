@@ -18,4 +18,14 @@ class SubmissionMailer < ApplicationMailer
       reply_to: submission.collection.reply_to_emails,
     )
   end
+
+  def verify_email(email, title, token)
+    @title = title
+    @token = token
+    mail(
+      from: "ScholarLattice Submissions <submissions@mailer.scholarlattice.org>",
+      to: email,
+      subject: "Verify email to submit to #{title} on ScholarLattice"
+    )
+  end
 end

@@ -5,10 +5,10 @@
         Email
     <% end %>
     <%= form.email_field :email, 
-        class: "#{CssClass::EMAIL_FIELD} #{'bg-gray-100 hover:cursor-not-allowed' if !user.new_record?}", 
-        disabled: !user.new_record? %>
+        class: "#{CssClass::EMAIL_FIELD} #{'bg-gray-100 hover:cursor-not-allowed' if email_disabled}", 
+        disabled: email_disabled %>
     <%= render "errors", object: user, attribute: :email %>
-    <% if !user.new_record? %>
+    <% if email_disabled %>
     <%= form.hidden_field :email, value: user.email %>
     <% end %>
 </div>

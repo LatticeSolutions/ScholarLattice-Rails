@@ -31,16 +31,18 @@
 <%= form.hidden_field :user_id, value: registration.user_id %>
 
 <h2 class="font-bold text-2xl">Profile Info</h2>
-<%= form.fields_for :user do |user_fields| %>
+<%= form.fields_for :user, registration.user do |user_fields| %>
   <%= render "users/fields_for", 
         user: registration.user, 
         form: user_fields, 
+        email_disabled: ((@current_user.present? or @session.present?) and cannot? :manage, collection),
         affiliation_identifier_alias: collection.inherited(:affiliation_identifier_alias) %>
 <% end %>
 
 <h2 class="font-bold text-2xl">Registration Info</h2>
 
 <div class="my-5">
+  <%= render "errors", object: registration, attribute: :user %>
   <%= form.label :registration_option_id, class: CssClass::LABEL %>
   <%= form.select :registration_option_id, collection.registration_options.map {|o| [o.name_with_cost_and_stock, o.id]},
       {
@@ -48,6 +50,7 @@
         disabled: (can? :manage, collection) ? [] : collection.registration_options.reject(&:in_stock?).map(&:id)
       },
       {class: CssClass::SELECT} %>
+  <%= render "errors", object: registration, attribute: :registration_option_id %>
 </div>
 
 <% if can? :manage, collection %>
@@ -61,5 +64,6 @@
     <%= form.select :status, Registration.statuses.keys.map {|key| [key.humanize, key]},
       {selected: registration.status || :draft},
       {class: CssClass::SELECT} %>
+    <%= render "errors", object: registration, attribute: :status %>
   </div>
 <% end %>
