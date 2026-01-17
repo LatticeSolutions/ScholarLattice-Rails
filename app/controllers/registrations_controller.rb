@@ -90,7 +90,6 @@ class RegistrationsController < ApplicationController
         format.html { redirect_to @registration, notice: "Registration was successfully created." }
         format.json { render :show, status: :created, location: @registration }
       else
-        puts @registration.errors.to_yaml
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @registration.errors, status: :unprocessable_entity }
       end
