@@ -46,6 +46,18 @@
   <%= render "errors", object: collection, attribute: :admin_emails %>
 </div>
 
+
+<% if collection.parent_id.present? %>
+<div class="mb-3">
+  <%= form.label "Subcollection of", class: CssClass::LABEL %>
+  <%= form.select :parent_id, 
+        @current_user.admin_collections.map {|c| [c.short_title_path, c.id]},
+        {selected: collection.parent_id},
+        {class: CssClass::SELECT} %>
+  <%= render "errors", object: collection, attribute: :parent_id %>
+</div>
+<% end %>
+
 <div class="mb-3">
   <%= form.label :time_zone, class: CssClass::LABEL %>
   <%= form.select :time_zone, [["Use default time zone (#{collection.parent_time_zone})", nil]] + ActiveSupport::TimeZone.all.map { |tz| ["#{tz.name} (UTC #{tz.formatted_offset})", tz.name] }, {}, class: "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" %>
