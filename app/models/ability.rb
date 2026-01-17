@@ -9,9 +9,11 @@ class Ability
     can :read, Page, visibility: [ :public, :unlisted ]
     can :read, Profile
     can :read, Submission, status: :accepted
+    can :create, Submission
+    can :read, Registration, status: :accepted
+    can :create, Registration
     can :read, Event
     can [ :read, :create ], User
-    can [ :read, :create ], Registration
 
     return unless user.present?
 
@@ -39,21 +41,8 @@ class Ability
     end
 
     can :manage, Submission do |s|
-      s.collection.has_admin?(user)
+      s.collection.present? and (s.collection.has_admin?(user) || s.user_id == user.id)
     end
-    can :new, Submission do |s|
-      s.collection.submissions_open?
-    end
-    can :create, Submission do |s|
-      s.collection.submissions_open? and s.user_id == user.id
-    end
-    can [ :read, :update ], Submission do |s|
-      s.user_id == user.id
-    end
-    can :read, Submission do |s|
-      s.accepted?
-    end
-    cannot :destroy, Submission
 
     can :manage, Registration do |r|
       r.collection.present? and (r.collection.has_admin?(user) || r.user_id == user.id)

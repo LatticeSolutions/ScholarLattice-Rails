@@ -31,6 +31,51 @@ class SubmissionsController < ApplicationController
 
   # POST /submissions or /submissions.json
   def create
+    # not logged in
+    if @current_user.blank?
+      # trying to log in
+      if session_params.present?
+        @session =  Passwordless::Session.find_by!(
+          identifier: session_params[:identifier]
+        )
+        BCrypt::Password.create(session_params[:token])
+        # success! sign in and continue creation
+        if @session.authenticate(session_params[:token]) && @session.authenticatable.id == submission_params[:user_attributes][:id]
+          sign_in(@session)
+        # failure... return to the form
+        else
+          flash[:notice] = "Invalid token provided."
+          render :new, status: :unprocessable_entity && return
+        end
+      # submitted but need to log in
+      else
+        @submission.user = User.new(submission_params[:user_attributes])
+        @session = build_passwordless_session(@submission.user)
+        # success! created new user and set up session
+        if @submission.user.save && @session.save
+          @submission.user_id = @submission.user.id
+          SubmissionMailer.verify_email(@submission.user.email, @submission.collection.title, @session.token).deliver_later
+          flash[:notice] = "Verify your email to complete your submission."
+          render :new
+          return
+        # failure... send back
+        else
+          @session = nil
+          flash[:notice] = "There was an error creating your account."
+          render :new, status: :unprocessable_entity
+          return
+        end
+      end
+    end
+    # logged in
+    unless can? :manage, @collection or @submission.user.email == @current_user&.email
+      @submission.errors.add(:user, "must be yourself")
+    end
+    if can? :manage, @collection and @submission.user.email != @current_user.email
+      user_params = submission_params[:user_attributes].except(:id)
+      @submission.user = User.find_or_create_by(email: user_params[:email])
+      @submission.user.assign_attributes(user_params)
+    end
     respond_to do |format|
       if @submission.save
         SubmissionMailer.submission_created(@submission).deliver_later
@@ -45,6 +90,7 @@ class SubmissionsController < ApplicationController
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
+    @submission.user.assign_attributes(submission_params[:user_attributes]) if submission_params[:user_attributes].present?
     respond_to do |format|
       if @submission.update(submission_params)
         if send_update_notification?
@@ -149,9 +195,9 @@ class SubmissionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def submission_params
       if can? :manage, @submission
-        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :user_id, :status, :collection_id ])
+        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :status, :collection_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       else
-        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :user_id ])
+        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       end
     end
 

@@ -47,4 +47,9 @@ class ApplicationController < ActionController::Base
       redirect_to(root_url, alert: "Redirects to `#{apex_domain}` are not supported.")
     end
   end
+
+  def session_params
+    return nil unless params[:session].present? && params[:session][:token].present?
+    params.expect(session: [ :identifier, :token ])
+  end
 end
