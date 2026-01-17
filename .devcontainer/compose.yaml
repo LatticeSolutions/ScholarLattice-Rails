@@ -1,4 +1,4 @@
-name: "scholar_lattice_rails_sandbox"
+name: "scholar_lattice_rails"
 
 services:
   rails-app:
