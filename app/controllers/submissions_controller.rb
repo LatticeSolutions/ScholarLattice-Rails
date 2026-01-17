@@ -18,6 +18,11 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
+    if @current_user.present?
+      @submission.user = @current_user
+    else
+      @submission.user = User.new
+    end
   end
 
   # GET /submissions/1/edit
