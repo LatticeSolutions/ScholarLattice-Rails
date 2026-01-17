@@ -64,5 +64,6 @@
     <%= form.select :status, Registration.statuses.keys.map {|key| [key.humanize, key]},
       {selected: registration.status || :draft},
       {class: CssClass::SELECT} %>
+    <%= render "errors", object: registration, attribute: :status %>
   </div>
 <% end %>
