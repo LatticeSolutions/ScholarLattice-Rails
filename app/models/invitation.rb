@@ -21,4 +21,18 @@ class Invitation < ApplicationRecord
       *collection.admins.map(&:user).map(&:email)
     ].uniq
   end
+
+  def reminder_email_body(sender_name)
+    <<~TEXT
+        Greetings,
+
+        This is a reminder that you have been invited to submit to #{collection.title} on ScholarLattice.org.
+        You can respond to this invitation and submit your abstract by visiting the following link:
+
+        #{Rails.application.routes.url_helpers.invitation_url(self)}
+
+        Thank you for considering our invitation!
+        - #{sender_name}
+      TEXT
+  end
 end

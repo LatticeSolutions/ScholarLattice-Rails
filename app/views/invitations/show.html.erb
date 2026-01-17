@@ -13,6 +13,12 @@
           <%= button_to "Destroy this invitation", @invitation, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
             class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
         <% end %>
+        <%= mail_to @invitation.user.email, 
+          "Email personal reminder",
+          subject: "Reminder to Submit to #{@invitation.collection.title} on ScholarLattice",
+          body: @invitation.reminder_email_body(@current_user.name),
+          cc: @invitation.collection.admin_emails.delete(' '),
+          class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-purple-100 inline-block font-medium", target: "_blank" %>
       </div>
     <% end %>
 
