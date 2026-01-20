@@ -1,13 +1,13 @@
-<p><%= t("passwordless.mailer.sign_in.body.token")%></p>
+<p><%= t("passwordless.mailer.sign_in.body.token") %></p>
 
 <p style="font-size:3em;text-align:center">
     <%= @token %>
 </p>
 
-<p><%= t("passwordless.mailer.sign_in.body.magic_link")%></p>
+<p><%= t("passwordless.mailer.sign_in.body.magic_link") %></p>
 
 <p style="text-align:center">
     <%= link_to @magic_link, @magic_link %>
 </p>
 
-<p>(Sent at <%=  @sent_at%>. By signing in, you agree to ScholarLattice's Privacy Policy and Terms of Service.)</p>
+<p>(Sent at <%= @sent_at %>. By signing in, you agree to ScholarLattice's Privacy Policy and Terms of Service.)</p>

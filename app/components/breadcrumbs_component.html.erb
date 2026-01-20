@@ -5,17 +5,24 @@
                 <span class="block transition flex gap-1 items-center justify-center">
                     <% if crumb.key? :link %>
                         <a href="<%= crumb[:link] %>" class="hover:text-gray-800 hover:font-medium gap-1 flex items-center justify-center">
-                    <% end %>
-                    <% if crumb.key? :icon and crumb[:icon].present? %>
-                        <span class="inline-block size-5">
-                            <%= render IconComponent.new(crumb[:icon]) %>
-                        </span>
-                    <% end %>
-                    <% if crumb.key? :text %>
-                        <span><%= crumb[:text] %></span>
-                    <% end %>
-                    <% if crumb.key? :link %>
+                            <% if crumb.key? :icon and crumb[:icon].present? %>
+                                <span class="inline-block size-5">
+                                    <%= render IconComponent.new(crumb[:icon]) %>
+                                </span>
+                            <% end %>
+                            <% if crumb.key? :text %>
+                                <span><%= crumb[:text] %></span>
+                            <% end %>
                         </a>
+                    <% else %>
+                        <% if crumb.key? :icon and crumb[:icon].present? %>
+                            <span class="inline-block size-5">
+                                <%= render IconComponent.new(crumb[:icon]) %>
+                            </span>
+                        <% end %>
+                        <% if crumb.key? :text %>
+                            <span><%= crumb[:text] %></span>
+                        <% end %>
                     <% end %>
                 </span>
             </li>

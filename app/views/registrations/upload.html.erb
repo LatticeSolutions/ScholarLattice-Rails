@@ -23,7 +23,7 @@
           <% @collection.registration_options.each do |option| %>
             <li>
               <%= option.name_with_cost %>: 
-              <input type="text" value="<%= option.id %>" readonly class="bg-gray-100 border-none text-gray-700 px-2 py-1 rounded" />
+              <input type="text" autocomplete="off" value="<%= option.id %>" readonly class="bg-gray-100 border-none text-gray-700 px-2 py-1 rounded">
             </li>
           <% end %>
         </ul>
