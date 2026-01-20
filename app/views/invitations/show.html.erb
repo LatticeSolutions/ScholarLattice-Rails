@@ -31,6 +31,7 @@
         <% end %>
         <%= link_to "Email organizers", "mailto:#{@invitation.collection.admin_emails.delete(' ')}",
             class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", target: "_blank" %>
+      </div>
     <% end %>
 
     <% if @invitation.submitted? %>

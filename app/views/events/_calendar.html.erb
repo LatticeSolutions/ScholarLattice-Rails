@@ -17,7 +17,7 @@
       <%= date.strftime("%b %d") %>
       <% events.each do |event| %>
         <%= link_to event, class: "mt-2 border border-gray-200 rounded-md p-2 block hover:bg-blue-50 overflow-hidden text-ellipsis" do %>
-          <%= event.starts_at.strftime('%I:%M%p')%>:
+          <%= event.starts_at.strftime('%I:%M%p') %>:
           <span class="text-blue-600 text-sm lg:text-base"><%= event.title %></span>
           <% if event.location.present? %>
             <br>
@@ -31,7 +31,7 @@
       <%= date.strftime("%b %d") %>
       <% events.each do |event| %>
         <%= link_to event, class: "mt-2 border border-gray-200 rounded-md p-2 block hover:bg-blue-50 overflow-hidden text-ellipsis" do %>
-          <%= event.starts_at.strftime('%I:%M%p')%>:
+          <%= event.starts_at.strftime('%I:%M%p') %>:
           <span class="text-blue-600 text-sm lg:text-base"><%= event.title %></span>
           <% if event.location.present? %>
             <br>
