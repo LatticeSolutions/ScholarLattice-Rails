@@ -65,36 +65,36 @@
     </div>
 
     <% if can? :manage, @collection %>
-    <div class="text-gray-700 py-3">
-        Emails:
+        <div class="text-gray-700 py-3">
+            Emails:
+            <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+                @submissions.where(status: :accepted).map{|s| s.user.email }.join("; ")
+            %></textarea>
+        </div>
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+            <span class="size-4 inline-block">
+                <%= render IconComponent.new(:key) %>
+            </span>
+            Declined  (<%= @submissions.where(status: :declined).count %>):
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @submissions.where(status: :declined).each do |submission| %>
+                <%= render partial: "submissions/card", locals: { submission: submission, collection: @collection } %>
+            <% end %>
+        </div>
+        <div class="text-gray-700 py-3">
+            Emails:
+            <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+                @submissions.where(status: :declined).map{|s| s.user.email }.join("; ")
+            %></textarea>
+        </div>
+
+        <h2 class="font-bold text-4xl pb-3">
+            Invitation list
+        </h2>
+
         <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-            @submissions.where(status: :accepted).map{|s| s.user.email }.join("; ")
-        %></textarea>
-    </div>
-    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
-        <span class="size-4 inline-block">
-            <%= render IconComponent.new(:key) %>
-        </span>
-        Declined  (<%= @submissions.where(status: :declined).count %>):
-    </h2>
-    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-        <% @submissions.where(status: :declined).each do |submission| %>
-            <%= render partial: "submissions/card", locals: { submission: submission, collection: @collection } %>
-        <% end %>
-    </div>
-    <div class="text-gray-700 py-3">
-        Emails:
-        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-            @submissions.where(status: :declined).map{|s| s.user.email }.join("; ")
-        %></textarea>
-    </div>
+                @submissions.where(status: :accepted).map{|s| "#{s.user.name} <#{s.user.email}>" }.join("\n")
+            %></textarea>
     <% end %>
-
-  <h2 class="font-bold text-4xl pb-3">
-    Invitation list
-  </h2>
-
-  <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
-        @submissions.where(status: :accepted).map{|s| "#{s.user.name} <#{s.user.email}>" }.join("\n")
-    %></textarea>
 </section>
