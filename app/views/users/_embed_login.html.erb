@@ -1,0 +1,49 @@
+<% if session.present? %>
+    <%= fields_for :session, session do |session_fields| %>
+        <div class="my-2 p-3 border border-blue-200 bg-blue-50 rounded-lg">
+            <h2 class="font-bold text-2xl">Verify your Email</h2>
+            <%= session_fields.label :token,
+                t(".token"),
+                for: "passwordless_session_token",
+                class: CssClass::LABEL %>
+            <div class="relative">
+                <%= session_fields.text_field :token,
+                    required: true,
+                    autofocus: true,
+                    autocomplete: "one-time-code",
+                    placeholder: "Token sent by email (for example, ABCD1234)",
+                    value: nil,
+                    class: CssClass::TEXT_FIELD %>
+                <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
+                    <span class="size-4 text-gray-600">
+                    <%= render IconComponent.new(:key) %>
+                    </span>
+                </span>
+            </div>
+            <p class="my-2 text-gray-500 text-sm">
+                Can't find the email? Check your <span class="font-medium">spam</span> folder or
+                <span class="font-medium">contact your IT administrator</span>!
+            </p>
+            <%= session_fields.hidden_field :identifier, value: session.identifier %>
+            <%= form.submit "Verify and submit", class: "rounded-lg px-3 py-2 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+        </div>
+    <% end %>
+<% elsif @current_user.blank? %>
+    <div class="md:mx-10 my-2 p-3 border border-blue-200 bg-blue-50 rounded-lg text-center">
+        <p class="text-blue-900">
+            Welcome to ScholarLattice! If this is not your first time here, please
+            <%= link_to "sign in", users_sign_in_path, class: "text-blue-600 hover:text-blue-800 hover:underline font-medium" %>
+            to automatically fill in your profile information.
+        </p>
+    </div>
+<% end %>
+
+<h2 class="font-bold text-2xl">Profile Info</h2>
+
+<%= form.fields_for :user, user do |user_fields| %>
+  <%= render "users/fields_for", 
+        user: user,
+        form: user_fields, 
+        email_disabled: email_disabled,
+        affiliation_identifier_alias: affiliation_identifier_alias %>
+<% end %>
