@@ -1,6 +1,6 @@
 <% if session.present? %>
     <%= fields_for :session, session do |session_fields| %>
-        <div class="my-2">
+        <div class="my-2 p-3 border border-blue-200 bg-blue-50 rounded-lg">
             <h2 class="font-bold text-2xl">Verify your Email</h2>
             <%= session_fields.label :token,
                 t(".token"),
@@ -25,6 +25,7 @@
                 <span class="font-medium">contact your IT administrator</span>!
             </p>
             <%= session_fields.hidden_field :identifier, value: session.identifier %>
+            <%= form.submit "Verify and submit", class: "rounded-lg px-3 py-2 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
         </div>
     <% end %>
 <% elsif @current_user.blank? %>
