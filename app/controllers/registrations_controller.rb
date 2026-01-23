@@ -98,9 +98,8 @@ class RegistrationsController < ApplicationController
 
   # PATCH/PUT /registrations/1 or /registrations/1.json
   def update
-    @registration.user.assign_attributes(registration_params[:user_attributes]) if registration_params[:user_attributes].present?
     respond_to do |format|
-      if @registration.save
+      if @registration.update(registration_params)
         format.html { redirect_to @registration, notice: "Registration was successfully updated." }
         format.json { render :show, status: :ok, location: @registration }
       else
