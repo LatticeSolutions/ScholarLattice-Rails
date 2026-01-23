@@ -93,7 +93,6 @@ class SubmissionsController < ApplicationController
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
-    @submission.user.assign_attributes(submission_params[:user_attributes]) if submission_params[:user_attributes].present?
     respond_to do |format|
       if @submission.update(submission_params)
         if send_update_notification?
