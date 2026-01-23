@@ -7,14 +7,14 @@
 
     <%= render @submission %>
 
-    <% if can? :manage, @submission.collection %>
+    <% if can? :manage, @collection %>
       <p class="my-5">
         <strong class="block font-medium mb-1">
           Registrations: <span class="inline-block size-4">
             <%= render IconComponent.new(:key) %>
           </span>
         </strong>  
-        <% if @registrations.any? %>
+        <% if @registrations&.any? %>
           <ul class="list-disc list-inside my-5">
             <% @registrations.each do |registration| %>
               <li>
