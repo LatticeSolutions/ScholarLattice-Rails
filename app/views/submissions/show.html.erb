@@ -7,6 +7,31 @@
 
     <%= render @submission %>
 
+    <% if can? :manage, @submission.collection %>
+      <p class="my-5">
+        <strong class="block font-medium mb-1">
+          Registrations: <span class="inline-block size-4">
+            <%= render IconComponent.new(:key) %>
+          </span>
+        </strong>  
+        <% if @registrations.any? %>
+          <ul class="list-disc list-inside my-5">
+            <% @registrations.each do |registration| %>
+              <li>
+                <%= link_to registration.user, class: "text-blue-600 hover:underline" do %>
+                  <%= registration.collection.short_title_path %> |
+                  <%= registration.registration_option.name %> |
+                  <%= registration.status.humanize %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          This user has not registered.
+        <% end %>
+      </p>
+    <% end %>
+
     <% if @submission.event.present? %>
       <p class="my-5">
         <strong class="block font-medium mb-1">Scheduled for:</strong>     

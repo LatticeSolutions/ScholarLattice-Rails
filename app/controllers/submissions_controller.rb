@@ -14,6 +14,9 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/1 or /submissions/1.json
   def show
+    if can? :manage, @collection
+      @registrations = Registration.where(user: @submission.user, registration_option: { collection: @submission.collection.path }).joins(:registration_option)
+    end
   end
 
   # GET /submissions/new
