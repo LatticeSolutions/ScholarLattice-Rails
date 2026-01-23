@@ -12,12 +12,19 @@
 <div class="my-5">
   <%= render "errors", object: registration, attribute: :user %>
   <%= form.label :registration_option_id, class: CssClass::LABEL %>
-  <%= form.select :registration_option_id, collection.registration_options.map {|o| [o.name_with_cost_and_stock, o.id]},
-      {
-        selected: registration.registration_option_id || nil,
-        disabled: (can? :manage, collection) ? [] : collection.registration_options.reject(&:in_stock?).map(&:id)
-      },
-      {class: CssClass::SELECT} %>
+  <% if (can? :manage, collection) or registration.new_record? %>
+    <%= form.select :registration_option_id, collection.registration_options.map {|o| [o.name_with_cost_and_stock, o.id]},
+        {
+          selected: registration.registration_option_id || nil,
+          disabled: (can? :manage, collection) ? [] : collection.registration_options.reject(&:in_stock?).map(&:id)
+        },
+        {class: CssClass::SELECT} %>
+  <% else %>
+    <p class="p-3 border border-gray-300 rounded bg-gray-100 cursor-not-allowed">
+      <%= registration.registration_option.name_with_cost %>
+      <%= form.hidden_field :registration_option_id %>
+    </p>
+  <% end %>
   <%= render "errors", object: registration, attribute: :registration_option_id %>
 </div>
 
