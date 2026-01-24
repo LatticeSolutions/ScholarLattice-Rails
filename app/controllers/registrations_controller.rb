@@ -23,6 +23,9 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/new
   def new
+    unless @collection.registrations_in_stock?
+      redirect_to @collection, alert: "No registrations remaining for this collection" and return
+    end
     if @current_user.present?
       @registration.user = @current_user
     else
