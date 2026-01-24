@@ -7,6 +7,7 @@ class Registration < ApplicationRecord
 
   validate :user_domain_allowed?
   validates :user, uniqueness: { scope: :registration_option_id, message: "is already registered for the selected registration option" }
+  validate :option_in_stock?
 
   validate :registration_option_collection_unchanged, on: :update
 
@@ -67,6 +68,12 @@ class Registration < ApplicationRecord
   def run_auto_accept
     if registration_option&.auto_accept && new_record?
       self.status = :accepted
+    end
+  end
+
+  def option_in_stock?
+    unless registration_option.in_stock?
+      errors.add(:registration_option, "is out of stock")
     end
   end
 end
