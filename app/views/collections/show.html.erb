@@ -76,13 +76,24 @@
                 </span>
             <% end %>
         <% elsif @collection.registrations_open? %>
-            <%= link_to new_collection_registration_path(@collection), 
-                class: "inline-flex font-normal items-center gap-2 rounded-md border-2 border-orange-400 bg-white ml-1 px-4 py-2 text-sm text-orange-600 shadow-sm focus:relative hover:bg-orange-100 focus:outline-none focus:ring focus:ring-orange-400" do %>
-                <span class="size-4">
-                    <%= render IconComponent.new(:registration) %>
-                </span>
-                <span>
-                    Register here
+            <% if @collection.registrations_in_stock? %>
+                <%= link_to new_collection_registration_path(@collection), 
+                    class: "inline-flex font-normal items-center gap-2 rounded-md border-2 border-orange-400 bg-white ml-1 px-4 py-2 text-sm text-orange-600 shadow-sm focus:relative hover:bg-orange-100 focus:outline-none focus:ring focus:ring-orange-400" do %>
+                    <span class="size-4">
+                        <%= render IconComponent.new(:registration) %>
+                    </span>
+                    <span>
+                        Register here
+                    </span>
+                <% end %>
+            <% else %>
+                <span class="inline-flex font-normal items-center gap-2 rounded-md border-2 bg-gray-100 border-gray-400 ml-1 px-4 py-2 text-sm text-gray-600 shadow-sm cursor-not-allowed select-none">
+                    <span class="size-4">
+                        <%= render IconComponent.new(:registration) %>
+                    </span>
+                    <span>
+                        No registrations remaining
+                    </span>
                 </span>
             <% end %>
         <% end %>
