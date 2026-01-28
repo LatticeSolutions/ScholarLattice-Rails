@@ -5,6 +5,8 @@ class RegistrationOption < ApplicationRecord
 
   before_save :clean_allowed_domains
 
+  default_scope { order(name: :asc) }
+
   def closed?
     return false if closes_on.blank?
     closes_on <= Time.now
