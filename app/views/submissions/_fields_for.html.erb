@@ -24,7 +24,7 @@
       </span>
     <% end %>
     <% if can? :manage, submission or submission.new_record? %>
-      <%= form.textarea :abstract, rows: 4, class: CssClass::TEXT_AREA %>
+      <%= form.marksmith :abstract, enable_file_uploads: false %>
     <% else %>
       <%= form.textarea :abstract, rows: 4, class: CssClass::TEXT_AREA, disabled: true %>
     <% end %>
@@ -39,7 +39,7 @@
       and can be used to provide additional information (links to slides, references, etc.).
     </span>
   <% end %>
-  <%= form.textarea :notes, rows: 4, class: CssClass::TEXT_AREA %>
+  <%= form.marksmith :notes, enable_file_uploads: false %>
   <%= render "errors", object: submission, attribute: :notes %>
 </div>
 
@@ -51,7 +51,7 @@
       notes that will not be shown publicly.
     </span>
   <% end %>
-  <%= form.textarea :private_notes, rows: 4, class: CssClass::TEXT_AREA %>
+  <%= form.marksmith :private_notes, enable_file_uploads: false %>
   <%= render "errors", object: submission, attribute: :private_notes %>
 </div>
 
