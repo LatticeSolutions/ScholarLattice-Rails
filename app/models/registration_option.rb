@@ -28,7 +28,7 @@ class RegistrationOption < ApplicationRecord
   end
 
   def available?
-    in_stock? && opens_on <= Time.current && closes_on >= Time.current
+    in_stock? && open?
   end
 
   def name_with_cost
