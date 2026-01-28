@@ -143,6 +143,8 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
+    marksmith (0.4.7)
+      activesupport
     matrix (0.4.2)
     method_source (1.1.0)
     mini_mime (1.1.5)
@@ -363,6 +365,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kramdown (~> 2.5)
+  marksmith (~> 0.4.7)
   money (~> 6.19)
   passwordless (~> 1.8)
   pg (>= 1.5)

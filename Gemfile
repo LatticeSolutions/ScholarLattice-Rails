@@ -79,3 +79,5 @@ gem "simple_calendar", "~> 3.1"
 gem "rqrcode", "~> 2.2"
 
 gem "money", "~> 6.19"
+
+gem "marksmith", "~> 0.4.7"
