@@ -37,14 +37,18 @@
 </div>
 
 <div class="my-5">
-  <%= form.label :opens_on, class: CssClass::LABEL %>
+  <%= form.label :opens_on, class: CssClass::LABEL do %>
+    Opens on <span class="text-xs text-gray-500">(<%= collection.inherited_time_zone %>)</span>
+  <% end %>
   <% Time.use_zone(collection.inherited_time_zone) do %>
     <%= form.datetime_field :opens_on, class: CssClass::DATETIME_FIELD %> 
   <% end %>
   <%= render "errors", object: option, attribute: :opens_on %>
 </div>
 <div class="my-5">
-  <%= form.label :closes_on, class: CssClass::LABEL %>
+  <%= form.label :closes_on, class: CssClass::LABEL do %>
+    Closes on <span class="text-xs text-gray-500">(<%= collection.inherited_time_zone %>)</span>
+  <% end %>
   <% Time.use_zone(collection.inherited_time_zone) do %>
     <%= form.datetime_field :closes_on, class: CssClass::DATETIME_FIELD %> 
   <% end %>

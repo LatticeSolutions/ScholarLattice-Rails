@@ -12,6 +12,7 @@ class RegistrationOptionsController < ApplicationController
 
   # POST /registrations or /registrations.json
   def create
+    adjust_datetime_params
     respond_to do |format|
       if @registration_option.save
         format.html { redirect_to collection_registrations_path(@registration_option.collection),
@@ -26,8 +27,10 @@ class RegistrationOptionsController < ApplicationController
 
   # PATCH/PUT /registrations/1 or /registrations/1.json
   def update
+    @registration_option.assign_attributes(registration_option_params)
+    adjust_datetime_params
     respond_to do |format|
-      if @registration_option.update(registration_option_params)
+      if @registration_option.save
         format.html { redirect_to collection_registrations_path(@registration_option.collection),
           notice: "Option was successfully updated." }
         format.json { render :show, status: :ok, location: @registration_option }
@@ -55,5 +58,14 @@ class RegistrationOptionsController < ApplicationController
         params.expect(registration_option: [
           :name, :cost, :stock, :opens_on, :closes_on, :auto_accept, :allowed_domains
         ])
+    end
+
+    def adjust_datetime_params
+      if @registration_option.opens_on.present? && @registration_option.opens_on_changed?
+        @registration_option.opens_on = @registration_option.opens_on.asctime.in_time_zone(@registration_option.collection.inherited_time_zone)
+      end
+      if @registration_option.closes_on.present? && @registration_option.closes_on_changed?
+        @registration_option.closes_on = @registration_option.closes_on.asctime.in_time_zone(@registration_option.collection.inherited_time_zone)
+      end
     end
 end
