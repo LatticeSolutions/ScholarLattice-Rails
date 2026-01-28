@@ -33,7 +33,7 @@
 
 <div class="my-5">
   <%= form.label :message, class: CssClass::LABEL %>
-  <%= form.text_area :message, class: CssClass::TEXT_AREA, rows: 5 %>
+  <%= form.marksmith :message, enable_file_uploads: false %>
   <%= render "errors", object: invitation, attribute: :message %>
 </div>
 

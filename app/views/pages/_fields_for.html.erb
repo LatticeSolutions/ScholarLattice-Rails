@@ -6,7 +6,7 @@
 
 <div class="my-5">
   <%= form.label :content, class: CssClass::LABEL do %>Content (supports Markdown)<% end %>
-  <%= form.text_area :content, class: CssClass::TEXT_AREA %>
+  <%= form.marksmith :content, enable_file_uploads: false %>
   <%= render "errors", object: page, attribute: :content %>
 </div>
 
