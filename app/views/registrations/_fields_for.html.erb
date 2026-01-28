@@ -16,7 +16,7 @@
     <%= form.select :registration_option_id, collection.registration_options.map {|o| [o.name_with_cost_and_stock, o.id]},
         {
           selected: registration.registration_option_id || nil,
-          disabled: (can? :manage, collection) ? [] : collection.registration_options.reject(&:in_stock?).map(&:id)
+          disabled: (can? :manage, collection) ? [] : collection.registration_options.reject(&:in_stock?).reject(&:open?).map(&:id)
         },
         {class: CssClass::SELECT} %>
   <% else %>

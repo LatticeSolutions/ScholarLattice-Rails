@@ -79,6 +79,9 @@ class RegistrationsController < ApplicationController
     unless can? :manage, @collection or @registration.registration_option.in_stock?
       @registration.errors.add(:registration_option, "has no remaining stock available")
     end
+    unless can? :manage, @collection or @registration.registration_option.open?
+      @registration.errors.add(:registration_option, "is not available at this time")
+    end
     unless can? :manage, @collection or @registration.user.email == @current_user&.email
       @registration.errors.add(:user, "must be yourself")
     end
