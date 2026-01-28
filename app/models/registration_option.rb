@@ -34,9 +34,22 @@ class RegistrationOption < ApplicationRecord
     "#{name} (#{Money.from_cents(cost, :usd).format})"
   end
 
-  def name_with_cost_and_stock
-    return name if stock.blank?
-    "#{name_with_cost} (#{remaining_stock} / #{stock} available)"
+  def availability
+    if closed?
+      return "Closed on #{closes_on.in_time_zone(collection.inherited_time_zone).strftime("%Y-%m-%d %-I:%M%p %Z")}"
+    end
+    if not open?
+      return "Opens on #{opens_on.in_time_zone(collection.inherited_time_zone).strftime("%Y-%m-%d %-I:%M%p %Z")}"
+    end
+    if stock.present?
+      return "#{remaining_stock} / #{stock} available"
+    end
+    nil
+  end
+
+  def name_with_cost_and_availability
+    return name_with_cost if availability.blank?
+    "#{name_with_cost} (#{availability})"
   end
 
   def allowed_domains_array
