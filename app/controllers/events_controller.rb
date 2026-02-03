@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   load_and_authorize_resource :collection
-  load_and_authorize_resource :event, through: :collection, shallow: true, except: [ :webinar ]
+  load_and_authorize_resource :event, through: :collection, shallow: true, except: [ :webinar, :print ]
   around_action :set_time_zone, except: [ :webinar ]
 
   # GET /events or /events.json
@@ -65,6 +65,10 @@ class EventsController < ApplicationController
       authorize! :access_webinar, @event, message: "Must have an accepted registration to #{@event.collection.title} to access this webinar."
     end
     redirect_to_if_allowed @event.inherited(:webinar_link)
+  end
+
+  def print
+    render layout: false
   end
 
   # GET /events/new
