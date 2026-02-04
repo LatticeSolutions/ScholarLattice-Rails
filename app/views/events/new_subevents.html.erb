@@ -22,34 +22,37 @@
 
     <%= form_with url: new_subevents_path, method: :post, local: true do |form| %>
       <div class="mb-4">
-        <%= form.label :subevent_title, "Subevent title" %>
+        <%= form.label :subevent_title, class: CssClass::LABEL do %>
+          Subevent Title
+          <span class="text-sm font-light">(keep same as parent event to generate numbered subevents)</span>
+        <% end %>
         <%= form.text_field :subevent_title, value: @event.title, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
       </div>
 
       <div class="mb-4">
-        <%= form.label :number_of_subevents, "Number of subevents" %>
+        <%= form.label :number_of_subevents, "Number of subevents", class: CssClass::LABEL %>
         <%= form.number_field :number_of_subevents, min: 1, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
       </div>
 
       <div class="mb-4">
-        <%= form.label :same_times, "Each subevent will use the same start/end times as #{@event.title}?", class: "mr-2" %>
+        <%= form.label :same_times, "Each subevent will use the same start/end times as #{@event.title}?", class: CssClass::LABEL %>
         <%= form.check_box :same_times, class: "shadow appearance-none border rounded w-4 h-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", "x-model" => "sameTimes" %>
       </div>
 
       <div x-show="!sameTimes">
         <div class="mb-4">
-          <%= form.label :length_of_each_subevent, "Length of each subevent (in minutes)" %>
+          <%= form.label :length_of_each_subevent, "Length of each subevent (in minutes)", class: CssClass::LABEL %>
           <%= form.number_field :length_of_each_subevent, min: 1, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
         </div>
 
         <div class="mb-4">
-          <%= form.label :length_of_break, "Length of break between subevents (in minutes)" %>
+          <%= form.label :length_of_break, "Length of break between subevents (in minutes)", class: CssClass::LABEL %>
           <%= form.number_field :length_of_break, min: 0, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
         </div>
       </div>
 
       <div class="mb-4">
-        <%= form.label :collection_id, "Select Collection" %>
+        <%= form.label :collection_id, "Select Collection", class: CssClass::LABEL %>
         <%= form.select :collection_id, @event.collection.subtree.map{|c| [c.short_title_path, c.id]}, {selected: @event.collection.id}, {class: "block shadow rounded-md border border-gray-400 outline-none focus:outline-blue-600 px-3 py-2 mt-2 w-full"} %>
       </div>
 
