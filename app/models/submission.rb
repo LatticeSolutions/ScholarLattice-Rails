@@ -12,6 +12,10 @@ class Submission < ApplicationRecord
     Kramdown::Document.new(abstract).to_html
   end
 
+  def abstract_latex
+    Kramdown::Document.new(abstract.gsub(/\$\$/, "\n$$\n").gsub(/(?<![\\\$])\$(?!\$)/, "$$")).to_latex
+  end
+
   def notes_html
     Kramdown::Document.new(notes).to_html
   end
