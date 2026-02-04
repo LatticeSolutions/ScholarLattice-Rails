@@ -66,14 +66,14 @@
 \mainmatter
 \chapter{Abstracts}
 
-<% collection.subtree_submissions.where(status: :accepted).sort_by{|s| s.user.name}.each do |s| %>
+<% collection.subtree_submissions.where(status: :accepted).sort_by{|s|s.user.first_name}.sort_by{|s|s.user.last_name}.each do |s| %>
 \begin{conf-abstract}<% if s.event.present? %>[<%= s.event.info_in_latex %>]<% end %>
 {<%= s.title %>}
 {<%= s.user.name_with_email %>}
 {<%= s.user.affiliation %>}
 \indexauthors{<%= s.user.last_name %>!<%= s.user.first_name %>}
 
-<%= s.abstract %>
+<%= s.abstract_latex %>
 \end{conf-abstract}
 <% end %>
 
