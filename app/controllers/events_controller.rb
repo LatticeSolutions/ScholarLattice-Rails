@@ -68,6 +68,8 @@ class EventsController < ApplicationController
   end
 
   def print
+    @scheduled_events = @collection.all_scheduled_events
+    @depth = params[:depth].present? ? params[:depth].to_i : 0
     render layout: false
   end
 

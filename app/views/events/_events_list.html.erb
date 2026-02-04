@@ -25,11 +25,11 @@
             <%= event.submission.user.name %>
         <% end %>
         <% if event.children.present? %>
-            <% unless defined?(children_limit) && children_limit && event.children.count > children_limit %>
+            <% if depth.nil? || depth > 0 %>
                 <%= render partial: "events/events_list", locals: { 
                     events: event.children, 
                     hide_same_times: event.children_have_same_times?, 
-                    children_limit: defined?(children_limit) && children_limit 
+                    depth: depth.nil? ? nil : depth - 1
                 } %>
             <% end %>
         <% end %>

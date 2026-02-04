@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :events, shallow: true do
       get "/webinar", to: "events#webinar", as: "webinar"
     end
-    get "/events/print", to: "events#print", as: "print_collection_events"
+    get "/events/print", to: "events#print", as: "print_events"
     get "/people", to: "collections#people", as: "people"
     resources :invitations, shallow: true do
       get "/batch", to: "invitations#new_batch", on: :collection
@@ -35,7 +35,6 @@ Rails.application.routes.draw do
   get "/collections/:id/new", to: "collections#new_subcollection", as: "new_subcollection"
   post "/collections/:id/like", to: "collections#like", as: "like_collection"
   post "/collections/:id/dislike", to: "collections#dislike", as: "dislike_collection"
-  get "/collections/:id/print", to: "collections#print", as: "print_collection"
   get "/events/:id/copy", to: "events#copy", as: "copy_event"
   get "/events/:id/subevents", to: "events#new_subevents", as: "new_subevents"
   post "/events/:id/subevents", to: "events#create_subevents", as: "create_subevents"
