@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   load_and_authorize_resource :collection
-  load_and_authorize_resource :event, through: :collection, shallow: true, except: [ :webinar ]
+  load_and_authorize_resource :event, through: :collection, shallow: true, except: [ :webinar, :print ]
   around_action :set_time_zone, except: [ :webinar ]
 
   # GET /events or /events.json
@@ -65,6 +65,12 @@ class EventsController < ApplicationController
       authorize! :access_webinar, @event, message: "Must have an accepted registration to #{@event.collection.title} to access this webinar."
     end
     redirect_to_if_allowed @event.inherited(:webinar_link)
+  end
+
+  def print
+    @scheduled_events = @collection.all_scheduled_events
+    @depth = params[:depth].present? ? params[:depth].to_i : 0
+    render layout: false
   end
 
   # GET /events/new
@@ -134,7 +140,7 @@ class EventsController < ApplicationController
     length_of_each_subevent = params[:length_of_each_subevent]&.to_i || 0
     length_of_break = params[:length_of_break]&.to_i || 0
     same_times = params[:same_times] == "1"
-    title = params[:subevent_title] || @event.title
+    title = (params[:subevent_title] || @event.title).strip
     collection = params[:collection_id].present? ? Collection.find(params[:collection_id]) : @event.collection
     if number_of_subevents <= 0 || length_of_each_subevent < 0 || length_of_break < 0
       flash.now[:alert] = "Invalid input values. Please ensure all values are positive."
@@ -152,7 +158,15 @@ class EventsController < ApplicationController
       subevent.collection = collection
       subevent.parent = @event
       subevent.order = i+1
-      subevent.title = "#{title} \##{subevent.order}"
+      if title == subevent.title
+        if title.match?(/#(\d+\.)*\d+$/)
+          subevent.title = "#{title}.#{subevent.order}"
+        else
+          subevent.title = "#{title} \##{subevent.order}"
+        end
+      else
+        subevent.title = title
+      end
       if !same_times && @event.starts_at.present?
         subevent.starts_at = @event.starts_at + i * length_of_each_subevent.minutes + i * length_of_break.minutes
         if @event.ends_at.present?

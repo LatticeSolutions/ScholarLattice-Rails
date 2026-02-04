@@ -14,9 +14,12 @@
         <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
       </span>
     </h1>
-    <% if can? :create, Event %>
-      <%= link_to "New event", new_collection_event_path(@collection), class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
-    <% end %>
+    <div class="flex items-center">
+      <%= link_to "Printable page", collection_print_events_path(@collection, depth: 2), class: "rounded-lg py-3 px-5 bg-sky-600 text-white block font-medium" %>
+      <% if can? :create, Event %>
+        <%= link_to "New event", new_collection_event_path(@collection), class: "rounded-lg ml-3 py-3 px-5 bg-blue-600 text-white block font-medium" %>
+      <% end %>
+    </div>
   </div>
   <p>
     All times <%= Time.zone.name %>.
@@ -89,7 +92,7 @@
         </p>
         <% @scheduled_events.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
           <h3 class="font-bold text-xl mt-3"><%= day %></h3>
-          <%= render partial: "events_list", locals: { events: events, hide_webinar_links: !(@collection.public_webinars or @current_user&.registered_for?(@collection)) } %>
+          <%= render partial: "events_list", locals: { events: events, depth: nil, hide_webinar_links: !(@collection.public_webinars or @current_user&.registered_for?(@collection)) } %>
         <% end %>
       </div>
     <% end %>
@@ -108,7 +111,7 @@
     <% end %>
   </div>
 
-  <% if can? :edit, @collection %>
+  <% if can? :edit, @collection and @collection.subtree_submissions.where(status: :accepted).any? %>
     <div>
       <h2 class="font-bold text-2xl my-3">Program LaTeX</h2>
       <form action="https://www.overleaf.com/docs" method="post" target="_blank">

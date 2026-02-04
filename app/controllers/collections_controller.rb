@@ -1,16 +1,12 @@
 class CollectionsController < ApplicationController
   load_and_authorize_resource
-  around_action :set_time_zone, only: [ :show, :print ]
+  around_action :set_time_zone, only: [ :show ]
 
   def index
     @collections = Collection.roots
   end
 
   def show
-  end
-
-  def print
-    render layout: false
   end
 
   def new
