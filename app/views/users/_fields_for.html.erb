@@ -53,8 +53,8 @@
 
 <div class="my-5">
     <%= form.label :position_type, class: CssClass::LABEL %>
-    <%= form.select :position_type, User.position_types.keys.map { |key| [key.humanize, key] }, 
-        {selected: user.position_type || :faculty}, 
+    <%= form.select :position_type, [[nil, ""]] + User.position_types.keys.map { |key| [key.humanize, key] }, 
+        {selected: user.position_type || nil}, 
         {class: CssClass::SELECT} %>
     <%= render "errors", object: user, attribute: :position_type %>
 </div>

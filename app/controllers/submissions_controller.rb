@@ -34,50 +34,40 @@ class SubmissionsController < ApplicationController
 
   # POST /submissions or /submissions.json
   def create
-    # not logged in
-    if @current_user.blank?
-      # trying to log in
-      if session_params.present?
-        @session =  Passwordless::Session.find_by!(
-          identifier: session_params[:identifier]
-        )
-        BCrypt::Password.create(session_params[:token])
-        # success! sign in and continue creation
-        if @session.authenticate(session_params[:token]) && @session.authenticatable.id == submission_params[:user_attributes][:id]
-          sign_in(@session)
-        # failure... return to the form
-        else
-          flash[:notice] = "Invalid token provided."
-          render :new, status: :unprocessable_entity && return
-        end
-      # submitted but need to log in
-      else
-        @submission.user = User.new(submission_params[:user_attributes])
-        @session = build_passwordless_session(@submission.user)
-        # success! created new user and set up session
-        if @submission.user.save && @session.save
-          @submission.user_id = @submission.user.id
-          SubmissionMailer.verify_email(@submission.user.email, @submission.collection.title, @session.token).deliver_later
+    if @current_user.blank?  # not logged in
+      if session_params.blank?  # send token and verify
+        @session = create_session_for_new_user submission_params[:user_attributes]
+        if @session.present?  # success! created new user and set up session
+          SubmissionMailer.verify_email(@session.authenticatable.email, @collection.title, @session.token).deliver_later
           flash[:notice] = "Verify your email to complete your submission."
           render :new
           return
-        # failure... send back
-        else
-          @session = nil
+        else  # failure... send back
           flash[:notice] = "There was an error creating your account."
-          render :new, status: :unprocessable_entity
-          return
+          render :new, status: :unprocessable_entity && return
         end
+      else # log in with token and proceed with creation
+        @session =  handle_embedded_login
+        if @session.blank?
+          flash[:notice] = "Invalid token provided."
+          render :new, status: :unprocessable_entity && return
+        end
+        @submission.user = @session.authenticatable
       end
     end
     # logged in
-    unless can? :manage, @collection or @submission.user.email == @current_user&.email
+    unless can? :manage, @collection or @submission.user.email == @current_user.email
       @submission.errors.add(:user, "must be yourself")
     end
     if can? :manage, @collection and @submission.user.email != @current_user.email
       user_params = submission_params[:user_attributes].except(:id)
-      @submission.user = User.find_or_create_by(email: user_params[:email])
-      @submission.user.assign_attributes(user_params)
+      user = User.find_by(email: user_params[:email])
+      if user.present?
+        @submission.user = user
+        @submission.user.assign_attributes(user_params.reject { |_, v| v.blank? })
+      else
+        @submission.user = User.new(user_params)
+      end
     end
     respond_to do |format|
       if @submission.save
@@ -93,8 +83,20 @@ class SubmissionsController < ApplicationController
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
+    if @submission.user.email != submission_params[:user_attributes][:email]
+      user = User.find_by(email: submission_params[:user_attributes][:email])
+      if user.present?
+        @submission.user = user
+        @submission.user.assign_attributes(submission_params[:user_attributes].except(:id).reject { |_, v| v.blank? })
+      else
+        @submission.user = User.new(submission_params[:user_attributes].except(:id))
+      end
+      @submission.assign_attributes(submission_params.except(:user_attributes, :user_id))
+    else
+      @submission.assign_attributes(submission_params)
+    end
     respond_to do |format|
-      if @submission.update(submission_params)
+      if @submission.save
         if send_update_notification?
           SubmissionMailer.submission_updated(@submission).deliver_later
         end

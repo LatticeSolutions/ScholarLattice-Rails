@@ -52,4 +52,25 @@ class ApplicationController < ActionController::Base
     return nil unless params[:session].present? && params[:session][:token].present?
     params.expect(session: [ :identifier, :token ])
   end
+
+  def handle_embedded_login
+    session =  Passwordless::Session.find_by!(
+      identifier: session_params[:identifier]
+    )
+    # Make this "slow" on purpose to make brute-force attacks more of a hassle
+    BCrypt::Password.create(session_params[:token])
+    # success! sign in and continue creation
+    if session.authenticate(session_params[:token])
+      sign_in(session)
+      session
+    else
+      nil
+    end
+  end
+
+  def create_session_for_new_user(user_params)
+    user = User.find_by(email: user_params[:email]) || User.new(user_params)
+    session = build_passwordless_session(user)
+    user.save && session.save && session
+  end
 end
