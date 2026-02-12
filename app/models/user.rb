@@ -87,8 +87,12 @@ class User < ApplicationRecord
     "#{name} ⟨#{email}⟩"
   end
 
-  def registered_for?(collection)
-    registrations_for(collection).any?
+  def registered_for?(collection, options = {})
+    if options[:accepted].present?
+      registrations_for(collection).where(accepted: options[:accepted]).any?
+    else
+      registrations_for(collection).any?
+    end
   end
 
   def registrations_for(collection)
