@@ -12,6 +12,8 @@ class Ability
     can :create, Submission
     can :read, Registration, status: :accepted
     can :create, Registration
+    can :read, NewRegistration, status: :accepted
+    can :create, NewRegistration
     can :read, Event
     can [ :read, :create ], User
 
@@ -45,13 +47,20 @@ class Ability
     end
 
     can :manage, Registration do |r|
-      r.collection.present? and (r.collection.has_admin?(user) || r.user_id == user.id)
+      r.collection.present? and ((can? :manage, r.collection) || r.user_id == user.id)
     end
     cannot :destroy, Registration do |r|
       r.registration_option.closes_on.present? && r.registration_option.closes_on <= Time.current
     end
     can :view_payments, Registration do |r|
       r.user_id == user.id and r.registration_option.cost.present?
+    end
+
+    can [ :read, :create, :update ], NewRegistration do |r|
+      r.collection.present? and ((can? :manage, r.collection) || r.user_id == user.id)
+    end
+    can :destroy, NewRegistration do |r|
+      can? :manage, r.collection
     end
 
     can :manage, Invitation do |i|
