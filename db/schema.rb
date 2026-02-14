@@ -92,6 +92,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_14_154652) do
   create_table "new_registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "collection_id", null: false
+    t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["collection_id"], name: "index_new_registrations_on_collection_id"

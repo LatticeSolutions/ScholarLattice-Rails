@@ -3,9 +3,17 @@ class PopulateNewRegistrations < ActiveRecord::Migration[8.0]
     # This will populate the new_registrations table based on existing registrations, and create corresponding registration option choices.
     Collection.find_each do |collection|
       User.where(id: collection.registrations.select(:user_id)).find_each do |user|
+        if user.registrations.where(registration_option: collection.registration_options, status: :declined).any?
+          status = :declined
+        elsif user.registrations.where(registration_option: collection.registration_options, status: :submitted).any?
+          status = :submitted
+        else
+          status = :accepted
+        end
         new_registration = NewRegistration.create!(
           user_id: user.id,
-          collection_id: collection.id
+          collection_id: collection.id,
+          status: status
         )
         collection.registration_options.find_each do |registration_option|
           RegistrationOptionChoice.create!(

@@ -3,6 +3,7 @@ class CreateNewRegistrations < ActiveRecord::Migration[8.0]
     create_table :new_registrations, id: :uuid do |t|
       t.references :user, null: false, foreign_key: true, type: :uuid
       t.references :collection, null: false, foreign_key: true, type: :uuid
+      t.integer :status, null: false, default: 0
 
       t.timestamps
     end
