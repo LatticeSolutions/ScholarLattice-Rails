@@ -15,15 +15,28 @@ class NewRegistrationsController < ApplicationController
   def show
   end
 
+  def new
+    unless @collection.new_registrations_in_stock?
+      redirect_to @collection, alert: "No registrations remaining for this collection" and return
+    end
+    @new_registration.user = @current_user.present? ? @current_user : User.new
+    @collection.registration_options.each do |option|
+      @new_registration.registration_option_choices.build(registration_option: option, amount: 0)
+    end
+  end
+
+  def edit
+  end
+
 
   private
     # Only allow a list of trusted parameters through.
     def registration_params
       # TODO..
       if can? :manage, @new_registration
-        params.expect(registration: [ :registration_option_id, :status, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(new_registration: [ :registration_option_id, :status, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ], registration_option_choices_attributes: [ :id, :registration_option_id, :value ] ])
       else
-        params.expect(registration: [ :registration_option_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(new_registration: [ :registration_option_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       end
     end
 end

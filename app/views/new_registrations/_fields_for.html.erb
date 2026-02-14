@@ -1,0 +1,45 @@
+<%= render "users/embed_login", 
+      session: session,
+      user: new_registration.user,
+      email_disabled: ((@current_user.present? or session.present?) and cannot? :manage, collection),
+      affiliation_identifier_alias: collection.affiliation_identifier_alias,
+      form: form %>
+
+<%= form.hidden_field :user_id, value: new_registration.user_id %>
+
+<h2 class="font-bold text-2xl">Registration Info</h2>
+
+<div class="my-5">
+  <%= render "errors", object: new_registration, attribute: :user %>
+
+  <%= form.fields_for :registration_option_choices do |choice_fields| %>
+    <h3 class="font-bold text-lg"><%= choice_fields.object.registration_option.name %></h3>
+    <div class="mb-5">
+      <%= choice_fields.label :amount, class: CssClass::LABEL %>
+      <%= choice_fields.number_field :amount, class: CssClass::NUMBER_FIELD %>
+      <%= render "errors", object: choice_fields.object, attribute: :amount %>
+    </div>
+    <div class="mb-5">
+      <%= choice_fields.label :info, class: CssClass::LABEL %>
+      <%= choice_fields.text_field :info, class: CssClass::TEXT_FIELD %>
+      <%= render "errors", object: choice_fields.object, attribute: :info %>
+    </div>
+    <%= choice_fields.hidden_field :registration_option_id %>
+  <% end %>
+
+</div>
+
+<% if can? :manage, collection %>
+  <div class="my-5">
+    <%= form.label :status, class: CssClass::LABEL do %>
+      <span class="size-4 inline-block">
+        <%= render IconComponent.new(:key) %>
+      </span>
+      Status
+    <% end %>
+    <%= form.select :status, NewRegistration.statuses.keys.map {|key| [key.humanize, key]},
+      {selected: new_registration.status || :submitted},
+      {class: CssClass::SELECT} %>
+    <%= render "errors", object: new_registration, attribute: :status %>
+  </div>
+<% end %>
