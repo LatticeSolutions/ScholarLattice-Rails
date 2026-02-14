@@ -16,6 +16,12 @@
 </div>
 
 <div class="my-5">
+  <%= form.label :coauthors, class: CssClass::LABEL do %>Co-authors <span class="<%= CssClass::SUBLABEL %>">Leave blank for none</span><% end %>
+  <%= form.text_field :coauthors, class: CssClass::TEXT_FIELD %>
+  <%= render "errors", object: submission, attribute: :coauthors %>
+</div>
+
+<div class="my-5">
     <%= form.label :abstract, class: CssClass::LABEL do %>
       Abstract
       <span class="<%= CssClass::SUBLABEL %>">
