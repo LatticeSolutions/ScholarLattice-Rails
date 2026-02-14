@@ -1,0 +1,21 @@
+<%
+  if defined?(collection)
+    subpath = registration.collection.path.filter do |c|
+      c.ancestors.include?(collection)
+    end
+    crumbs = subpath.map do |c|
+      { text: c.short_title }
+    end
+  else
+    crumbs = []
+  end
+%>
+
+<%= render CardComponent.new( 
+  title: "#{registration.user.name_with_email} (#{registration.status.humanize})",
+  description: "#{registration.collection.title}",
+  link_text: "View Registration",
+  link_url: new_registration_path(registration),
+  title_icon: :registration,
+  crumbs: crumbs,
+) %>

@@ -13,6 +13,7 @@ class Collection < ApplicationRecord
   has_many :invitations, dependent: :destroy
   has_many :registration_options, dependent: :destroy
   has_many :registrations, through: :registration_options
+  has_many :new_registrations, dependent: :destroy
   has_many :payments, through: :registrations
   has_one :attached_event, class_name: "Event", foreign_key: "attached_collection_id", dependent: :nullify
   after_save :update_admins_after_save
@@ -60,6 +61,10 @@ class Collection < ApplicationRecord
     Invitation.where(collection: subtree)
   end
 
+  def subtree_new_registrations
+    NewRegistration.where(collection: subtree)
+  end
+
   def submissions_closed?
     return false if submissions_close_on.blank?
     submissions_close_on <= Time.now
@@ -83,8 +88,11 @@ class Collection < ApplicationRecord
   end
 
   def registrations_in_stock?
-    return true if registration_options.any?(&:in_stock?)
-    false
+    registration_options.any?(&:in_stock?)
+  end
+
+  def new_registrations_in_stock?
+    registration_options.any?(&:new_in_stock?)
   end
 
   def home_page

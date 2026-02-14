@@ -1,0 +1,68 @@
+<% content_for :title, "Registrations | #{@collection.title}" %>
+
+<section class="mx-auto md:w-3/4 w-full">
+    <%= render partial: "breadcrumb", locals: { collection: @collection } %>
+    
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        Registrations for 
+        <%= link_to @collection.title, @collection, class: "text-sky-700 hover:underline" %>
+        <% if can? :manage, @collection %>
+            (<%= @new_registrations.count %>)
+        <% end %>
+    </h1>
+
+    <% if can? :manage, @collection %>
+        <div class="py-2">
+            <%= link_to "New Registration", new_collection_new_registration_path(@collection), class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+            <%= link_to "New Option", new_collection_registration_option_path(@collection), class: "bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded" %>
+            <%= link_to "Download CSV", collection_new_registrations_path(@collection, format: :csv), class: "bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded" %>
+        </div>
+    <% end %>
+
+        <% if can? :manage, @collection %>
+            <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+                Submitted (<%= @new_registrations.where(status: :submitted).count %>):
+            </h1>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+                <% @new_registrations.where(status: :submitted).each do |registration| %>
+                    <%= render partial: "new_registrations/card", locals: { registration: registration, collection: @collection } %>
+                <% end %>
+            </div>
+            <div class="text-gray-700 py-3">
+                Emails:
+                <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+                    @new_registrations.where(status: :submitted).map{|r| r.user.email }.join("; ")
+                %></textarea>
+            </div>
+        <% end %>
+            <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+                Accepted (<%= @new_registrations.where(status: :accepted).count %>):
+            </h1>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+                <% @new_registrations.where(status: :accepted).each do |registration| %>
+                    <%= render partial: "new_registrations/card", locals: { registration: registration, collection: @collection } %>
+                <% end %>
+            </div>
+        <% if can? :manage, @collection %>
+            <div class="text-gray-700 py-3">
+                Emails:
+                <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+                    @new_registrations.where(status: :accepted).map{|r| r.user.email }.join("; ")
+                %></textarea>
+            </div>
+            <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+                Declined (<%= @new_registrations.where(status: :declined).count %>):
+            </h1>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+                <% @new_registrations.where(status: :declined).each do |registration| %>
+                    <%= render partial: "new_registrations/card", locals: { registration: registration, collection: @collection } %>
+                <% end %>
+            </div>
+            <div class="text-gray-700 py-3">
+                Emails:
+                <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+                    @new_registrations.where(status: :declined).map{|r| r.user.email }.join("; ")
+                %></textarea>
+            </div>
+        <% end %>
+</section>
