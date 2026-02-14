@@ -8,6 +8,8 @@ class Submission < ApplicationRecord
 
   default_scope { order(:title) }
 
+  validates :title, presence: true
+
   def abstract_html
     Kramdown::Document.new(abstract).to_html
   end
