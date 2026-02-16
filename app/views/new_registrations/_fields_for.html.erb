@@ -19,11 +19,18 @@
       <%= choice_fields.number_field :amount, class: CssClass::NUMBER_FIELD %>
       <%= render "errors", object: choice_fields.object, attribute: :amount %>
     </div>
-    <div class="mb-5">
-      <%= choice_fields.label :info, class: CssClass::LABEL %>
-      <%= choice_fields.text_field :info, class: CssClass::TEXT_FIELD %>
-      <%= render "errors", object: choice_fields.object, attribute: :info %>
-    </div>
+    <% if choice_fields.object.registration_option.info_prompt.present? %>
+      <div class="mb-5">
+        <%= choice_fields.label :info, class: CssClass::LABEL do %>
+          Info
+          <span class="<%= CssClass::SUBLABEL %>">
+            <%= choice_fields.object.registration_option.info_prompt %>
+          </span>
+        <% end %>
+        <%= choice_fields.text_field :info, class: CssClass::TEXT_FIELD %>
+        <%= render "errors", object: choice_fields.object, attribute: :info %>
+      </div>
+    <% end %>
     <%= choice_fields.hidden_field :registration_option_id %>
   <% end %>
 

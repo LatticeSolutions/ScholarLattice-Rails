@@ -31,6 +31,15 @@
 </div>
 
 <div class="my-5">
+  <%= form.label :info_prompt, class: CssClass::LABEL do %>
+    Prompt for further information
+  <% end %>
+  <%= form.text_field :info_prompt, value: option.info_prompt,
+      class: CssClass::TEXT_FIELD %>
+  <%= render "errors", object: option, attribute: :info_prompt %>
+</div>
+
+<div class="my-5">
   <%= form.label :auto_accept, class: CssClass::LABEL %>
   <%= form.check_box :auto_accept, class: CssClass::CHECK_BOX %>
   <%= render "errors", object: option, attribute: :auto_accept %>
