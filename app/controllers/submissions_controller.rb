@@ -28,7 +28,6 @@ class SubmissionsController < ApplicationController
   def edit
   end
 
-  # POST /submissions or /submissions.json
   def create
     unless can? :manage, @collection or @submission.user.email == @current_user&.email
       @submission.errors.add(:user, "must be yourself")

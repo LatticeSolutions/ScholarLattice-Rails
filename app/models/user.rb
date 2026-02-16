@@ -39,6 +39,7 @@ class User < ApplicationRecord
   has_many :submissions
   has_many :registrations
   has_many :invitations
+  has_many :new_registrations
 
   before_save :downcase_email
   before_save :strip_whitespace
@@ -93,6 +94,10 @@ class User < ApplicationRecord
 
   def registrations_for(collection)
     registrations.where(registration_option: collection.registration_options)
+  end
+
+  def new_registered_for?(collection)
+    new_registrations.where(collection: collection).any?
   end
 
   def main_profile

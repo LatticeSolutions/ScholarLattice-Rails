@@ -1,9 +1,9 @@
-<%= render "users/embed_login", 
-      session: session,
+<%= form.fields_for :user, new_registration.user do |user_fields| %>
+  <%= render "users/fields_for",
       user: new_registration.user,
-      email_disabled: ((@current_user.present? or session.present?) and cannot? :manage, collection),
-      affiliation_identifier_alias: collection.affiliation_identifier_alias,
-      form: form %>
+      email_disabled: true,
+      form: user_fields %>
+<% end %>
 
 <%= form.hidden_field :user_id, value: new_registration.user_id %>
 
@@ -11,6 +11,8 @@
 
 <div class="my-5">
   <%= render "errors", object: new_registration, attribute: :user %>
+
+  <%= render "errors", object: new_registration, attribute: :registration_option_choices %>
 
   <%= form.fields_for :registration_option_choices do |choice_fields| %>
     <h3 class="font-bold text-lg"><%= choice_fields.object.registration_option.name %></h3>
@@ -30,6 +32,8 @@
         <%= choice_fields.text_field :info, class: CssClass::TEXT_FIELD %>
         <%= render "errors", object: choice_fields.object, attribute: :info %>
       </div>
+    <% else %>
+      <%= choice_fields.hidden_field :info %>
     <% end %>
     <%= choice_fields.hidden_field :registration_option_id %>
   <% end %>

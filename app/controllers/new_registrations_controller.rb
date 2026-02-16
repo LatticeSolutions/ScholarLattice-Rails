@@ -28,15 +28,36 @@ class NewRegistrationsController < ApplicationController
   def edit
   end
 
+  def create
+    unless can? :manage, @collection or @new_registration.user.email == @current_user&.email
+      @new_registration.errors.add(:user, "must be yourself")
+    end
+    respond_to do |format|
+      if @new_registration.save
+        NewRegistrationMailer.new_registration_created(@new_registration).deliver_later
+        format.html { redirect_to @new_registration, notice: "New registration was successfully created." }
+        format.json { render :show, status: :created, location: @new_registration }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @new_registration.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
   private
     # Only allow a list of trusted parameters through.
-    def registration_params
-      # TODO..
-      if can? :manage, @new_registration
-        params.expect(new_registration: [ :registration_option_id, :status, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ], registration_option_choices_attributes: [ :id, :registration_option_id, :value ] ])
-      else
-        params.expect(new_registration: [ :registration_option_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
-      end
+    def new_registration_params
+      params.expect(new_registration: [
+        :status,
+        :user_id,
+        user_attributes: [
+          :id, :first_name, :last_name, :email, :affiliation,
+          :position_type, :position, :affiliation_identifier
+        ],
+        registration_option_choices_attributes: [ [
+          :id, :registration_option_id, :amount, :info
+        ] ]
+      ])
     end
 end
