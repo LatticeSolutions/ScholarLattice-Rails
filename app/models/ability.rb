@@ -40,7 +40,7 @@ class Ability
     end
 
     can :manage, Submission do |s|
-      s.collection.present? and ((can? :manage, s.collection) || s.user_id == user.id)
+      s.collection.blank? || (can? :manage, s.collection) || s.user_id.blank? || s.user_id == user.id
     end
 
     can :manage, Registration do |r|

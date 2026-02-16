@@ -1,9 +1,9 @@
-<%= render "users/embed_login", 
-      session: session,
+<%= form.fields_for :user, submission.user do |user_fields| %>
+  <%= render "users/fields_for",
       user: submission.user,
-      email_disabled: ((@current_user.present? or session.present?) and cannot? :manage, submission.collection),
-      affiliation_identifier_alias: submission.collection.affiliation_identifier_alias,
-      form: form %>
+      email_disabled: true,
+      form: user_fields %>
+<% end %>
 
 <%= form.hidden_field :user_id, value: submission.user_id %>
 

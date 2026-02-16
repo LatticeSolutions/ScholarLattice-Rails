@@ -21,11 +21,7 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
-    if @current_user.present?
-      @submission.user = @current_user
-    else
-      @submission.user = User.new
-    end
+    @submission.user = @current_user
   end
 
   # GET /submissions/1/edit
@@ -34,46 +30,6 @@ class SubmissionsController < ApplicationController
 
   # POST /submissions or /submissions.json
   def create
-    # not logged in
-    if @current_user.blank?
-      # trying to log in
-      if session_params.present?
-        @session =  Passwordless::Session.find_by!(
-          identifier: session_params[:identifier]
-        )
-        # success! sign in and continue creation
-        if @session.authenticate(session_params[:token]) && @session.authenticatable.id == submission_params[:user_attributes][:id]
-          sign_in(@session)
-        # failure... return to the form
-        else
-          flash[:notice] = "Invalid token provided."
-          render :new, status: :unprocessable_entity && return
-        end
-      # submitted but need to log in
-      else
-        @submission.user = User.new(submission_params[:user_attributes])
-        @session = build_passwordless_session(@submission.user)
-        # success! created new user and set up session
-        if @submission.valid? && @submission.user.save && @session.save
-          @submission.user_id = @submission.user.id
-          SubmissionMailer.verify_email(@submission.user.email, @submission.collection.title, @session.token).deliver_later
-          flash[:notice] = "Verify your email to complete your submission."
-          render :new
-          return
-        # failure... send back
-        else
-          @session = nil
-          if @submission.invalid?
-            flash[:notice] = "There are errors in your submission."
-          else
-            flash[:notice] = "There was an error creating your account."
-          end
-          render :new, status: :unprocessable_entity
-          return
-        end
-      end
-    end
-    # logged in
     unless can? :manage, @collection or @submission.user.email == @current_user&.email
       @submission.errors.add(:user, "must be yourself")
     end
@@ -96,6 +52,9 @@ class SubmissionsController < ApplicationController
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
+    unless can? :manage, @collection or @submission.user.email == @current_user&.email
+      @submission.errors.add(:user, "must be yourself")
+    end
     respond_to do |format|
       if @submission.update(submission_params)
         if send_update_notification?
