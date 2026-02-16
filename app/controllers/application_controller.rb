@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
         format.html { redirect_to dashboard_path, alert: exception.message }
       else
         save_passwordless_redirect_location!(User)
-        format.html { redirect_to users_sign_in_path }
+        format.html { redirect_to users_sign_in_path, alert: "To continue, please verify your email address." }
       end
     end
   end
