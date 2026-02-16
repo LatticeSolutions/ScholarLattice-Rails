@@ -44,7 +44,7 @@ class Ability
     end
 
     can :manage, Registration do |r|
-      r.collection.present? and ((can? :manage, r.collection) || r.user_id == user.id)
+      r.collection.blank? || (can? :manage, r.collection) || r.user_id.blank? || r.user_id == user.id
     end
     cannot :destroy, Registration do |r|
       return true if r.accepted?
@@ -55,7 +55,7 @@ class Ability
     end
 
     can [ :read, :create, :update ], NewRegistration do |r|
-      r.collection.present? and ((can? :manage, r.collection) || r.user_id == user.id)
+      r.collection.blank? || (can? :manage, r.collection) || r.user.blank? || r.user_id == user.id
     end
     can :destroy, NewRegistration do |r|
       can? :manage, r.collection
