@@ -86,10 +86,10 @@ class NewRegistrationsController < ApplicationController
     end
 
     def prune_registration_options
-      selected_option_id = params.dig(:registration_option_id_choice)
-      if selected_option_id.present? && @new_registration.collection.limit_one_registration_option?
-        @new_registration.registration_option_choices =  @new_registration.registration_option_choices.select do |choice|
-          choice.registration_option_id == selected_option_id
+      if @new_registration.collection.limit_one_registration_option?
+        selected_option_id = params.dig(:registration_option_id_choice)
+        @new_registration.registration_option_choices.reject { |c| c.registration_option_id == selected_option_id }.each do |choice|
+          choice.amount = 0
         end
       end
     end
