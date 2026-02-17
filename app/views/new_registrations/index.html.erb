@@ -14,15 +14,14 @@
     <% if can? :manage, @collection %>
         <div class="py-2">
             <%= link_to "New Registration", new_collection_new_registration_path(@collection), class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
-            <%= link_to "New Option", new_collection_registration_option_path(@collection), class: "bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded" %>
             <%= link_to "Download CSV", collection_new_registrations_path(@collection, format: :csv), class: "bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded" %>
         </div>
     <% end %>
 
     <% if can? :manage, @collection %>
-        <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
             Submitted (<%= @new_registrations.where(status: :submitted).count %>):
-        </h1>
+        </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
             <% @new_registrations.where(status: :submitted).each do |registration| %>
                 <%= render partial: "new_registrations/card", locals: { registration: registration, collection: @collection } %>
@@ -35,9 +34,9 @@
             %></textarea>
         </div>
     <% end %>
-    <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
         Accepted (<%= @new_registrations.where(status: :accepted).count %>):
-    </h1>
+    </h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <% @new_registrations.where(status: :accepted).each do |registration| %>
             <%= render partial: "new_registrations/card", locals: { registration: registration, collection: @collection } %>
@@ -50,9 +49,9 @@
                 @new_registrations.where(status: :accepted).map{|r| r.user.email }.join("; ")
             %></textarea>
         </div>
-        <h1 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
             Declined (<%= @new_registrations.where(status: :declined).count %>):
-        </h1>
+        </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
             <% @new_registrations.where(status: :declined).each do |registration| %>
                 <%= render partial: "new_registrations/card", locals: { registration: registration, collection: @collection } %>
@@ -65,10 +64,15 @@
             %></textarea>
         </div>
 
-        <h2 class="text-lg font-medium text-gray-800 md:text-xl py-2">
-            Registration options
-        </h2>
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+            Registration Options
+        </h1>
+
+        <div class="py-2">
+            <%= link_to "New Option", new_collection_registration_option_path(@collection), class: "bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded" %>
+        </div>
+            
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 my-4">
             <% @collection.registration_options.each do |option| %>
                 <%= link_to edit_registration_option_path(option), class: "block bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-50" do %>
                     <div class="p-4">
