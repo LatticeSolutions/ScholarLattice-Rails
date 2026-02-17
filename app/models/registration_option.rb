@@ -32,6 +32,10 @@ class RegistrationOption < ApplicationRecord
     in_stock? && open?
   end
 
+  def available_or_admin?(user)
+    available? || user.ability.can?(:manage, collection)
+  end
+
   def name_with_cost
     return name if cost.blank?
     "#{name} (#{Money.from_cents(cost, :usd).format})"

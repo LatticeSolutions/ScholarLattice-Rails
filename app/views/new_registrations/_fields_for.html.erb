@@ -37,7 +37,9 @@
     <% end %>
 
     <%= form.fields_for :registration_option_choices do |choice_fields| %>
-      <div :class="{ 'hidden' : limitOne && selectedOption !== '<%= choice_fields.object.registration_option_id %>' }">
+      <div class="border rounded p-2 my-2 <%=
+        choice_fields.object.registration_option.available_or_admin?(@current_user) ? " bg-white" : "bg-gray-100 cursor-not-allowed"
+        %>" :class="{ 'hidden' : limitOne && selectedOption !== '<%= choice_fields.object.registration_option_id %>' }">
         <% if choice_fields.object.registration_option.limit_one_per_registration %>
           <% if new_registration.collection.limit_one_registration_option %>
             <%= choice_fields.hidden_field :amount, value: 1 %>
@@ -48,7 +50,7 @@
               <% end %>
               <%= choice_fields.check_box :amount, 
                 class: CssClass::CHECK_BOX, 
-                disabled: !choice_fields.object.registration_option.available? && (cannot? :manage, collection) %>
+                disabled: !choice_fields.object.registration_option.available_or_admin?(@current_user) %>
               <%= render "errors", object: choice_fields.object, attribute: :amount %>
             </div>
           <% end %>
@@ -59,7 +61,7 @@
             <% end %>
             <%= choice_fields.number_field :amount, 
               class: CssClass::NUMBER_FIELD,
-              disabled: !choice_fields.object.registration_option.available? && (cannot? :manage, collection) %>
+              disabled: !choice_fields.object.registration_option.available_or_admin?(@current_user) %>
             <%= render "errors", object: choice_fields.object, attribute: :amount %>
           </div>
         <% end %>
@@ -71,7 +73,9 @@
                 <%= choice_fields.object.registration_option.info_prompt %>
               </span>
             <% end %>
-            <%= choice_fields.text_field :info, class: CssClass::TEXT_FIELD, disabled: !choice_fields.object.registration_option.available? && (cannot? :manage, collection) %>
+            <%= choice_fields.text_field :info, 
+              class: CssClass::TEXT_FIELD,
+              disabled: !choice_fields.object.registration_option.available_or_admin?(@current_user) %>
             <%= render "errors", object: choice_fields.object, attribute: :info %>
           </div>
         <% else %>
