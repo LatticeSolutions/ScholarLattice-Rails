@@ -5,7 +5,7 @@ class NewRegistration < ApplicationRecord
 
   validate :only_admins_update_status
 
-  validate :has_choices_for_all_options
+  before_save :ensure_choices_for_all_options
 
   has_many :registration_option_choices, dependent: :destroy
 
@@ -79,9 +79,9 @@ class NewRegistration < ApplicationRecord
     end
   end
 
-  def has_choices_for_all_options
-    if registration_option_choices.map(&:registration_option_id).uniq.sort != collection.registration_options.map(&:id).uniq.sort
-      errors.add(:registration_option_choices, "must be made for all registration options")
+  def ensure_choices_for_all_options
+    collection.registration_options.each do |option|
+      registration_option_choices.find_or_create_by!(registration_option: option)
     end
   end
 end
