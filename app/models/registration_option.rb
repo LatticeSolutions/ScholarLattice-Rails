@@ -20,17 +20,12 @@ class RegistrationOption < ApplicationRecord
   end
 
   def remaining_stock
-    stock - registrations.count
+    [ 0, stock - registration_option_choices.pluck(:amount).sum ].max
   end
 
   def in_stock?
     return true if stock.blank?
-    registrations.count < stock
-  end
-
-  def new_in_stock?
-    return true if stock.blank?
-    registration_option_choices.select(:amount).sum < stock
+    remaining_stock > 0
   end
 
   def available?
