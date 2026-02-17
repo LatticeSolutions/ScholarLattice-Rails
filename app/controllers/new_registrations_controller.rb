@@ -7,7 +7,7 @@ class NewRegistrationsController < ApplicationController
     respond_to do |format|
       format.html
       if can? :manage, @collection
-        format.csv { send_data @new_registrations.to_csv, filename: "registrations-#{@collection.short_title.underscore}-#{DateTime.now.strftime('%Q')}.csv" }
+        format.csv { send_data @new_registrations.to_csv(@collection), filename: "registrations-#{@collection.short_title.underscore}-#{DateTime.now.strftime('%Q')}.csv" }
       end
     end
   end

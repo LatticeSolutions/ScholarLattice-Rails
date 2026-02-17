@@ -13,6 +13,58 @@ class NewRegistration < ApplicationRecord
 
   accepts_nested_attributes_for :user, :registration_option_choices
 
+  def csv_row
+    row = [
+      id,
+      status.humanize,
+      collection.id,
+      collection.short_title_path,
+      user.last_name,
+      user.first_name,
+      user.email,
+      user.affiliation,
+      user.position,
+      user.position_type
+    ]
+    collection.registration_options.each do |option|
+      choice = registration_option_choices.find_by(registration_option: option)
+      row += [
+        choice&.amount || 0,
+        choice&.info || ""
+      ]
+    end
+    row
+  end
+
+  def self.to_csv(collection)
+    require "csv"
+    attributes = [
+      "ID",
+      "Status",
+      "Collection ID",
+      "Collection Slug",
+      "User Last Name",
+      "User First Name",
+      "User Email",
+      "User Affiliation",
+      "User Position",
+      "User Position Type"
+    ]
+    collection.registration_options.each do |option|
+      attributes += [
+        "#{option.name}: Amount",
+        "#{option.name}: Info"
+      ]
+    end
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      where(collection: collection).each do |submission|
+        csv << submission.csv_row
+      end
+    end
+  end
+
   private
 
   def only_admins_update_status
