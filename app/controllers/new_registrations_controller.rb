@@ -29,9 +29,6 @@ class NewRegistrationsController < ApplicationController
   end
 
   def create
-    unless can? :manage, @collection or @new_registration.user.email == @current_user&.email
-      @new_registration.errors.add(:user, "must be yourself")
-    end
     respond_to do |format|
       if @new_registration.save
         NewRegistrationMailer.new_registration_created(@new_registration).deliver_later
@@ -39,6 +36,18 @@ class NewRegistrationsController < ApplicationController
         format.json { render :show, status: :created, location: @new_registration }
       else
         format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @new_registration.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @new_registration.update(new_registration_params)
+        format.html { redirect_to @new_registration, notice: "New registration was successfully updated." }
+        format.json { render :show, status: :ok, location: @new_registration }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @new_registration.errors, status: :unprocessable_entity }
       end
     end
