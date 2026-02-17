@@ -29,14 +29,6 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    unless can? :manage, @collection or @submission.user.email == @current_user&.email
-      @submission.errors.add(:user, "must be yourself")
-    end
-    if can? :manage, @collection and @submission.user.email != @current_user.email
-      user_params = submission_params[:user_attributes].except(:id)
-      @submission.user = User.find_or_create_by(email: user_params[:email])
-      @submission.user.assign_attributes(user_params)
-    end
     respond_to do |format|
       if @submission.save
         SubmissionMailer.submission_created(@submission).deliver_later
@@ -51,9 +43,6 @@ class SubmissionsController < ApplicationController
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
-    unless can? :manage, @collection or @submission.user.email == @current_user&.email
-      @submission.errors.add(:user, "must be yourself")
-    end
     respond_to do |format|
       if @submission.update(submission_params)
         if send_update_notification?
