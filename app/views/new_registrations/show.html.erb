@@ -42,7 +42,7 @@
     <%= link_to "Back to collection", collection_path(@new_registration.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 
     <% if can? :destroy, @new_registration %>
-      <%= button_to "Cancel this registration", @new_registration, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
+      <%= button_to "Delete this registration", @new_registration, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
         class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
     <% end %>
   </div>
