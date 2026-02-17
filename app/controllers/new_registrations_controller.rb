@@ -53,6 +53,17 @@ class NewRegistrationsController < ApplicationController
     end
   end
 
+  # DELETE /submissions/1 or /submissions/1.json
+  def destroy
+    c = @new_registration.collection
+    @new_registration.destroy!
+
+    respond_to do |format|
+      format.html { redirect_to collection_path(c), status: :see_other, notice: "Registration was successfully deleted." }
+      format.json { head :no_content }
+    end
+  end
+
 
   private
     # Only allow a list of trusted parameters through.

@@ -63,7 +63,7 @@ class SubmissionsController < ApplicationController
     @submission.destroy!
 
     respond_to do |format|
-      format.html { redirect_to collection_path(c), status: :see_other, notice: "Submission was successfully destroyed." }
+      format.html { redirect_to collection_path(c), status: :see_other, notice: "Submission was successfully deleted." }
       format.json { head :no_content }
     end
   end
