@@ -16,7 +16,7 @@ class NewRegistrationsController < ApplicationController
   end
 
   def new
-    unless @collection.new_registrations_in_stock?
+    unless @collection.registrations_in_stock?
       redirect_to @collection, alert: "No registrations remaining for this collection" and return
     end
     @new_registration.user = @current_user.present? ? @current_user : User.new

@@ -91,10 +91,6 @@ class Collection < ApplicationRecord
     registration_options.any?(&:in_stock?)
   end
 
-  def new_registrations_in_stock?
-    registration_options.any?(&:new_in_stock?)
-  end
-
   def home_page
     pages.where(is_home: true).first
   end
