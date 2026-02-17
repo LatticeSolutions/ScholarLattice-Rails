@@ -7,7 +7,8 @@
 
 <div class="my-5">
   <%= form.label :cost, class: CssClass::LABEL do %>
-    Cost in USD cents (leave blank for no-cost events)
+    Cost in USD cents
+    <span class="<%= CssClass::SUBLABEL %>">Leave blank for no-cost registrations</span>
   <% end %>
   <%= form.number_field :cost, value: option.cost,
       class: CssClass::NUMBER_FIELD %>   
@@ -23,7 +24,8 @@
 
 <div class="my-5">
   <%= form.label :allowed_domains, class: CssClass::LABEL do %>
-    Comma-separated list of allowed domains (leave blank to not restrict domains)
+    Comma-separated list of allowed domains
+    <span class="<%= CssClass::SUBLABEL %>">Leave blank to not restrict domains</span>
   <% end %>
   <%= form.text_field :allowed_domains, value: option.allowed_domains,
       class: CssClass::TEXT_FIELD %>
@@ -46,8 +48,14 @@
 </div>
 
 <div class="my-5">
+  <%= form.label :limit_one_per_registration, class: CssClass::LABEL %>
+  <%= form.check_box :limit_one_per_registration, class: CssClass::CHECK_BOX %>
+  <%= render "errors", object: option, attribute: :limit_one_per_registration %>
+</div>
+
+<div class="my-5">
   <%= form.label :opens_on, class: CssClass::LABEL do %>
-    Opens on <span class="text-xs text-gray-500">(<%= collection.inherited_time_zone %>)</span>
+    Opens on <span class="<%= CssClass::SUBLABEL %>">(<%= collection.inherited_time_zone %>)</span>
   <% end %>
   <% Time.use_zone(collection.inherited_time_zone) do %>
     <%= form.datetime_field :opens_on, class: CssClass::DATETIME_FIELD %> 
@@ -56,7 +64,7 @@
 </div>
 <div class="my-5">
   <%= form.label :closes_on, class: CssClass::LABEL do %>
-    Closes on <span class="text-xs text-gray-500">(<%= collection.inherited_time_zone %>)</span>
+    Closes on <span class="<%= CssClass::SUBLABEL %>">(<%= collection.inherited_time_zone %>)</span>
   <% end %>
   <% Time.use_zone(collection.inherited_time_zone) do %>
     <%= form.datetime_field :closes_on, class: CssClass::DATETIME_FIELD %> 

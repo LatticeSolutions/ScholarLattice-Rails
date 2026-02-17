@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_16_153115) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_17_002107) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_16_153115) do
     t.boolean "registerable", default: false, null: false
     t.boolean "public_webinars", default: false, null: false
     t.string "affiliation_identifier_alias"
+    t.boolean "limit_one_registration_option", default: false, null: false
     t.index ["ancestry"], name: "index_collections_on_ancestry"
   end
 
@@ -176,6 +177,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_16_153115) do
     t.boolean "auto_accept", default: false, null: false
     t.string "allowed_domains"
     t.string "info_prompt"
+    t.boolean "limit_one_per_registration", default: false, null: false
     t.index ["collection_id"], name: "index_registration_options_on_collection_id"
   end
 
