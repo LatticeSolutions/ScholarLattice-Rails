@@ -28,8 +28,8 @@
             },
             {
                 icon: :registration, 
-                path: collection_registrations_path(@collection), 
-                text: "Registrations (#{@collection.registrations.count})"
+                path: collection_new_registrations_path(@collection), 
+                text: "Registrations (#{@collection.new_registrations.count})"
             },
         ) %>
         </div>
@@ -65,8 +65,8 @@
                 </span>
             <% end %>
         <% end %>
-        <% if @current_user&.registered_for?(@collection) %>
-            <%= link_to @current_user.registrations_for(@collection).first, 
+        <% if @current_user&.new_registered_for?(@collection) %>
+            <%= link_to @current_user.new_registrations.where(collection: @collection).first, 
                 class: "inline-flex items-center gap-2 rounded-md bg-orange-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-orange-700 focus:outline-none focus:ring focus:ring-green-400" do %>
                 <span class="size-4">
                     <%= render IconComponent.new(:registration) %>
@@ -77,7 +77,7 @@
             <% end %>
         <% elsif @collection.registrations_open? %>
             <% if @collection.registrations_in_stock? %>
-                <%= link_to new_collection_registration_path(@collection), 
+                <%= link_to new_collection_new_registration_path(@collection), 
                     class: "inline-flex font-normal items-center gap-2 rounded-md border-2 border-orange-400 bg-white ml-1 px-4 py-2 text-sm text-orange-600 shadow-sm focus:relative hover:bg-orange-100 focus:outline-none focus:ring focus:ring-orange-400" do %>
                     <span class="size-4">
                         <%= render IconComponent.new(:registration) %>
@@ -108,7 +108,7 @@
                 </span>
             <% end %>
             <% if @collection.has_webinars? %>
-                <% if @collection.public_webinars or @current_user&.registered_for?(@collection) %>
+                <% if @collection.public_webinars or @current_user&.new_registered_for?(@collection) %>
                     <%= link_to collection_events_path(@collection), 
                         class: "inline-flex items-center gap-2 rounded-md bg-purple-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400" do %>
                         <span class="size-4">

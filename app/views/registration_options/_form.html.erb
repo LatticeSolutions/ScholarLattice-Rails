@@ -2,10 +2,6 @@
   <%= render "fields_for", option: option, collection: option.collection || collection, form: form %>
   <div class="<%= CssClass::BUTTON_BAR %>">
     <%= form.submit class: CssClass::SUBMIT %>
-    <% if option.new_record? %>
-      <%= link_to "Cancel", collection_registrations_path(option.collection), class: CssClass::CANCEL %>
-    <% else %>
-      <%= link_to "Cancel", option, class: CssClass::CANCEL %>
-    <% end %>
+    <%= link_to "Cancel", collection_new_registrations_path(option.collection), class: CssClass::CANCEL %>
   </div>
 <% end %>

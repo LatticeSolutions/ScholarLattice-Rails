@@ -9,7 +9,7 @@
         disabled: email_disabled %>
     <%= render "errors", object: user, attribute: :email %>
     <% if email_disabled %>
-    <%= form.hidden_field :email, value: user.email %>
+        <%= form.hidden_field :email, value: user.email %>
     <% end %>
 </div>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_13_233435) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_17_022815) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_13_233435) do
     t.boolean "registerable", default: false, null: false
     t.boolean "public_webinars", default: false, null: false
     t.string "affiliation_identifier_alias"
+    t.boolean "limit_one_registration_option", default: false, null: false
     t.index ["ancestry"], name: "index_collections_on_ancestry"
   end
 
@@ -87,6 +88,17 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_13_233435) do
     t.datetime "updated_at", null: false
     t.index ["collection_id"], name: "index_likes_on_collection_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "new_registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "collection_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_new_registrations_on_collection_id"
+    t.index ["user_id", "collection_id"], name: "index_new_registrations_on_user_id_and_collection_id", unique: true
+    t.index ["user_id"], name: "index_new_registrations_on_user_id"
   end
 
   create_table "pages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -141,6 +153,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_13_233435) do
     t.index ["slug"], name: "index_redirects_on_slug", unique: true
   end
 
+  create_table "registration_option_choices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "new_registration_id", null: false
+    t.uuid "registration_option_id", null: false
+    t.integer "amount", default: 0
+    t.string "info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["new_registration_id", "registration_option_id"], name: "idx_on_new_registration_id_registration_option_id_ed899ee426", unique: true
+    t.index ["new_registration_id"], name: "index_registration_option_choices_on_new_registration_id"
+    t.index ["registration_option_id"], name: "index_registration_option_choices_on_registration_option_id"
+  end
+
   create_table "registration_options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.integer "cost"
@@ -152,6 +176,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_13_233435) do
     t.datetime "updated_at", null: false
     t.boolean "auto_accept", default: false, null: false
     t.string "allowed_domains"
+    t.string "info_prompt"
+    t.boolean "limit_one_per_registration", default: false, null: false
     t.index ["collection_id"], name: "index_registration_options_on_collection_id"
   end
 
@@ -178,7 +204,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_13_233435) do
   end
 
   create_table "submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "title", null: false
+    t.string "title", default: "Untitled", null: false
     t.text "abstract"
     t.text "notes"
     t.uuid "profile_id"
@@ -227,9 +253,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_13_233435) do
   add_foreign_key "invitations", "users"
   add_foreign_key "likes", "collections"
   add_foreign_key "likes", "users"
+  add_foreign_key "new_registrations", "collections"
+  add_foreign_key "new_registrations", "users"
   add_foreign_key "pages", "collections"
   add_foreign_key "profiles_users", "profiles"
   add_foreign_key "profiles_users", "users"
+  add_foreign_key "registration_option_choices", "new_registrations"
+  add_foreign_key "registration_option_choices", "registration_options"
   add_foreign_key "registration_options", "collections"
   add_foreign_key "registration_payments", "registrations"
   add_foreign_key "registrations", "profiles"

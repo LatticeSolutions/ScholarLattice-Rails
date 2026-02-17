@@ -9,9 +9,8 @@ class Ability
     can :read, Page, visibility: [ :public, :unlisted ]
     can :read, Profile
     can :read, Submission, status: :accepted
-    can :create, Submission
     can :read, Registration, status: :accepted
-    can :create, Registration
+    can :read, NewRegistration, status: :accepted
     can :read, Event
     can [ :read, :create ], User
 
@@ -41,17 +40,25 @@ class Ability
     end
 
     can :manage, Submission do |s|
-      s.collection.present? and (s.collection.has_admin?(user) || s.user_id == user.id)
+      s.collection.blank? || (can? :manage, s.collection) || s.user_id.blank? || s.user_id == user.id
     end
 
     can :manage, Registration do |r|
-      r.collection.present? and (r.collection.has_admin?(user) || r.user_id == user.id)
+      r.collection.blank? || (can? :manage, r.collection) || r.user_id.blank? || r.user_id == user.id
     end
     cannot :destroy, Registration do |r|
+      return true if r.accepted?
       r.registration_option.closes_on.present? && r.registration_option.closes_on <= Time.current
     end
     can :view_payments, Registration do |r|
       r.user_id == user.id and r.registration_option.cost.present?
+    end
+
+    can [ :read, :create, :update ], NewRegistration do |r|
+      r.collection.blank? || (can? :manage, r.collection) || r.user.blank? || r.user_id == user.id
+    end
+    can :destroy, NewRegistration do |r|
+      can? :manage, r.collection
     end
 
     can :manage, Invitation do |i|

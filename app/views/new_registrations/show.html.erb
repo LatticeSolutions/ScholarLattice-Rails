@@ -1,0 +1,49 @@
+<% content_for :title, "Registration for #{@new_registration.collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto">
+
+    <%= render partial: "breadcrumb", locals: { collection: @new_registration.collection, action: "Show" } %>
+
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Profile:</strong>
+      <%= @new_registration.user.name_with_email %>
+    </p>
+
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Collection:</strong>
+      <%= @new_registration.collection.title %>
+    </p>
+
+
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Status:</strong>
+      <%= @new_registration.status.humanize %>
+    </p>
+
+    <% @new_registration.registration_option_choices.reject{|c| c.amount < 1}.each do |choice| %>
+      <p class="my-5">
+        <strong class="font-medium mb-1"><%= choice.registration_option.name %> Amount:</strong>
+        <%= choice.amount %>
+      </p>
+      <% if choice.info.present? %>
+        <p class="my-5">
+          <strong class="font-medium mb-1"><%= choice.registration_option.name %> Info:</strong>
+          <%= choice.info %>
+        </p>
+      <% end %>
+    <% end %>
+
+
+    <% if can? :update, @new_registration %>
+      <%= link_to "Update this registration", edit_new_registration_path(@new_registration), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <% end %>
+    
+    <%= link_to "Back to collection", collection_path(@new_registration.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
+    <% if can? :destroy, @new_registration %>
+      <%= button_to "Delete this registration", @new_registration, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
+        class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
+    <% end %>
+  </div>
+</div>

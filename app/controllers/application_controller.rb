@@ -13,19 +13,14 @@ class ApplicationController < ActionController::Base
     @current_user ||= authenticate_by_session(User)
   end
 
-  def require_unauth!
-    unless @current_user.nil?
-      redirect_to dashboard_path, notice: "You are already signed in."
-    end
-  end
-
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
       format.json { head :forbidden }
       if current_user
         format.html { redirect_to dashboard_path, alert: exception.message }
       else
-        format.html { redirect_to users_sign_in_path }
+        save_passwordless_redirect_location!(User)
+        format.html { redirect_to users_sign_in_path, alert: "To continue, please verify your email address." }
       end
     end
   end
@@ -46,10 +41,5 @@ class ApplicationController < ActionController::Base
     else
       redirect_to(root_url, alert: "Redirects to `#{apex_domain}` are not supported.")
     end
-  end
-
-  def session_params
-    return nil unless params[:session].present? && params[:session][:token].present?
-    params.expect(session: [ :identifier, :token ])
   end
 end

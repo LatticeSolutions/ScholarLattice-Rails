@@ -1,6 +1,7 @@
 class RegistrationOption < ApplicationRecord
   belongs_to :collection
   has_many :registrations, dependent: :destroy
+  has_many :registration_option_choices, dependent: :destroy
   has_many :payments, through: :registrations
 
   before_save :clean_allowed_domains
@@ -19,12 +20,12 @@ class RegistrationOption < ApplicationRecord
   end
 
   def remaining_stock
-    stock - registrations.count
+    [ 0, stock - registration_option_choices.pluck(:amount).sum ].max
   end
 
   def in_stock?
     return true if stock.blank?
-    registrations.count < stock
+    remaining_stock > 0
   end
 
   def available?

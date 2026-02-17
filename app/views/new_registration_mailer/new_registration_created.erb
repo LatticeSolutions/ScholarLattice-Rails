@@ -1,0 +1,23 @@
+<h1>Registration submitted for <%= @new_registration.collection.title %></h1>
+<p>
+    Dear <%= @new_registration.user.name %>,
+</p>
+<p>
+    Thank you for registering for
+    <strong><%= @new_registration.collection.title %></strong>.
+    Your registration status as of this
+    message is "<%= @new_registration.status %>".
+</p>
+<p>
+    To access your registration and view its up-to-date status, please visit the following link on ScholarLattice:
+    <%= link_to "Manage Registration", new_registration_url(@new_registration) %> or copy-paste
+    the URL below into your browser:
+</p>
+<p>
+    <code><%= new_registration_url(@new_registration) %></code>
+</p>
+<p>
+    For your security, you may be required to enter and verify your email
+    <code><%= @new_registration.user.email %></code>
+    before you can access this registration.
+</p>
