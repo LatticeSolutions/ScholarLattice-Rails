@@ -14,29 +14,51 @@
 
   <%= render "errors", object: new_registration, attribute: :registration_option_choices %>
 
-  <%= form.fields_for :registration_option_choices do |choice_fields| %>
-    <h3 class="font-bold text-lg"><%= choice_fields.object.registration_option.name %></h3>
-    <div class="mb-5">
-      <%= choice_fields.label :amount, class: CssClass::LABEL %>
-      <%= choice_fields.number_field :amount, class: CssClass::NUMBER_FIELD %>
-      <%= render "errors", object: choice_fields.object, attribute: :amount %>
-    </div>
-    <% if choice_fields.object.registration_option.info_prompt.present? %>
+  <div x-data="{ limitOne: <%= 
+    new_registration.collection.limit_one_registration_option? ? "true" : "false" 
+    %>, selectedOption: '<%= 
+    new_registration.registration_option_choices.select{|c| c.amount > 0}.first&.registration_option_id || "null" 
+    %>' }">
+    <% if new_registration.collection.limit_one_registration_option? %>
       <div class="mb-5">
-        <%= choice_fields.label :info, class: CssClass::LABEL do %>
-          Info
-          <span class="<%= CssClass::SUBLABEL %>">
-            <%= choice_fields.object.registration_option.info_prompt %>
-          </span>
-        <% end %>
-        <%= choice_fields.text_field :info, class: CssClass::TEXT_FIELD %>
-        <%= render "errors", object: choice_fields.object, attribute: :info %>
+        <%= label_tag :registration_option_id_choice, "Registration Option", class: CssClass::LABEL %>
+        <%= select_tag :registration_option_id_choice, 
+          options_for_select(new_registration.collection.registration_options.map{|ro| [ro.name, ro.id]}),
+          {
+            prompt: "Select an option",
+            value: new_registration.registration_option_choices.select{|c| c.amount > 0}.first&.registration_option_id,
+            class: CssClass::SELECT,
+            "x-model" => "selectedOption"
+          } %>
       </div>
-    <% else %>
-      <%= choice_fields.hidden_field :info %>
     <% end %>
-    <%= choice_fields.hidden_field :registration_option_id %>
-  <% end %>
+
+    <%= form.fields_for :registration_option_choices do |choice_fields| %>
+      <div :class="{ 'hidden' : limitOne && selectedOption != '<%= choice_fields.object.registration_option_id %>' }">
+        <h3 class="font-bold text-lg"><%= choice_fields.object.registration_option.name %></h3>
+        <div class="mb-5">
+          <%= choice_fields.label :amount, class: CssClass::LABEL %>
+          <%= choice_fields.number_field :amount, class: CssClass::NUMBER_FIELD %>
+          <%= render "errors", object: choice_fields.object, attribute: :amount %>
+        </div>
+        <% if choice_fields.object.registration_option.info_prompt.present? %>
+          <div class="mb-5">
+            <%= choice_fields.label :info, class: CssClass::LABEL do %>
+              Info
+              <span class="<%= CssClass::SUBLABEL %>">
+                <%= choice_fields.object.registration_option.info_prompt %>
+              </span>
+            <% end %>
+            <%= choice_fields.text_field :info, class: CssClass::TEXT_FIELD %>
+            <%= render "errors", object: choice_fields.object, attribute: :info %>
+          </div>
+        <% else %>
+          <%= choice_fields.hidden_field :info %>
+        <% end %>
+        <%= choice_fields.hidden_field :registration_option_id %>
+      </div>
+    <% end %>
+  </div>
 
 </div>
 

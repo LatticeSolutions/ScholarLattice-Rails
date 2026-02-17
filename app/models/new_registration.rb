@@ -5,6 +5,8 @@ class NewRegistration < ApplicationRecord
 
   validate :only_admins_update_status
 
+  validate :error_when_no_option_chosen, unless: -> { registration_option_choices.select { |c| c.amount > 0 }.any? }
+
   before_save :ensure_choices_for_all_options
 
   has_many :registration_option_choices, dependent: :destroy
@@ -81,7 +83,14 @@ class NewRegistration < ApplicationRecord
 
   def ensure_choices_for_all_options
     collection.registration_options.each do |option|
-      registration_option_choices.find_or_create_by!(registration_option: option)
+      if registration_option_choices.select { |c| c.registration_option == option }.empty?
+        registration_option_choices.new(registration_option: option)
+      end
     end
+    puts registration_option_choices.inspect
+  end
+
+  def error_when_no_option_chosen
+    errors.add(:registration_option_choices, "must have at least one option chosen")
   end
 end

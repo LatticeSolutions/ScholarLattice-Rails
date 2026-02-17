@@ -29,6 +29,7 @@ class NewRegistrationsController < ApplicationController
   end
 
   def create
+    prune_registration_options
     respond_to do |format|
       if @new_registration.save
         NewRegistrationMailer.new_registration_created(@new_registration).deliver_later
@@ -42,8 +43,10 @@ class NewRegistrationsController < ApplicationController
   end
 
   def update
+    @new_registration.assign_attributes(new_registration_params)
+    prune_registration_options
     respond_to do |format|
-      if @new_registration.update(new_registration_params)
+      if @new_registration.save
         format.html { redirect_to @new_registration, notice: "New registration was successfully updated." }
         format.json { render :show, status: :ok, location: @new_registration }
       else
@@ -71,6 +74,7 @@ class NewRegistrationsController < ApplicationController
       params.expect(new_registration: [
         :status,
         :user_id,
+        :registration_option_id_choice,
         user_attributes: [
           :id, :first_name, :last_name, :email, :affiliation,
           :position_type, :position, :affiliation_identifier
@@ -79,5 +83,14 @@ class NewRegistrationsController < ApplicationController
           :id, :registration_option_id, :amount, :info
         ] ]
       ])
+    end
+
+    def prune_registration_options
+      selected_option_id = params.dig(:registration_option_id_choice)
+      if selected_option_id.present? && @new_registration.collection.limit_one_registration_option?
+        @new_registration.registration_option_choices =  @new_registration.registration_option_choices.select do |choice|
+          choice.registration_option_id == selected_option_id
+        end
+      end
     end
 end
