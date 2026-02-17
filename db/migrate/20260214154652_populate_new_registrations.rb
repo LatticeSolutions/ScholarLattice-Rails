@@ -10,18 +10,18 @@ class PopulateNewRegistrations < ActiveRecord::Migration[8.0]
         else
           status = :accepted
         end
-        new_registration = NewRegistration.create!(
+        new_registration = NewRegistration.new(
           user_id: user.id,
           collection_id: collection.id,
           status: status
         )
         collection.registration_options.find_each do |registration_option|
-          RegistrationOptionChoice.create!(
-            new_registration: new_registration,
+          new_registration.registration_option_choices.build(
             registration_option: registration_option,
             amount: (user.registrations.find_by(registration_option: registration_option).present? ? 1 : 0)
           )
         end
+        new_registration.save!
       end
     end
   end

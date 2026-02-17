@@ -30,6 +30,7 @@ class NewRegistrationsController < ApplicationController
 
   def create
     prune_registration_options
+    only_admins_update_status
     respond_to do |format|
       if @new_registration.save
         NewRegistrationMailer.new_registration_created(@new_registration).deliver_later
@@ -45,6 +46,7 @@ class NewRegistrationsController < ApplicationController
   def update
     @new_registration.assign_attributes(new_registration_params)
     prune_registration_options
+    only_admins_update_status
     respond_to do |format|
       if @new_registration.save
         format.html { redirect_to @new_registration, notice: "New registration was successfully updated." }
@@ -93,4 +95,16 @@ class NewRegistrationsController < ApplicationController
         end
       end
     end
+
+  def only_admins_update_status
+    if @current_user.ability.cannot?(:manage, @new_registration.collection)
+      if @new_registration.new_record?
+        if !@new_registration.submitted?
+          @new_registration.errors.add(:status, "can only be set by collection admins")
+        end
+      elsif @new_registration.status_changed? && @new_registration.status_was.present?
+        @new_registration.errors.add(:status, "can only be changed by collection admins")
+      end
+    end
+  end
 end
