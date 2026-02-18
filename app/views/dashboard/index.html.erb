@@ -9,7 +9,7 @@
         <span class="px-3">Dashboard</span>
     </h1>
 
-    <% if @current_user.registrations.any? %>
+    <% if @current_user.new_registrations.any? %>
         <h2 class="text-xl font-bold text-gray-900 md:text-2xl py-5 flex items-center">
             <span class="size-8">
                 <%= render IconComponent.new(:registration) %>
@@ -17,8 +17,8 @@
             <span class="px-3">Your Registrations</span>
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-            <% @current_user.registrations.each do |registration| %>
-                <%= render partial: "registrations/card", locals: { registration: registration } %>
+            <% @current_user.new_registrations.each do |registration| %>
+                <%= render partial: "new_registrations/card", locals: { registration: registration } %>
             <% end %>
         </div>
     <% end %>
