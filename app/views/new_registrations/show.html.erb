@@ -22,16 +22,30 @@
     </p>
 
     <% @new_registration.registration_option_choices.reject{|c| c.amount < 1}.each do |choice| %>
-      <p class="my-5">
-        <strong class="font-medium mb-1"><%= choice.registration_option.name %> Amount:</strong>
-        <%= choice.amount %>
-      </p>
-      <% if choice.info.present? %>
+      <div class="border rounded bg-gray-50 p-5">
+        <h2 class="text-lg font-medium mt-5 mb-2"><%= choice.registration_option.name %> Registrations:</h2>
         <p class="my-5">
-          <strong class="font-medium mb-1"><%= choice.registration_option.name %> Info:</strong>
-          <%= choice.info %>
+          <strong class="font-medium mb-1">Amount:</strong>
+          <%= choice.amount %>
         </p>
-      <% end %>
+        <% if choice.info.present? %>
+          <p class="my-5">
+            <strong class="font-medium mb-1">Info:</strong>
+            <%= choice.info %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+
+
+    <% if @new_registration.has_cost? %>
+      <div class="my-5">
+        <h2 class="text-lg font-medium mt-5 mb-2">Total Cost of Registrations:</h2>
+        <span>$<%= Money.new(@new_registration.total_cost, :usd) %></span>
+        <span class="rounded-lg ml-3 py-1 px-3 bg-green-100 inline-block">
+          Payment instructions will be emailed to you
+        </span>
+      </div>
     <% end %>
 
 

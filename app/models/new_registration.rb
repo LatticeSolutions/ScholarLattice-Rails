@@ -13,6 +13,14 @@ class NewRegistration < ApplicationRecord
 
   accepts_nested_attributes_for :user, :registration_option_choices
 
+  def has_cost?
+    registration_option_choices.any?(&:has_cost?)
+  end
+
+  def total_cost
+    registration_option_choices.select(&:has_cost?).sum(&:total_cost)
+  end
+
   def csv_row
     row = [
       id,
