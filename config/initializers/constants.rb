@@ -13,4 +13,5 @@ module CssClass
   CANCEL = "cursor-pointer inline-block px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50 focus:relative disabled:cursor-not-allowed"
   LINK_BUTTON = "cursor-pointer inline-block px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:relative disabled:cursor-not-allowed"
   BUTTON_BAR = "inline-flex -space-x-px overflow-hidden rounded-md border bg-white shadow-sm"
+  LINK = "text-blue-500 underline hover:text-blue-700 hover:no-underline"
 end
