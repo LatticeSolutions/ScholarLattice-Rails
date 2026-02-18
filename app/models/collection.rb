@@ -19,6 +19,13 @@ class Collection < ApplicationRecord
   after_save :update_admins_after_save
   before_save :round_down_submission_times
 
+  validates :paypalme_username,
+    format: {
+      with: /\A[a-zA-Z0-9]+\z/,
+      message: "must only use alphanumeric characters (A-Z, a-z, or 0-9)"
+    },
+    allow_blank: true
+
   default_scope { order(:order, :title) }
 
   def admin_users

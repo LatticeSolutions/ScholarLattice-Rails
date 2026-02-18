@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_17_022815) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_18_195047) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -43,6 +43,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_17_022815) do
     t.boolean "public_webinars", default: false, null: false
     t.string "affiliation_identifier_alias"
     t.boolean "limit_one_registration_option", default: false, null: false
+    t.string "paypalme_username"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
   end
 
