@@ -23,7 +23,7 @@
 
     <% @new_registration.registration_option_choices.reject{|c| c.amount < 1}.each do |choice| %>
       <div class="border rounded bg-white p-5">
-        <h2 class="text-lg font-medium mb-2"><%= choice.registration_option.name %> Registrations:</h2>
+        <h2 class="text-lg font-medium mb-2"><%= choice.registration_option.name_with_cost %> Registrations:</h2>
         <p class="my-2">
           <strong class="font-medium mb-1">Amount:</strong>
           <%= choice.amount %>
