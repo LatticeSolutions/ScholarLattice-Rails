@@ -40,13 +40,16 @@
       <div class="border rounded p-2 my-2 <%=
         choice_fields.object.registration_option.available_or_admin?(@current_user) ? " bg-white" : "bg-gray-100 cursor-not-allowed"
         %>" :class="{ 'hidden' : limitOne && selectedOption !== '<%= choice_fields.object.registration_option_id %>' }">
+        <h3 class="font-medium text-xl">
+          <%= choice_fields.object.registration_option.name_with_cost_and_availability %>
+        </h3>
         <% if choice_fields.object.registration_option.limit_one_per_registration %>
           <% if new_registration.collection.limit_one_registration_option %>
             <%= choice_fields.hidden_field :amount, value: 1 %>
           <% else %>
             <div class="mb-5">
               <%= choice_fields.label :amount, class: CssClass::LABEL do %>
-                <%= choice_fields.object.registration_option.name_with_cost_and_availability %> Registration
+                Select this registration option
               <% end %>
               <%= choice_fields.check_box :amount, 
                 class: CssClass::CHECK_BOX, 
@@ -57,10 +60,11 @@
         <% else %>
           <div class="mb-5">
             <%= choice_fields.label :amount, class: CssClass::LABEL do %>
-                <%= choice_fields.object.registration_option.name_with_cost_and_availability %> Amount
+                Number of registrations for this option
             <% end %>
             <%= choice_fields.number_field :amount, 
               class: CssClass::NUMBER_FIELD,
+              min: 0,
               disabled: !choice_fields.object.registration_option.available_or_admin?(@current_user) %>
             <%= render "errors", object: choice_fields.object, attribute: :amount %>
           </div>
@@ -68,7 +72,7 @@
         <% if choice_fields.object.registration_option.info_prompt.present? %>
           <div class="mb-5">
             <%= choice_fields.label :info, class: CssClass::LABEL do %>
-              <%= choice_fields.object.registration_option.name %> Info
+              Additional Info
               <span class="<%= CssClass::SUBLABEL %>">
                 <%= choice_fields.object.registration_option.info_prompt %>
               </span>
