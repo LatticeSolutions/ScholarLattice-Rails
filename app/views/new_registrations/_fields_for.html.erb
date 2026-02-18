@@ -37,33 +37,33 @@
     <% end %>
 
     <%= form.fields_for :registration_option_choices do |choice_fields| %>
-      <div class="border rounded p-2 my-2 <%=
+      <div class="border rounded px-3 py-2 my-2 <%=
         choice_fields.object.registration_option.available_or_admin?(@current_user) ? " bg-white" : "bg-gray-100 cursor-not-allowed"
         %>" :class="{ 'hidden' : limitOne && selectedOption !== '<%= choice_fields.object.registration_option_id %>' }">
-        <h3 class="font-medium text-xl">
+        <h3 class="font-medium text-xl mb-2">
           <%= choice_fields.object.registration_option.name_with_cost_and_availability %>
         </h3>
         <% if choice_fields.object.registration_option.limit_one_per_registration %>
           <% if new_registration.collection.limit_one_registration_option %>
             <%= choice_fields.hidden_field :amount, value: 1 %>
           <% else %>
-            <div class="mb-5">
+            <div class="mb-1">
               <%= choice_fields.label :amount, class: CssClass::LABEL do %>
                 Select this registration option
               <% end %>
               <%= choice_fields.check_box :amount, 
-                class: CssClass::CHECK_BOX, 
+                class: CssClass::CHECK_BOX + " ml-1", 
                 disabled: !choice_fields.object.registration_option.available_or_admin?(@current_user) %>
               <%= render "errors", object: choice_fields.object, attribute: :amount %>
             </div>
           <% end %>
         <% else %>
-          <div class="mb-5">
+          <div class="mb-1">
             <%= choice_fields.label :amount, class: CssClass::LABEL do %>
                 Number of registrations for this option
             <% end %>
             <%= choice_fields.number_field :amount, 
-              class: CssClass::NUMBER_FIELD,
+              class: CssClass::NUMBER_FIELD + " w-24 ml-4",
               min: 0,
               disabled: !choice_fields.object.registration_option.available_or_admin?(@current_user) %>
             <%= render "errors", object: choice_fields.object, attribute: :amount %>
