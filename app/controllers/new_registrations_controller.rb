@@ -20,12 +20,11 @@ class NewRegistrationsController < ApplicationController
       redirect_to @collection, alert: "No registrations remaining for this collection" and return
     end
     @new_registration.user = @current_user.present? ? @current_user : User.new
-    @collection.registration_options.each do |option|
-      @new_registration.registration_option_choices.build(registration_option: option, amount: 0)
-    end
+    @new_registration.ensure_choices_for_all_options
   end
 
   def edit
+    @new_registration.ensure_choices_for_all_options
   end
 
   def create
@@ -92,19 +91,20 @@ class NewRegistrationsController < ApplicationController
         selected_option_id = params.dig(:registration_option_id_choice)
         @new_registration.registration_option_choices.reject { |c| c.registration_option_id == selected_option_id }.each do |choice|
           choice.amount = 0
+          choice.info = nil
         end
       end
     end
 
-  def only_admins_update_status
-    if @current_user.ability.cannot?(:manage, @new_registration.collection)
-      if @new_registration.new_record?
-        if !@new_registration.submitted?
-          @new_registration.errors.add(:status, "can only be set by collection admins")
+    def only_admins_update_status
+      if @current_user.ability.cannot?(:manage, @new_registration.collection)
+        if @new_registration.new_record?
+          if !@new_registration.submitted?
+            @new_registration.errors.add(:status, "can only be set by collection admins")
+          end
+        elsif @new_registration.status_changed? && @new_registration.status_was.present?
+          @new_registration.errors.add(:status, "can only be changed by collection admins")
         end
-      elsif @new_registration.status_changed? && @new_registration.status_was.present?
-        @new_registration.errors.add(:status, "can only be changed by collection admins")
       end
     end
-  end
 end

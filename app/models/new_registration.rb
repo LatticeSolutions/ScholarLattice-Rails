@@ -73,7 +73,6 @@ class NewRegistration < ApplicationRecord
     end
   end
 
-  private
   def ensure_choices_for_all_options
     collection.registration_options.each do |option|
       if registration_option_choices.select { |c| c.registration_option == option }.empty?
@@ -81,6 +80,8 @@ class NewRegistration < ApplicationRecord
       end
     end
   end
+
+  private
 
   def error_when_no_option_chosen
     errors.add(:registration_option_choices, "must have at least one option chosen")
