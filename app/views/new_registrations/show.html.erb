@@ -42,9 +42,16 @@
       <div class="my-5">
         <h2 class="text-lg font-medium mt-5 mb-2">Total Cost of Registrations:</h2>
         <span>$<%= Money.new(@new_registration.total_cost, :usd) %></span>
-        <span class="rounded-lg ml-3 py-1 px-3 bg-green-100 inline-block">
-          Payment instructions will be emailed to you
-        </span>
+        <% if @new_registration.collection.paypalme_username.present? %>
+          <%= link_to "Pay full amount with PayPal", 
+            "https://paypal.me/#{@new_registration.collection.paypalme_username}/#{@new_registration.total_cost / 100}USD", 
+            target: "_blank",
+            class: "#{CssClass::LINK_BUTTON} bg-yellow-500 hover:bg-yellow-600 rounded text-white ml-3" %>
+          <%= link_to "Pay another amount", 
+            "https://paypal.me/#{@new_registration.collection.paypalme_username}", 
+            target: "_blank",
+            class: "#{CssClass::LINK_BUTTON} bg-orange-500 hover:bg-orange-600 rounded text-white ml-3" %>
+        <% end %>
       </div>
     <% end %>
 
