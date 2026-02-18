@@ -20,6 +20,7 @@ class RegistrationOption < ApplicationRecord
   end
 
   def remaining_stock
+    return nil if stock.blank?
     [ 0, stock - registration_option_choices.pluck(:amount).sum ].max
   end
 
