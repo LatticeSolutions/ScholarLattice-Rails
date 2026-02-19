@@ -11,5 +11,9 @@
       <%= @submission.collection.description %>
   </p>
 
+  <% if can? :manage, @submission %>
+    <%= render "users/change_form", user: @submission.user, url: collection_submissions_path(@submission.collection), method: :post %>
+  <% end %>
+
   <%= render "form", submission: @submission %>
 </div>
