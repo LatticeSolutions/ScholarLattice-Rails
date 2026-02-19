@@ -52,7 +52,7 @@ class InvitationsController < ApplicationController
         first_name, last_name, email = user_string.match(name_email_regex).captures
         user_id = get_user_id(email, first_name, last_name, "")
       else
-        flash.now[:alert] = "Could not parse invitation name/email: `#{user_string}`."
+        flash[:alert] = "Could not parse invitation name/email: `#{user_string}`."
         render :new_batch, status: :unprocessable_entity
         return
       end
@@ -61,7 +61,7 @@ class InvitationsController < ApplicationController
 
     invalid_invitations = invitations.reject(&:valid?)
     if invalid_invitations.any?
-      flash.now[:alert] = "Some invitations were invalid: #{invalid_invitations.map { |inv| inv.email + ": " + inv.errors.full_messages.join(', ') }.join('; ')}"
+      flash[:alert] = "Some invitations were invalid: #{invalid_invitations.map { |inv| inv.email + ": " + inv.errors.full_messages.join(', ') }.join('; ')}"
       render :new_batch, status: :unprocessable_entity
       return
     end

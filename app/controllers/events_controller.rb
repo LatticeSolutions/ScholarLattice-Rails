@@ -143,12 +143,12 @@ class EventsController < ApplicationController
     title = (params[:subevent_title] || @event.title).strip
     collection = params[:collection_id].present? ? Collection.find(params[:collection_id]) : @event.collection
     if number_of_subevents <= 0 || length_of_each_subevent < 0 || length_of_break < 0
-      flash.now[:alert] = "Invalid input values. Please ensure all values are positive."
+      flash[:alert] = "Invalid input values. Please ensure all values are positive."
       render :new_subevents, status: :unprocessable_entity
       return
     end
     if number_of_subevents > 100
-      flash.now[:alert] = "Too many subevents requested. Please request fewer than 100 subevents."
+      flash[:alert] = "Too many subevents requested. Please request fewer than 100 subevents."
       render :new_subevents, status: :unprocessable_entity
       return
     end
@@ -176,7 +176,7 @@ class EventsController < ApplicationController
       subevents << subevent
     end
     if subevents.any?(&:invalid?)
-      flash.now[:alert] = "Some subevents could not be created due to errors: #{subevents.map(&:errors).map(&:full_messages).join(', ')}"
+      flash[:alert] = "Some subevents could not be created due to errors: #{subevents.map(&:errors).map(&:full_messages).join(', ')}"
       render :new_subevents, status: :unprocessable_entity
       return
     end

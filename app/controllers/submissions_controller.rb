@@ -1,9 +1,8 @@
 class SubmissionsController < ApplicationController
   load_and_authorize_resource :collection, except: [ :index, :upload, :import ]
   load_resource :collection, only: [ :index, :upload, :import ]
-  load_and_authorize_resource :submission, through: :collection, shallow: true, except: [ :index, :upload, :import ]
+  load_and_authorize_resource :submission, through: :collection, shallow: true, except: [ :index, :create, :upload, :import ]
 
-  # GET /submissions or /submissions.json
   def index
     @submissions = @collection.subtree_submissions
     respond_to do |format|
@@ -12,14 +11,12 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  # GET /submissions/1 or /submissions/1.json
   def show
     if can? :manage, @collection
       @registrations = Registration.where(user: @submission.user, collection: @submission.collection.path)
     end
   end
 
-  # GET /submissions/new
   def new
     @submission.user = @current_user
   end
@@ -29,6 +26,21 @@ class SubmissionsController < ApplicationController
   end
 
   def create
+    @submission = Submission.new(collection: @collection)
+    changed_user_email = params[:user][:email] if params[:user].present?
+    if (can? :manage, @collection) && changed_user_email.present?
+      changed_user = User.find_by(email: changed_user_email)
+      if changed_user.present?
+        flash[:notice] = "Now creating submission for existing user with email #{changed_user_email}."
+        @submission.user = changed_user
+      else
+        flash[:notice] = "Now creating submission for new user with email #{changed_user_email}."
+        @submission.user = User.new(email: changed_user_email)
+      end
+      render :new and return
+    end
+    @submission.assign_attributes(submission_params)
+    only_admins_can_manage_other_users
     respond_to do |format|
       if @submission.save
         SubmissionMailer.submission_created(@submission).deliver_later
@@ -41,10 +53,28 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
+    changed_user_email = params[:user][:email] if params[:user].present?
+    if (can? :manage, @submission.collection) && changed_user_email.present?
+      changed_user = User.find_by(email: changed_user_email)
+      if changed_user.present?
+        if @submission.update(user: changed_user)
+          flash[:notice] = "Submitter email updated successfully."
+          redirect_to edit_submission_path(@submission) and return
+        else
+          flash[:alert] = "Failed to update submitter email: #{@submission.errors.full_messages.join(', ')}"
+          render :edit and return
+        end
+      else
+        flash[:notice] = "Editing submission for new user with email #{changed_user_email}."
+        @submission.user = User.new(email: changed_user_email)
+        render :edit and return
+      end
+    end
+    @submission.assign_attributes(submission_params)
+    only_admins_can_manage_other_users
     respond_to do |format|
-      if @submission.update(submission_params)
+      if @submission.save
         if send_update_notification?
           SubmissionMailer.submission_updated(@submission).deliver_later
         end
@@ -150,6 +180,16 @@ class SubmissionsController < ApplicationController
         params.expect(submission: [ :title, :coauthors, :abstract, :notes, :private_notes, :status, :collection_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       else
         params.expect(submission: [ :title, :coauthors, :abstract, :notes, :private_notes, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+      end
+    end
+
+    def admin_user_params
+      params.expect(user: [ :email ])
+    end
+
+    def only_admins_can_manage_other_users
+      if @submission.user != @current_user && cannot?(:manage, @submission.collection)
+        @submission.errors.add(:user, "must be yourself")
       end
     end
 
