@@ -12,7 +12,7 @@ class RegistrationOptionsController < ApplicationController
     adjust_datetime_params
     respond_to do |format|
       if @registration_option.save
-        format.html { redirect_to collection_new_registrations_path(@registration_option.collection),
+        format.html { redirect_to collection_registrations_path(@registration_option.collection),
           notice: "Option was successfully created." }
         format.json { render :show, status: :created, location: @registration_option }
       else
@@ -27,7 +27,7 @@ class RegistrationOptionsController < ApplicationController
     adjust_datetime_params
     respond_to do |format|
       if @registration_option.save
-        format.html { redirect_to collection_new_registrations_path(@registration_option.collection),
+        format.html { redirect_to collection_registrations_path(@registration_option.collection),
           notice: "Option was successfully updated." }
         format.json { render :show, status: :ok, location: @registration_option }
       else
@@ -43,7 +43,7 @@ class RegistrationOptionsController < ApplicationController
     @registration_option.destroy!
 
     respond_to do |format|
-      format.html { redirect_to collection_new_registrations_path(c), status: :see_other,
+      format.html { redirect_to collection_registrations_path(c), status: :see_other,
         notice: "Option was successfully deleted." }
       format.json { head :no_content }
     end

@@ -1,35 +1,35 @@
-<%= form.fields_for :user, new_registration.user do |user_fields| %>
+<%= form.fields_for :user, registration.user do |user_fields| %>
   <%= render "users/fields_for",
-      user: new_registration.user,
+      user: registration.user,
       email_disabled: true,
       form: user_fields %>
 <% end %>
 
-<%= form.hidden_field :user_id, value: new_registration.user_id %>
+<%= form.hidden_field :user_id, value: registration.user_id %>
 
 <h2 class="font-bold text-2xl">Registration Info</h2>
 
 <div class="my-5">
-  <%= render "errors", object: new_registration, attribute: :user %>
+  <%= render "errors", object: registration, attribute: :user %>
 
-  <%= render "errors", object: new_registration, attribute: :registration_option_choices %>
+  <%= render "errors", object: registration, attribute: :registration_option_choices %>
 
   <div x-data="{ limitOne: <%= 
-    new_registration.collection.limit_one_registration_option? ? "true" : "false" 
+    registration.collection.limit_one_registration_option? ? "true" : "false" 
     %>, selectedOption: '<%= 
-    new_registration.registration_option_choices.select{|c| c.amount > 0}.first&.registration_option_id || "null" 
+    registration.registration_option_choices.select{|c| c.amount > 0}.first&.registration_option_id || "null" 
     %>' }">
-    <% if new_registration.collection.limit_one_registration_option? %>
+    <% if registration.collection.limit_one_registration_option? %>
       <div class="mb-5">
         <%= label_tag :registration_option_id_choice, "Registration Option", class: CssClass::LABEL %>
         <%= select_tag :registration_option_id_choice, 
           options_for_select(
-            new_registration.collection.registration_options.map{|ro| [ro.name_with_cost_and_availability, ro.id]},
+            registration.collection.registration_options.map{|ro| [ro.name_with_cost_and_availability, ro.id]},
             disabled: (can? :manage, collection) ? [] : collection.registration_options.reject(&:available?).map(&:id)
           ),
           {
             prompt: "Select an option",
-            value: new_registration.registration_option_choices.select{|c| c.amount > 0}.first&.registration_option_id,
+            value: registration.registration_option_choices.select{|c| c.amount > 0}.first&.registration_option_id,
             class: CssClass::SELECT,
             "x-model" => "selectedOption"
           } %>
@@ -41,7 +41,7 @@
         choice_fields.object.registration_option.available_or_admin?(@current_user) ? " bg-white" : "bg-gray-100 cursor-not-allowed"
         %>" :class="{ 'hidden' : limitOne && selectedOption !== '<%= choice_fields.object.registration_option_id %>' }">
         <% if choice_fields.object.registration_option.limit_one_per_registration %>
-          <% if new_registration.collection.limit_one_registration_option %>
+          <% if registration.collection.limit_one_registration_option %>
             <%= choice_fields.hidden_field :amount, value: 1 %>
           <% else %>
             <div class="mb-5">
@@ -96,9 +96,9 @@
       </span>
       Status
     <% end %>
-    <%= form.select :status, NewRegistration.statuses.keys.map {|key| [key.humanize, key]},
-      {selected: new_registration.status || :submitted},
+    <%= form.select :status, Registration.statuses.keys.map {|key| [key.humanize, key]},
+      {selected: registration.status || :submitted},
       {class: CssClass::SELECT} %>
-    <%= render "errors", object: new_registration, attribute: :status %>
+    <%= render "errors", object: registration, attribute: :status %>
   </div>
 <% end %>

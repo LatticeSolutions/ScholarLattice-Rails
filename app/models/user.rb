@@ -37,9 +37,9 @@ class User < ApplicationRecord
   has_many :managing_users, through: :managing_users_link, source: :manager
 
   has_many :submissions
-  has_many :registrations
+  has_many :old_registrations
   has_many :invitations
-  has_many :new_registrations
+  has_many :registrations
 
   before_save :downcase_email
   before_save :strip_whitespace
@@ -88,16 +88,16 @@ class User < ApplicationRecord
     "#{name} ⟨#{email}⟩"
   end
 
+  def old_registered_for?(collection)
+    old_registrations_for(collection).any?
+  end
+
+  def old_registrations_for(collection)
+    old_registrations.where(registration_option: collection.registration_options)
+  end
+
   def registered_for?(collection)
-    registrations_for(collection).any?
-  end
-
-  def registrations_for(collection)
-    registrations.where(registration_option: collection.registration_options)
-  end
-
-  def new_registered_for?(collection)
-    new_registrations.where(collection: collection).any?
+    registrations.where(collection: collection).any?
   end
 
   def main_profile

@@ -19,8 +19,4 @@ class RedirectsController < ApplicationController
       render file: Rails.root.join("public/404.html"), status: :not_found, layout: false
     end
   end
-
-  def registrations
-    redirect_to new_collection_new_registration_path(params[:collection_id])
-  end
 end

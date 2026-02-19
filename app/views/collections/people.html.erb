@@ -82,7 +82,7 @@
                         <% end %>
                     </td>
                     <td class="p-2">
-                        <% user.new_registrations.where(collection: @collection.path).each do |r| %>
+                        <% user.registrations.where(collection: @collection.path).each do |r| %>
                             <%= link_to r, class: "text-blue-600 hover:underline block" do %>
                                 <%= r.collection.short_title %> (<%= r.status %>)
                             <% end %>
