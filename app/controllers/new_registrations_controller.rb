@@ -1,6 +1,6 @@
 class NewRegistrationsController < ApplicationController
   load_and_authorize_resource :collection
-  load_and_authorize_resource :new_registration, through: :collection, shallow: true
+  load_and_authorize_resource :new_registration, through: :collection, shallow: true, except: [ :create ]
 
   def index
     @new_registrations = @collection.subtree_new_registrations
@@ -28,7 +28,23 @@ class NewRegistrationsController < ApplicationController
   end
 
   def create
+    @new_registration = NewRegistration.new(collection: @collection)
+    changed_user_email = params[:user][:email] if params[:user].present?
+    if (can? :manage, @collection) && changed_user_email.present?
+      changed_user = User.find_by(email: changed_user_email)
+      if changed_user.present?
+        flash[:notice] = "Now creating registration for existing user with email #{changed_user_email}."
+        @new_registration.user = changed_user
+      else
+        flash[:notice] = "Now creating registration for new user with email #{changed_user_email}."
+        @new_registration.user = User.new(email: changed_user_email)
+      end
+      @new_registration.ensure_choices_for_all_options
+      render :new and return
+    end
+    @new_registration.assign_attributes(new_registration_params)
     prune_registration_options
+    only_admins_can_manage_other_users
     only_admins_update_status
     respond_to do |format|
       if @new_registration.save
@@ -43,8 +59,26 @@ class NewRegistrationsController < ApplicationController
   end
 
   def update
+    changed_user_email = params[:user][:email] if params[:user].present?
+    if (can? :manage, @new_registration.collection) && changed_user_email.present?
+      changed_user = User.find_by(email: changed_user_email)
+      if changed_user.present?
+        if @new_registration.update(user: changed_user)
+          flash[:notice] = "Submitter email updated successfully."
+          redirect_to edit_new_registration_path(@new_registration) and return
+        else
+          flash[:alert] = "Failed to update submitter email: #{@new_registration.errors.full_messages.join(', ')}"
+          render :edit and return
+        end
+      else
+        flash[:notice] = "Editing registration for new user with email #{changed_user_email}."
+        @new_registration.user = User.new(email: changed_user_email)
+        render :edit and return
+      end
+    end
     @new_registration.assign_attributes(new_registration_params)
     prune_registration_options
+    only_admins_can_manage_other_users
     only_admins_update_status
     respond_to do |format|
       if @new_registration.save
@@ -105,6 +139,12 @@ class NewRegistrationsController < ApplicationController
         elsif @new_registration.status_changed? && @new_registration.status_was.present?
           @new_registration.errors.add(:status, "can only be changed by collection admins")
         end
+      end
+    end
+
+    def only_admins_can_manage_other_users
+      if @new_registration.user != @current_user && cannot?(:manage, @new_registration.collection)
+        @new_registration.errors.add(:user, "must be yourself")
       end
     end
 end
