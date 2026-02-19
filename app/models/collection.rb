@@ -12,8 +12,8 @@ class Collection < ApplicationRecord
   has_many :events, dependent: :destroy
   has_many :invitations, dependent: :destroy
   has_many :registration_options, dependent: :destroy
-  has_many :registrations, through: :registration_options
-  has_many :new_registrations, dependent: :destroy
+  has_many :old_registrations, through: :registration_options
+  has_many :registrations, dependent: :destroy
   has_many :payments, through: :registrations
   has_one :attached_event, class_name: "Event", foreign_key: "attached_collection_id", dependent: :nullify
   after_save :update_admins_after_save
@@ -68,8 +68,8 @@ class Collection < ApplicationRecord
     Invitation.where(collection: subtree)
   end
 
-  def subtree_new_registrations
-    NewRegistration.where(collection: subtree)
+  def subtree_registrations
+    Registration.where(collection: subtree)
   end
 
   def submissions_closed?

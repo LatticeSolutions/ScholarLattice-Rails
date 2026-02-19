@@ -7,10 +7,9 @@ class Ability
     # default abilities
     can :read, Collection
     can :read, Page, visibility: [ :public, :unlisted ]
-    can :read, Profile
     can :read, Submission, status: :accepted
+    can :read, OldRegistration, status: :accepted
     can :read, Registration, status: :accepted
-    can :read, NewRegistration, status: :accepted
     can :read, Event
     can [ :read, :create ], User
 
@@ -43,21 +42,21 @@ class Ability
       s.collection.blank? || (can? :manage, s.collection) || s.user_id.blank? || s.user_id == user.id
     end
 
-    can :manage, Registration do |r|
+    can :manage, OldRegistration do |r|
       r.collection.blank? || (can? :manage, r.collection) || r.user_id.blank? || r.user_id == user.id
     end
-    cannot :destroy, Registration do |r|
+    cannot :destroy, OldRegistration do |r|
       return true if r.accepted?
       r.registration_option.closes_on.present? && r.registration_option.closes_on <= Time.current
     end
-    can :view_payments, Registration do |r|
+    can :view_payments, OldRegistration do |r|
       r.user_id == user.id and r.registration_option.cost.present?
     end
 
-    can [ :read, :create, :update ], NewRegistration do |r|
+    can [ :read, :create, :update ], Registration do |r|
       r.collection.blank? || (can? :manage, r.collection) || r.user.blank? || r.user_id == user.id
     end
-    can :destroy, NewRegistration do |r|
+    can :destroy, Registration do |r|
       can? :manage, r.collection
     end
 

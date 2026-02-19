@@ -19,7 +19,7 @@
   title: "#{registration.user.name_with_email} (#{registration.status.humanize})",
   description: description,
   link_text: "View Registration",
-  link_url: new_registration_path(registration),
+  link_url: registration_path(registration),
   title_icon: :registration,
   crumbs: crumbs,
 ) %>

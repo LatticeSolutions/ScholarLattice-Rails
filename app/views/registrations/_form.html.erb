@@ -1,0 +1,14 @@
+<%= form_with(model: registration, url: (registration.new_record? ? [collection, registration] : [registration]), class: "contents", data: { turbo: false }) do |form| %>
+  <%= render "fields_for", 
+        registration: registration, 
+        collection: registration.collection || collection, 
+        form: form %>
+  <div class="<%= CssClass::BUTTON_BAR %>">
+    <%= form.submit class: CssClass::SUBMIT %>
+    <% if registration.new_record? %>
+      <%= link_to "Cancel", collection_path(collection), class: CssClass::CANCEL %>
+    <% else %>
+      <%= link_to "Cancel", registration, class: CssClass::CANCEL %>
+    <% end %>
+  </div>
+<% end %>

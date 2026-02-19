@@ -1,0 +1,15 @@
+<% content_for :title, "Edit Registration | #{@registration.collection.title}" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+
+  <%= render partial: "breadcrumb", locals: { collection: @registration.collection, action: "Edit" } %>
+
+  <h1 class="font-bold text-4xl">Editing Registration</h1>
+
+  <% if can? :manage, @registration.collection %>
+    <%= render "users/change_form", user: @registration.user, url: @registration, method: :patch %>
+  <% end %>
+
+  <%= render "form", registration: @registration, collection: @registration.collection %>
+
+</div>
