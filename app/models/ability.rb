@@ -7,7 +7,6 @@ class Ability
     # default abilities
     can :read, Collection
     can :read, Page, visibility: [ :public, :unlisted ]
-    can :read, Profile
     can :read, Submission, status: :accepted
     can :read, OldRegistration, status: :accepted
     can :read, Registration, status: :accepted

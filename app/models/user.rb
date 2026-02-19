@@ -27,8 +27,6 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :favorite_collections, through: :likes, source: :collection
 
-  has_and_belongs_to_many :profiles
-
 
   has_many :managed_users_link, foreign_key: :manager_id, class_name: "UserManagement"
   has_many :managed_users, through: :managed_users_link, source: :user
@@ -98,10 +96,6 @@ class User < ApplicationRecord
 
   def registered_for?(collection)
     registrations.where(collection: collection).any?
-  end
-
-  def main_profile
-    profiles.first
   end
 
   private

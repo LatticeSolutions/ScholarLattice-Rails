@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_19_160419) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_19_162524) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -70,7 +70,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_19_160419) do
   end
 
   create_table "invitations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "profile_id"
     t.uuid "collection_id", null: false
     t.integer "status", default: 0, null: false
     t.text "message"
@@ -78,7 +77,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_19_160419) do
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
     t.index ["collection_id"], name: "index_invitations_on_collection_id"
-    t.index ["profile_id"], name: "index_invitations_on_profile_id"
     t.index ["user_id"], name: "index_invitations_on_user_id"
   end
 
@@ -94,11 +92,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_19_160419) do
   create_table "old_registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.uuid "registration_option_id", null: false
-    t.uuid "profile_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
-    t.index ["profile_id"], name: "index_old_registrations_on_profile_id"
     t.index ["registration_option_id"], name: "index_old_registrations_on_registration_option_id"
     t.index ["user_id"], name: "index_old_registrations_on_user_id"
   end
@@ -127,24 +123,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_19_160419) do
     t.datetime "updated_at", null: false
     t.index ["authenticatable_type", "authenticatable_id"], name: "authenticatable"
     t.index ["identifier"], name: "index_passwordless_sessions_on_identifier", unique: true
-  end
-
-  create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.string "email", null: false
-    t.string "affiliation"
-    t.string "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "position_type", default: 0
-  end
-
-  create_table "profiles_users", id: false, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "profile_id", null: false
-    t.index ["profile_id"], name: "index_profiles_users_on_profile_id"
-    t.index ["user_id"], name: "index_profiles_users_on_user_id"
   end
 
   create_table "redirects", force: :cascade do |t|
@@ -208,7 +186,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_19_160419) do
     t.string "title", default: "Untitled", null: false
     t.text "abstract"
     t.text "notes"
-    t.uuid "profile_id"
     t.uuid "collection_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -217,7 +194,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_19_160419) do
     t.uuid "user_id", null: false
     t.string "coauthors"
     t.index ["collection_id"], name: "index_submissions_on_collection_id"
-    t.index ["profile_id"], name: "index_submissions_on_profile_id"
     t.index ["user_id"], name: "index_submissions_on_user_id"
   end
 
@@ -250,16 +226,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_19_160419) do
   add_foreign_key "events", "pages", column: "attached_page_id"
   add_foreign_key "events", "submissions"
   add_foreign_key "invitations", "collections"
-  add_foreign_key "invitations", "profiles"
   add_foreign_key "invitations", "users"
   add_foreign_key "likes", "collections"
   add_foreign_key "likes", "users"
-  add_foreign_key "old_registrations", "profiles"
   add_foreign_key "old_registrations", "registration_options"
   add_foreign_key "old_registrations", "users"
   add_foreign_key "pages", "collections"
-  add_foreign_key "profiles_users", "profiles"
-  add_foreign_key "profiles_users", "users"
   add_foreign_key "registration_option_choices", "registration_options"
   add_foreign_key "registration_option_choices", "registrations"
   add_foreign_key "registration_options", "collections"
@@ -267,7 +239,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_19_160419) do
   add_foreign_key "registrations", "collections"
   add_foreign_key "registrations", "users"
   add_foreign_key "submissions", "collections"
-  add_foreign_key "submissions", "profiles"
   add_foreign_key "submissions", "users"
   add_foreign_key "user_managements", "users"
   add_foreign_key "user_managements", "users", column: "manager_id"
