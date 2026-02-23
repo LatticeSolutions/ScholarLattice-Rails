@@ -16,10 +16,17 @@ class RegistrationsController < ApplicationController
   end
 
   def new
+    if (cannot? :manage, @collection) && @collection.registrations.where(user: @current_user).any?
+      redirect_to @collection.registrations.where(user: @current_user).first, alert: "You have already registered for this collection" and return
+    end
     unless @collection.registrations_in_stock?
       redirect_to @collection, alert: "No registrations remaining for this collection" and return
     end
-    @registration.user = @current_user.present? ? @current_user : User.new
+    if (can? :manage, @collection) && @collection.registrations.where(user: @current_user).any?
+      @registration.user = User.new
+    else
+      @registration.user = @current_user
+    end
     @registration.ensure_choices_for_all_options
   end
 

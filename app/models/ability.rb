@@ -54,7 +54,10 @@ class Ability
     end
 
     can [ :read, :create, :update ], Registration do |r|
-      r.collection.blank? || (can? :manage, r.collection) || r.user.blank? || r.user_id == user.id
+      r.user.nil? || r.user_id == user.id
+    end
+    can :manage, Registration do |r|
+      can? :manage, r.collection
     end
     can :destroy, Registration do |r|
       can? :manage, r.collection
