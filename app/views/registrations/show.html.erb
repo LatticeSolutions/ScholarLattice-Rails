@@ -4,26 +4,20 @@
   <div class="mx-auto">
 
     <%= render partial: "breadcrumb", locals: { collection: @registration.collection, action: "Show" } %>
+ 
+    <h2 class="font-bold text-4xl my-3">
+      Registration for
+      <%= link_to @registration.collection.title, @registration.collection, class: "text-sky-700 hover:underline" %>
+    </h2>
 
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Profile:</strong>
-      <%= @registration.user.name_with_email %>
-    </p>
-
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Collection:</strong>
-      <%= @registration.collection.title %>
-    </p>
-
-
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Status:</strong>
-      <%= @registration.status.humanize %>
+    <p class="my-3">
+      <%= @registration.user.name_with_email %>:
+      <span class="font-medium"><%= @registration.status.humanize %></span>
     </p>
 
     <% @registration.registration_option_choices.reject{|c| c.amount < 1}.each do |choice| %>
-      <div class="border rounded bg-white p-5">
-        <h2 class="text-lg font-medium mb-2"><%= choice.registration_option.name_with_cost %> Registrations:</h2>
+      <div class="border rounded bg-white p-5 mb-2">
+        <h2 class="text-lg font-medium mb-2"><%= choice.registration_option.name_with_cost %> Registrations</h2>
         <p class="my-2">
           <strong class="font-medium mb-1">Amount:</strong>
           <%= choice.amount %>
