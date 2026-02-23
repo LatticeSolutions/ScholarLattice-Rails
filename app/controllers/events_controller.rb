@@ -61,9 +61,7 @@ class EventsController < ApplicationController
       redirect_to event_path(@event), alert: "This event does not have a webinar link."
       return
     end
-    unless @event.collection.public_webinars
-      authorize! :access_webinar, @event, message: "Must have an accepted registration to #{@event.collection.title} to access this webinar."
-    end
+    authorize! :access_webinar, @event, message: "Must have an accepted registration to #{@event.collection.title} to access this webinar."
     redirect_to_if_allowed @event.inherited(:webinar_link)
   end
 

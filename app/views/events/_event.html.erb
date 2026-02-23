@@ -24,7 +24,7 @@
       <%= event.times_in_time_zone %> (<%= event.collection.inherited_time_zone %>)
     </p>
 
-    <% if event.inherited(:webinar_link).present? and (event.collection.public_webinars or @current_user&.registered_for?(event.collection)) %>
+    <% if event.inherited(:webinar_link).present? and (event.collection.public_webinars or @current_user&.registrations.where(collection: event.collection, status: :accepted).any?) %>
       <p class="my-5">
         <strong class="block font-medium mb-1">Webinar link:</strong>
         <%= link_to event_webinar_path(event), target: "_blank", class: "inline-flex items-center gap-2 rounded-md bg-purple-600 px-2 py-1 text-base text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400 break-all" do %>

@@ -35,7 +35,7 @@ class Ability
         user: user,
         registration_option: e.collection.path.collect(&:registration_options).flatten,
         status: :accepted
-      ).any?
+      ).any? or e.collection.public_webinars
     end
 
     can :manage, Submission do |s|

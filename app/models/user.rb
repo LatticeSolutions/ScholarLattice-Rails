@@ -94,10 +94,6 @@ class User < ApplicationRecord
     old_registrations.where(registration_option: collection.registration_options)
   end
 
-  def registered_for?(collection)
-    registrations.where(collection: collection).any?
-  end
-
   private
 
   def strip_whitespace
