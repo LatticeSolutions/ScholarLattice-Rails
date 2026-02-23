@@ -19,10 +19,10 @@ class Collection < ApplicationRecord
   after_save :update_admins_after_save
   before_save :round_down_submission_times
 
-  validates :paypalme_username,
+  validates :paypal_link,
     format: {
-      with: /\A[a-zA-Z0-9]+\z/,
-      message: "must only use alphanumeric characters (A-Z, a-z, or 0-9)"
+      with: /\Ahttps?:\/\/(www\.)?paypal\.com\/ncp\/payment/i,
+      message: "must be a valid PayPal payments link URL"
     },
     allow_blank: true
 

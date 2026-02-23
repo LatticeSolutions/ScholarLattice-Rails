@@ -107,15 +107,12 @@
 </div>
 
 <div class="mb-3">
-  <%= form.label :paypalme_username, class: CssClass::LABEL do %>
-    PayPal.Me username
-    <span class="<%= CssClass::SUBLABEL %>">
-      To accept payments (must only use alphanumeric characters)
-      <a href="https://www.paypal.com/paypalme/" class="<%= CssClass::LINK %>">Learn more</a>
-    </span>
+  <%= form.label :paypal_link, class: CssClass::LABEL do %>
+    PayPal Link for Payments
+    <span class="<%= CssClass::SUBLABEL %>">(must be a URL starting with <code>https://www.paypal.com/ncp/payment</code>)</span>
   <% end %>
-  <%= form.text_field :paypalme_username, class: CssClass::TEXT_FIELD %>
-  <%= render "errors", object: collection, attribute: :paypalme_username %>
+  <%= form.url_field :paypal_link, class: CssClass::URL_FIELD %>
+  <%= render "errors", object: collection, attribute: :paypal_link %>
 </div>
 
 <div class="mb-3">
