@@ -94,14 +94,6 @@ class User < ApplicationRecord
     old_registrations.where(registration_option: collection.registration_options)
   end
 
-  def registered_for?(collection, options = {})
-    if options[:accepted].present?
-      registrations_for(collection).where(accepted: options[:accepted]).any?
-    else
-      registrations_for(collection).any?
-    end
-  end
-
   private
 
   def strip_whitespace

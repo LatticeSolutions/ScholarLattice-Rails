@@ -65,7 +65,7 @@
                 </span>
             <% end %>
         <% end %>
-        <% if @current_user&.registered_for?(@collection) %>
+        <% if @current_user&.registrations(collection: @collection).any? %>
             <%= link_to @current_user.registrations.where(collection: @collection).first, 
                 class: "inline-flex items-center gap-2 rounded-md bg-orange-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-orange-700 focus:outline-none focus:ring focus:ring-green-400" do %>
                 <span class="size-4">
