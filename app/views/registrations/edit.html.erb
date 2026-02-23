@@ -6,6 +6,10 @@
 
   <h1 class="font-bold text-4xl">Editing Registration</h1>
 
+  <% if can? :manage, @registration.collection %>
+    <%= render "users/change_form", user: @registration.user, url: @registration, method: :patch %>
+  <% end %>
+
   <%= render "form", registration: @registration, collection: @registration.collection %>
 
 </div>

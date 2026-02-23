@@ -12,11 +12,19 @@ class Collection < ApplicationRecord
   has_many :events, dependent: :destroy
   has_many :invitations, dependent: :destroy
   has_many :registration_options, dependent: :destroy
-  has_many :registrations, through: :registration_options
+  has_many :old_registrations, through: :registration_options
+  has_many :registrations, dependent: :destroy
   has_many :payments, through: :registrations
   has_one :attached_event, class_name: "Event", foreign_key: "attached_collection_id", dependent: :nullify
   after_save :update_admins_after_save
   before_save :round_down_submission_times
+
+  validates :paypal_link,
+    format: {
+      with: /\Ahttps?:\/\/(www\.)?paypal\.com\/ncp\/payment/i,
+      message: "must be a valid PayPal payments link URL"
+    },
+    allow_blank: true
 
   default_scope { order(:order, :title) }
 
@@ -60,6 +68,10 @@ class Collection < ApplicationRecord
     Invitation.where(collection: subtree)
   end
 
+  def subtree_registrations
+    Registration.where(collection: subtree)
+  end
+
   def submissions_closed?
     return false if submissions_close_on.blank?
     submissions_close_on <= Time.now
@@ -83,8 +95,7 @@ class Collection < ApplicationRecord
   end
 
   def registrations_in_stock?
-    return true if registration_options.any?(&:in_stock?)
-    false
+    registration_options.any?(&:in_stock?)
   end
 
   def home_page

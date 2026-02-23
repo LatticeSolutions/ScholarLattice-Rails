@@ -82,9 +82,9 @@
                         <% end %>
                     </td>
                     <td class="p-2">
-                        <% user.registrations.joins(:registration_option).where(registration_option: {collection: @collection.path}).each do |r| %>
+                        <% user.registrations.where(collection: @collection.path).each do |r| %>
                             <%= link_to r, class: "text-blue-600 hover:underline block" do %>
-                                <%= r.collection.short_title %>: <%= r.registration_option.name %> (<%= r.status %>)
+                                <%= r.collection.short_title %> (<%= r.status %>)
                             <% end %>
                         <% end %>
                     </td>

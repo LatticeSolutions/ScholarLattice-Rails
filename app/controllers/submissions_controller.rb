@@ -1,9 +1,8 @@
 class SubmissionsController < ApplicationController
   load_and_authorize_resource :collection, except: [ :index, :upload, :import ]
   load_resource :collection, only: [ :index, :upload, :import ]
-  load_and_authorize_resource :submission, through: :collection, shallow: true, except: [ :index, :upload, :import ]
+  load_and_authorize_resource :submission, through: :collection, shallow: true, except: [ :index, :create, :upload, :import ]
 
-  # GET /submissions or /submissions.json
   def index
     @submissions = @collection.subtree_submissions
     respond_to do |format|
@@ -12,73 +11,36 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  # GET /submissions/1 or /submissions/1.json
   def show
     if can? :manage, @collection
-      @registrations = Registration.where(user: @submission.user, registration_option: { collection: @submission.collection.path }).joins(:registration_option)
+      @registrations = Registration.where(user: @submission.user, collection: @submission.collection.path)
     end
   end
 
-  # GET /submissions/new
   def new
-    if @current_user.present?
-      @submission.user = @current_user
-    else
-      @submission.user = User.new
-    end
+    @submission.user = @current_user
   end
 
   # GET /submissions/1/edit
   def edit
   end
 
-  # POST /submissions or /submissions.json
   def create
-    # not logged in
-    if @current_user.blank?
-      # trying to log in
-      if session_params.present?
-        @session =  Passwordless::Session.find_by!(
-          identifier: session_params[:identifier]
-        )
-        BCrypt::Password.create(session_params[:token])
-        # success! sign in and continue creation
-        if @session.authenticate(session_params[:token]) && @session.authenticatable.id == submission_params[:user_attributes][:id]
-          sign_in(@session)
-        # failure... return to the form
-        else
-          flash[:notice] = "Invalid token provided."
-          render :new, status: :unprocessable_entity && return
-        end
-      # submitted but need to log in
+    @submission = Submission.new(collection: @collection)
+    changed_user_email = params[:user][:email] if params[:user].present?
+    if (can? :manage, @collection) && changed_user_email.present?
+      changed_user = User.find_by(email: changed_user_email)
+      if changed_user.present?
+        flash[:notice] = "Now creating submission for existing user with email #{changed_user_email}."
+        @submission.user = changed_user
       else
-        @submission.user = User.new(submission_params[:user_attributes])
-        @session = build_passwordless_session(@submission.user)
-        # success! created new user and set up session
-        if @submission.user.save && @session.save
-          @submission.user_id = @submission.user.id
-          SubmissionMailer.verify_email(@submission.user.email, @submission.collection.title, @session.token).deliver_later
-          flash[:notice] = "Verify your email to complete your submission."
-          render :new
-          return
-        # failure... send back
-        else
-          @session = nil
-          flash[:notice] = "There was an error creating your account."
-          render :new, status: :unprocessable_entity
-          return
-        end
+        flash[:notice] = "Now creating submission for new user with email #{changed_user_email}."
+        @submission.user = User.new(email: changed_user_email)
       end
+      render :new and return
     end
-    # logged in
-    unless can? :manage, @collection or @submission.user.email == @current_user&.email
-      @submission.errors.add(:user, "must be yourself")
-    end
-    if can? :manage, @collection and @submission.user.email != @current_user.email
-      user_params = submission_params[:user_attributes].except(:id)
-      @submission.user = User.find_or_create_by(email: user_params[:email])
-      @submission.user.assign_attributes(user_params)
-    end
+    @submission.assign_attributes(submission_params)
+    only_admins_can_manage_other_users
     respond_to do |format|
       if @submission.save
         SubmissionMailer.submission_created(@submission).deliver_later
@@ -91,10 +53,28 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
+    changed_user_email = params[:user][:email] if params[:user].present?
+    if (can? :manage, @submission.collection) && changed_user_email.present?
+      changed_user = User.find_by(email: changed_user_email)
+      if changed_user.present?
+        if @submission.update(user: changed_user)
+          flash[:notice] = "Submitter email updated successfully."
+          redirect_to edit_submission_path(@submission) and return
+        else
+          flash[:alert] = "Failed to update submitter email: #{@submission.errors.full_messages.join(', ')}"
+          render :edit and return
+        end
+      else
+        flash[:notice] = "Editing submission for new user with email #{changed_user_email}."
+        @submission.user = User.new(email: changed_user_email)
+        render :edit and return
+      end
+    end
+    @submission.assign_attributes(submission_params)
+    only_admins_can_manage_other_users
     respond_to do |format|
-      if @submission.update(submission_params)
+      if @submission.save
         if send_update_notification?
           SubmissionMailer.submission_updated(@submission).deliver_later
         end
@@ -113,7 +93,7 @@ class SubmissionsController < ApplicationController
     @submission.destroy!
 
     respond_to do |format|
-      format.html { redirect_to collection_path(c), status: :see_other, notice: "Submission was successfully destroyed." }
+      format.html { redirect_to collection_path(c), status: :see_other, notice: "Submission was successfully deleted." }
       format.json { head :no_content }
     end
   end
@@ -197,9 +177,19 @@ class SubmissionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def submission_params
       if can? :manage, @submission
-        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :status, :collection_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(submission: [ :title, :coauthors, :abstract, :notes, :private_notes, :status, :collection_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       else
-        params.expect(submission: [ :title, :abstract, :notes, :private_notes, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(submission: [ :title, :coauthors, :abstract, :notes, :private_notes, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+      end
+    end
+
+    def admin_user_params
+      params.expect(user: [ :email ])
+    end
+
+    def only_admins_can_manage_other_users
+      if @submission.user != @current_user && cannot?(:manage, @submission.collection)
+        @submission.errors.add(:user, "must be yourself")
       end
     end
 

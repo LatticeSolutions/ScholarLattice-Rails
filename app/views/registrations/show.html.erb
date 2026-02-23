@@ -4,64 +4,47 @@
   <div class="mx-auto">
 
     <%= render partial: "breadcrumb", locals: { collection: @registration.collection, action: "Show" } %>
+ 
+    <h2 class="font-bold text-4xl my-3">
+      Registration for
+      <%= link_to @registration.collection.title, @registration.collection, class: "text-sky-700 hover:underline" %>
+    </h2>
 
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Profile:</strong>
-      <%= @registration.user.name_with_email %>
+    <p class="my-3">
+      <%= @registration.user.name_with_email %>:
+      <span class="font-medium"><%= @registration.status.humanize %></span>
     </p>
 
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Collection:</strong>
-      <%= @registration.collection.title %>
-    </p>
-
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Registration Option:</strong>
-      <%= @registration.registration_option.name_with_cost %>
-    </p>
-
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Status:</strong>
-      <%= @registration.status.humanize %>
-    </p>
-
-    <% if can? :view_payments, @registration && @registration.registration_option.cost.present? %>
-      <p class="my-5">
-        <strong class="block font-medium mb-1">
-          Payments:
-        </strong>
-        Total:
-        <%= Money.from_cents(@registration.payment_total, :usd).format %> /
-        <%= Money.from_cents(@registration.registration_option.cost, :usd).format %>
-        <% if can? :manage, @registration.collection %>
-          <%= link_to "New Payment", new_registration_payment_path(@registration), 
-            class: "bg-emerald-500 hover:bg-emerald-700 text-white text-sm py-1 px-2 rounded" %>
+    <% @registration.registration_option_choices.reject{|c| c.amount < 1}.each do |choice| %>
+      <div class="border rounded bg-white p-5 mb-2">
+        <h2 class="text-lg font-medium mb-2"><%= choice.registration_option.name_with_cost %> Registrations</h2>
+        <p class="my-2">
+          <strong class="font-medium mb-1">Amount:</strong>
+          <%= choice.amount %>
+        </p>
+        <% if choice.info.present? %>
+          <p class="my-2">
+            <strong class="font-medium mb-1">Info:</strong>
+            <%= choice.info %>
+          </p>
         <% end %>
-        <% if @registration.registration_payments.any? %>
-          <ul class="list-disc ml-5 pl-5">
-            <% @registration.registration_payments.each do |payment| %>
-              <li>
-                <%= payment.created_at.strftime("%Y-%m-%d") %>:
-                <%= Money.from_cents(payment.amount, :usd).format %>
-                <% if can? :manage, @registration.collection %>
-                  <%= link_to edit_payment_path(payment), 
-                      class: "inline-flex items-center gap-2 rounded-md bg-white ml-1 px-2 py-1 my-1 text-sm font-normal text-lime-700 shadow-sm focus:relative" do %>
-                      <span class="size-4">
-                          <%= render IconComponent.new(:edit) %>
-                      </span>
-                      Edit
-                  <% end %>
-                <% end %>
-                <% if payment.memo.present? %>
-                  <br>
-                  Memo: <%= payment.memo %>
-                <% end %>
-              </li>
-            <% end %>
-          </ul>
-        <% end %>
-      </p>
+      </div>
     <% end %>
+
+
+    <% if @registration.has_cost? %>
+      <div class="my-5">
+        <h2 class="text-lg font-medium mt-5 mb-2">Total Cost of Registrations:</h2>
+        <span>$<%= Money.new(@registration.total_cost, :usd) %></span>
+        <% if @registration.collection.paypal_link.present? %>
+          <%= link_to "Pay Online with PayPal or Credit Card", 
+            @registration.collection.paypal_link, 
+            target: "_blank",
+            class: "#{CssClass::LINK_BUTTON} bg-yellow-500 hover:bg-yellow-600 rounded text-white ml-3" %>
+        <% end %>
+      </div>
+    <% end %>
+
 
     <% if can? :update, @registration %>
       <%= link_to "Update this registration", edit_registration_path(@registration), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
@@ -70,7 +53,7 @@
     <%= link_to "Back to collection", collection_path(@registration.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 
     <% if can? :destroy, @registration %>
-      <%= button_to "Cancel this registration", @registration, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
+      <%= button_to "Delete this registration", @registration, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
         class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
     <% end %>
   </div>

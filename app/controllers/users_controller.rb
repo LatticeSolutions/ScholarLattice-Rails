@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    require_unauth!
+    redirect_to dashboard_path if @current_user.present?
     @user = User.new(
       email: params[:email],
       first_name: nil,

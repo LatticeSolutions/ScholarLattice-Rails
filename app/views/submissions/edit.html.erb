@@ -6,5 +6,9 @@
 
   <h1 class="font-bold text-4xl">Editing Submission</h1>
 
+  <% if can? :manage, @submission.collection %>
+    <%= render "users/change_form", user: @submission.user, url: @submission, method: :patch %>
+  <% end %>
+
   <%= render "form", submission: @submission %>
 </div>

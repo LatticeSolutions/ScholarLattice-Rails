@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  if Rails.env.production?
+  if Rails.env.production? && !Socket.gethostname.include?("hatchbox")
     constraints subdomain: /.+/ do
       get "/", to: "redirects#index"
       get "*", to: "redirects#index"
@@ -14,10 +14,7 @@ Rails.application.routes.draw do
     resources :submissions, shallow: true
     get "/submissions/upload", to: "submissions#upload", as: "submissions_upload"
     post "/submissions/upload", to: "submissions#import", as: "submissions_import"
-    resources :registrations, shallow: true do
-      resources :registration_payments, shallow: true, as: "payments", path: "payments",
-        only: [ :new, :create, :edit, :update, :destroy ]
-    end
+    resources :registrations, shallow: true, path: "registrations"
     resources :registration_options, shallow: true, path: "registrations/options",
       only: [ :new, :create, :edit, :update, :destroy ]
     get "/registrations/upload", to: "registrations#upload", as: "registrations_upload"

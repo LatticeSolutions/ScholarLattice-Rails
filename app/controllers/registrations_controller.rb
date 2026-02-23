@@ -1,95 +1,51 @@
 class RegistrationsController < ApplicationController
   load_and_authorize_resource :collection
-  load_and_authorize_resource :registration, through: :collection, shallow: true, except: [ :index ]
+  load_and_authorize_resource :registration, through: :collection, shallow: true, except: [ :create ]
 
-  # GET /registrations or /registrations.json
   def index
-    unless can? :manage, @collection
-      redirect_to collection_path(@collection)
-    end
-    @registration_options = @collection.registration_options
-    @registrations = Registration.where(registration_option: @registration_options)
+    @registrations = @collection.subtree_registrations
     respond_to do |format|
       format.html
       if can? :manage, @collection
-        format.csv { send_data @registrations.to_csv, filename: "registrations-#{@collection.short_title.underscore}-#{DateTime.now.strftime('%Q')}.csv" }
+        format.csv { send_data @registrations.to_csv(@collection), filename: "registrations-#{@collection.short_title.underscore}-#{DateTime.now.strftime('%Q')}.csv" }
       end
     end
   end
 
-  # GET /registrations/1 or /registrations/1.json
   def show
   end
 
-  # GET /registrations/new
   def new
     unless @collection.registrations_in_stock?
       redirect_to @collection, alert: "No registrations remaining for this collection" and return
     end
-    if @current_user.present?
-      @registration.user = @current_user
-    else
-      @registration.user = User.new
-    end
+    @registration.user = @current_user.present? ? @current_user : User.new
+    @registration.ensure_choices_for_all_options
   end
 
-  # GET /registrations/1/edit
   def edit
+    @registration.ensure_choices_for_all_options
   end
 
-  # POST /registrations or /registrations.json
   def create
-    unless can? :manage, @collection or @registration.registration_option.in_stock?
-      @registration.errors.add(:registration_option, "has no remaining stock available")
-    end
-    unless can? :manage, @collection or @registration.registration_option.open?
-      @registration.errors.add(:registration_option, "is not available at this time")
-    end
-    # not logged in
-    if @current_user.blank?
-      # trying to log in
-      if session_params.present?
-        @session =  Passwordless::Session.find_by!(
-          identifier: session_params[:identifier]
-        )
-        BCrypt::Password.create(session_params[:token])
-        # success! sign in and continue creation
-        if @session.authenticate(session_params[:token]) && @session.authenticatable.id == registration_params[:user_attributes][:id]
-          sign_in(@session)
-        # failure... return to the form
-        else
-          flash[:notice] = "Invalid token provided."
-          render :new, status: :unprocessable_entity && return
-        end
-      # submitted but need to log in
+    @registration = Registration.new(collection: @collection)
+    changed_user_email = params[:user][:email] if params[:user].present?
+    if (can? :manage, @collection) && changed_user_email.present?
+      changed_user = User.find_by(email: changed_user_email)
+      if changed_user.present?
+        flash[:notice] = "Now creating registration for existing user with email #{changed_user_email}."
+        @registration.user = changed_user
       else
-        @registration.user = User.new(registration_params[:user_attributes])
-        @session = build_passwordless_session(@registration.user)
-        # success! created new user and set up session
-        if @registration.user.save && @session.save
-          @registration.user_id = @registration.user.id
-          RegistrationMailer.verify_email(@registration.user.email, @registration.collection.title, @session.token).deliver_later
-          flash[:notice] = "Verify your email to complete your registration."
-          render :new
-          return
-        # failure... send back
-        else
-          @session = nil
-          flash[:notice] = "There was an error creating your account."
-          render :new, status: :unprocessable_entity
-          return
-        end
+        flash[:notice] = "Now creating registration for new user with email #{changed_user_email}."
+        @registration.user = User.new(email: changed_user_email)
       end
+      @registration.ensure_choices_for_all_options
+      render :new and return
     end
-    # logged in
-    unless can? :manage, @collection or @registration.user.email == @current_user&.email
-      @registration.errors.add(:user, "must be yourself")
-    end
-    if can? :manage, @collection and @registration.user.email != @current_user.email
-      user_params = registration_params[:user_attributes].except(:id)
-      @registration.user = User.find_or_create_by(email: user_params[:email])
-      @registration.user.assign_attributes(user_params)
-    end
+    @registration.assign_attributes(registration_params)
+    prune_registration_options
+    only_admins_can_manage_other_users
+    only_admins_update_status
     respond_to do |format|
       if @registration.save
         RegistrationMailer.registration_created(@registration).deliver_later
@@ -102,10 +58,30 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /registrations/1 or /registrations/1.json
   def update
+    changed_user_email = params[:user][:email] if params[:user].present?
+    if (can? :manage, @registration.collection) && changed_user_email.present?
+      changed_user = User.find_by(email: changed_user_email)
+      if changed_user.present?
+        if @registration.update(user: changed_user)
+          flash[:notice] = "Submitter email updated successfully."
+          redirect_to edit_registration_path(@registration) and return
+        else
+          flash[:alert] = "Failed to update submitter email: #{@registration.errors.full_messages.join(', ')}"
+          render :edit and return
+        end
+      else
+        flash[:notice] = "Editing registration for new user with email #{changed_user_email}."
+        @registration.user = User.new(email: changed_user_email)
+        render :edit and return
+      end
+    end
+    @registration.assign_attributes(registration_params)
+    prune_registration_options
+    only_admins_can_manage_other_users
+    only_admins_update_status
     respond_to do |format|
-      if @registration.update(registration_params)
+      if @registration.save
         format.html { redirect_to @registration, notice: "Registration was successfully updated." }
         format.json { render :show, status: :ok, location: @registration }
       else
@@ -115,63 +91,60 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # DELETE /registrations/1 or /registrations/1.json
+  # DELETE /submissions/1 or /submissions/1.json
   def destroy
     c = @registration.collection
     @registration.destroy!
 
     respond_to do |format|
-      format.html { redirect_to collection_path(c), status: :see_other, notice: "Registration was successfully destroyed." }
+      format.html { redirect_to collection_path(c), status: :see_other, notice: "Registration was successfully deleted." }
       format.json { head :no_content }
     end
   end
 
-  def upload
-  end
-
-  def import
-    registrations_csv = params[:file]
-    require "csv"
-    CSV.foreach(registrations_csv, headers: true) do |row|
-      registration_data = row.to_hash
-      u = User.find_by(email: registration_data["email"].downcase)
-      if u.nil?
-        u = User.create! registration_data.slice(
-          "email",
-          "first_name",
-          "last_name",
-          "affiliation",
-          "position_type",
-        )
-      end
-      registration_option = @collection.registration_options.find(
-        registration_data["option_id"]
-      )
-      registration = registration_option.registrations.find_or_create_by!(
-        user: u,
-        status: registration_data["status"] || :submitted,
-      )
-      unless registration_data["amount"].blank?
-        if registration_data["external_id"].blank? || !registration.registration_payments.exists?(external_id: registration_data["external_id"])
-          registration.registration_payments.create!(
-            amount: registration_data["amount"],
-            memo: "#{registration_data["memo"]}\n\n(Imported from CSV. External ID: #{registration_data["external_id"]})",
-            external_id: registration_data["external_id"],
-          )
-        end
-      end
-    end
-
-    redirect_to collection_registrations_path(@collection), notice: "Registrations imported successfully."
-  end
 
   private
     # Only allow a list of trusted parameters through.
     def registration_params
-      if can? :manage, @registration
-        params.expect(registration: [ :registration_option_id, :status, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
-      else
-        params.expect(registration: [ :registration_option_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+      params.expect(registration: [
+        :status,
+        :user_id,
+        :registration_option_id_choice,
+        user_attributes: [
+          :id, :first_name, :last_name, :email, :affiliation,
+          :position_type, :position, :affiliation_identifier
+        ],
+        registration_option_choices_attributes: [ [
+          :id, :registration_option_id, :amount, :info
+        ] ]
+      ])
+    end
+
+    def prune_registration_options
+      if @registration.collection.limit_one_registration_option?
+        selected_option_id = params.dig(:registration_option_id_choice)
+        @registration.registration_option_choices.reject { |c| c.registration_option_id == selected_option_id }.each do |choice|
+          choice.amount = 0
+          choice.info = nil
+        end
+      end
+    end
+
+    def only_admins_update_status
+      if @current_user.ability.cannot?(:manage, @registration.collection)
+        if @registration.new_record?
+          if !@registration.submitted?
+            @registration.errors.add(:status, "can only be set by collection admins")
+          end
+        elsif @registration.status_changed? && @registration.status_was.present?
+          @registration.errors.add(:status, "can only be changed by collection admins")
+        end
+      end
+    end
+
+    def only_admins_can_manage_other_users
+      if @registration.user != @current_user && cannot?(:manage, @registration.collection)
+        @registration.errors.add(:user, "must be yourself")
       end
     end
 end

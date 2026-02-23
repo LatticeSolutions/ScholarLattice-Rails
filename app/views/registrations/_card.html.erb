@@ -9,11 +9,15 @@
   else
     crumbs = []
   end
+  description = "#{registration.collection.title}"
+  registration.registration_option_choices.select{|o| o.amount > 0}.each do |choice|
+    description += " — #{choice.registration_option.name}: #{choice.amount}"
+  end
 %>
 
 <%= render CardComponent.new( 
   title: "#{registration.user.name_with_email} (#{registration.status.humanize})",
-  description: "#{registration.collection.title} — #{registration.registration_option.name}",
+  description: description,
   link_text: "View Registration",
   link_url: registration_path(registration),
   title_icon: :registration,

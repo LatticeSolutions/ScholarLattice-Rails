@@ -1,7 +1,0 @@
-john_profile_user:
-  user_id: <%= User.find_by(email: "john@example.com").id %>
-  profile_id: <%= Profile.find_by(email: "john@example.com").id %>
-
-jane_profile_user:
-  user_id: <%= User.find_by(email: "jane@example.com").id %>
-  profile_id: <%= Profile.find_by(email: "jane@example.com").id %>

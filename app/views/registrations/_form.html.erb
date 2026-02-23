@@ -1,9 +1,8 @@
-<%= form_with(model: registration, url: (registration.new_record? ? [collection, registration] : [registration]), class: "contents") do |form| %>
+<%= form_with(model: registration, url: (registration.new_record? ? [collection, registration] : [registration]), class: "contents", data: { turbo: false }) do |form| %>
   <%= render "fields_for", 
         registration: registration, 
         collection: registration.collection || collection, 
-        form: form, 
-        session: @session %>
+        form: form %>
   <div class="<%= CssClass::BUTTON_BAR %>">
     <%= form.submit class: CssClass::SUBMIT %>
     <% if registration.new_record? %>

@@ -2,15 +2,12 @@ class RegistrationOptionsController < ApplicationController
   load_and_authorize_resource :collection
   load_resource :registration_option, through: :collection, shallow: true
 
-  # GET /registrations/new
   def new
   end
 
-  # GET /registrations/1/edit
   def edit
   end
 
-  # POST /registrations or /registrations.json
   def create
     adjust_datetime_params
     respond_to do |format|
@@ -25,7 +22,6 @@ class RegistrationOptionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /registrations/1 or /registrations/1.json
   def update
     @registration_option.assign_attributes(registration_option_params)
     adjust_datetime_params
@@ -48,7 +44,7 @@ class RegistrationOptionsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to collection_registrations_path(c), status: :see_other,
-        notice: "Option was successfully destroyed." }
+        notice: "Option was successfully deleted." }
       format.json { head :no_content }
     end
   end
@@ -56,7 +52,8 @@ class RegistrationOptionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def registration_option_params
         params.expect(registration_option: [
-          :name, :cost, :stock, :opens_on, :closes_on, :auto_accept, :allowed_domains
+          :name, :cost, :stock, :opens_on, :closes_on, :auto_accept, :allowed_domains, :info_prompt,
+          :limit_one_per_registration
         ])
     end
 

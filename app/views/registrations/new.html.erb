@@ -11,5 +11,9 @@
       <%= @collection.description %>
   </p>
 
+  <% if can? :manage, @registration.collection %>
+    <%= render "users/change_form", user: @registration.user, url: collection_registrations_path(@registration.collection), method: :post %>
+  <% end %>
+
   <%= render "form", registration: @registration, collection: @collection %>
 </div>

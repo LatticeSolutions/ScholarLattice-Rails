@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_20_225645) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_23_201432) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -42,6 +42,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_20_225645) do
     t.boolean "registerable", default: false, null: false
     t.boolean "public_webinars", default: false, null: false
     t.string "affiliation_identifier_alias"
+    t.boolean "limit_one_registration_option", default: false, null: false
+    t.string "paypal_link"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
   end
 
@@ -68,7 +70,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_20_225645) do
   end
 
   create_table "invitations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "profile_id"
     t.uuid "collection_id", null: false
     t.integer "status", default: 0, null: false
     t.text "message"
@@ -76,7 +77,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_20_225645) do
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
     t.index ["collection_id"], name: "index_invitations_on_collection_id"
-    t.index ["profile_id"], name: "index_invitations_on_profile_id"
     t.index ["user_id"], name: "index_invitations_on_user_id"
   end
 
@@ -87,6 +87,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_20_225645) do
     t.datetime "updated_at", null: false
     t.index ["collection_id"], name: "index_likes_on_collection_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "old_registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.uuid "registration_option_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["registration_option_id"], name: "index_old_registrations_on_registration_option_id"
+    t.index ["user_id"], name: "index_old_registrations_on_user_id"
   end
 
   create_table "pages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -115,30 +125,24 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_20_225645) do
     t.index ["identifier"], name: "index_passwordless_sessions_on_identifier", unique: true
   end
 
-  create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.string "email", null: false
-    t.string "affiliation"
-    t.string "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "position_type", default: 0
-  end
-
-  create_table "profiles_users", id: false, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "profile_id", null: false
-    t.index ["profile_id"], name: "index_profiles_users_on_profile_id"
-    t.index ["user_id"], name: "index_profiles_users_on_user_id"
-  end
-
   create_table "redirects", force: :cascade do |t|
     t.string "slug", null: false
     t.string "target_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_redirects_on_slug", unique: true
+  end
+
+  create_table "registration_option_choices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "registration_id", null: false
+    t.uuid "registration_option_id", null: false
+    t.integer "amount", default: 0
+    t.string "info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["registration_id", "registration_option_id"], name: "idx_on_registration_id_registration_option_id_9741816d0f", unique: true
+    t.index ["registration_id"], name: "index_registration_option_choices_on_registration_id"
+    t.index ["registration_option_id"], name: "index_registration_option_choices_on_registration_option_id"
   end
 
   create_table "registration_options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -152,6 +156,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_20_225645) do
     t.datetime "updated_at", null: false
     t.boolean "auto_accept", default: false, null: false
     t.string "allowed_domains"
+    t.string "info_prompt"
+    t.boolean "limit_one_per_registration", default: false, null: false
     t.index ["collection_id"], name: "index_registration_options_on_collection_id"
   end
 
@@ -166,30 +172,28 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_20_225645) do
   end
 
   create_table "registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "collection_id", null: false
     t.integer "status", default: 0, null: false
-    t.uuid "registration_option_id", null: false
-    t.uuid "profile_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "user_id", null: false
-    t.index ["profile_id"], name: "index_registrations_on_profile_id"
-    t.index ["registration_option_id"], name: "index_registrations_on_registration_option_id"
+    t.index ["collection_id"], name: "index_registrations_on_collection_id"
+    t.index ["user_id", "collection_id"], name: "index_registrations_on_user_id_and_collection_id", unique: true
     t.index ["user_id"], name: "index_registrations_on_user_id"
   end
 
   create_table "submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "title"
+    t.string "title", default: "Untitled", null: false
     t.text "abstract"
     t.text "notes"
-    t.uuid "profile_id"
     t.uuid "collection_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
     t.string "private_notes"
     t.uuid "user_id", null: false
+    t.string "coauthors"
     t.index ["collection_id"], name: "index_submissions_on_collection_id"
-    t.index ["profile_id"], name: "index_submissions_on_profile_id"
     t.index ["user_id"], name: "index_submissions_on_user_id"
   end
 
@@ -222,20 +226,19 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_20_225645) do
   add_foreign_key "events", "pages", column: "attached_page_id"
   add_foreign_key "events", "submissions"
   add_foreign_key "invitations", "collections"
-  add_foreign_key "invitations", "profiles"
   add_foreign_key "invitations", "users"
   add_foreign_key "likes", "collections"
   add_foreign_key "likes", "users"
+  add_foreign_key "old_registrations", "registration_options"
+  add_foreign_key "old_registrations", "users"
   add_foreign_key "pages", "collections"
-  add_foreign_key "profiles_users", "profiles"
-  add_foreign_key "profiles_users", "users"
+  add_foreign_key "registration_option_choices", "registration_options"
+  add_foreign_key "registration_option_choices", "registrations"
   add_foreign_key "registration_options", "collections"
-  add_foreign_key "registration_payments", "registrations"
-  add_foreign_key "registrations", "profiles"
-  add_foreign_key "registrations", "registration_options"
+  add_foreign_key "registration_payments", "old_registrations", column: "registration_id"
+  add_foreign_key "registrations", "collections"
   add_foreign_key "registrations", "users"
   add_foreign_key "submissions", "collections"
-  add_foreign_key "submissions", "profiles"
   add_foreign_key "submissions", "users"
   add_foreign_key "user_managements", "users"
   add_foreign_key "user_managements", "users", column: "manager_id"
