@@ -51,7 +51,7 @@
 <div class="mb-3">
   <%= form.label "Subcollection of", class: CssClass::LABEL %>
   <%= form.select :parent_id, 
-        @current_user.admin_collections.map {|c| [c.short_title_path, c.id]},
+        Collection.sort_by_ancestry(@current_user.admin_collections).reject{|c| collection.subtree.include? c}.map {|c| [c.short_title_path, c.id]},
         {selected: collection.parent_id},
         {class: CssClass::SELECT} %>
   <%= render "errors", object: collection, attribute: :parent_id %>

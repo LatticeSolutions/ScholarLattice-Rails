@@ -73,7 +73,7 @@
     <div class="my-5">
       <%= form.label :collection_id, class: CssClass::LABEL %>
       <%= form.select :collection_id, 
-        @current_user.admin_collections.map {|c| [c.short_title_path, c.id]},
+        Collection.sort_by_ancestry(@current_user.admin_collections).map {|c| [c.short_title_path, c.id]},
         {selected: submission.collection_id},
         {class: CssClass::SELECT} %>
     <%= render "errors", object: submission, attribute: :collection_id %>
