@@ -53,8 +53,11 @@ class Ability
       r.user_id == user.id and r.registration_option.cost.present?
     end
 
-    can [ :read, :create, :update ], Registration do |r|
+    can [ :read, :create ], Registration do |r|
       r.user.nil? || r.user_id == user.id
+    end
+    can :update, Registration do |r|
+      r.user_id == user.id && !r.accepted?
     end
     can :manage, Registration do |r|
       can? :manage, r.collection

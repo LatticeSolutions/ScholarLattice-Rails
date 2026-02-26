@@ -13,6 +13,8 @@ class Registration < ApplicationRecord
 
   accepts_nested_attributes_for :user, :registration_option_choices
 
+  before_create :run_auto_accept
+
   def has_cost?
     registration_option_choices.any?(&:has_cost?)
   end
@@ -85,5 +87,11 @@ class Registration < ApplicationRecord
 
   def error_when_no_option_chosen
     errors.add(:registration_option_choices, "must have at least one option chosen")
+  end
+
+  def run_auto_accept
+    if registration_option_choices.select { |o| o.amount > 0 }.all? { |o| o.registration_option.auto_accept }
+      self.status = :accepted
+    end
   end
 end
