@@ -50,7 +50,7 @@
 <div class="my-5">
     <%= form.label :collection_id, class: CssClass::LABEL %>
     <%= form.select :collection_id, 
-        @current_user.admin_collections.filter{|c| event.parent.blank? || event.parent.collection.subtree.include?(c)}
+        Collection.sort_by_ancestry(@current_user.admin_collections).filter{|c| event.parent.blank? || event.parent.collection.subtree.include?(c)}
         .map {|c| [c.short_title_path, c.id]},
         {selected: event.collection_id},
         {class: CssClass::SELECT} %>
@@ -84,7 +84,7 @@
     <%= form.label "Attached Collection", class: CssClass::LABEL %>
     <%= form.select :attached_collection_id, 
         [["(None)", nil]] + 
-        event.collection.subtree.map {|c| [c.short_title_path, c.id]},
+        Collection.sort_by_ancestry(event.collection.subtree).map {|c| [c.short_title_path, c.id]},
         {selected: event.attached_collection_id},
         {class: CssClass::SELECT} %>
     <%= render "errors", object: event, attribute: :attached_collection_id %>
