@@ -31,11 +31,7 @@ class Ability
       e.collection.has_admin?(user)
     end
     can :access_webinar, Event do |e|
-      Registration.where(
-        user: user,
-        registration_option: e.collection.path.collect(&:registration_options).flatten,
-        status: :accepted
-      ).any? or e.collection.public_webinars
+      e.collection.public_webinars or user.registrations.where(status: :accepted).include? e.collection
     end
 
     can :manage, Submission do |s|
