@@ -32,7 +32,8 @@ class ApplicationController < ActionController::Base
       "zulipchat.com",
       "google.com",
       "slack.com",
-      "discord.com"
+      "discord.com",
+      "doenet.org"
     ]
     uri = URI.parse(url) rescue nil
     apex_domain = uri.host.split(".").last(2).join(".") if uri&.host.present?
