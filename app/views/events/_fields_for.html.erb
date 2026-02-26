@@ -84,7 +84,7 @@
     <%= form.label "Attached Collection", class: CssClass::LABEL %>
     <%= form.select :attached_collection_id, 
         [["(None)", nil]] + 
-        event.collection.children.map {|c| [c.short_title_path, c.id]},
+        event.collection.subtree.map {|c| [c.short_title_path, c.id]},
         {selected: event.attached_collection_id},
         {class: CssClass::SELECT} %>
     <%= render "errors", object: event, attribute: :attached_collection_id %>
