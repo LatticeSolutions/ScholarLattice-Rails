@@ -1,29 +1,29 @@
-<% content_for :title, "Import Submissions | #{@collection.title}" %>
+<% content_for :title, "Import Registrations | #{@collection.title}" %>
 
 <div class="mx-auto md:w-2/3 w-full">
 
   <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Import" } %>
 
   <h1 class="font-bold text-4xl">
-    Import Submissions for 
+    Import Registrations for 
     <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
   </h1>
 
-  <%= form_with url: collection_submissions_import_path(@collection), local: true, html: { multipart: true, class: "my-8" } do |form| %>
-    <%= form.hidden_field :submission_csv_data, value: @submission_data_array.to_json %>
+  <%= form_with url: collection_registrations_import_path(@collection), local: true, html: { multipart: true, class: "my-8" } do |form| %>
+    <%= form.hidden_field :registration_csv_data, value: @registration_data_array.to_json %>
     <h3>Select the appropriate CSV header for each field (or mark none if not applicable):</h3>
-    <% @submission_param_symbols.each do |symb| %>
+    <% @registration_param_symbols.each do |symb| %>
       <div class="my-5">
         <%= form.label symb, class: CssClass::LABEL %>
-        <%= form.select "#{symb}_header", @submission_data_header_selections, {selected: nil}, class: CssClass::SELECT %>
+        <%= form.select "#{symb}_header", @registration_data_header_selections, {selected: nil}, class: CssClass::SELECT %>
       </div>
     <% end %>
     <hr>
     <div class="my-5">
       <%= form.label :status, class: CssClass::LABEL do %>
-        Status to apply to all imported submissions
+        Status to apply to all imported registrations
       <% end %>
-      <%= form.select :status, Submission.statuses.keys.map {|key| [key.humanize, key]},
+      <%= form.select :status, registration.statuses.keys.map {|key| [key.humanize, key]},
         {selected: :accepted},
         {class: CssClass::SELECT} %>
     </div>

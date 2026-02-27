@@ -44,12 +44,12 @@ class Submission < ApplicationRecord
   end
 
   def csv_row
-    [ id, collection.id, collection.short_title_path, user.last_name, user.first_name, user.email, title, abstract, notes, status.humanize ]
+    [ id, collection.id, collection.short_title_path, user.last_name, user.first_name, user.email, user.affiliation, user.position, user.position_type, title, coauthors, abstract, notes, status.humanize ]
   end
 
   def self.to_csv
     require "csv"
-    attributes = %w[id collection_id collection user_last_name user_first_name user_email title abstract notes status]
+    attributes = %w[id collection_id collection user_last_name user_first_name user_email user_affiliation user_position user_position_type title coauthors abstract notes status]
     CSV.generate(headers: true) do |csv|
       csv << attributes
 

@@ -9,7 +9,11 @@
     <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
   </h1>
 
-  <%= form_with url: collection_submissions_import_path(@collection), local: true, html: { multipart: true, class: "mt-4" } do |form| %>
+  <p class="mt-4 text-sm">
+    The top row of your CSV should be a header row describing its contents.
+  </p>
+
+  <%= form_with url: collection_submissions_import_path(@collection), data: { turbo: false }, local: true, html: { multipart: true, class: "mt-4" } do |form| %>
     <div class="mb-4">
       <%= form.label :file, "Choose CSV file", class: CssClass::LABEL %>
       <%= form.file_field :file, class: CssClass::FILE_UPLOAD, accept: ".csv" %>
