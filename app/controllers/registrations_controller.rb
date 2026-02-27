@@ -140,6 +140,7 @@ class RegistrationsController < ApplicationController
         next if row[params[:submitter_email_header]].blank?
         email = row[params[:submitter_email_header]]
         u = user_cache[email] || User.find_or_initialize_by(email: email)
+        next if @collection.registrations.where(user: u).any?
         if u.new_record? && !user_cache[email]
           u.assign_attributes(
             first_name: row[params[:submitter_first_name_header]] || "Unknown",
@@ -154,6 +155,12 @@ class RegistrationsController < ApplicationController
         registrations_to_save << @collection.registrations.build(
           user: u,
           status: params[:status] || :submitted,
+          registration_option_choices_attributes: [
+            {
+              registration_option_id: params[:registration_option_id],
+              amount: 1
+            }
+          ]
         )
       end
       invalid_users = users_to_save.reject(&:valid?)

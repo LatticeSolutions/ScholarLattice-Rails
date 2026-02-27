@@ -9,7 +9,7 @@
     <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
   </h1>
 
-  <%= form_with url: collection_submissions_import_path(@collection), local: true, html: { multipart: true, class: "my-8" } do |form| %>
+  <%= form_with url: collection_submissions_import_path(@collection), data: { turbo: false }, local: true, html: { multipart: true, class: "my-8" } do |form| %>
     <%= form.hidden_field :submission_csv_data, value: @submission_data_array.to_json %>
     <h3>Select the appropriate CSV header for each field (or mark none if not applicable):</h3>
     <% @submission_param_symbols.each do |symb| %>
