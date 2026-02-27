@@ -7,6 +7,7 @@ module CssClass
   DATETIME_FIELD = TEXT_FIELD
   URL_FIELD = TEXT_FIELD
   EMAIL_FIELD = TEXT_FIELD
+  FILE_UPLOAD = "block w-full text-gray-700 border rounded-lg py-2 px-3"
   TEXT_AREA = "mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
   CHECK_BOX = "mt-1 rounded-md border-gray-200 shadow-sm sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
   SUBMIT = "cursor-pointer inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative disabled:cursor-not-allowed"
