@@ -15,10 +15,10 @@ Rails.application.routes.draw do
     get "/submissions/upload", to: "submissions#upload", as: "submissions_upload"
     post "/submissions/upload", to: "submissions#import", as: "submissions_import"
     resources :registrations, shallow: true, path: "registrations"
-    resources :registration_options, shallow: true, path: "registrations/options",
-      only: [ :new, :create, :edit, :update, :destroy ]
     get "/registrations/upload", to: "registrations#upload", as: "registrations_upload"
     post "/registrations/upload", to: "registrations#import", as: "registrations_import"
+    resources :registration_options, shallow: true, path: "registrations/options",
+      only: [ :new, :create, :edit, :update, :destroy ]
     resources :events, shallow: true do
       get "/webinar", to: "events#webinar", as: "webinar"
     end
