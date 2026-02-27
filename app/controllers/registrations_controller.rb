@@ -127,6 +127,7 @@ class RegistrationsController < ApplicationController
         @registration_data_headers = CSV.read(registrations_csv, headers: true).headers.reject(&:blank?)
         @registration_data_header_selections = [ [ "(none)", nil ] ] +
           @registration_data_headers.map { |h| [ "#{h} (#{@registration_data_array.first[h]&.truncate(40)})", h ] }
+        render :import and return
       rescue => e
         flash[:alert] = "Error reading CSV file: #{e.message}"
         redirect_to collection_registrations_upload_path(@collection) and return
