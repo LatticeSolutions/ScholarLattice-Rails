@@ -23,7 +23,7 @@
       <%= form.label :status, class: CssClass::LABEL do %>
         Status to apply to all imported registrations
       <% end %>
-      <%= form.select :status, registration.statuses.keys.map {|key| [key.humanize, key]},
+      <%= form.select :status, Registration.statuses.keys.map {|key| [key.humanize, key]},
         {selected: :accepted},
         {class: CssClass::SELECT} %>
     </div>

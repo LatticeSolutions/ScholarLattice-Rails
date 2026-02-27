@@ -136,7 +136,7 @@ class SubmissionsController < ApplicationController
             last_name: row[params[:submitter_last_name_header]] || "Unknown",
             affiliation: row[params[:submitter_affiliation_header]] || "Unknown",
             position: row[params[:submitter_position_header]] || "Unknown",
-            position_type: :faculty,
+            position_type: :other,
           )
           users_to_save << u
         end

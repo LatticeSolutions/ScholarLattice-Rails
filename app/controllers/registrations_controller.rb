@@ -116,7 +116,7 @@ class RegistrationsController < ApplicationController
     registrations_csv = params[:file]
     registration_csv_data = params[:registration_csv_data]
     @registration_param_symbols = [
-      :title, :abstract, :notes, :private_notes, :submitter_email, :submitter_first_name, :submitter_last_name,
+      :submitter_email, :submitter_first_name, :submitter_last_name,
       :submitter_affiliation, :submitter_position
     ]
     if registrations_csv.present?
@@ -145,16 +145,12 @@ class RegistrationsController < ApplicationController
             last_name: row[params[:submitter_last_name_header]] || "Unknown",
             affiliation: row[params[:submitter_affiliation_header]] || "Unknown",
             position: row[params[:submitter_position_header]] || "Unknown",
-            position_type: :faculty,
+            position_type: :other,
           )
           users_to_save << u
         end
         user_cache[email] = u
         registrations_to_save << @collection.registrations.build(
-          title: row[params[:title_header]],
-          abstract: row[params[:abstract_header]],
-          notes: row[params[:notes_header]],
-          private_notes: row[params[:private_notes_header]],
           user: u,
           status: params[:status] || :submitted,
         )
@@ -164,7 +160,7 @@ class RegistrationsController < ApplicationController
       if invalid_users.any? || invalid_registrations.any?
         error_messages = []
         error_messages += invalid_users.map { |u| "User #{u.email}: #{u.errors.full_messages.join(', ')}" }
-        error_messages += invalid_registrations.map { |s| "registration #{s.title}: #{s.errors.full_messages.join(', ')}" }
+        error_messages += invalid_registrations.map { |s| "registration: #{s.errors.full_messages.join(', ')}" }
         flash[:alert] = "Some records could not be imported: #{error_messages.join('; ')}"
         @registration_data_array = JSON.parse(registration_csv_data)
         @registration_data_headers = @registration_data_array.first.keys.reject(&:blank?)
@@ -174,7 +170,7 @@ class RegistrationsController < ApplicationController
       end
       users_to_save.each(&:save!)
       registrations_to_save.each(&:save!)
-      flash[:alert] = "registrations have been imported."
+      flash[:alert] = "Registrations have been imported."
       redirect_to collection_registrations_path(@collection) and return
     else
       flash[:alert] = "Please select a CSV file to upload."
