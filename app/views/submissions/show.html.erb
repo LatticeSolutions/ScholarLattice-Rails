@@ -20,7 +20,7 @@
               <li>
                 <%= link_to registration.user, class: "text-blue-600 hover:underline" do %>
                   <%= registration.collection.short_title_path %> |
-                  <%= registration.registration_option.name %> |
+                  <%= registration.registration_option_choices.map(&:registration_option).map(&:name).join(', ') %> |
                   <%= registration.status.humanize %>
                 <% end %>
               </li>
