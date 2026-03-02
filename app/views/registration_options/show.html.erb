@@ -1,0 +1,57 @@
+<% content_for :title, "#{@registration_option.name}: Registrations | #{@registration_option.collection.title}" %>
+
+<section class="mx-auto md:w-3/4 w-full">
+    <%= render partial: "registrations/breadcrumb", locals: { collection: @registration_option.collection, action: "#{@registration_option.name} Option" } %>
+
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
+        <%= @registration_option.name %> option for
+        <%= link_to @registration_option.collection.title, @registration_option.collection, class: "text-sky-700 hover:underline" %>
+    </h1>
+
+    <div class="py-2">
+        <%= link_to "Edit Option", edit_registration_option_path(@registration_option), class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+    </div>
+
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        Submitted:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @registrations.where(status: :submitted).each do |registration| %>
+            <%= render partial: "registrations/card", locals: { registration: registration, collection: @registration_option.collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @registrations.where(status: :submitted).map{|r| r.user.email }.join("; ")
+        %></textarea>
+    </div>
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        Accepted:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @registrations.where(status: :accepted).each do |registration| %>
+            <%= render partial: "registrations/card", locals: { registration: registration, collection: @registration_option.collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @registrations.where(status: :accepted).map{|r| r.user.email }.join("; ")
+        %></textarea>
+    </div>
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        Declined:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @registrations.where(status: :declined).each do |registration| %>
+            <%= render partial: "registrations/card", locals: { registration: registration, collection: @registration_option.collection } %>
+        <% end %>
+    </div>
+    <div class="text-gray-700 py-3">
+        Emails:
+        <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+            @registrations.where(status: :declined).map{|r| r.user.email }.join("; ")
+        %></textarea>
+    </div>
+</section>

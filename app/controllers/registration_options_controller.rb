@@ -1,8 +1,15 @@
 class RegistrationOptionsController < ApplicationController
   load_and_authorize_resource :collection
-  load_resource :registration_option, through: :collection, shallow: true
+  load_and_authorize_resource :registration_option, through: :collection, shallow: true
 
   def new
+  end
+
+  def show
+    authorize! :manage, @registration_option.collection
+    @registrations = @registration_option.collection.registrations.joins(:registration_option_choices)
+      .where(registration_option_choices: { registration_option_id: @registration_option.id })
+      .where("registration_option_choices.amount > ?", 0)
   end
 
   def edit
