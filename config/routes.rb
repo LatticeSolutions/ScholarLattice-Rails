@@ -17,8 +17,7 @@ Rails.application.routes.draw do
     resources :registrations, shallow: true, path: "registrations"
     get "/registrations/upload", to: "registrations#upload", as: "registrations_upload"
     post "/registrations/upload", to: "registrations#import", as: "registrations_import"
-    resources :registration_options, shallow: true, path: "registrations/options",
-      only: [ :new, :create, :edit, :update, :destroy ]
+    resources :registration_options, shallow: true, path: "registrations/options", except: :index
     resources :events, shallow: true do
       get "/webinar", to: "events#webinar", as: "webinar"
     end
