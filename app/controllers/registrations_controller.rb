@@ -123,15 +123,15 @@ class RegistrationsController < ApplicationController
       require "csv"
       begin
         csv_table = CSV.read(registrations_csv, headers: true)
-        @registration_data_array = csv_table.map(&:to_hash)
-        @registration_data_headers = CSV.read(registrations_csv, headers: true).headers.reject(&:blank?)
-        @registration_data_header_selections = [ [ "(none)", nil ] ] +
-          @registration_data_headers.map { |h| [ "#{h} (#{@registration_data_array.first[h]&.truncate(40)})", h ] }
-        render :import and return
       rescue => e
         flash[:alert] = "Error reading CSV file: #{e.message}"
         redirect_to collection_registrations_upload_path(@collection) and return
       end
+      @registration_data_array = csv_table.map(&:to_hash)
+      @registration_data_headers = CSV.read(registrations_csv, headers: true).headers.reject(&:blank?)
+      @registration_data_header_selections = [ [ "(none)", nil ] ] +
+        @registration_data_headers.map { |h| [ "#{h} (#{@registration_data_array.first[h]&.truncate(40)})", h ] }
+      render :import and return
     elsif registration_csv_data.present?
       users_to_save = []
       registrations_to_save = []
@@ -140,6 +140,14 @@ class RegistrationsController < ApplicationController
         next if row[params[:submitter_email_header]].blank?
         email = row[params[:submitter_email_header]]
         u = user_cache[email] || User.find_or_initialize_by(email: email)
+        unless u.present? && u.valid?
+          @registration_data_array = JSON.parse(registration_csv_data)
+          @registration_data_headers = @registration_data_array.first.keys.reject(&:blank?)
+          @registration_data_header_selections = [ [ "(none)", nil ] ] +
+            @registration_data_headers.map { |h| [ "#{h} (#{@registration_data_array.first[h]&.truncate(40)})", h ] }
+          flash[:alert] = "Could not find or create user with email <#{email}>. Try selecting another column?"
+          render :import and return
+        end
         next if @collection.registrations.where(user: u).any?
         if u.new_record? && !user_cache[email]
           u.assign_attributes(
@@ -147,7 +155,7 @@ class RegistrationsController < ApplicationController
             last_name: row[params[:submitter_last_name_header]] || "Unknown",
             affiliation: row[params[:submitter_affiliation_header]] || "Unknown",
             position: row[params[:submitter_position_header]] || "Unknown",
-            position_type: :other,
+            position_type: params[:position_type] || :faculty,
           )
           users_to_save << u
         end

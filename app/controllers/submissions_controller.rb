@@ -122,6 +122,7 @@ class SubmissionsController < ApplicationController
         flash[:alert] = "Error reading CSV file: #{e.message}"
         redirect_to collection_submissions_upload_path(@collection) and return
       end
+      render :import and return
     elsif submission_csv_data.present?
       users_to_save = []
       submissions_to_save = []
