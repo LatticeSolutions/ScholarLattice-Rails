@@ -22,7 +22,7 @@
 
   <%= form.fields_for :registration_option_choices do |choice_fields| %>
     <div class="border rounded px-3 py-2 my-2 <%=
-      choice_fields.object.registration_option.available_or_admin?(@current_user) ? " bg-white" : "bg-gray-100 cursor-not-allowed"
+      choice_fields.object.registration_option.available_or_admin?(@current_user) ? " bg-white" : "bg-gray-100 text-gray-500 cursor-not-allowed"
       %>" :class="{ 'hidden' : limitOne && selectedOption !== '<%= choice_fields.object.registration_option_id %>' }">
       <h3 class="font-medium text-xl mb-2">
         <%= choice_fields.object.registration_option.name_with_cost_and_availability %>
@@ -32,8 +32,8 @@
           <%= choice_fields.hidden_field :amount, value: 1 %>
         <% else %>
           <div class="mb-1">
-            <%= choice_fields.label :amount, class: CssClass::LABEL do %>
-              Select this registration option
+            <%= choice_fields.label :amount, class: choice_fields.object.registration_option.available_or_admin?(@current_user) ? CssClass::LABEL : CssClass::LABEL_DISABLED do %>
+              Select this option
             <% end %>
             <%= choice_fields.check_box :amount, 
               class: CssClass::CHECK_BOX + " ml-1", 
@@ -43,11 +43,11 @@
         <% end %>
       <% else %>
         <div class="mb-1">
-          <%= choice_fields.label :amount, class: CssClass::LABEL do %>
-              Number of registrations for this option
+          <%= choice_fields.label :amount, class: choice_fields.object.registration_option.available_or_admin?(@current_user) ? CssClass::LABEL : CssClass::LABEL_DISABLED do %>
+              Number of registrations
           <% end %>
           <%= choice_fields.number_field :amount, 
-            class: CssClass::NUMBER_FIELD + " w-24 ml-4",
+            class: CssClass::NUMBER_FIELD_INLINE + " w-20 ml-2",
             min: 0,
             disabled: !choice_fields.object.registration_option.available_or_admin?(@current_user) %>
           <%= render "errors", object: choice_fields.object, attribute: :amount %>
@@ -55,7 +55,7 @@
       <% end %>
       <% if choice_fields.object.registration_option.info_prompt.present? %>
         <div class="mb-5">
-          <%= choice_fields.label :info, class: CssClass::LABEL do %>
+          <%= choice_fields.label :info, class: choice_fields.object.registration_option.available_or_admin?(@current_user) ? CssClass::LABEL : CssClass::LABEL_DISABLED do %>
             Additional Info
             <span class="<%= CssClass::SUBLABEL %>">
               <%= choice_fields.object.registration_option.info_prompt %>
