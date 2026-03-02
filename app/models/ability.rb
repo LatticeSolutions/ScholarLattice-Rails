@@ -10,6 +10,7 @@ class Ability
     can :read, Submission, status: :accepted
     can :read, OldRegistration, status: :accepted
     can :read, Registration, status: :accepted
+    can :read, RegistrationOption
     can :read, Event
     can [ :read, :create ], User
 
@@ -60,6 +61,10 @@ class Ability
     end
     can :destroy, Registration do |r|
       can? :manage, r.collection
+    end
+
+    can :manage, RegistrationOption do |ro|
+      can? :manage, ro.collection
     end
 
     can :manage, Invitation do |i|
