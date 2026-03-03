@@ -16,12 +16,16 @@ class RegistrationsController < ApplicationController
   end
 
   def new
-    if (cannot? :manage, @collection) && @collection.registrations.where(user: @current_user).any?
-      redirect_to @collection.registrations.where(user: @current_user).first, alert: "You have already registered for this collection" and return
+    if cannot? :manage, @collection
+      existing_registration = @collection.registrations.find_by(user: @current_user)
+      if existing_registration.present?
+        redirect_to existing_registration, alert: "You have already registered for this collection" and return
+      end
+      if !@collection.registrations_in_stock?
+        redirect_to @collection, alert: "No registrations remaining for this collection" and return
+      end
     end
-    unless @collection.registrations_in_stock?
-      redirect_to @collection, alert: "No registrations remaining for this collection" and return
-    end
+
     if (can? :manage, @collection) && @collection.registrations.where(user: @current_user).any?
       @registration.user = User.new
     else
