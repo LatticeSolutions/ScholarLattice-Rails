@@ -113,6 +113,17 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  def mine
+    unless @current_user.present?
+      redirect_to users_sign_in_path(redirect: request.fullpath), alert: "To view your registration, please verify your email address." and return
+    end
+    @registration = @collection.registrations.find_by(user: @current_user)
+    unless @registration.present?
+      redirect_to new_collection_registration_path(@collection), alert: "You haven't registered for this collection yet! Fill out the form below to create one." and return
+    end
+    redirect_to @registration
+  end
+
   def upload
   end
 

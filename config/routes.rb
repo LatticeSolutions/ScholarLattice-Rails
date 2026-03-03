@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     get "/submissions/upload", to: "submissions#upload", as: "submissions_upload"
     post "/submissions/upload", to: "submissions#import", as: "submissions_import"
     resources :registrations, shallow: true, path: "registrations"
+    get "/registrations/mine", to: "registrations#mine", as: "registrations_mine"
     get "/registrations/upload", to: "registrations#upload", as: "registrations_upload"
     post "/registrations/upload", to: "registrations#import", as: "registrations_import"
     resources :registration_options, shallow: true, path: "registrations/options", except: :index
