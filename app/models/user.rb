@@ -83,7 +83,7 @@ class User < ApplicationRecord
   end
 
   def name_with_email
-    "#{name} ⟨#{email}⟩"
+    "#{name} <#{email}>"
   end
 
   def old_registered_for?(collection)
