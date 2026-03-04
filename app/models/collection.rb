@@ -18,6 +18,7 @@ class Collection < ApplicationRecord
   has_one :attached_event, class_name: "Event", foreign_key: "attached_collection_id", dependent: :nullify
   after_save :update_admins_after_save
   before_save :round_down_submission_times
+  before_save :ensure_option_when_registerable
 
   validates :paypal_link,
     format: {
@@ -217,5 +218,11 @@ class Collection < ApplicationRecord
   def round_down_submission_times
     self.submissions_open_on = submissions_open_on.change(sec: 0) if submissions_open_on.present?
     self.submissions_close_on = submissions_close_on.change(sec: 0) if submissions_close_on.present?
+  end
+
+  def ensure_option_when_registerable
+    if registerable && registration_options.empty?
+      registration_options.build(name: "Default", limit_one_per_registration: true)
+    end
   end
 end
