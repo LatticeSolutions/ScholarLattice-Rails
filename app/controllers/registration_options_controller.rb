@@ -19,8 +19,7 @@ class RegistrationOptionsController < ApplicationController
     adjust_datetime_params
     respond_to do |format|
       if @registration_option.save
-        format.html { redirect_to collection_registrations_path(@registration_option.collection),
-          notice: "Option was successfully created." }
+        format.html { redirect_to @registration_option, notice: "Option was successfully created." }
         format.json { render :show, status: :created, location: @registration_option }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -34,8 +33,7 @@ class RegistrationOptionsController < ApplicationController
     adjust_datetime_params
     respond_to do |format|
       if @registration_option.save
-        format.html { redirect_to collection_registrations_path(@registration_option.collection),
-          notice: "Option was successfully updated." }
+        format.html { redirect_to @registration_option, notice: "Option was successfully updated." }
         format.json { render :show, status: :ok, location: @registration_option }
       else
         format.html { render :edit, status: :unprocessable_entity }
