@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_05_003412) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_05_003806) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -87,16 +87,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_05_003412) do
     t.datetime "updated_at", null: false
     t.index ["collection_id"], name: "index_likes_on_collection_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
-  end
-
-  create_table "old_registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "status", default: 0, null: false
-    t.uuid "registration_option_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.uuid "user_id", null: false
-    t.index ["registration_option_id"], name: "index_old_registrations_on_registration_option_id"
-    t.index ["user_id"], name: "index_old_registrations_on_user_id"
   end
 
   create_table "pages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -219,8 +209,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_05_003412) do
   add_foreign_key "invitations", "users"
   add_foreign_key "likes", "collections"
   add_foreign_key "likes", "users"
-  add_foreign_key "old_registrations", "registration_options"
-  add_foreign_key "old_registrations", "users"
   add_foreign_key "pages", "collections"
   add_foreign_key "registration_option_choices", "registration_options"
   add_foreign_key "registration_option_choices", "registrations"
