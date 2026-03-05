@@ -10,12 +10,9 @@
 
     <% if @event.children.present? %>
       <h2 class="font-bold text-2xl">Subevents</h2>
-      <div class="hidden sm:block">
-        <%= render partial: "calendar", locals: { events: @subevents, unscheduled_events: @unscheduled_subevents } %>
-      </div>
-      <div class="sm:hidden block">
+      <div>
         <ul class="list-disc pl-5">
-          <% @subevents.each do |subevent| %>
+          <% @event.children.each do |subevent| %>
             <li class="py-1">
               <%= subevent.starts_at.present? ? subevent.starts_at.in_time_zone(subevent.collection.inherited_time_zone).strftime("%Y-%m-%d %I:%M%p") : "" %>
               <%= link_to subevent.title, subevent, class: "text-blue-500 hover:underline" %>

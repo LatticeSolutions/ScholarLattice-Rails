@@ -38,21 +38,7 @@ class EventsController < ApplicationController
   def show
     if @event.attached_collection.present?
       redirect_to collection_path(@event.attached_collection)
-      return
     end
-    params[:start_date] = params.fetch(
-      :start_date,
-      (
-        @event.children.where.not(starts_at: nil).minimum(:starts_at) ||
-        Date.today
-      )
-    ).to_date.in_time_zone(@event.collection.inherited_time_zone)
-    month_starts_at = params[:start_date].beginning_of_month
-    month_ends_at = params[:start_date].end_of_month
-    @subevents = @event.children.where(
-      starts_at: month_starts_at..month_ends_at
-    )
-    @unscheduled_subevents = @event.children.where(starts_at: nil)
   end
 
   def webinar
