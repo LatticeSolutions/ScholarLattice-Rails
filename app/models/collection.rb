@@ -213,6 +213,10 @@ class Collection < ApplicationRecord
     attached_event.blank? and all_events.where.not(webinar_link: [ nil, "" ]).any?
   end
 
+  def unscheduled_submissions
+    subtree_submissions.left_outer_joins(:event).where(events: { id: nil })
+  end
+
   private
 
   def round_down_submission_times
