@@ -125,7 +125,6 @@ class EventsController < ApplicationController
     length_of_break = params[:length_of_break]&.to_i || 0
     same_times = params[:same_times] == "1"
     title = (params[:subevent_title] || @event.title).strip
-    collection = params[:collection_id].present? ? Collection.find(params[:collection_id]) : @event.collection
     if number_of_subevents <= 0 || length_of_each_subevent < 0 || length_of_break < 0
       flash[:alert] = "Invalid input values. Please ensure all values are positive."
       render :new_subevents, status: :unprocessable_entity
@@ -139,7 +138,6 @@ class EventsController < ApplicationController
     subevents = []
     number_of_subevents.times do |i|
       subevent = @event.dup
-      subevent.collection = collection
       subevent.parent = @event
       subevent.order = i+1
       if title == subevent.title
