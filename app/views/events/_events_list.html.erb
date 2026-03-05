@@ -1,5 +1,5 @@
 <ul class="list-disc pl-5 mt-2">
-    <% events.sort_by { |e| e.starts_at }.each do |event| %>
+    <% events.select{|e| e.starts_at.present? }.sort_by { |e| e.starts_at }.each do |event| %>
     <li class="mb-2">
         <% unless defined?(hide_same_times) && hide_same_times %>
             <%= event.starts_at.strftime("%I:%M %p") %>:
