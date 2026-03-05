@@ -26,29 +26,34 @@
           Subevent Title
           <span class="text-sm font-light">(keep same as parent event to generate numbered subevents)</span>
         <% end %>
-        <%= form.text_field :subevent_title, value: @event.title, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        <%= form.text_field :subevent_title, value: @event.title, class: CssClass::TEXT_FIELD %>
       </div>
 
       <div class="mb-4">
         <%= form.label :number_of_subevents, "Number of subevents", class: CssClass::LABEL %>
-        <%= form.number_field :number_of_subevents, min: 1, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        <%= form.number_field :number_of_subevents, min: 1, class: CssClass::NUMBER_FIELD_INLINE %>
       </div>
 
       <div class="mb-4">
         <%= form.label :same_times, "Each subevent will use the same start/end times as #{@event.title}?", class: CssClass::LABEL %>
-        <%= form.check_box :same_times, class: "shadow appearance-none border rounded w-4 h-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", "x-model" => "sameTimes" %>
+        <%= form.check_box :same_times, class: CssClass::CHECK_BOX, "x-model" => "sameTimes" %>
       </div>
 
       <div x-show="!sameTimes">
         <div class="mb-4">
           <%= form.label :length_of_each_subevent, "Length of each subevent (in minutes)", class: CssClass::LABEL %>
-          <%= form.number_field :length_of_each_subevent, min: 1, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+          <%= form.number_field :length_of_each_subevent, min: 1, class: CssClass::NUMBER_FIELD_INLINE %>
         </div>
 
         <div class="mb-4">
           <%= form.label :length_of_break, "Length of break between subevents (in minutes)", class: CssClass::LABEL %>
-          <%= form.number_field :length_of_break, min: 0, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+          <%= form.number_field :length_of_break, min: 0, class: CssClass::NUMBER_FIELD_INLINE %>
         </div>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :attach_submissions, "Automatically attach approved submissions to each event?", class: CssClass::LABEL %>
+        <%= form.check_box :attach_submissions, class: CssClass::CHECK_BOX %>
       </div>
 
       <div class="flex items-center justify-between">

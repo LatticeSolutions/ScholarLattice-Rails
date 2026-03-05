@@ -124,6 +124,7 @@ class EventsController < ApplicationController
     length_of_each_subevent = params[:length_of_each_subevent]&.to_i || 0
     length_of_break = params[:length_of_break]&.to_i || 0
     same_times = params[:same_times] == "1"
+    attach_submissions = params[:attach_submissions] == "1"
     title = (params[:subevent_title] || @event.title).strip
     if number_of_subevents <= 0 || length_of_each_subevent < 0 || length_of_break < 0
       flash[:alert] = "Invalid input values. Please ensure all values are positive."
@@ -156,6 +157,13 @@ class EventsController < ApplicationController
         end
       end
       subevents << subevent
+    end
+    if attach_submissions
+      @event.collection.unscheduled_submissions.where(status: :accepted).each_with_index do |s, i|
+        if i < subevents.length
+          subevents[i].submission = s
+        end
+      end
     end
     if subevents.any?(&:invalid?)
       flash[:alert] = "Some subevents could not be created due to errors: #{subevents.map(&:errors).map(&:full_messages).join(', ')}"
