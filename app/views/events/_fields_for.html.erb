@@ -12,7 +12,7 @@
 
 <div class="my-5">
     <%= form.label :location, class: CssClass::LABEL %>
-    <%= form.text_field :location, class: CssClass::TEXT_FIELD %>
+    <%= form.text_field :location, class: CssClass::TEXT_FIELD_INLINE %>
     <%= render "errors", object: event, attribute: :location %>
 </div>
 
@@ -27,7 +27,7 @@
         Starts at [<%= event.collection.inherited_time_zone %>]
     <% end %>
     <% Time.use_zone(event.collection.inherited_time_zone) do %>
-        <%= form.datetime_field :starts_at, class: CssClass::DATETIME_FIELD %> 
+        <%= form.datetime_field :starts_at, class: CssClass::DATETIME_FIELD_INLINE %> 
     <% end %>
     <%= render "errors", object: event, attribute: :starts_at %>
 </div>
@@ -36,14 +36,16 @@
         Ends at [<%= event.collection.inherited_time_zone %>]
     <% end %>
     <% Time.use_zone(event.collection.inherited_time_zone) do %>
-        <%= form.datetime_field :ends_at, class: CssClass::DATETIME_FIELD %> 
+        <%= form.datetime_field :ends_at, class: CssClass::DATETIME_FIELD_INLINE %> 
     <% end %>
     <%= render "errors", object: event, attribute: :ends_at %>
 </div>
 
+<h3 class="text-xl font-medium text-gray-900 mt-10 mb-3">Organization Settings</h3>
+
 <div class="my-5">
     <%= form.label :order, "Order", class: CssClass::LABEL %>
-    <%= form.number_field :order, class: CssClass::NUMBER_FIELD %>
+    <%= form.number_field :order, class: CssClass::NUMBER_FIELD_INLINE %>
     <%= render "errors", object: event, attribute: :order %>
 </div>
 
@@ -53,7 +55,7 @@
         Collection.sort_by_ancestry(@current_user.admin_collections).filter{|c| event.parent.blank? || event.parent.collection.subtree.include?(c)}
         .map {|c| [c.short_title_path, c.id]},
         {selected: event.collection_id},
-        {class: CssClass::SELECT} %>
+        {class: CssClass::SELECT_INLINE} %>
     <%= render "errors", object: event, attribute: :collection_id %>
 </div>
 
@@ -68,6 +70,9 @@
     <%= render "errors", object: event, attribute: :parent_id %>
 </div>
 
+
+<h3 class="text-xl font-medium text-gray-900 mt-10 mb-3">Atttached Objects</h3>
+
 <div class="my-5">
     <%= form.label "Attached Submission", class: CssClass::LABEL %>
     <%= form.select :submission_id, 
@@ -76,7 +81,7 @@
         Submission.where(collection_id: event.collection.subtree_ids, status: :accepted).left_outer_joins(:event).where(events: { id: nil })
         .map {|s| ["#{s.title} | #{s.user.name}", s.id]},
         {selected: event.submission_id},
-        {class: CssClass::SELECT} %>
+        {class: CssClass::SELECT_INLINE} %>
     <%= render "errors", object: event, attribute: :submission_id %>
 </div>
 
@@ -86,7 +91,7 @@
         [["(None)", nil]] + 
         Collection.sort_by_ancestry(event.collection.subtree).map {|c| [c.short_title_path, c.id]},
         {selected: event.attached_collection_id},
-        {class: CssClass::SELECT} %>
+        {class: CssClass::SELECT_INLINE} %>
     <%= render "errors", object: event, attribute: :attached_collection_id %>
 </div>
 
@@ -96,6 +101,6 @@
         [["(None)", nil]] + 
         event.collection.pages.map {|p| ["#{p.title}", p.id]},
         {selected: event.attached_page_id},
-        {class: CssClass::SELECT} %>
+        {class: CssClass::SELECT_INLINE} %>
     <%= render "errors", object: event, attribute: :attached_page_id %>
 </div>
