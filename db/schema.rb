@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_23_201432) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_05_003412) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -161,16 +161,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_23_201432) do
     t.index ["collection_id"], name: "index_registration_options_on_collection_id"
   end
 
-  create_table "registration_payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "amount", default: 0, null: false
-    t.text "memo"
-    t.uuid "registration_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "external_id"
-    t.index ["registration_id"], name: "index_registration_payments_on_registration_id"
-  end
-
   create_table "registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "collection_id", null: false
@@ -235,7 +225,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_23_201432) do
   add_foreign_key "registration_option_choices", "registration_options"
   add_foreign_key "registration_option_choices", "registrations"
   add_foreign_key "registration_options", "collections"
-  add_foreign_key "registration_payments", "old_registrations", column: "registration_id"
   add_foreign_key "registrations", "collections"
   add_foreign_key "registrations", "users"
   add_foreign_key "submissions", "collections"
