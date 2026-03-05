@@ -35,7 +35,6 @@ class User < ApplicationRecord
   has_many :managing_users, through: :managing_users_link, source: :manager
 
   has_many :submissions
-  has_many :old_registrations
   has_many :invitations
   has_many :registrations
 
@@ -84,14 +83,6 @@ class User < ApplicationRecord
 
   def name_with_email
     "#{name} <#{email}>"
-  end
-
-  def old_registered_for?(collection)
-    old_registrations_for(collection).any?
-  end
-
-  def old_registrations_for(collection)
-    old_registrations.where(registration_option: collection.registration_options)
   end
 
   private

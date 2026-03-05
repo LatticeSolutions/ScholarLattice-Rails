@@ -8,7 +8,6 @@ class Ability
     can :read, Collection
     can :read, Page, visibility: [ :public, :unlisted ]
     can :read, Submission, status: :accepted
-    can :read, OldRegistration, status: :accepted
     can :read, Registration, status: :accepted
     can :read, RegistrationOption
     can :read, Event
@@ -37,17 +36,6 @@ class Ability
 
     can :manage, Submission do |s|
       s.collection.blank? || (can? :manage, s.collection) || s.user_id.blank? || s.user_id == user.id
-    end
-
-    can :manage, OldRegistration do |r|
-      r.collection.blank? || (can? :manage, r.collection) || r.user_id.blank? || r.user_id == user.id
-    end
-    cannot :destroy, OldRegistration do |r|
-      return true if r.accepted?
-      r.registration_option.closes_on.present? && r.registration_option.closes_on <= Time.current
-    end
-    can :view_payments, OldRegistration do |r|
-      r.user_id == user.id and r.registration_option.cost.present?
     end
 
     can [ :read, :create ], Registration do |r|
