@@ -27,12 +27,14 @@
             <%= render partial: "submissions/card", locals: { submission: submission, collection: @collection } %>
         <% end %>
     </div>
+    <% if @submissions.where(status: :submitted).reject(&:invited?).count > 0 %>
     <div class="text-gray-700 py-3">
         Emails:
         <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
             @submissions.where(status: :submitted).reject(&:invited?).map{|s| s.user.email }.join("; ")
         %></textarea>
     </div>
+    <% end %>
     <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
         <span class="size-4 inline-block">
             <%= render IconComponent.new(:key) %>
@@ -44,12 +46,14 @@
             <%= render partial: "submissions/card", locals: { submission: submission, collection: @collection } %>
         <% end %>
     </div>
+    <% if @submissions.where(status: :submitted).filter(&:invited?).count > 0 %>
     <div class="text-gray-700 py-3">
         Emails:
         <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
             @submissions.where(status: :submitted).filter(&:invited?).map{|s| s.user.email }.join("; ")
         %></textarea>
     </div>
+    <% end %>
     <% end %>
 
     <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
@@ -65,12 +69,14 @@
     </div>
 
     <% if can? :manage, @collection %>
+        <% if @submissions.where(status: :accepted).count > 0 %>
         <div class="text-gray-700 py-3">
             Emails:
             <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
                 @submissions.where(status: :accepted).map{|s| s.user.email }.join("; ")
             %></textarea>
         </div>
+        <% end %>
         <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
             <span class="size-4 inline-block">
                 <%= render IconComponent.new(:key) %>
@@ -82,12 +88,33 @@
                 <%= render partial: "submissions/card", locals: { submission: submission, collection: @collection } %>
             <% end %>
         </div>
+        <% if @submissions.where(status: :declined).count > 0 %>
         <div class="text-gray-700 py-3">
             Emails:
             <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
                 @submissions.where(status: :declined).map{|s| s.user.email }.join("; ")
             %></textarea>
         </div>
+        <% end %>
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+            <span class="size-4 inline-block">
+                <%= render IconComponent.new(:key) %>
+            </span>
+            Marked as draft  (<%= @submissions.where(status: :draft).count %>):
+        </h2>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <% @submissions.where(status: :draft).each do |submission| %>
+                <%= render partial: "submissions/card", locals: { submission: submission, collection: @collection } %>
+            <% end %>
+        </div>
+        <% if @submissions.where(status: :draft).count > 0 %>
+        <div class="text-gray-700 py-3">
+            Emails:
+            <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
+                @submissions.where(status: :draft).map{|s| s.user.email }.join("; ")
+            %></textarea>
+        </div>
+        <% end %>
 
         <h2 class="font-bold text-4xl pb-3">
             Invitation list
