@@ -23,7 +23,7 @@
   </div>
   <p>
     All times <%= Time.zone.name %>.
-    Page loaded at <%= Time.current.strftime("%I:%M %p") %> <%= Time.zone.name %>.
+    Page loaded at <%= Time.current.strftime("%I:%M %p") %> <%= Time.zone.name %> (UTC <%= Time.current.in_time_zone(Time.zone.name).formatted_offset %>).
   </p>
   
   <% if @collection.parent.present? and @collection.parent.show_events? %>
@@ -88,7 +88,7 @@
           <%= @collection.title %> Schedule
         </h2>
         <p>
-          All times <%= Time.zone %>
+          All times <%= Time.zone.name %>
         </p>
         <% @scheduled_events.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
           <h3 class="font-bold text-xl mt-3"><%= day %></h3>
