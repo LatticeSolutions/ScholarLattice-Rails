@@ -56,7 +56,7 @@
                     Schedule
                 </h2>
                 <p>
-                    All times <%= Time.zone %>
+                    All times <%= Time.zone.name %>.
                 </p>
                 <% @scheduled_events.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
                     <h3 class="font-bold text-xl mt-3"><%= day %></h3>
