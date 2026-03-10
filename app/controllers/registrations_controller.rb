@@ -155,14 +155,6 @@ class RegistrationsController < ApplicationController
         next if row[params[:submitter_email_header]].blank?
         email = row[params[:submitter_email_header]]
         u = user_cache[email] || User.find_or_initialize_by(email: email)
-        unless u.present?
-          @registration_data_array = JSON.parse(registration_csv_data)
-          @registration_data_headers = @registration_data_array.first.keys.reject(&:blank?)
-          @registration_data_header_selections = [ [ "(none)", nil ] ] +
-            @registration_data_headers.map { |h| [ "#{h} (#{@registration_data_array.first[h]&.truncate(40)})", h ] }
-          flash[:alert] = "Could not find or create user with email <#{email}>. Try selecting another column?"
-          render :import and return
-        end
         next if @collection.registrations.where(user: u).any?
         if u.new_record? && !user_cache[email]
           u.assign_attributes(
