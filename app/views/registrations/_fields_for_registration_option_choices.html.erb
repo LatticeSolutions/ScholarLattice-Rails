@@ -9,7 +9,7 @@
       <%= select_tag :registration_option_id_choice, 
         options_for_select(
           registration.collection.registration_options.map{|ro| [ro.name_with_cost_and_availability, ro.id]},
-          disabled: (can? :manage, collection) ? [] : collection.registration_options.reject(&:available?).map(&:id)
+          disabled: (can? :manage, registration.collection) ? [] : registration.collection.registration_options.reject(&:available?).map(&:id)
         ),
         {
           prompt: "Select an option",
