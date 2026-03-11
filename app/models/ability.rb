@@ -32,7 +32,7 @@ class Ability
       e.collection.has_admin?(user)
     end
     can :access_webinar, Event do |e|
-      e.collection.public_webinars or user.registrations.where(status: :accepted).include? e.collection
+      e.collection.public_webinars or e.collection.path_ids.intersect?(user.registrations.where(status: :accepted).pluck(:collection_id))
     end
 
     can :manage, Submission do |s|
