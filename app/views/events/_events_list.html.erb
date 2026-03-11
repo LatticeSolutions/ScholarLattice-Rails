@@ -1,38 +1,8 @@
 <ul class="list-disc pl-5 mt-2">
     <% events.select{|e| e.starts_at.present? }.sort_by { |e| e.starts_at }.each do |event| %>
-    <li class="mb-2">
-        <% unless defined?(hide_same_times) && hide_same_times %>
-            <%= event.starts_at.strftime("%I:%M %p") %>:
-        <% end %>
-        <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
-        <% if event.location.present? %>
-            <span class="text-sm">in <span class="text-green-800"><%= event.location %></span></span>
-        <% end %>
-        <% if event.webinar_link.present? && can?(:access_webinar, event) %>
-            <%= link_to event_webinar_path(event), 
-                class: "inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold px-1 py-1 rounded transition-colors duration-150 ml-2", 
-                target: "_blank", 
-                rel: "noopener" do %>
-                <span class="inline-block size-4">
-                    <%= render IconComponent.new(:video) %>
-                </span>
-            <% end %>
-        <% end %>
-        <% if event.submission.present? %>
-            <br>
-            <span class="italic mathjax"><%= event.submission.title %></span>
-            &mdash;
-            <%= event.submission.user.name %>
-        <% end %>
-        <% if event.children.present? %>
-            <% if depth.nil? || depth > 0 %>
-                <%= render partial: "events/events_list", locals: { 
-                    events: event.children, 
-                    hide_same_times: event.children_have_same_times?, 
-                    depth: depth.nil? ? nil : depth - 1
-                } %>
-            <% end %>
-        <% end %>
-    </li>
+        <%= render partial: "events/events_list_item", locals: { 
+            event: event,
+            depth: depth.nil? ? nil : depth
+        } %>
     <% end %>
 </ul>
