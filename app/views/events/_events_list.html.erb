@@ -5,4 +5,10 @@
             depth: depth.nil? ? nil : depth
         } %>
     <% end %>
+    <% events.select{|e| e.starts_at.blank? }.each do |event| %>
+        <%= render partial: "events/events_list_item", locals: { 
+            event: event,
+            depth: depth.nil? ? nil : depth
+        } %>
+    <% end %>
 </ul>
