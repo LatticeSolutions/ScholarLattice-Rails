@@ -10,16 +10,14 @@
 
     <% if @event.children.present? %>
       <h2 class="font-bold text-2xl">Subevents</h2>
-      <div>
-        <ul class="list-disc pl-5">
-          <% @event.children.each do |subevent| %>
-            <li class="py-1">
-              <%= subevent.starts_at.present? ? subevent.starts_at.in_time_zone(subevent.collection.inherited_time_zone).strftime("%Y-%m-%d %I:%M%p") : "" %>
-              <%= link_to subevent.title, subevent, class: "text-blue-500 hover:underline" %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+      <% @event.children.select{|e| e.starts_at.present? }.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
+        <h3 class="font-bold text-xl mt-3"><%= day %></h3>
+        <%= render partial: "events_list", locals: { events: events, depth: nil } %>
+      <% end %>
+      <% if @event.children.reject{|e| e.starts_at.present? }.any? %>
+        <h3 class="font-bold text-xl mt-3">Unscheduled</h3>
+        <%= render partial: "events_list", locals: { events: @event.children.reject{|e| e.starts_at.present? }, depth: nil } %>
+      <% end %>
     <% end %>
 
     <%= link_to "Back to events", collection_events_path(@event.collection), class: "mt-2 ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>

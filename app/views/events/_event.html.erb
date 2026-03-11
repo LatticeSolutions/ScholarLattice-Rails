@@ -16,7 +16,18 @@
       </h3>
     <% end %>
     <p class="text-lg font-light">
-        <%= @event.description %>
+      <%= @event.description %>
+      <% if event.inherited(:webinar_link).present? and can? :access_webinar, event %>
+        <%= link_to event_webinar_path(event), 
+          class: "inline-block bg-purple-600 hover:bg-purple-700 text-white ml-2 text-base px-1 rounded transition-colors duration-150", 
+          target: "_blank", 
+          rel: "noopener" do %>
+          <span class="inline-block size-4">
+              <%= render IconComponent.new(:video) %>
+          </span>
+          Webinar Link
+        <% end %>
+      <% end %>
     </p>
 
     <p class="my-5">
