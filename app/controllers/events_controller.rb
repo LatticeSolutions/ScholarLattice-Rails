@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  load_and_authorize_resource :collection
+  load_and_authorize_resource :collection, except: [ :webinar ]
   load_and_authorize_resource :event, through: :collection, shallow: true, except: [ :webinar, :print ]
   around_action :set_time_zone, except: [ :webinar ]
 
@@ -27,10 +27,13 @@ class EventsController < ApplicationController
     @scheduled_events = @collection.all_scheduled_events
     @unscheduled_events = @collection.all_unscheduled_events
     @happening_soon_events = @collection.all_events.where(
-      starts_at: (Time.current - 10.minutes)..(Time.current + 1.hour)
+      starts_at: (Time.current - 30.minutes)..(Time.current + 1.hour)
     )
     @happening_soon_events = @happening_soon_events.reject do |event|
       event.descendants.any? { |d| @happening_soon_events.include?(d) }
+    end
+    @happening_soon_events = @happening_soon_events.reject do |event|
+      event.ends_at < Time.current
     end
   end
 
@@ -47,7 +50,7 @@ class EventsController < ApplicationController
       redirect_to event_path(@event), alert: "This event does not have a webinar link."
       return
     end
-    authorize! :access_webinar, @event, message: "Must have an accepted registration to #{@event.collection.title} to access this webinar."
+    authorize! :access_webinar, @event, message: "Must have an accepted registration to access this webinar."
     redirect_to_if_allowed @event.inherited(:webinar_link)
   end
 
