@@ -44,7 +44,7 @@ class Submission < ApplicationRecord
   end
 
   def csv_row
-    [ 
+    [
       id,
       created_at,
       updated_at,
