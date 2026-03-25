@@ -26,6 +26,8 @@ class Registration < ApplicationRecord
   def csv_row
     row = [
       id,
+      created_at,
+      updated_at,
       status.humanize,
       collection.id,
       collection.short_title_path,
@@ -50,6 +52,8 @@ class Registration < ApplicationRecord
     require "csv"
     attributes = [
       "ID",
+      "Created at",
+      "Updated at",
       "Status",
       "Collection ID",
       "Collection Slug",
