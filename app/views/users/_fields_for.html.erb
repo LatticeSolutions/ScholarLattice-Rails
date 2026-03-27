@@ -13,6 +13,14 @@
     <% end %>
 </div>
 
+<div <% unless user.new_record? %>class="rounded-lg bg-white border border-gray-200 p-3"<% end %> >
+<% unless user.new_record? %>
+    <p class="rounded-md border border-yellow-200 bg-yellow-50 text-yellow-600 text-center text-sm my-2 md:py-1 md:mx-4">
+        Note: Changing these profile fields will update all submissions/registrations
+        associated with the email <code class="bg-yellow-100"><%= user.email %></code> to match.
+    </p>
+<% end %>
+
 <div class="mb-4">
     <%= form.label :first_name, class: CssClass::LABEL %>
     <%= form.text_field :first_name, class: CssClass::TEXT_FIELD %>
@@ -53,4 +61,5 @@
     <% end %>
     <%= form.text_field :position, class: CssClass::TEXT_FIELD %>
     <%= render "errors", object: user, attribute: :position %>
+</div>
 </div>
