@@ -33,7 +33,7 @@ class EventsController < ApplicationController
       event.descendants.any? { |d| @happening_soon_events.include?(d) }
     end
     @happening_soon_events = @happening_soon_events.reject do |event|
-      event.ends_at < Time.current
+      event.ends_at.present? && (event.ends_at < Time.current)
     end
   end
 
