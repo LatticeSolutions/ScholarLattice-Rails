@@ -22,6 +22,9 @@ class Ability
     can :manage, Collection do |c|
       c.has_admin? user
     end
+    cannot :destroy, Collection do |c|
+      c.children?
+    end
 
     can :manage, Page do |p|
       p.has_admin? user
