@@ -4,6 +4,7 @@ class CollectionsController < ApplicationController
 
   def index
     @collections = Collection.roots
+    render layout: "application"
   end
 
   def show
