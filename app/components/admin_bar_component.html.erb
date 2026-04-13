@@ -1,18 +1,18 @@
 <%#= render BarComponent.new("Admin", :key, @links) %>
 
 <label for="adminMenuToggle" class="text-sm my-1 cursor-pointer hover:text-blue-200 p-4 select-none">
-    <span class="inline-flex items-center gap-2 rounded-md px-4 py-2">
+    <span class="inline-flex items-center gap-2 rounded-md pl-1 pr-4 py-2">
         <span class="size-4">
             <%= render IconComponent.new(:key) %>
         </span>
-        <span class="hidden sm:inline">Admin &#9662;</span>
+        <span>Admin &#9662;</span>
     </span>
 </label>
 <input type="checkbox" id="adminMenuToggle" class="navbarMenuToggle sr-only">
-<div class="navbarMenu absolute my-2 mx-4 w-48 bg-white rounded-md shadow-lg border border-gray-200 md:left-auto md:right-0">
+<div class="navbarMenu absolute right-0 my-2 mx-4 w-48 bg-white rounded-md shadow-lg border border-gray-200 md:left-auto md:right-0">
     <% @links.each do |link| %>
         <% next if link[:hidden].present? %>
-        <%= link_to(link[:path], class: "inline-flex w-full bg-white px-4 py-2 my-1 text-sm hover:font-semibold text-blue-500 focus:relative") do %>
+        <%= link_to(link[:path], class: "inline-flex w-full bg-white px-4 py-2 my-1 text-sm hover:font-semibold text-blue-700 focus:relative") do %>
             <% if link.key? :icon %>
                 <span class="size-4 mr-2">
                     <%= render IconComponent.new(link[:icon]) %>

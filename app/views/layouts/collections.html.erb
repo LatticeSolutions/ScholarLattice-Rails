@@ -1,19 +1,20 @@
 <% content_for :content do %>
-<section class="w-full overflow-hidden">
+<section class="w-full">
     <div class="flex flex-col">
         <!-- Cover Image -->
         <div class="bg-center bg-cover w-full xl:h-[20rem] lg:h-[18rem] md:h-[16rem] sm:h-[14rem] h-[11rem]"
-            style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('<%= image_path("college.jpg") %>')">
+            style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('<%= image_path("college.jpg") %>')">
             <div class="w-full h-full relative text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.95)]">
                 <div class="absolute left-0 top-0">
                     <%= yield(:breadcrumb) %>
                 </div>
-                <div class="absolute right-0 top-1">
+                <div class="absolute right-0 bottom-1 md:top-1 md:bottom-auto">
                     <%= yield(:admin) %>
                 </div>
             </div>
         </div>
 
+        <!-- Avatar -->
         <div class="sm:w-[80%] w-[90%] mx-auto flex">
             <%= image_tag "logo.svg", alt: "logo", 
                 class: "bg-white rounded-md drop-shadow-lg border-2 border-gray-300 lg:w-[12rem] lg:h-[12rem] md:w-[10rem] md:h-[10rem] sm:w-[8rem] sm:h-[8rem] w-[7rem] h-[7rem] relative lg:bottom-[5rem] sm:bottom-[4rem] bottom-[3rem]" %>
