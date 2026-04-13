@@ -1,10 +1,42 @@
 <% content_for :title, @collection.title %>
+<% content_for :title_header do %>
+    <span>
+        <%= @collection.title %>
+    </span>
+    <%= render MenuToggleComponent.new(
+        "Connect",
+        :profile,
+        true,
+        {icon: :star, path: like_collection_path(@collection), text: "Add Favorite", method: :post},
+        {icon: :star, path: dislike_collection_path(@collection), text: "Favorited!", method: :post},
+        {icon: :registration, path: collection_registrations_mine_path(@collection), text: "Registered!"},
+        {icon: :registration, path: new_collection_registration_path(@collection), text: "Register here"},
+        {icon: :registration, path: nil, text: "No registrations remaining"},
+        {icon: :submission, path: collection_events_path(@collection), text: "Submit here"},
+        {icon: :calendar, path: collection_events_path(@collection), text: "Events"},
+        ) %>
+
+    <% unless @collection.children.empty? %>
+        <%= render MenuToggleComponent.new(
+            "Subcollections",
+            :collection_outline,
+            true,
+            *@collection.children.map{|c| {text: c.short_title, path: collection_path(c)}},
+            ) %>
+    <% end %>
+    <% unless @collection.public_pages.empty? %>
+        <%= render PagesBarComponent.new(@collection.public_pages) %>
+    <% end %>
+<% end %>
 <% content_for :breadcrumb do %>
     <%= render partial: "breadcrumb", locals: { collection: @collection } %>
 <% end %>
 <% content_for :admin do %>
     <% if can? :manage, @collection %>
-        <%= render AdminBarComponent.new(
+        <%= render MenuToggleComponent.new(
+            "Admin",
+            :key,
+            false,
             {icon: :edit, path: edit_collection_path, text: "Edit"},
             {icon: :edit, path: @collection.home_page ? edit_page_path(@collection.home_page) : "/", text: "Edit Home Page", hidden: @collection.home_page.blank?},
             {icon: :collection_outline, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
@@ -34,100 +66,7 @@
     <% end %>
 <% end %>
 
-<section class="mx-auto md:w-3/4 w-full">
-
-    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        <% if @current_user and @current_user.likes? @collection %>
-            <%= button_to dislike_collection_path(@collection), method: :post,
-                class: "inline-flex items-center gap-2 rounded-md bg-yellow-500 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative",
-                form_class: "inline-block",
-                title: "Click to remove favorite" do %>
-                <span class="size-4">
-                    <%= render IconComponent.new(:star_filled) %>
-                </span>
-                <span class="hidden md:inline">
-                    Favorite!
-                </span>
-            <% end %>
-        <% else %>
-            <%= button_to like_collection_path(@collection), method: :post,
-                class: "inline-flex font-normal items-center gap-2 rounded-md bg-white ml-1 px-4 py-2 text-sm text-gray-400 shadow-sm focus:relative",
-                form_class: "inline-block",
-                title: "Click to add favorite" do %>
-                <span class="size-4">
-                    <%= render IconComponent.new(:star) %>
-                </span>
-                <span class="hidden md:inline">
-                    Add Favorite
-                </span>
-            <% end %>
-        <% end %>
-        <% if @current_user.present? && @current_user.registrations.where(collection: @collection).any? %>
-            <%= link_to collection_registrations_mine_path(@collection), 
-                class: "inline-flex items-center gap-2 rounded-md bg-orange-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-orange-700 focus:outline-none focus:ring focus:ring-green-400" do %>
-                <span class="size-4">
-                    <%= render IconComponent.new(:registration) %>
-                </span>
-                <span class="hidden md:inline">
-                    Registered!
-                </span>
-            <% end %>
-        <% elsif @collection.registrations_open? %>
-            <% if @collection.registrations_in_stock? %>
-                <%= link_to new_collection_registration_path(@collection), 
-                    class: "inline-flex font-normal items-center gap-2 rounded-md border-2 border-orange-400 bg-white ml-1 px-4 py-2 text-sm text-orange-600 shadow-sm focus:relative hover:bg-orange-100 focus:outline-none focus:ring focus:ring-orange-400" do %>
-                    <span class="size-4">
-                        <%= render IconComponent.new(:registration) %>
-                    </span>
-                    <span>
-                        Register here
-                    </span>
-                <% end %>
-            <% else %>
-                <span class="inline-flex font-normal items-center gap-2 rounded-md border-2 bg-gray-100 border-gray-400 ml-1 px-4 py-2 text-sm text-gray-600 shadow-sm cursor-not-allowed select-none">
-                    <span class="size-4">
-                        <%= render IconComponent.new(:registration) %>
-                    </span>
-                    <span>
-                        No registrations remaining
-                    </span>
-                </span>
-            <% end %>
-        <% end %>
-        <% if @collection.all_events.any? and @collection.show_events? %>
-            <%= link_to collection_events_path(@collection), 
-                class: "inline-flex items-center gap-2 rounded-md bg-green-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-400" do %>
-                <span class="size-4">
-                    <%= render IconComponent.new(:calendar) %>
-                </span>
-                <span class="hidden md:inline">
-                    Events
-                </span>
-            <% end %>
-            <% if @collection.has_webinars? %>
-                <% if can? :access_webinars, @collection %>
-                    <%= link_to collection_events_path(@collection), 
-                        class: "inline-flex items-center gap-2 rounded-md bg-purple-600 ml-1 px-4 py-2 text-sm text-white shadow-sm focus:relative hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-400" do %>
-                        <span class="size-4">
-                            <%= render IconComponent.new(:video) %>
-                        </span>
-                        <span class="hidden md:inline">
-                            Webinars available
-                        </span>
-                    <% end %>
-                <% else %>
-                    <span class="inline-flex font-normal items-center gap-2 rounded-md border-2 border-purple-400 bg-purple-50 ml-1 px-4 py-2 text-sm text-purple-600 select-none">
-                        <span class="size-4">
-                            <%= render IconComponent.new(:video) %>
-                        </span>
-                        <span class="hidden md:inline">
-                            Webinars available
-                        </span>
-                    </span>
-                <% end %>
-            <% end %>
-        <% end %>
-    </h1>
+<section class="mx-4 w-full md:mx-auto md:w-3/4">
 
     <% if @collection.attached_event.present? %>
         <h2 class="text-1.5xl font-light text-gray-900 md:text-2xl pb-5">
@@ -149,61 +88,6 @@
         </h2>
     <% end %>
 
-    <% if @collection.submittable? %>
-        <h2 class="text-1.5xl font-light text-gray-900 md:text-2xl pb-5">
-            <% open_time = @collection.submissions_open_on&.strftime("%Y-%m-%d %-I:%M%p") %>
-            <% close_time = @collection.submissions_close_on&.strftime("%Y-%m-%d %-I:%M%p") %>
-            <% if close_time.blank? && open_time.blank? %>
-                Submissions are now open.
-            <% elsif close_time.blank? %>
-                <% if @collection.submissions_open? %>
-                    Submissions opened on <%= open_time %> [<%= @collection.inherited_time_zone %>].
-                <% else %>
-                    Submissions will open on <%= open_time %> [<%= @collection.inherited_time_zone %>].
-                <% end %>
-            <% elsif open_time.blank? %>
-                <% if @collection.submissions_closed? %>
-                    Submissions closed on <%= close_time %> [<%= @collection.inherited_time_zone %>].
-                <% else %>
-                    Submissions are now open, and will close on <%= close_time %> [<%= @collection.inherited_time_zone %>].
-                <% end %>
-            <% else %>
-                <% if @collection.submissions_open? %>
-                    Submissions opened on <%= open_time %>, and will close on <%= close_time %> [<%= @collection.inherited_time_zone %>].
-                <% elsif @collection.submissions_closed? %>
-                    Submissions were open from <%= open_time %> until <%= close_time %> [<%= @collection.inherited_time_zone %>], and are now closed.
-                <% else %>
-                    Submissions will open on <%= open_time %>, and will be available until <%= close_time %> [<%= @collection.inherited_time_zone %>].
-                <% end %>
-            <% end %>
-            <% if @collection.submissions_open? %>
-                <%= link_to "New submission", 
-                    new_collection_submission_path(@collection), 
-                    class: "inline-block rounded bg-blue-600 mx-2 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring focus:ring-sky-400" %>
-            <% end %>
-        </h2>
-    <% end %>
-
-    <p class="text-lg font-light">
-        <%= @collection.description %>
-    </p>
-
-    <% unless @collection.children.empty? %>
-        <div class="pt-4">
-            <%= render BarComponent.new(
-                @collection.subcollection_name.pluralize,
-                :collection_outline,
-                @collection.children.map{|c| {text: c.short_title, path: collection_path(c), color: "sky-800"}},
-            )  %>
-        </div>
-    <% end %>
-
-    <% unless @collection.public_pages.empty? %>
-        <div class="pt-4">
-            <%= render PagesBarComponent.new(@collection.public_pages) %>
-        </div>
-    <% end %>
-
     <% unless @collection.non_public_pages.empty? %>
         <% if can? :manage, @collection %>
             <div class="pt-4">
@@ -212,14 +96,14 @@
         <% end %>
     <% end %>
 
-    <% unless @collection.home_page.nil? %>
-        <div class="mathjax pt-4 prose sm:prose-xl mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+    <% if @collection.home_page.present? %>
+        <div class="mathjax pt-4 prose !max-w-none sm:prose-lg mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
             <%= sanitize @collection.home_page.content_html %>
         </div>
     <% end %>
 
     <% unless @current_user.nil? or @current_user.submissions.where(collection: @collection).empty? %>
-        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3 mt-4">
             Your Submissions:
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
@@ -230,7 +114,7 @@
     <% end %>
 
     <% unless @collection.submissions.accepted.empty? %>
-        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3 mt-4">
             Accepted Submissions:
         </h2>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">

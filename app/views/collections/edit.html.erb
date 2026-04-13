@@ -9,7 +9,10 @@
         <%= link_to @collection.short_title, @collection, class: CssClass::LINK %>
     </h1>
     <% unless @collection.home_page.nil? %>
-        <%= render AdminBarComponent.new(
+        <%= render MenuToggleComponent.new(
+            "Home Page",
+            :page,
+            false,
             {icon: :page, path: edit_page_path(@collection.home_page), text: "Edit Home Page"},
         ) %>
     <% end %>

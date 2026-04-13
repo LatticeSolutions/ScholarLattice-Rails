@@ -9,7 +9,10 @@
     </h1>
 
     <% if can? :create, Collection.new %>
-        <%= render AdminBarComponent.new(icon: :oplus, path: new_collection_path, text: "New") %>
+        <%= link_to new_collection_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" do %>
+            <%= render IconComponent.new(:oplus) %>
+            <span class="ml-2">New Collection</span>
+        <% end %>
     <% end %>
 
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
