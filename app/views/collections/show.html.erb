@@ -1,4 +1,5 @@
 <% content_for :title, @collection.title %>
+<% content_for :description, @collection.description %>
 <% content_for :title_header do %>
     <span>
         <%= @collection.title %>
@@ -80,7 +81,9 @@
             icon: :registration,
             path: nil,
             text: "No registrations remaining",
-            hidden: @current_user&.registered_collections&.include?(@collection) || @collection.registrations_in_stock?
+            hidden: @current_user&.registered_collections&.include?(@collection) || @collection.registrations_in_stock?,
+            styles: "text-gray-400 cursor-not-allowed",
+            disabled: true
         },
         {
             icon: :submission,

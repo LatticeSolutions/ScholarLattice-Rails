@@ -21,7 +21,7 @@
                     <%= content_for?(:title_header) ? yield(:title_header) : @collection.title %>
                 </h1>
                 <h2 class="w-full font-thin text-gray-600 lg:text-2xl md:text-2xl sm:text-2xl text-lg">
-                    <%= content_for?(:description) ? yield(:description) : @collection.description %>
+                    <%= yield(:description) %>
                 </h2>
             </div>
 
