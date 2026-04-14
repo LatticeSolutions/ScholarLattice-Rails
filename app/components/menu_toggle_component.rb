@@ -7,5 +7,6 @@ class MenuToggleComponent < ViewComponent::Base
     @menu_icon = menu_icon
     @button = button
     @links = links
+    @links.each { |l| l[:method] = :get if l[:method].nil? }
   end
 end

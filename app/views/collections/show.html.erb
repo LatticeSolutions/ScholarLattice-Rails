@@ -3,42 +3,12 @@
     <span>
         <%= @collection.title %>
     </span>
-    <%= render MenuToggleComponent.new(
-        "Connect",
-        :profile,
-        true,
-        {icon: :star, path: like_collection_path(@collection), text: "Add Favorite", method: :post},
-        {icon: :star, path: dislike_collection_path(@collection), text: "Favorited!", method: :post},
-        {icon: :registration, path: collection_registrations_mine_path(@collection), text: "Registered!"},
-        {icon: :registration, path: new_collection_registration_path(@collection), text: "Register here"},
-        {icon: :registration, path: nil, text: "No registrations remaining"},
-        {icon: :submission, path: collection_events_path(@collection), text: "Submit here"},
-        {icon: :calendar, path: collection_events_path(@collection), text: "Events"},
-        ) %>
-
-    <% unless @collection.children.empty? %>
-        <%= render MenuToggleComponent.new(
-            "Subcollections",
-            :collection_outline,
-            true,
-            *@collection.children.map{|c| {text: c.short_title, path: collection_path(c)}},
-            ) %>
-    <% end %>
-    <% unless @collection.public_pages.empty? %>
-        <%= render PagesBarComponent.new(@collection.public_pages) %>
-    <% end %>
-<% end %>
-<% content_for :breadcrumb do %>
-    <%= render partial: "breadcrumb", locals: { collection: @collection } %>
-<% end %>
-<% content_for :admin do %>
     <% if can? :manage, @collection %>
         <%= render MenuToggleComponent.new(
             "Admin",
             :key,
-            false,
+            true,
             {icon: :edit, path: edit_collection_path, text: "Edit"},
-            {icon: :edit, path: @collection.home_page ? edit_page_path(@collection.home_page) : "/", text: "Edit Home Page", hidden: @collection.home_page.blank?},
             {icon: :collection_outline, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
             {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
             {icon: :calendar, path: collection_events_path(@collection), text: "Events (#{@collection.all_events.count})"},
@@ -62,8 +32,84 @@
                 path: collection_registrations_path(@collection), 
                 text: "Registrations (#{@collection.registrations.count})"
             },
+            { 
+                path: @collection, 
+                text: "Delete collection",
+                method: :delete,
+                confirm: "Are you sure you want to delete this collection?",
+                hidden: (cannot? :destroy, @collection),
+                styles: "text-red-800"
+            },
         ) %>
     <% end %>
+    <%= render MenuToggleComponent.new(
+        "Connect",
+        :profile,
+        true,
+        {
+            icon: :star,
+            path: like_collection_path(@collection),
+            text: "Add Favorite",
+            method: :post,
+            hidden: @collection.favorite_users.include?(@current_user),
+            styles: "text-gray-500"
+        },
+        {
+            icon: :star,
+            path: dislike_collection_path(@collection),
+            text: "Favorited!",
+            method: :post,
+            hidden: !@collection.favorite_users.include?(@current_user),
+            styles: "text-yellow-600"
+        },
+        {
+            icon: :registration,
+            path: new_collection_registration_path(@collection),
+            text: "Register",
+            hidden: !@collection.registrations_open? || @current_user&.registered_collections.include?(@collection),
+            styles: "text-gray-600"
+        },
+        {
+            icon: :registration,
+            path: collection_registrations_mine_path(@collection),
+            text: "View registration",
+            hidden: @current_user.nil? || @current_user.registered_collections.exclude?(@collection),
+            styles: "text-green-600"
+        },
+        {
+            icon: :registration,
+            path: nil,
+            text: "No registrations remaining",
+            hidden: @current_user&.registered_collections&.include?(@collection) || @collection.registrations_in_stock?
+        },
+        {
+            icon: :submission,
+            path: new_collection_submission_path(@collection),
+            text: "Submit abstract",
+            hidden: !@collection.submittable
+        },
+        {
+            icon: :calendar,
+            path: collection_events_path(@collection),
+            text: "Events",
+            hidden: !@collection.show_events
+        },
+        ) %>
+
+    <% unless @collection.children.empty? %>
+        <%= render MenuToggleComponent.new(
+            "Subcollections",
+            :collection_outline,
+            true,
+            *@collection.children.map{|c| {text: c.short_title, path: collection_path(c)}},
+            ) %>
+    <% end %>
+    <% unless @collection.public_pages.empty? %>
+        <%= render PagesBarComponent.new(@collection.public_pages) %>
+    <% end %>
+<% end %>
+<% content_for :breadcrumb do %>
+    <%= render partial: "breadcrumb", locals: { collection: @collection } %>
 <% end %>
 
 <section class="mx-4 w-full md:mx-auto md:w-3/4">
@@ -141,9 +187,4 @@
                 class: "text-sky-600 hover:text-sky-800 hover:underline" %>
         <% end %>
     </p>
-
-    <% if can? :destroy, @collection %>
-        <%= button_to "Delete this collection", @collection, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
-            class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-red-100 text-red-800 inline-block font-medium", form_class: "mt-3", method: :delete %>
-    <% end %>
 </section>

@@ -85,7 +85,7 @@
     <header class="flex items-center flex-row-reverse justify-between w-full px-4 bg-white border-b h-14">
       <div>
         <span class="text-gray-500 gap-3 flex items-center">
-          <%= render "signin" %>
+          <%= render "signin", current_user: @current_user %>
         </span>
       </div>
       <button class="block flex items-center justify-center" @click.stop="sideBar = !sideBar">
