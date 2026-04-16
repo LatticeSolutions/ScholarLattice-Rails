@@ -1,4 +1,4 @@
-<h1>Registration submitted for <%= @registration.collection.title %></h1>
+<h1><%= @registration.collection.root.title %>: Registration submitted for <%= @registration.collection.title %></h1>
 <p>
     Dear <%= @registration.user.name %>,
 </p>
@@ -21,3 +21,5 @@
     <code><%= @registration.user.email %></code>
     before you can access this registration.
 </p>
+
+<%# TODO add calendar invite %>

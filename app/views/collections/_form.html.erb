@@ -1,7 +1,9 @@
 <%= form_with model: collection do |form| %>
   <%= render "fields_for", collection: collection, form: form %>
   <span class="<%= CssClass::BUTTON_BAR %>">
-      <%= form.submit class: CssClass::SUBMIT %>
+      <% actiontext = collection.new_record? ? "Create" : "Update" %>
+      <% objecttext = collection.parent.present? ? "Subcollection" : "Collection" %>
+      <%= form.submit "#{actiontext} #{objecttext}", class: CssClass::SUBMIT %>
       <% if collection.new_record? %>
         <%= link_to "Cancel", collections_path, class: CssClass::CANCEL %>
       <% else %>

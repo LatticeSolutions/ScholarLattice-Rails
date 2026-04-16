@@ -44,7 +44,10 @@
 <h3 class="text-xl font-medium text-gray-900 mt-10 mb-3">Organization Settings</h3>
 
 <div class="my-5">
-    <%= form.label :order, "Order", class: CssClass::LABEL %>
+    <%= form.label :order, "Order", class: CssClass::LABEL do %>
+        Order
+        <span class="<%=CssClass::SUBLABEL%>">among events at the same time</span>
+    <% end %>
     <%= form.number_field :order, class: CssClass::NUMBER_FIELD_INLINE %>
     <%= render "errors", object: event, attribute: :order %>
 </div>

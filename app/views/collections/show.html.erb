@@ -1,6 +1,13 @@
 <% content_for :title, @collection.title %>
 <% content_for :description, @collection.description %>
 <% content_for :title_header do %>
+<div>
+    <% if @collection.parent.present? %>
+    <div class="text-sm font-light text-gray-600 mb-1">
+        <%= link_to @collection.root.title, @collection.root, class: "hover:underline" %>
+    </div>
+    <% end %>
+    <div class="inline-flex items-center gap-2">
     <span>
         <%= @collection.title %>
     </span>
@@ -67,7 +74,7 @@
             icon: :registration,
             path: new_collection_registration_path(@collection),
             text: "Register",
-            hidden: !@collection.registrations_open? || @current_user&.registered_collections.include?(@collection),
+            hidden: !@collection.registrations_open? || @current_user&.registered_collections&.include?(@collection),
             styles: "text-gray-600"
         },
         {
@@ -110,6 +117,8 @@
     <% unless @collection.public_pages.empty? %>
         <%= render PagesBarComponent.new(@collection.public_pages) %>
     <% end %>
+    </div>
+</div>
 <% end %>
 <% content_for :breadcrumb do %>
     <%= render partial: "breadcrumb", locals: { collection: @collection } %>

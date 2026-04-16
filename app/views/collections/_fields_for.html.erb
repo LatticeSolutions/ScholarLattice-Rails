@@ -28,6 +28,8 @@
   <%= render "errors", object: collection, attribute: :description %>
 </div>
 
+<%# TODO add home page content here %>
+
 <% if collection.parent_id.present? and !collection.new_record? %>
 <div class="mb-3">
   <%= form.label "Subcollection of", class: CssClass::LABEL %>
@@ -48,13 +50,17 @@
 </div>
 
 <div class="mb-3">
-  <%= form.label :subcollection_name, class: CssClass::LABEL %>
+  <%= form.label :subcollection_name, class: CssClass::LABEL do %>
+    Alias for subcollections
+    <span class="<%= CssClass::SUBLABEL %>">of this collection</span>
+  <% end %>
   <%= form.text_field :subcollection_name, class: CssClass::TEXT_FIELD_INLINE %>
   <%= render "errors", object: collection, attribute: :subcollection_name %>
 </div>
 
 <div class="mb-3">
   <%= form.label :time_zone, class: CssClass::LABEL %>
+  <%# TODO where did this get inherited from %>
   <%= form.select :time_zone, [["Use default time zone (#{collection.parent_time_zone})", nil]] + 
     ActiveSupport::TimeZone.all.map { |tz| ["#{tz.name} (UTC #{tz.formatted_offset})", tz.name] }, 
     {}, class: CssClass::SELECT_INLINE %>
@@ -65,11 +71,38 @@
   <%= form.label :admin_emails, class: CssClass::LABEL do %>
     Admin emails
     <span class="<%= CssClass::SUBLABEL %>">(comma-separated, must be registered)</span>
+    <!-- TODO list inherited admins -->
   <% end %>
 
   <%= form.text_field :admin_emails, class: CssClass::TEXT_FIELD %>
   <%= render "errors", object: collection, attribute: :admin_emails %>
 </div>
+
+
+<h3 class="text-xl font-medium text-gray-900 mt-10 mb-3">Registration Settings</h3>
+
+<div class="mb-3">
+  <%= form.label :registerable, class: CssClass::LABEL %>
+  <%= form.check_box :registerable, class: CssClass::CHECK_BOX %>
+  <%= render "errors", object: collection, attribute: :registerable %>
+</div>
+
+<div class="mb-3">
+  <%= form.label :limit_one_registration_option, class: CssClass::LABEL %>
+  <%= form.check_box :limit_one_registration_option, class: CssClass::CHECK_BOX %>
+  <%= render "errors", object: collection, attribute: :limit_one_registration_option %>
+</div>
+
+<% if @current_user.site_admin? %>
+<div class="mb-3">
+  <%= form.label :paypal_link, class: CssClass::LABEL do %>
+    PayPal Link for Payments
+    <span class="<%= CssClass::SUBLABEL %>">(must be a URL starting with <code>https://www.paypal.com/ncp/payment</code>)</span>
+  <% end %>
+  <%= form.url_field :paypal_link, class: CssClass::URL_FIELD %>
+  <%= render "errors", object: collection, attribute: :paypal_link %>
+</div>
+<% end %>
 
 
 <h3 class="text-xl font-medium text-gray-900 mt-10 mb-3">Submission Settings</h3>
@@ -113,26 +146,4 @@
   <%= render "errors", object: collection, attribute: :public_webinars %>
 </div>
 
-
-<h3 class="text-xl font-medium text-gray-900 mt-10 mb-3">Registration Settings</h3>
-
-<div class="mb-3">
-  <%= form.label :registerable, class: CssClass::LABEL %>
-  <%= form.check_box :registerable, class: CssClass::CHECK_BOX %>
-  <%= render "errors", object: collection, attribute: :registerable %>
-</div>
-
-<div class="mb-3">
-  <%= form.label :limit_one_registration_option, class: CssClass::LABEL %>
-  <%= form.check_box :limit_one_registration_option, class: CssClass::CHECK_BOX %>
-  <%= render "errors", object: collection, attribute: :limit_one_registration_option %>
-</div>
-
-<div class="mb-3">
-  <%= form.label :paypal_link, class: CssClass::LABEL do %>
-    PayPal Link for Payments
-    <span class="<%= CssClass::SUBLABEL %>">(must be a URL starting with <code>https://www.paypal.com/ncp/payment</code>)</span>
-  <% end %>
-  <%= form.url_field :paypal_link, class: CssClass::URL_FIELD %>
-  <%= render "errors", object: collection, attribute: :paypal_link %>
-</div>
+<%# TODO add default event %>

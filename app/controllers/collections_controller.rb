@@ -21,7 +21,12 @@ class CollectionsController < ApplicationController
   def create
     adjust_datetime_params
     if @collection.save
-      redirect_to @collection, notice: "Collection was successfully created."
+      if @collection.parent.present?
+        notice = "Subcollection was successfully created."
+      else
+        notice = "Collection was successfully created."
+      end
+      redirect_to @collection, notice: notice
     else
       render :new, status: :unprocessable_entity
     end

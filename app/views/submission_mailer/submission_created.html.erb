@@ -1,7 +1,7 @@
-<h1>Submission Received</h1>
+<h1><%= @submission.collection.root.title %>: Submission Received for <%= @submission.collection.title %></h1>
 <p>
     The submission titled "<%= link_to @submission.title, submission_url(@submission) %>" 
     for <%= link_to @submission.collection.title, collection_url(@submission.collection) %>
-    has been received by ScholarLattice.
+    has been received by ScholarLattice. Its status is currently "<%= @submission.status %>".
     Visit <%= link_to 'this link', submission_url(@submission) %> to see the submission.
 </p>
