@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_23_201432) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_19_160151) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -44,6 +44,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_23_201432) do
     t.string "affiliation_identifier_alias"
     t.boolean "limit_one_registration_option", default: false, null: false
     t.string "paypal_link"
+    t.string "icon_url"
+    t.string "banner_url"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
   end
 
