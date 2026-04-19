@@ -13,7 +13,7 @@
 
         <!-- Avatar -->
         <div class="sm:w-[80%] w-[90%] mx-auto mb-4 flex">
-            <%= image_tag @collection&.inherited(:icon_url) || image_path("logo_square.png"), alt: "logo", 
+            <%= image_tag @collection&.inherited(:icon_url) || image_path("logo-square.png"), alt: "logo", 
                 class: "bg-white rounded-md drop-shadow-lg border-2 border-gray-300 lg:w-[12rem] lg:h-[12rem] md:w-[10rem] md:h-[10rem] sm:w-[8rem] sm:h-[8rem] w-[7rem] h-[7rem] relative lg:bottom-[5rem] lg:mb-[-5rem] sm:bottom-[4rem] sm:mb-[-5rem] bottom-[3rem] mb-[-3rem]" %>
 
             <div class="w-full text-left mt-4 my-8 sm:mx-4 pl-4">
@@ -42,6 +42,8 @@
         </div>
     </div>
 </section>
-<%= yield %>
+<section class="m-auto w-full md:w-3/4">
+    <%= yield %>
+</section>
 <% end %>
 <%= render template: "layouts/application" %>

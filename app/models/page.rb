@@ -7,10 +7,6 @@ class Page < ApplicationRecord
 
   default_scope { order(:order, :title) }
 
-  def content_html
-    Kramdown::Document.new(content).to_html
-  end
-
   def has_admin?(user)
     collection.present? && collection.has_admin?(user)
   end

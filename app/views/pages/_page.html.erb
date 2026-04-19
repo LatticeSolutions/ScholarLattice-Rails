@@ -1,5 +1,5 @@
 <div id="<%= dom_id page %>">
-    <div class="mathjax my-5 mx-auto prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
-        <%= sanitize page.content_html %>
+    <div class="mathjax my-5 mx-auto prose !max-w-none sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+        <%= sanitize page.to_html(:content) %>
     </div>
 </div>

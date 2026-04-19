@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_19_160151) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_19_171514) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -46,6 +46,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_19_160151) do
     t.string "paypal_link"
     t.string "icon_url"
     t.string "banner_url"
+    t.text "content"
     t.index ["ancestry"], name: "index_collections_on_ancestry"
   end
 
@@ -64,6 +65,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_19_160151) do
     t.uuid "attached_page_id"
     t.uuid "attached_collection_id"
     t.string "webinar_link"
+    t.text "content"
     t.index ["ancestry"], name: "index_events_on_ancestry"
     t.index ["attached_collection_id"], name: "index_events_on_attached_collection_id", unique: true
     t.index ["attached_page_id"], name: "index_events_on_attached_page_id", unique: true

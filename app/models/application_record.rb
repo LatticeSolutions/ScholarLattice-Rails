@@ -11,6 +11,10 @@ class ApplicationRecord < ActiveRecord::Base
     public_send(attribute).present? ? public_send(attribute) : parent&.inherited(attribute)
   end
 
+  def to_html(attribute)
+    Kramdown::Document.new(public_send(attribute)).to_html
+  end
+
   private
 
   def downcase_email

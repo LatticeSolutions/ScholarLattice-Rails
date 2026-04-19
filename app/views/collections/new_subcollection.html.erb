@@ -9,6 +9,4 @@
     <%= render "breadcrumb", collection: @collection, action: "New #{@collection.subcollection_name}" %>
 <% end %>
 
-<section class="mx-4 w-full md:mx-auto md:w-3/4">
-    <%= render "form", collection: @subcollection, cancel_path: collections_path %>
-</section>
+<%= render "form", collection: @subcollection, cancel_path: collections_path %>

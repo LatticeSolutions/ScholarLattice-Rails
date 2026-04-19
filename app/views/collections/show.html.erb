@@ -117,29 +117,26 @@
     <%= render partial: "breadcrumb", locals: { collection: @collection } %>
 <% end %>
 
-<section class="mx-4 w-full md:mx-auto md:w-3/4">
+<% if @collection.content.present? %>
+    <div class="mathjax prose !max-w-none sm:prose-lg mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+        <%= sanitize @collection.to_html(:content) %>
+    </div>
+<% end %>
 
-    <% if @collection.home_page.present? %>
-        <div class="mathjax prose !max-w-none sm:prose-lg mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
-            <%= sanitize @collection.home_page.content_html %>
-        </div>
-    <% end %>
-
-    <% unless @collection.children.empty? %>
-        <h2 class="text-xl font-medium text-gray-800 md:text-2xl my-4">
-            <%= @collection.subcollection_name.pluralize %>:
-        </h2>
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-            <% @collection.children.each do |collection| %>
-                <%= render partial: "card", locals: { collection: collection, user: @current_user } %>
-            <% end %>
-        </div>
-    <% end %>
-
-    <p class="mt-3">
-        <% unless @collection.parent.nil? %>
-            <%= link_to "« Back to #{@collection.parent.short_title}", @collection.parent,
-                class: "text-sky-600 hover:text-sky-800 hover:underline" %>
+<% unless @collection.children.empty? %>
+    <h2 class="text-xl font-medium text-gray-800 md:text-2xl my-4">
+        <%= @collection.subcollection_name.pluralize %>:
+    </h2>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+        <% @collection.children.each do |collection| %>
+            <%= render partial: "card", locals: { collection: collection, user: @current_user } %>
         <% end %>
-    </p>
-</section>
+    </div>
+<% end %>
+
+<p class="mt-3">
+    <% unless @collection.parent.nil? %>
+        <%= link_to "« Back to #{@collection.parent.short_title}", @collection.parent,
+            class: "text-sky-600 hover:text-sky-800 hover:underline" %>
+    <% end %>
+</p>

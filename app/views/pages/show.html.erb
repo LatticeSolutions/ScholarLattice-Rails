@@ -2,6 +2,11 @@
 <% content_for :title_header do %>
     <%= link_to @collection.title, @collection, class: "hover:underline" %>
 <% end %>
+<% if @collection.parent.present? %>
+    <% content_for :title_context do %>
+        <%= link_to @collection.root.title, @collection.root, class: "hover:underline" %>
+    <% end %>
+<% end %>
 <% if can? :manage, @page %>
     <% content_for :title_buttons do %>
         <%= render MenuToggleComponent.new(
@@ -19,10 +24,8 @@
   <%= render "breadcrumb", page: @page %>
 <% end %>
 
-<div class="mx-auto md:w-2/3 w-full">
-    <%= render @page %>
-    <div class="my-8">
-        <%= link_to "« Back to #{@page.collection.short_title}", @page.collection,
-            class: "text-sky-600 hover:text-sky-800 hover:underline" %>
-    </div>
+<%= render @page %>
+<div class="my-8">
+    <%= link_to "« Back to #{@page.collection.short_title}", @page.collection,
+        class: "text-sky-600 hover:text-sky-800 hover:underline" %>
 </div>

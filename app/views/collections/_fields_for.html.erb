@@ -28,7 +28,11 @@
   <%= render "errors", object: collection, attribute: :description %>
 </div>
 
-<%# TODO add home page content here %>
+<div class="my-5">
+  <%= form.label :content, class: CssClass::LABEL do %>Content (supports Markdown)<% end %>
+  <%= form.marksmith :content, enable_file_uploads: false %>
+  <%= render "errors", object: collection, attribute: :content %>
+</div>
 
 <% if collection.parent_id.present? and !collection.new_record? %>
 <div class="mb-3">
