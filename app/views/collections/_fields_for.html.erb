@@ -71,11 +71,25 @@
   <%= form.label :admin_emails, class: CssClass::LABEL do %>
     Admin emails
     <span class="<%= CssClass::SUBLABEL %>">(comma-separated, must be registered)</span>
-    <%# TODO list inherited admins %>
   <% end %>
 
   <%= form.text_field :admin_emails, class: CssClass::TEXT_FIELD %>
+    <p class="text-sm font-light">
+      (in addition to these inherited admins: <code><%= collection.inherited_admin_emails %></code>)
+    </p>
   <%= render "errors", object: collection, attribute: :admin_emails %>
+</div>
+
+<div class="mb-3">
+  <%= form.label :icon_url, class: CssClass::LABEL %>
+  <%= form.url_field :icon_url, class: CssClass::URL_FIELD %>
+  <%= render "errors", object: collection, attribute: :icon_url %>
+</div>
+
+<div class="mb-3">
+  <%= form.label :banner_url, class: CssClass::LABEL %>
+  <%= form.url_field :banner_url, class: CssClass::URL_FIELD %>
+  <%= render "errors", object: collection, attribute: :banner_url %>
 </div>
 
 

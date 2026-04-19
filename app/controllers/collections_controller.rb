@@ -85,7 +85,7 @@ class CollectionsController < ApplicationController
         :title, :short_title, :description, :parent_id, :subcollection_name,
         :submittable, :admin_emails, :time_zone, :submissions_open_on, :submissions_close_on,
         :order, :show_events, :registerable, :public_webinars, :affiliation_identifier_alias,
-        :limit_one_registration_option, :paypal_link
+        :limit_one_registration_option, :paypal_link, :icon_url, :banner_url
       )
     end
 

@@ -119,6 +119,10 @@ class Collection < ApplicationRecord
     @admin_emails = email_string
   end
 
+  def inherited_admin_emails
+    Admin.where(collection: ancestors).map { |a| a.user.email }.join(", ")
+  end
+
   def sub_admins
     Admin.where(collection: subtree)
   end
