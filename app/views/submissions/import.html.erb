@@ -1,13 +1,18 @@
 <% content_for :title, "Import Submissions | #{@collection.title}" %>
+<% content_for :breadcrumb do %>
+    <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Import" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:submission) %>
+    </span>
+    <span>
+      Import Submissions
+    </span>
+  </div>
+<% end %>
 
-<div class="mx-auto md:w-2/3 w-full">
-
-  <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Import" } %>
-
-  <h1 class="font-bold text-4xl">
-    Import Submissions for 
-    <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
-  </h1>
 
   <%= form_with url: collection_submissions_import_path(@collection), data: { turbo: false }, local: true, html: { multipart: true, class: "my-8" } do |form| %>
     <%= form.hidden_field :submission_csv_data, value: @submission_data_array.to_json %>
@@ -31,4 +36,3 @@
     <%= link_to "Back", collection_submissions_upload_path(@collection), class: "bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800" %>
   <% end %>
 
-</div>

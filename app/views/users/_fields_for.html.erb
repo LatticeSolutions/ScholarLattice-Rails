@@ -14,9 +14,11 @@
 </div>
 
 <div <% unless user.new_record? %>class="rounded-lg bg-white border border-gray-200 p-3"<% end %> >
-<% unless user.new_record? %>
+<% unless user.new_record? or (user.submissions.count+user.registrations.count == 0) %>
     <p class="rounded-md border border-yellow-200 bg-yellow-50 text-yellow-600 text-center text-sm my-2 md:py-1 md:mx-4">
-        Note: Changing these profile fields will update all submissions/registrations
+        Note: Changing these profile fields will update all 
+        <%= user.submissions.count %> submission(s) and 
+        <%= user.registrations.count %> registration(s) on ScholarLattice
         associated with the email <code class="bg-yellow-100"><%= user.email %></code> to match.
     </p>
 <% end %>

@@ -1,19 +1,20 @@
 <% content_for :title, "New Submission | #{@submission.collection.title}" %>
-
-<div class="mx-auto md:w-2/3 w-full">
-
-  <%= render partial: "breadcrumb", locals: { collection: @submission.collection, action: "New" } %>
-
-  <h1 class="font-bold text-4xl">
-    New Submission for <%= link_to @submission.collection.title, @submission.collection, class: "text-blue-600 hover:underline" %>
-  </h1>
-  <p class="text-lg font-light">
-      <%= @submission.collection.description %>
-  </p>
+<% content_for :breadcrumb do %>
+    <%= render partial: "breadcrumb", locals: { collection: @submission.collection, action: "New" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:submission) %>
+    </span>
+    <span>
+      New Submission
+    </span>
+  </div>
+<% end %>
 
   <% if can? :manage, @submission.collection %>
     <%= render "users/change_form", user: @submission.user, url: collection_submissions_path(@submission.collection), method: :post %>
   <% end %>
-
   <%= render "form", submission: @submission %>
-</div>
+
