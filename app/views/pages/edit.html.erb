@@ -1,7 +1,4 @@
 <% content_for :title, "Edit Page" %>
-<% content_for :title_header do %>
-    <%= link_to @collection.title, @collection, class: "hover:underline" %>
-<% end %>
 <% content_for :description do %>
     Edit Page: <%= link_to @page.title, @page, class: "text-blue-500 hover:underline" %>
 <% end %>

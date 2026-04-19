@@ -1,11 +1,16 @@
 <% content_for :title, "Edit Event" %>
-
-<div class="mx-auto md:w-2/3 w-full">
-
+<% content_for :breadcrumb do %>
   <%= render partial: "breadcrumb", locals: { collection: @event.collection, action: "Edit" } %>
-  
-  <h1 class="font-bold text-4xl">Editing event</h1>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center gap-2">
+    <span class="size-8 inline-block">
+      <%= render IconComponent.new(:calendar) %>
+    </span>
+    <span>
+      Edit <%= link_to @event.title, @event, class: "hover:underline" %>
+    </span>
+  </div>
+<% end %>
 
-  <%= render "form", event: @event %>
-
-</div>
+<%= render "form", event: @event %>

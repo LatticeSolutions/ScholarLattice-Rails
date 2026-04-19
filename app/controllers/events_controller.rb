@@ -1,7 +1,9 @@
 class EventsController < ApplicationController
+  layout "collections"
   load_and_authorize_resource :collection, except: [ :webinar ]
   load_and_authorize_resource :event, through: :collection, shallow: true, except: [ :webinar, :print ]
   around_action :set_time_zone, except: [ :webinar ]
+  before_action :set_collection
 
   # GET /events or /events.json
   def index
@@ -203,5 +205,9 @@ class EventsController < ApplicationController
         @collection.inherited_time_zone,
         &block
       )
+    end
+
+    def set_collection
+      @collection = @event.collection if @event.present?
     end
 end

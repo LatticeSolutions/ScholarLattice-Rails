@@ -1,10 +1,5 @@
 <% content_for :title, @collection.title %>
 <% content_for :description, @collection.description %>
-<% if @collection.parent.present? %>
-    <% content_for :title_context do %>
-        <%= link_to @collection.root.title, @collection.root, class: "hover:underline" %>
-    <% end %>
-<% end %>
 <% content_for :title_buttons do %>
     <% if can? :manage, @collection %>
         <%= render MenuToggleComponent.new(
@@ -52,7 +47,7 @@
         {
             icon: :star,
             path: like_collection_path(@collection),
-            text: "Add Favorite",
+            text: "Mark as Favorite",
             method: :post,
             hidden: @collection.favorite_users.include?(@current_user),
             styles: "text-gray-500"
@@ -133,10 +128,3 @@
         <% end %>
     </div>
 <% end %>
-
-<p class="mt-3">
-    <% unless @collection.parent.nil? %>
-        <%= link_to "« Back to #{@collection.parent.short_title}", @collection.parent,
-            class: "text-sky-600 hover:text-sky-800 hover:underline" %>
-    <% end %>
-</p>

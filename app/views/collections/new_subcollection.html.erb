@@ -1,8 +1,7 @@
 <% content_for :title, "New Subcollection" %>
-<% content_for :title_header do %>
+<% content_for :description do %>
     <span>
         New Subcollection
-        <span class="text-xl">for <%= link_to @collection.short_title, @collection, class: CssClass::LINK %></span>
     </span>
 <% end %>
 <% content_for :breadcrumb do %>

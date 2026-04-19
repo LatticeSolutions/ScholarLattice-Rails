@@ -1,9 +1,4 @@
 <% content_for :title, "New Collection" %>
-<% content_for :title_header do %>
-    <span>
-        New Collection
-    </span>
-<% end %>
 <% content_for :breadcrumb do %>
   <%= render BreadcrumbsComponent.new(
     { icon: :collection, link: collections_path },

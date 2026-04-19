@@ -1,48 +1,60 @@
 <% content_for :title, "#{@event.title} | #{@event.collection.title}" %>
-
-<section class="mx-auto md:w-3/4 w-full">
-
+<% content_for :breadcrumb do %>
   <%= render partial: "breadcrumb", locals: { collection: @event.collection, action: "Details" } %>
-
-  <div class="mx-auto">
-
-    <%= render @event %>
-
-    <% if @event.content.present? %>
-        <div class="mathjax prose !max-w-none sm:prose-lg mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
-            <%= sanitize @event.to_html(:content) %>
-        </div>
-    <% end %>
-
-    <% if @event.children.present? %>
-      <h2 class="font-bold text-2xl">Subevents</h2>
-      <% @event.children.select{|e| e.starts_at.present? }.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
-        <h3 class="font-bold text-xl mt-3"><%= day %></h3>
-        <%= render partial: "events_list", locals: { events: events, depth: nil } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:calendar) %>
+    </span>
+    <span>
+      <%= @event.title %><% if @event.description.present? %>:
+        <span class="text-base md:text-lg"><%= @event.description %></span>
       <% end %>
-      <% if @event.children.reject{|e| e.starts_at.present? }.any? %>
-        <h3 class="font-bold text-xl mt-3">Unscheduled</h3>
-        <%= render partial: "events_list", locals: { events: @event.children.reject{|e| e.starts_at.present? }, depth: nil } %>
-      <% end %>
-    <% end %>
-
-    <%= link_to "Back to events", collection_events_path(@event.collection), class: "mt-2 ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-
-    <% if can? :edit, @event %>
-      <%= link_to "Edit this event", edit_event_path(@event), class: "mt-2 ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <% end %>
-
-    <% if can? :copy, @event %>
-      <%= link_to "Copy this event", copy_event_path(@event), class: "mt-2 ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <% end %>
-
-    <% if can? :manage, @event %>
-      <%= link_to "Generate subevents", new_subevents_path(@event), class: "mt-2 ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <% end %>
-
-    <% if can? :destroy, @event %>
-      <%= button_to "Delete this event", @event, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
-        class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
-    <% end %>
+    </span>
   </div>
-</section>
+<% end %>
+<% if can? :manage, @collection %>
+  <% content_for :title_buttons do %>
+    <%= render MenuToggleComponent.new(
+        "Admin",
+        :key,
+        true,
+        {path: edit_event_path(@event), text: "Edit"},
+        {path: copy_event_path(@event), text: "Copy"},
+        {path: new_subevents_path(@event), text: "Generate subevents"},
+        { 
+            path: @event, 
+            text: "Delete event",
+            method: :delete,
+            confirm: "Are you sure you want to delete this event?",
+            hidden: (cannot? :destroy, @event),
+            styles: "text-red-800"
+        },
+    ) %>
+  <% end %>
+<% end %>
+<% content_for :back_to do %>
+  <%= link_to "« Back to #{@collection.short_title} Events", collection_events_path(@collection),
+    class: "text-sky-600 hover:text-sky-800 hover:underline" %>
+<% end %>
+
+<%= render @event %>
+
+<% if @event.content.present? %>
+    <div class="mathjax prose !max-w-none sm:prose-lg mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+        <%= sanitize @event.to_html(:content) %>
+    </div>
+<% end %>
+
+<% if @event.children.present? %>
+  <h2 class="font-bold text-2xl">Subevents</h2>
+  <% @event.children.select{|e| e.starts_at.present? }.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
+    <h3 class="font-bold text-xl mt-3"><%= day %></h3>
+    <%= render partial: "events_list", locals: { events: events, depth: nil } %>
+  <% end %>
+  <% if @event.children.reject{|e| e.starts_at.present? }.any? %>
+    <h3 class="font-bold text-xl mt-3">Unscheduled</h3>
+    <%= render partial: "events_list", locals: { events: @event.children.reject{|e| e.starts_at.present? }, depth: nil } %>
+  <% end %>
+<% end %>

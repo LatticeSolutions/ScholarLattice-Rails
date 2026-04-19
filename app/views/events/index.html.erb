@@ -1,102 +1,86 @@
 <% content_for :title, "Events | #{@collection.title}" %>
-
-<div class="mx-auto md:w-2/3">
-
+<% content_for :breadcrumb do %>
   <%= render partial: "breadcrumb", locals: { collection: @collection } %>
-
-  <div class="mt-2 flex justify-between items-center">
-    <h1 class="font-bold text-4xl">
-      <span class="size-8 inline-block mr-1">
-        <%= render IconComponent.new(:calendar) %>
-      </span>
-      <span>
-        Events for
-        <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
-      </span>
-    </h1>
-    <div class="flex items-center">
-      <%= link_to "Printable page", collection_print_events_path(@collection, depth: 2), class: "rounded-lg py-3 px-5 bg-sky-600 text-white block font-medium" %>
-      <% if can? :create, Event %>
-        <%= link_to "New event", new_collection_event_path(@collection), class: "rounded-lg ml-3 py-3 px-5 bg-blue-600 text-white block font-medium" %>
-      <% end %>
-    </div>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:calendar) %>
+    </span>
+    <span>
+      Events
+    </span>
   </div>
+<% end %>
+
+<div class="mt-2 flex justify-between items-center">
   <p>
     All times <%= Time.zone.name %>.
     Page loaded at <%= Time.current.strftime("%I:%M %p") %> <%= Time.zone.name %> (UTC <%= Time.current.in_time_zone(Time.zone.name).formatted_offset %>).
   </p>
-  
-  <% if @collection.parent.present? and @collection.parent.show_events? %>
-    <div class="mt-4">
-      <%= link_to "View all events for #{@collection.parent.title}", collection_events_path(@collection.parent), class: "text-blue-600 hover:underline" %>
-    </div>
-  <% end %>
-
-  <% if @happening_soon_events.present? %>
-    <h2 class="font-bold text-xl md:text-3xl my-3">
-      Happening Soon!
-    </h2>
-    <ul class="list-disc pl-5">
-      <% @happening_soon_events.each do |event| %>
-        <li class="mb-2">
-          <%= event.starts_at.strftime("%I:%M %p") %>:
-          <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
-          <% if event.inherited(:location).present? %>
-            <span class="text-sm">in <span class="text-green-800"><%= event.inherited(:location) %></span></span>
-          <% end %>
-          <% if event.inherited(:webinar_link).present? && can?(:access_webinars, event.collection) %>
-              <%= link_to event_webinar_path(event), 
-                  class: "inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold px-1 py-1 rounded transition-colors duration-150 ml-2", 
-                  target: "_blank", 
-                  rel: "noopener" do %>
-                  <span class="inline-block size-4">
-                      <%= render IconComponent.new(:video) %>
-                  </span>
-              <% end %>
-          <% end %>
-          <% if event.submission.present? %>
-            <br>
-            <span class="italic mathjax"><%= event.submission.title %></span>
-            &mdash;
-            <%= event.submission.user.name %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
-
-  <div class="border p-4 rounded-lg mt-4">
-
-    <% if @scheduled_events.present? %>
-      <% @scheduled_events.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
-        <h3 class="font-bold text-xl mt-3"><%= day %></h3>
-        <%= render partial: "events_list", locals: { events: events, depth: nil } %>
-      <% end %>
-    <% end %>
-
-    <% if @unscheduled_events.present? %>
-      <h3 class="font-bold text-xl mt-3">Unscheduled Events</h3>
-      <ul class="list-disc pl-5">
-        <% @unscheduled_events.each do |event| %>
-          <%= render partial: "events/events_list_item", locals: { 
-              event: event,
-              depth: nil
-          } %>
-        <% end %>
-      </ul>
+  <div class="flex items-center">
+    <%= link_to "Printable page", collection_print_events_path(@collection, depth: 2), class: "rounded-lg py-3 px-5 bg-sky-600 text-white block font-medium" %>
+    <% if can? :create, Event %>
+      <%= link_to "New event", new_collection_event_path(@collection), class: "rounded-lg ml-3 py-3 px-5 bg-blue-600 text-white block font-medium" %>
     <% end %>
   </div>
-
-  <% if can? :edit, @collection and @collection.subtree_submissions.where(status: :accepted).any? %>
-    <div>
-      <h2 class="font-bold text-2xl my-3">Program LaTeX</h2>
-      <form action="https://www.overleaf.com/docs" method="post" target="_blank">
-        <textarea name="snip" readonly class="w-full h-60 bg-gray-100 p-2" ><%= @collection.program_tex %></textarea>
-        <input
-          type="submit"
-          value="Open program as PDF using Overleaf.com"
-          class="mt-2 rounded-lg py-2 px-4 bg-green-600 text-white font-medium hover:bg-green-700 transition-colors duration-200 hover:cursor-pointer">
-      </form>
-    </div>
-  <% end %>
 </div>
+
+<% if @collection.parent.present? and @collection.parent.show_events? %>
+  <div class="mt-4">
+    <%= link_to "View all events for #{@collection.parent.title}", collection_events_path(@collection.parent), class: "text-blue-600 hover:underline" %>
+  </div>
+<% end %>
+
+<% if @happening_soon_events.present? %>
+  <h2 class="font-bold text-xl md:text-3xl my-3">
+    Happening Soon!
+  </h2>
+  <ul class="list-disc pl-5">
+    <% @happening_soon_events.each do |event| %>
+      <li class="mb-2">
+        <%= event.starts_at.strftime("%I:%M %p") %>:
+        <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
+        <% if event.inherited(:location).present? %>
+          <span class="text-sm">in <span class="text-green-800"><%= event.inherited(:location) %></span></span>
+        <% end %>
+        <% if event.inherited(:webinar_link).present? && can?(:access_webinars, event.collection) %>
+            <%= link_to event_webinar_path(event), 
+                class: "inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold px-1 py-1 rounded transition-colors duration-150 ml-2", 
+                target: "_blank", 
+                rel: "noopener" do %>
+                <span class="inline-block size-4">
+                    <%= render IconComponent.new(:video) %>
+                </span>
+            <% end %>
+        <% end %>
+        <% if event.submission.present? %>
+          <br>
+          <span class="italic mathjax"><%= event.submission.title %></span>
+          &mdash;
+          <%= event.submission.user.name %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+
+<% if @scheduled_events.present? %>
+  <% @scheduled_events.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
+    <h3 class="font-bold text-xl mt-3"><%= day %></h3>
+    <%= render partial: "events_list", locals: { events: events, depth: nil } %>
+  <% end %>
+<% end %>
+
+<% if @unscheduled_events.present? %>
+  <h3 class="font-bold text-xl mt-3">Unscheduled Events</h3>
+  <ul class="list-disc pl-5">
+    <% @unscheduled_events.each do |event| %>
+      <%= render partial: "events/events_list_item", locals: { 
+          event: event,
+          depth: nil
+      } %>
+    <% end %>
+  </ul>
+<% end %>

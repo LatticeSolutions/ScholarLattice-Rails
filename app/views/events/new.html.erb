@@ -1,11 +1,16 @@
 <% content_for :title, "New Event" %>
+<% content_for :breadcrumb do %>
+  <%= render partial: "breadcrumb", locals: { collection: @event.collection, action: "New" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center gap-1">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:calendar) %>
+    </span>
+    <span>
+      New Event
+    </span>
+  </div>
+<% end %>
 
-<div class="mx-auto md:w-2/3 w-full">
-
-  <%= render partial: "breadcrumb", locals: { collection: @collection, action: "New" } %>
-  
-  <h1 class="font-bold text-4xl">New event</h1>
-
-  <%= render "form", event: @event %>
-
-</div>
+<%= render "form", event: @event %>

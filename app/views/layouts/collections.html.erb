@@ -17,15 +17,20 @@
                 class: "bg-white rounded-md drop-shadow-lg border-2 border-gray-300 lg:w-[12rem] lg:h-[12rem] md:w-[10rem] md:h-[10rem] sm:w-[8rem] sm:h-[8rem] w-[7rem] h-[7rem] relative lg:bottom-[5rem] lg:mb-[-5rem] sm:bottom-[4rem] sm:mb-[-5rem] bottom-[3rem] mb-[-3rem]" %>
 
             <div class="w-full text-left mt-4 my-8 sm:mx-4 pl-4">
-                <% if content_for(:title_context) %>
+                <% if @collection.parent.present? %>
                     <div class="text-sm font-light text-gray-600 mb-1">
-                        <%= yield(:title_context) %>
+                        <%= link_to @collection.root.title, @collection.root, class: "hover:underline" %>
                     </div>
                 <% end %>
-                <h1 class="text-gray-800 lg:text-4xl md:text-3xl sm:text-3xl text-xl inline-flex items-center gap-2">
-                    <span>
-                        <%= content_for?(:title_header) ? yield(:title_header) : @collection.title %>
-                    </span>
+                <h1 class="text-gray-800 lg:text-4xl md:text-3xl sm:text-3xl text-xl inline-flex items-center gap-2 mb-1">
+                    <%# if page is not the collection %>
+                    <% if current_page?(collection_path @collection) %>
+                        <span>
+                            <%= @collection.title %>
+                        </span>
+                    <% else %>
+                        <%= link_to @collection.title, @collection, class: "hover:underline" %>
+                    <% end %>
                     <% if content_for(:title_buttons) %>
                     <span>
                         <%= yield(:title_buttons) %>
@@ -44,6 +49,17 @@
 </section>
 <section class="m-auto w-full md:w-3/4">
     <%= yield %>
+    <div class="my-8">
+        <% if content_for(:back_to) %>
+            <%= yield(:back_to) %>
+        <% elsif !current_page?(collection_path @collection) %>
+            <%= link_to "« Back to #{@collection.short_title}", @collection,
+                class: "text-sky-600 hover:text-sky-800 hover:underline" %>
+        <% elsif @collection.parent.present? %>
+            <%= link_to "« Back to #{@collection.parent.short_title}", @collection.parent,
+                class: "text-sky-600 hover:text-sky-800 hover:underline" %>
+        <% end %>
+    </div>
 </section>
 <% end %>
 <%= render template: "layouts/application" %>
