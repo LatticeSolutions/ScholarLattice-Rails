@@ -1,16 +1,11 @@
 <% content_for :title, @collection.title %>
 <% content_for :description, @collection.description %>
-<% content_for :title_header do %>
-<div>
-    <% if @collection.parent.present? %>
-    <div class="text-sm font-light text-gray-600 mb-1">
+<% if @collection.parent.present? %>
+    <% content_for :title_context do %>
         <%= link_to @collection.root.title, @collection.root, class: "hover:underline" %>
-    </div>
     <% end %>
-    <div class="inline-flex items-center gap-2">
-    <span>
-        <%= @collection.title %>
-    </span>
+<% end %>
+<% content_for :title_buttons do %>
     <% if can? :manage, @collection %>
         <%= render MenuToggleComponent.new(
             "Admin",
@@ -117,8 +112,6 @@
     <% unless @collection.public_pages.empty? %>
         <%= render PagesBarComponent.new(@collection.public_pages) %>
     <% end %>
-    </div>
-</div>
 <% end %>
 <% content_for :breadcrumb do %>
     <%= render partial: "breadcrumb", locals: { collection: @collection } %>

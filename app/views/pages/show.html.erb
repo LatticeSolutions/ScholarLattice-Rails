@@ -1,27 +1,28 @@
 <% content_for :title, "#{@page.title} | #{@page.collection.title}" %>
+<% content_for :title_header do %>
+    <%= link_to @collection.title, @collection, class: "hover:underline" %>
+<% end %>
+<% if can? :manage, @page %>
+    <% content_for :title_buttons do %>
+        <%= render MenuToggleComponent.new(
+            "Admin",
+            :key,
+            true,
+            {icon: :edit, path: edit_page_path(@page), text: "Edit"},
+        ) %>
+    <% end %>
+<% end %>
+<% content_for :description do %>
+    <%= @page.title %>
+<% end %>
+<% content_for :breadcrumb do %>
+  <%= render "breadcrumb", page: @page %>
+<% end %>
 
 <div class="mx-auto md:w-2/3 w-full">
-  <%= render "breadcrumb", page: @page %>
-  <% if can? :manage, @page %>
-      <div class="mt-3">
-      <%= render MenuToggleComponent.new(
-          "Admin",
-          :key,
-          false,
-          {icon: :edit, path: edit_page_path(@page), text: "Edit"},
-      ) %>
-      </div>
-  <% end %>
-  <h1 class="text-xl font-bold text-gray-900 md:text-2xl pt-2">
-      <%= @page.collection.title %>
-  </h1>
-  <h2 class="text-2xl font-bold text-gray-900 md:text-3xl pt-1">
-      <%= @page.title %>
-      <% if @page.is_home? %>
-          <span class="text-xl font-bold text-gray-600 md:text-2xl pt-1">
-              (Home Page)
-          </span>
-      <% end %>
-  </h2>
-  <%= render @page %>
+    <%= render @page %>
+    <div class="my-8">
+        <%= link_to "« Back to #{@page.collection.short_title}", @page.collection,
+            class: "text-sky-600 hover:text-sky-800 hover:underline" %>
+    </div>
 </div>
