@@ -3,7 +3,7 @@
         <div class="flex">
             <% show_times = events.map{|e| e.starts_at }.uniq.length > 1 %>
             <% if show_times %>
-                <h3 class="w-16 pt-8 mr-2 text-sm"><%= time.strftime("%I:%M %p") %></h3>
+                <h3 class="w-16 pt-5 mr-2 text-sm"><%= time.strftime("%I:%M %p") %></h3>
             <% end %>
             <div class="w-full pl-2<% if show_times %> border-l border-gray-300<% end %>">
                 <% same_time_events.each do |event| %>
