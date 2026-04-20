@@ -1,7 +1,15 @@
 <% content_for :title, "People | #{@collection.title}" %>
-
-<section class="mx-auto md:w-3/4 w-full">
+<% content_for :description do %>
+    <span class="size-8 inline-block mx-1">
+        <%= render IconComponent.new(:profile) %>
+    </span>
+    <span>
+        People
+    </span>
+<% end %>
+<% content_for :breadcrumb do %>
     <%= render partial: "breadcrumb", locals: { collection: @collection, action: "People", icon: :profile } %>
+<% end %>
 
     <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
         All admins of <%= @collection.title %> and its subcollections
@@ -92,4 +100,3 @@
             <% end %>
         </tbody>
     </table>
-</section>
