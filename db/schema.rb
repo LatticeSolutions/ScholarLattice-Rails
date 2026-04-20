@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_19_171514) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_20_034726) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -62,13 +62,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_19_171514) do
     t.string "ancestry", default: "/", null: false, collation: "C"
     t.uuid "submission_id"
     t.integer "order"
-    t.uuid "attached_page_id"
     t.uuid "attached_collection_id"
     t.string "webinar_link"
     t.text "content"
     t.index ["ancestry"], name: "index_events_on_ancestry"
     t.index ["attached_collection_id"], name: "index_events_on_attached_collection_id", unique: true
-    t.index ["attached_page_id"], name: "index_events_on_attached_page_id", unique: true
     t.index ["collection_id"], name: "index_events_on_collection_id"
     t.index ["submission_id"], name: "index_events_on_submission_id", unique: true
   end
@@ -109,7 +107,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_19_171514) do
     t.uuid "collection_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_home", default: false
     t.integer "visibility", default: 2
     t.integer "order"
     t.index ["collection_id"], name: "index_pages_on_collection_id"
@@ -227,7 +224,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_19_171514) do
 
   add_foreign_key "events", "collections"
   add_foreign_key "events", "collections", column: "attached_collection_id"
-  add_foreign_key "events", "pages", column: "attached_page_id"
   add_foreign_key "events", "submissions"
   add_foreign_key "invitations", "collections"
   add_foreign_key "invitations", "users"
