@@ -10,7 +10,14 @@
     <% end %>
 <% end %>
 <% content_for :description do %>
-    <%= @page.title %>
+    <div class="flex items-center">
+        <span class="size-8 inline-block mx-1">
+            <%= render IconComponent.new(:page) %>
+        </span>
+        <span>
+            <%= @page.title %>
+        </span>
+    </div>
 <% end %>
 <% content_for :breadcrumb do %>
   <%= render "breadcrumb", page: @page %>

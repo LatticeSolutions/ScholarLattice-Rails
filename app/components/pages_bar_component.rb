@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class PagesBarComponent < ViewComponent::Base
-  def initialize(pages, public: true, label: "Pages")
-    @pages = pages
-    @public = public
-    @label = label
+  def initialize(page_links)
+    @page_links = page_links.reject { |l| l[:hidden] }
   end
 end

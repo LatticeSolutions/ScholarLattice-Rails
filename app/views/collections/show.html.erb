@@ -88,12 +88,6 @@
             text: "Submit abstract",
             hidden: !@collection.submittable
         },
-        {
-            icon: :calendar,
-            path: collection_events_path(@collection),
-            text: "Events",
-            hidden: !@collection.show_events
-        },
         ) %>
 
     <% unless @collection.children.empty? %>
@@ -104,9 +98,14 @@
             *@collection.children.map{|c| {text: c.short_title, path: collection_path(c)}},
             ) %>
     <% end %>
-    <% unless @collection.public_pages.empty? %>
-        <%= render PagesBarComponent.new(@collection.public_pages) %>
-    <% end %>
+    <%= render PagesBarComponent.new([ {
+        icon: :calendar,
+        path: collection_events_path(@collection),
+        text: "Events",
+        hidden: !@collection.show_events
+      },
+      *@collection.pages.map { |p| { icon: :page, text: p.title, path: page_path(p) } }
+    ]) %>
 <% end %>
 <% content_for :breadcrumb do %>
     <%= render partial: "breadcrumb", locals: { collection: @collection } %>
