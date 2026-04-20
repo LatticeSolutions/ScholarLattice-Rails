@@ -102,13 +102,3 @@
         {class: CssClass::SELECT_INLINE} %>
     <%= render "errors", object: event, attribute: :attached_collection_id %>
 </div>
-
-<div class="my-5">
-    <%= form.label "Attached Page", class: CssClass::LABEL %>
-    <%= form.select :attached_page_id, 
-        [["(None)", nil]] + 
-        event.collection.pages.map {|p| ["#{p.title}", p.id]},
-        {selected: event.attached_page_id},
-        {class: CssClass::SELECT_INLINE} %>
-    <%= render "errors", object: event, attribute: :attached_page_id %>
-</div>

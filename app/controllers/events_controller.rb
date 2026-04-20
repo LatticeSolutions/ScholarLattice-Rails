@@ -185,7 +185,7 @@ class EventsController < ApplicationController
     def event_params
       params.expect(event: [
         :title, :description, :content, :location, :starts_at, :ends_at, :collection_id, :parent_id,
-        :submission_id, :attached_page_id, :attached_collection_id, :order, :webinar_link
+        :submission_id, :attached_collection_id, :order, :webinar_link
       ])
     end
 
