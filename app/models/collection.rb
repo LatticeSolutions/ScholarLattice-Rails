@@ -100,11 +100,11 @@ class Collection < ApplicationRecord
   end
 
   def public_pages
-    pages.where(is_home: false, visibility: :public)
+    pages.where(visibility: :public)
   end
 
   def non_public_pages
-    pages.where(is_home: false).where.not(visibility: :public)
+    pages.where.not(visibility: :public)
   end
 
   def all_admin_emails
