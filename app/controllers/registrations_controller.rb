@@ -1,6 +1,8 @@
 class RegistrationsController < ApplicationController
+  layout "collections"
   load_and_authorize_resource :collection
   load_and_authorize_resource :registration, through: :collection, shallow: true, except: [ :create ]
+  before_action :set_collection
 
   def index
     @registrations = @collection.subtree_registrations
@@ -245,5 +247,9 @@ class RegistrationsController < ApplicationController
       if @registration.user != @current_user && cannot?(:manage, @registration.collection)
         @registration.errors.add(:user, "must be yourself")
       end
+    end
+
+    def set_collection
+      @collection = @registration.collection if @registration.present?
     end
 end

@@ -1,15 +1,17 @@
 <% content_for :title, "Registrations | #{@collection.title}" %>
-
-<section class="mx-auto md:w-3/4 w-full">
-    <%= render partial: "breadcrumb", locals: { collection: @collection } %>
-    
-    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        Registrations for 
-        <%= link_to @collection.title, @collection, class: "text-sky-700 hover:underline" %>
-        <% if can? :manage, @collection %>
-            (<%= @registrations.count %>)
-        <% end %>
-    </h1>
+<% content_for :breadcrumb do %>
+  <%= render partial: "breadcrumb", locals: { collection: @collection } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:registration) %>
+    </span>
+    <span>
+      Registrations (<%= @registrations.count %>)
+    </span>
+  </div>
+<% end %>
 
     <% if can? :manage, @collection %>
         <div class="py-2">
@@ -17,9 +19,6 @@
             <%= link_to "Download CSV", collection_registrations_path(@collection, format: :csv), class: "bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded" %>
             <%= link_to "Upload Registrations", collection_registrations_upload_path(@collection), class: "bg-yellow-500 hover:bg-yellow-700 text-white py-2 px-4 rounded" %>
         </div>
-    <% end %>
-
-    <% if can? :manage, @collection %>
         <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
             Submitted (<%= @registrations.where(status: :submitted).count %>):
         </h2>
@@ -86,4 +85,3 @@
             <% end %>
         </div>
     <% end %>
-</section>

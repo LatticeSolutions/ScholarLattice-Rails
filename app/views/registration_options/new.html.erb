@@ -1,10 +1,16 @@
 <% content_for :title, "New Registration Option | #{@collection.title}" %>
-
-<div class="mx-auto md:w-2/3 w-full">
-
+<% content_for :breadcrumb do %>
   <%= render partial: "registrations/breadcrumb", locals: { collection: @collection, action: "New Option" } %>
-
-  <h1 class="font-bold text-4xl">New Registration Option for <%= @collection.title %></h1>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:registration) %>
+    </span>
+    <span>
+      New Registration Option
+    </span>
+  </div>
+<% end %>
 
   <%= render "form", option: @registration_option, collection: @collection %>
-</div>

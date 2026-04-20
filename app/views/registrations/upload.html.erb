@@ -1,13 +1,18 @@
 <% content_for :title, "Upload Registrations | #{@collection.title}" %>
+<% content_for :breadcrumb do %>
+    <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Upload" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:registration) %>
+    </span>
+    <span>
+      Upload Registrations
+    </span>
+  </div>
+<% end %>
 
-<div class="mx-auto md:w-2/3 w-full">
-
-  <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Upload" } %>
-
-  <h1 class="font-bold text-4xl">
-    Upload registrations for 
-    <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
-  </h1>
 
   <p class="mt-4 text-sm">
     The top row of your CSV should be a header row describing its contents.
@@ -23,5 +28,3 @@
       <%= link_to "Back to registrations", collection_registrations_path(@collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     </div>
   <% end %>
-
-</div>
