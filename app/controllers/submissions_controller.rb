@@ -109,7 +109,7 @@ class SubmissionsController < ApplicationController
     submissions_csv = params[:file]
     submission_csv_data = params[:submission_csv_data]
     @submission_param_symbols = [
-      :title, :abstract, :notes, :private_notes, :submitter_email, :submitter_first_name, :submitter_last_name,
+      :title, :coauthors, :abstract, :notes, :private_notes, :submitter_email, :submitter_first_name, :submitter_last_name,
       :submitter_affiliation, :submitter_position
     ]
     if submissions_csv.present?
@@ -146,6 +146,7 @@ class SubmissionsController < ApplicationController
         user_cache[email] = u
         submissions_to_save << @collection.submissions.build(
           title: row[params[:title_header]],
+          coauthors: row[params[:coauthors_header]],
           abstract: row[params[:abstract_header]],
           notes: row[params[:notes_header]],
           private_notes: row[params[:private_notes_header]],
