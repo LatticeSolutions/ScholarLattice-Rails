@@ -3,7 +3,6 @@ class Page < ApplicationRecord
   validates_uniqueness_of :is_home, if: :is_home, scope: :collection_id
   before_validation :enforce_single_homepage
   enum :visibility, { private: 0, unlisted: 1, public: 2 }, suffix: true
-  validate :home_page_must_be_public
 
   default_scope { order(:order, :title) }
 
@@ -20,12 +19,6 @@ class Page < ApplicationRecord
           title: "Former Home Page",
         )
         self.title = "Home Page"
-      end
-    end
-
-    def home_page_must_be_public
-      if is_home && !public_visibility?
-        errors.add(:visibility, "must be public for a home page")
       end
     end
 end

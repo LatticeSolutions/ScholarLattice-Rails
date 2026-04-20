@@ -99,10 +99,6 @@ class Collection < ApplicationRecord
     registration_options.any?(&:in_stock?)
   end
 
-  def home_page
-    pages.where(is_home: true).first
-  end
-
   def public_pages
     pages.where(is_home: false, visibility: :public)
   end
