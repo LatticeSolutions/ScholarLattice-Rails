@@ -40,6 +40,6 @@
 <div class="my-5">
   <%= form.label :status, class: CssClass::LABEL %>
   <%= form.select :status, Invitation.statuses.keys.map {|key| [key.humanize, key]},
-      {selected: invitation.status || :pending}, class: CssClass::SELECT %>
+      {selected: invitation.status || :pending}, class: CssClass::SELECT_INLINE %>
   <%= render "errors", object: invitation, attribute: :status %>
 </div>

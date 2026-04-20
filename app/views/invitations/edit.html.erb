@@ -1,8 +1,16 @@
 <% content_for :title, "Edit Invitation | #{@invitation.collection.title}" %>
-
-<div class="mx-auto md:w-2/3 w-full">
-  <%= render partial: "breadcrumb", locals: { collection: @invitation.collection, action: "Edit" } %>
-  <h1 class="font-bold text-4xl">Editing invitation</h1>
+<% content_for :breadcrumb do %>
+    <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Edit" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:invitation) %>
+    </span>
+    <span>
+      Edit Invitation
+    </span>
+  </div>
+<% end %>
 
   <%= render "form", invitation: @invitation %>
-</div>

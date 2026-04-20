@@ -1,11 +1,16 @@
 <% content_for :title, "New Invitation | #{@invitation.collection.title}" %>
-
-<div class="mx-auto md:w-2/3 w-full">
-  <%= render partial: "breadcrumb", locals: { collection: @invitation.collection, action: "New" } %>
-  <h1 class="font-bold text-4xl">
-    New invitation for
-    <%= link_to @invitation.collection.title, @invitation.collection, class: "text-sky-700 hover:underline" %>
-  </h1>
+<% content_for :breadcrumb do %>
+  <%= render partial: "breadcrumb", locals: { collection: @collection, action: "New" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:invitation) %>
+    </span>
+    <span>
+      New Invitation
+    </span>
+  </div>
+<% end %>
 
   <%= render "form", invitation: @invitation %>
-</div>

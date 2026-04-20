@@ -1,21 +1,22 @@
 <% content_for :title, "Invitations | #{@collection.title}" %>
-
-<div class="mx-auto md:w-2/3 w-full">
+<% content_for :breadcrumb do %>
   <%= render partial: "breadcrumb", locals: { collection: @collection } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:invitation) %>
+    </span>
+    <span>
+      Invitations (<%= @invitations.count %>)
+    </span>
+  </div>
+<% end %>
 
-  <div class="flex justify-between items-center">
-    <h2 class="font-bold text-4xl pb-3">
-      Invitations for
-      <%= link_to @collection.title, @collection, class: "text-sky-700 hover:underline" %>
-      (<%= @invitations.count %>)
-    </h2>
-    <% if can? :manage, @collection %>
       <div class="flex">
         <%= link_to "New batch", batch_collection_invitations_path, class: "rounded-lg py-3 px-5 mr-3 bg-blue-600 text-white block font-medium" %>
         <%= link_to "New invitation", new_collection_invitation_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
       </div>
-    <% end %>
-  </div>
 
   <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">
     Pending, no submission
@@ -149,4 +150,3 @@
   <textarea class="w-full h-12 bg-gray-100 p-2" readonly><%= 
         @invitations.where.not(status: :revoked).map{|s| "#{s.user.name} <#{s.user.email}>" }.join("\n")
     %></textarea>
-</div>

@@ -1,42 +1,61 @@
-<% content_for :title, "Show Invitation | #{@invitation.collection.title}" %>
+<% content_for :title, "Invitation for #{@invitation.user.name}  | #{@collection.title}" %>
+<% content_for :breadcrumb do %>
+  <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Details" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:invitation) %>
+    </span>
+    <span>
+      Invitation for 
+      <%= @invitation.user.name_with_email %>, <%= @invitation.user.affiliation %> 
+      (<%= @invitation.status.humanize %>)
+    </span>
+  </div>
+<% end %>
 
-<div class="mx-auto md:w-2/3 w-full">
-  <%= render partial: "breadcrumb", locals: { collection: @invitation.collection, action: "Show" } %>
-  <div class="mx-auto">
-    <%= render @invitation %>
+    <div class="mb-8">
+      <%= render @invitation %>
+    </div>
 
     <% if can? :manage, @invitation %>
-      <div class="my-3">
-        <%= link_to "Edit this invitation", edit_invitation_path(@invitation), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-        <%= link_to "Back to invitations", collection_invitations_path(@invitation.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-        <% if can? :destroy, @invitation %>
+      <div class="my-3 flex items-center gap-2">
+        <%= link_to "Edit this invitation", edit_invitation_path(@invitation), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
           <%= button_to "Delete this invitation", @invitation, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
-            class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
-        <% end %>
+            class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
         <%= mail_to @invitation.user.email, 
           "Email personal reminder",
           subject: "Reminder to Submit to #{@invitation.collection.title} on ScholarLattice",
           body: @invitation.reminder_email_body(@current_user.name),
           cc: @invitation.collection.admin_emails.delete(' '),
-          class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-purple-100 inline-block font-medium", target: "_blank" %>
+          class: "rounded-lg py-3 px-5 bg-purple-100 inline-block font-medium", target: "_blank" %>
       </div>
     <% end %>
 
+    <% if @invitation.accepted? %>
+      <hr>
+      <p class="my-3">
+        Thank you for accepting this invitation! You can submit your abstract
+        by using the below link.
+      </p>
+    <% end %>
+
     <% if can? :respond_to, @invitation %>
-      <div class="my-3">
+      <div class="my-3 flex items-center gap-2">
         <% if @invitation.accepted? %>
           <%= link_to "Submit to #{@invitation.collection.short_title}", new_collection_submission_path(@invitation.collection),
-            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-blue-500 text-white inline-block font-medium" %>
+            class: "rounded-lg py-3 px-5 bg-blue-500 text-white inline-block font-medium" %>
         <% else %>
           <%= button_to "Accept this invitation", accept_invitation_path(@invitation),
-            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-sky-100 text-sky-900 inline-block font-medium", form_class: "inline-block", method: :post %>
+            class: "rounded-lg py-3 px-5 bg-sky-100 text-sky-900 inline-block font-medium", form_class: "inline-block", method: :post %>
         <% end %>
         <% unless @invitation.declined? %>
           <%= button_to "Decline this invitation", decline_invitation_path(@invitation),
-            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-red-100 text-red-900 inline-block font-medium", form_class: "inline-block", method: :post %>
+            class: "rounded-lg py-3 px-5 bg-red-100 text-red-900 inline-block font-medium", form_class: "inline-block", method: :post %>
         <% end %>
-        <%= link_to "Email organizers", "mailto:#{@invitation.collection.admin_emails.delete(' ')}",
-            class: "mr-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", target: "_blank" %>
+        <%= link_to "Email organizers", "mailto:#{@invitation.collection.all_admin_emails.delete(' ')}",
+            class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", target: "_blank" %>
       </div>
     <% end %>
 
@@ -50,5 +69,3 @@
           <% end %>
       </div>
     <% end %>
-  </div>
-</div>
