@@ -1,14 +1,17 @@
-<ul class="list-disc pl-5 mt-2">
-    <% events.select{|e| e.starts_at.present? }.sort_by { |e| e.starts_at }.each do |event| %>
-        <%= render partial: "events/events_list_item", locals: { 
-            event: event,
-            depth: depth.nil? ? nil : depth
-        } %>
+
+    <% events.select{|e| e.starts_at.present? }.group_by { |event| event.starts_at }.each do |time, same_time_events| %>
+        <div class="flex">
+            <% show_times = events.map{|e| e.starts_at }.uniq.length > 1 %>
+            <% if show_times %>
+                <h3 class="w-16 pt-8 mr-2 text-sm"><%= time.strftime("%I:%M %p") %></h3>
+            <% end %>
+            <div class="w-full pl-2<% if show_times %> border-l border-gray-300<% end %>">
+                <% same_time_events.each do |event| %>
+                    <%= render partial: "events/events_list_item", locals: { 
+                        event: event,
+                        depth: depth.nil? ? nil : depth
+                    } %>
+                <% end %>
+            </div>
+        </div>
     <% end %>
-    <% events.select{|e| e.starts_at.blank? }.each do |event| %>
-        <%= render partial: "events/events_list_item", locals: { 
-            event: event,
-            depth: depth.nil? ? nil : depth
-        } %>
-    <% end %>
-</ul>
