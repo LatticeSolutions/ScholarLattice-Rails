@@ -111,12 +111,20 @@ class Collection < ApplicationRecord
     pages.where(is_home: false).where.not(visibility: :public)
   end
 
+  def all_admin_emails
+    Admin.where(collection: path).map { |a| a.user.email } .to_a.join(", ")
+  end
+
   def admin_emails
     @admin_emails ||= admins.map { |a| a.user.email } .to_a.join(", ")
   end
 
   def admin_emails=(email_string)
     @admin_emails = email_string
+  end
+
+  def inherited_admin_emails
+    Admin.where(collection: ancestors).map { |a| a.user.email }.join(", ")
   end
 
   def sub_admins

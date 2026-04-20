@@ -1,0 +1,38 @@
+<span class="relative">
+    <label for="<%= @menu_id %>" class="inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 text-sm<% if @button %> bg-white text-gray-700 drop-shadow-md<% end %>">
+        <span class="inline-flex items-center gap-2">
+            <% if @menu_icon.present? %>
+                <span class="size-4">
+                    <%= render IconComponent.new(@menu_icon) %>
+                </span>
+            <% end %>
+            <span class="select-none"><span class="hidden lg:inline"><%= @menu_text %></span>&nbsp;&#9662;</span>
+        </span>
+    </label>
+    <input type="checkbox" id="<%= @menu_id %>" class="navbarMenuToggle sr-only">
+    <span class="navbarMenu absolute z-40 my-1 right-0 w-48 bg-white rounded-md shadow-lg border border-gray-200 md:left-auto md:right-0">
+        <% @links.each do |link| %>
+            <% next if link[:hidden].present? %>
+            <% link_class = "select-none inline-flex w-full bg-white px-4 py-2 my-1 text-sm hover:font-semibold focus:relative #{link[:styles].present? ? link[:styles] : "text-blue-700"}" %>
+            <% if link[:disabled] %>
+                <span class="<%= link_class %>">
+                    <span class="size-4 mr-2">
+                        <%= render IconComponent.new(link[:icon]) %>
+                    </span>
+                    <%= link[:text] %>
+                </span>
+            <% else %>
+                <%= link_to link[:path],
+                    class: link_class,
+                    data: { turbo_method: link[:method], turbo_confirm: link[:confirm] } do %>
+                    <% if link.key? :icon %>
+                        <span class="size-4 mr-2">
+                            <%= render IconComponent.new(link[:icon]) %>
+                        </span>
+                    <% end %>
+                    <%= link[:text] %>
+                <% end %>
+            <% end %>
+        <% end %>
+    </span>
+</span>

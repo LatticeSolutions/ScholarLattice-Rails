@@ -1,8 +1,9 @@
 <% content_for :title, "New Page" %>
-  
-<section class="mx-auto md:w-3/4 w-full">
+<% content_for :description do %>
+    New Page
+<% end %>
+<% content_for :breadcrumb do %>
   <%= render "breadcrumb", page: @page, action: "New" %>
-  <h1 class="font-bold text-4xl">New page</h1>
-
-  <%= render "form", page: @page, cancel_path: @page.collection %>
-</section>
+<% end %>
+  
+<%= render "form", page: @page, cancel_path: @page %>

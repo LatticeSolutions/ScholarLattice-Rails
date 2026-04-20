@@ -1,15 +1,9 @@
 <% content_for :title, "New Collection" %>
-
-<section class="mx-auto md:w-3/4 w-full">
+<% content_for :breadcrumb do %>
   <%= render BreadcrumbsComponent.new(
     { icon: :collection, link: collections_path },
     { text: "New" }
   ) %>
-
-    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        New Collection
-    </h1>
+<% end %>
 
 <%= render "form", collection: @collection, cancel_path: collections_path %>
-
-</section>

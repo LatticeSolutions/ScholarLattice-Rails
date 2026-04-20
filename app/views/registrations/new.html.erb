@@ -1,19 +1,20 @@
 <% content_for :title, "New Registration | #{@collection.title}" %>
-
-<div class="mx-auto md:w-2/3 w-full">
-
+<% content_for :breadcrumb do %>
   <%= render partial: "breadcrumb", locals: { collection: @collection, action: "New" } %>
-
-  <h1 class="font-bold text-4xl">
-    New Registration for <%= link_to @collection.title, @collection, class: "text-blue-600 hover:underline" %>
-  </h1>
-  <p class="text-lg font-light">
-      <%= @collection.description %>
-  </p>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:registration) %>
+    </span>
+    <span>
+      New Registration
+    </span>
+  </div>
+<% end %>
 
   <% if can? :manage, @registration.collection %>
     <%= render "users/change_form", user: @registration.user, url: collection_registrations_path(@registration.collection), method: :post %>
   <% end %>
 
   <%= render "form", registration: @registration, collection: @collection %>
-</div>

@@ -1,1 +1,8 @@
-<%= render BarComponent.new(@label, @public ? :page : :key, @pages.map{|p| {text: p.title, path: page_path(p)}}) %>
+<% if @page_links.any? %>
+    <%= render MenuToggleComponent.new(
+        "Pages",
+        :page,
+        true,
+        *@page_links) 
+        %>
+<% end %>

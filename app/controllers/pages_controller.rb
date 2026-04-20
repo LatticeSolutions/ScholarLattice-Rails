@@ -1,6 +1,8 @@
 class PagesController < ApplicationController
+  layout "collections"
   load_and_authorize_resource :collection
   load_and_authorize_resource :page, through: :collection, shallow: true
+  before_action :set_collection
 
   # GET /pages/1 or /pages/1.json
   def show
@@ -57,5 +59,10 @@ class PagesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def page_params
       params.require(:page).permit(:title, :content, :visibility, :is_home, :order)
+    end
+
+    def set_collection
+      @collection = @page.collection if @page
+      @collection ||= @collection
     end
 end

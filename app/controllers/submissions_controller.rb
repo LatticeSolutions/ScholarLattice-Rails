@@ -1,7 +1,9 @@
 class SubmissionsController < ApplicationController
+  layout "collections"
   load_and_authorize_resource :collection, except: [ :index, :upload, :import ]
   load_resource :collection, only: [ :index, :upload, :import ]
   load_and_authorize_resource :submission, through: :collection, shallow: true, except: [ :index, :create, :upload, :import ]
+  before_action :set_collection
 
   def index
     @submissions = @collection.subtree_submissions
@@ -199,5 +201,9 @@ class SubmissionsController < ApplicationController
         return params[:submission][:send_notification] == "1"
       end
       false
+    end
+
+    def set_collection
+      @collection = @submission.collection if @submission.present?
     end
 end

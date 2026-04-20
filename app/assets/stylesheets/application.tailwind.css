@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.navbarMenuToggle + .navbarMenu {
+  display: none;
+}
+
+.navbarMenuToggle:checked + .navbarMenu {
+  display: block;
+}

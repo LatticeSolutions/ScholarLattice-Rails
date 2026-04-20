@@ -1,9 +1,45 @@
-<% content_for :title, "Submission ‟#{@submission.title}” for #{@submission.collection.title}" %>
-
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
-
-    <%= render partial: "breadcrumb", locals: { collection: @submission.collection, action: "Show" } %>
+<% content_for :title, "Submission ‟#{@submission.title}” | #{@submission.collection.title}" %>
+<% content_for :breadcrumb do %>
+    <%= render partial: "breadcrumb", locals: { collection: @submission.collection, action: "Details" } %>
+<% end %>
+<% content_for :description do %>
+  <div>
+    <div class="flex items-center">
+      <span class="size-8 inline-block mr-1">
+        <%= render IconComponent.new(:submission) %>
+      </span>
+      <span>
+        ‟<%= @submission.title %>” by 
+        <%= @submission.user.name_with_email %>, <%= @submission.user.affiliation %> 
+        (<%= @submission.status.humanize %>)
+        <% if can? :edit, @submission %>
+          <%= link_to "[Edit]", edit_submission_path(@submission), class: "text-blue-500 hover:underline" %>
+        <% end %>
+      </span>
+    </div>
+    <div class="text-base md:text-lg">
+      Coauthors: <%= @submission.coauthors %>
+    </div>
+  </div>
+<% end %>
+<% if can? :manage, @collection %>
+  <% content_for :title_buttons do %>
+    <%= render MenuToggleComponent.new(
+        "Admin",
+        :key,
+        true,
+        {path: edit_submission_path(@submission), text: "Edit"},
+        { 
+            path: @submission, 
+            text: "Delete submission",
+            method: :delete,
+            confirm: "Are you sure you want to delete this submission?",
+            hidden: (cannot? :destroy, @submission),
+            styles: "text-red-800"
+        },
+    ) %>
+  <% end %>
+<% end %>
 
     <%= render @submission %>
 
@@ -57,25 +93,3 @@
       <% end %>
     <% end %>
 
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Status:</strong>
-      <%= @submission.status.humanize %>
-    </p>
-
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Collection:</strong>
-      <%= @submission.collection.title %>
-    </p>
-
-    <% if can? :update, @submission %>
-      <%= link_to "Edit this submission", edit_submission_path(@submission), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <% end %>
-    
-    <%= link_to "Back to collection", collection_path(@submission.collection), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-
-    <% if can? :destroy, @submission %>
-      <%= button_to "Delete this submission", @submission, "@click" => "if(!confirm('Are you sure?')) $event.preventDefault()",
-        class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", form_class: "inline-block", method: :delete %>
-    <% end %>
-  </div>
-</div>

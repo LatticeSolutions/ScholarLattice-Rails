@@ -11,8 +11,11 @@
 </div>
 
 <div class="mb-3">
-  <%= form.label :order, class: CssClass::LABEL %>
-  <%= form.number_field :order, class: CssClass::NUMBER_FIELD %>
+  <%= form.label :order, class: CssClass::LABEL do %>
+    Order
+    <span class="<%= CssClass::SUBLABEL %>">of appearance</span>
+  <% end %>
+  <%= form.number_field :order, class: CssClass::NUMBER_FIELD_INLINE %>
   <%= render "errors", object: page, attribute: :order %>
 </div>
 
@@ -20,7 +23,7 @@
   <%= form.label :visibility, class: CssClass::LABEL %>
   <%= form.select :visibility, 
     Page.visibilities.keys.map { |key| [key.humanize, key] }, { selected: page.visibility || :public }, 
-    class: CssClass::SELECT %>
+    class: CssClass::SELECT_INLINE %>
   <%= render "errors", object: page, attribute: :visibility %>
 </div>
 

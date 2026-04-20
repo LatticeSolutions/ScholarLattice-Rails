@@ -1,6 +1,8 @@
 class RegistrationOptionsController < ApplicationController
+  layout "collections"
   load_and_authorize_resource :collection
   load_and_authorize_resource :registration_option, through: :collection, shallow: true
+  before_action :set_collection
 
   def new
   end
@@ -69,5 +71,9 @@ class RegistrationOptionsController < ApplicationController
       if @registration_option.closes_on.present? && @registration_option.closes_on_changed?
         @registration_option.closes_on = @registration_option.closes_on.asctime.in_time_zone(@registration_option.collection.inherited_time_zone)
       end
+    end
+
+    def set_collection
+      @collection = @registration_option.collection if @registration_option.present?
     end
 end

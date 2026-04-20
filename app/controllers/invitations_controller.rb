@@ -1,7 +1,9 @@
 class InvitationsController < ApplicationController
+  layout "collections"
   load_and_authorize_resource :collection
   load_and_authorize_resource :invitation, through: :collection, shallow: true, except: [ :index, :accept, :decline ]
   load_resource :invitation, only: [ :accept, :decline ]
+  before_action :set_collection
 
   # GET /invitations or /invitations.json
   def index
@@ -135,5 +137,9 @@ class InvitationsController < ApplicationController
         position: "N/A",
         position_type: 4,
       ).id
+    end
+
+    def set_collection
+      @collection = @invitation.collection if @invitation.present?
     end
 end

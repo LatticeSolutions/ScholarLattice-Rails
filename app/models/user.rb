@@ -38,6 +38,7 @@ class User < ApplicationRecord
   has_many :old_registrations
   has_many :invitations
   has_many :registrations
+  has_many :registered_collections, through: :registrations, source: :collection
 
   before_save :downcase_email
   before_save :strip_whitespace

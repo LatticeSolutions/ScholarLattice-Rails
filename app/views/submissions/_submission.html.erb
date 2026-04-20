@@ -1,15 +1,4 @@
 <div id="<%= dom_id submission %>">
-  <h1 class="text-2xl font-bold italic text-gray-900 md:text-3xl pt-1 mathjax">
-    <%= submission.title %>
-  </h1>
-  <h2 class="text-xl font-bold text-gray-900 md:text-2xl pt-1">
-    <%= submission.user.name_with_email %>, <%= submission.user.affiliation %>
-  </h2>
-  <% if submission.coauthors.present? %>
-    <h2 class="text-lg font-bold text-gray-900 md:text-xl pt-1">
-      Coauthors: <%= submission.coauthors %>
-    </h2>
-  <% end %>
 
   <% if submission.abstract.present? %>
     <p class="my-5">

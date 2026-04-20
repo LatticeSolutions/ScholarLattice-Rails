@@ -1,14 +1,21 @@
 <% content_for :title, "Edit Submission | #{@submission.collection.title}" %>
+<% content_for :breadcrumb do %>
+    <%= render partial: "breadcrumb", locals: { collection: @submission.collection, action: "Edit" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:submission) %>
+    </span>
+    <span>
+      Edit Submission ‟<%= @submission.title %>”
+    </span>
+  </div>
+<% end %>
 
-<div class="mx-auto md:w-2/3 w-full">
+<% if can? :manage, @submission.collection %>
+  <%= render "users/change_form", user: @submission.user, url: @submission, method: :patch %>
+<% end %>
 
-  <%= render partial: "breadcrumb", locals: { collection: @submission.collection, action: "Edit" } %>
+<%= render "form", submission: @submission %>
 
-  <h1 class="font-bold text-4xl">Editing Submission</h1>
-
-  <% if can? :manage, @submission.collection %>
-    <%= render "users/change_form", user: @submission.user, url: @submission, method: :patch %>
-  <% end %>
-
-  <%= render "form", submission: @submission %>
-</div>

@@ -1,13 +1,17 @@
 <% content_for :title, "Submissions | #{@collection.title}" %>
-
-<section class="mx-auto md:w-3/4 w-full">
-    <%= render partial: "breadcrumb", locals: { collection: @collection } %>
-    
-    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        Submissions for
-        <%= link_to @collection.title, @collection, class: "hover:underline text-blue-700" %>
-        (<%= @submissions.count %>)
-    </h1>
+<% content_for :breadcrumb do %>
+  <%= render partial: "breadcrumb", locals: { collection: @collection } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= render IconComponent.new(:submission) %>
+    </span>
+    <span>
+      Submissions (<%= @submissions.count %>)
+    </span>
+  </div>
+<% end %>
 
     <% if can? :manage, @collection %>
     <div class="py-2">
@@ -124,4 +128,3 @@
                 @submissions.where(status: :accepted).map{|s| "#{s.user.name} <#{s.user.email}>" }.join("\n")
             %></textarea>
     <% end %>
-</section>

@@ -11,6 +11,12 @@
 </div>
 
 <div class="my-5">
+  <%= form.label :content, class: CssClass::LABEL do %>Content (supports Markdown)<% end %>
+  <%= form.marksmith :content, enable_file_uploads: false %>
+  <%= render "errors", object: event, attribute: :content %>
+</div>
+
+<div class="my-5">
     <%= form.label :location, class: CssClass::LABEL %>
     <%= form.text_field :location, class: CssClass::TEXT_FIELD_INLINE %>
     <%= render "errors", object: event, attribute: :location %>
@@ -44,7 +50,10 @@
 <h3 class="text-xl font-medium text-gray-900 mt-10 mb-3">Organization Settings</h3>
 
 <div class="my-5">
-    <%= form.label :order, "Order", class: CssClass::LABEL %>
+    <%= form.label :order, "Order", class: CssClass::LABEL do %>
+        Order
+        <span class="<%=CssClass::SUBLABEL%>">among events at the same time</span>
+    <% end %>
     <%= form.number_field :order, class: CssClass::NUMBER_FIELD_INLINE %>
     <%= render "errors", object: event, attribute: :order %>
 </div>

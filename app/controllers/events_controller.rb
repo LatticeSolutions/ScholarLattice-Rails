@@ -1,7 +1,9 @@
 class EventsController < ApplicationController
+  layout "collections"
   load_and_authorize_resource :collection, except: [ :webinar ]
   load_and_authorize_resource :event, through: :collection, shallow: true, except: [ :webinar, :print ]
   around_action :set_time_zone, except: [ :webinar ]
+  before_action :set_collection
 
   # GET /events or /events.json
   def index
@@ -182,7 +184,7 @@ class EventsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def event_params
       params.expect(event: [
-        :title, :description, :location, :starts_at, :ends_at, :collection_id, :parent_id,
+        :title, :description, :content, :location, :starts_at, :ends_at, :collection_id, :parent_id,
         :submission_id, :attached_page_id, :attached_collection_id, :order, :webinar_link
       ])
     end
@@ -203,5 +205,9 @@ class EventsController < ApplicationController
         @collection.inherited_time_zone,
         &block
       )
+    end
+
+    def set_collection
+      @collection = @event.collection if @event.present?
     end
 end

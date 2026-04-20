@@ -1,15 +1,11 @@
 <% content_for :title, "Edit Collection" %>
-
-<section class="mx-auto md:w-3/4 w-full">
+<% content_for :description do %>
+    <span>
+        Edit collection
+    </span>
+<% end %>
+<% content_for :breadcrumb do %>
     <%= render "breadcrumb", collection: @collection, action: "Edit" %>
-    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl py-5">
-        Edit Collection
-        <%= link_to @collection.short_title, @collection, class: CssClass::LINK %>
-    </h1>
-    <% unless @collection.home_page.nil? %>
-        <%= render AdminBarComponent.new(
-            {icon: :page, path: edit_page_path(@collection.home_page), text: "Edit Home Page"},
-        ) %>
-    <% end %>
-    <%= render "form", collection: @collection, cancel_path: collection_path %>
-</section>
+<% end %>
+
+<%= render "form", collection: @collection, cancel_path: collection_path %>
