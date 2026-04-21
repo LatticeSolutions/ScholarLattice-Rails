@@ -12,6 +12,7 @@ module CssClass
   DATETIME_FIELD_INLINE = TEXT_FIELD_INLINE
   URL_FIELD = TEXT_FIELD
   EMAIL_FIELD = TEXT_FIELD
+  COLOR_FIELD = "inline-block p-1 size-10 block bg-layer border border-layer-line cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none"
   FILE_UPLOAD = "block w-full text-gray-700 border rounded-lg py-2 px-3"
   TEXT_AREA = "mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
   CHECK_BOX = "my-0 ml-1 rounded-md border-gray-400 shadow-sm sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
