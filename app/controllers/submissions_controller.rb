@@ -14,6 +14,9 @@ class SubmissionsController < ApplicationController
   end
 
   def show
+    if @submission.event.present?
+      redirect_to @submission.event
+    end
     if can? :manage, @collection
       @registrations = Registration.where(user: @submission.user, collection: @submission.collection.path)
     end
