@@ -144,6 +144,7 @@ class EventsController < ApplicationController
     subevents = []
     number_of_subevents.times do |i|
       subevent = @event.dup
+      subevent.submission = nil
       subevent.parent = @event
       subevent.order = i+1
       if title == subevent.title

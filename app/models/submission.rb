@@ -18,12 +18,17 @@ class Submission < ApplicationRecord
     Kramdown::Document.new(abstract.gsub(/\$\$/, "\n$$\n").gsub(/(?<![\\\$])\$(?!\$)/, "$$")).to_latex
   end
 
-  def notes_html
-    Kramdown::Document.new(notes).to_html
-  end
-
-  def private_notes_html
-    Kramdown::Document.new(private_notes).to_html
+  def title_info
+    info = "‟#{title}” by "
+    if author_list.present?
+      info += author_list
+    else
+      info += "#{user.name_with_email}, #{user.affiliation}"
+    end
+    unless accepted?
+      info += " (#{status.humanize})"
+    end
+    info
   end
 
   def invited?

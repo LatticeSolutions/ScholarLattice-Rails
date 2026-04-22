@@ -1,32 +1,30 @@
 <div id="<%= dom_id submission %>">
 
   <% if submission.abstract.present? %>
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Abstract:</strong>
-      <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+    <div class="py-4 border-b border-gray-500">
+      <h4 class="block font-thin mb-1 md:text-lg">Abstract:</h4>
+      <div class="mathjax prose !max-w-none prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
         <%= sanitize submission.abstract_html %>
       </div>
-    </p>
+    </div>
   <% end %>
 
   <% if submission.notes.present? %>
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Notes:</strong>
-     
-      <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
-         <%= sanitize submission.notes_html %>
+    <div class="py-4 border-b border-gray-500">
+      <h4 class="block font-thin mb-1 md:text-lg">Author Notes:</h4>
+      <div class="mathjax prose !max-w-none prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+        <%= sanitize submission.to_html(:notes) %>
       </div>
-    </p>
+    </div>
   <% end %>
 
   <% if submission.private_notes.present? and can? :edit, submission %>
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Private notes (only visible to submitter and organizers):</strong>
-     
-      <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
-         <%= sanitize submission.private_notes_html %>
+    <div class="py-4 border-b border-gray-500">
+      <h4 class="block font-thin mb-1 md:text-lg">Private Notes (visible only to admins and submitter):</h4>
+      <div class="mathjax prose !max-w-none prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+        <%= sanitize submission.to_html(:private_notes) %>
       </div>
-    </p>
+    </div>
   <% end %>
 
 </div>

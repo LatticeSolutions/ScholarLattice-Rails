@@ -1,18 +1,23 @@
 <div id="<%= dom_id event %>">
     <% if event.parent.present? %>
-      <h3 class="text-lg font-bold text-gray-900 md:text-xl pt-1">
-            Subevent of <%= link_to event.parent.title, event.parent, class: "text-blue-600 hover:text-blue-500 hover:underline" %>
-      </h3>
-    <% end %>
-    <% if event.inherited(:location).present? %>
-      <h3 class="text-lg font-bold text-gray-900 md:text-xl pt-1">
-          <%= event.inherited(:location) %>
-      </h3>
+      <div class="text-sm text-gray-400 md:text-base mb-8 text-center">
+            Subevent of <%= link_to event.parent.title, event.parent, class: "text-blue-400 hover:text-blue-500 hover:underline" %>
+      </div>
     <% end %>
 
-    <p class="my-5">
-      <%= event.times_in_time_zone %> (<%= event.collection.inherited_time_zone %>)
-    </p>
+    <% if event.submission.present? %>
+      <h3 class="text-xl text-gray-900 md:text-2xl my-4">
+            <%= event.submission.title_info %>
+      </h3>
+        <%= render event.submission %>
+        <% if can? :manage, event.submission %>
+          <%= link_to "Edit Submission", edit_submission_path(event.submission), class: "text-blue-600 hover:text-blue-500 hover:underline" %>
+        <% end %>
+    <% elsif event.content.present? %>
+        <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+         <%= sanitize event.to_html(:content) %>
+      </div>
+    <% end %>
 
     <% if event.inherited(:webinar_link).present? and can? :access_webinar, event %>
       <p class="my-5">
@@ -24,21 +29,5 @@
           Webinar
         <% end %>
       </p>
-    <% end %>
-
-    <% if event.submission.present? %>
-      <div class="border p-4 mx-auto md:w-3/4 rounded-lg">
-        <%= render event.submission %>
-        <% if can? :manage, event.submission %>
-          <%= link_to "Edit Submission", edit_submission_path(event.submission), class: "text-blue-600 hover:text-blue-500 hover:underline" %>
-        <% end %>
-      </div>
-    <% elsif event.attached_page.present? %>
-      <div class="border p-4 mx-auto md:w-3/4 rounded-lg">
-        <%= render event.attached_page %>
-        <% if can? :manage, event.attached_page %>
-          <%= link_to "Edit Page", edit_page_path(event.attached_page), class: "text-blue-600 hover:text-blue-500 hover:underline" %>
-        <% end %>
-      </div>
     <% end %>
 </div>
