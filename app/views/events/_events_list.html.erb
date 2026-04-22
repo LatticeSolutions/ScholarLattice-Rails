@@ -1,17 +1,17 @@
 
-    <% events.select{|e| e.starts_at.present? }.group_by { |event| event.starts_at }.each do |time, same_time_events| %>
+    <% events.select{|e| e.starts_at.present? }.group_by { |event| event.times_in_time_zone_short }.each do |times, same_time_events| %>
         <div class="flex">
-            <% show_times = events.map{|e| e.starts_at }.uniq.length > 1 %>
-            <% if show_times %>
-                <h3 class="w-16 pt-5 mr-2 text-sm"><%= time.strftime("%I:%M %p") %></h3>
-            <% end %>
-            <div class="w-full pl-2<% if show_times %> border-l border-gray-300<% end %>">
+            <h3 class="w-16 pt-5 mr-2 text-xs text-center">
+                <%= times %>
+            </h3>
+            <%= tag.div class: "w-full pl-2 border-l border-gray-300", style: collection.list_html_style do %>
                 <% same_time_events.each do |event| %>
-                    <%= render partial: "events/events_list_item", locals: { 
+                    <%= render partial: "events/events_list_item", locals: {
+                        collection: collection,
                         event: event,
                         depth: depth.nil? ? nil : depth
                     } %>
                 <% end %>
-            </div>
+            <% end %>
         </div>
     <% end %>

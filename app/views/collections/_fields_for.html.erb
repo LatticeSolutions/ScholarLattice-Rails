@@ -96,6 +96,15 @@
   <%= render "errors", object: collection, attribute: :banner_url %>
 </div>
 
+<div class="mb-3 flex items-center gap-2" x-data="{ setColor: <%= form.object.theme_color.present? %> }">
+  <%= form.label :set_theme_color, class: CssClass::LABEL %>
+  <%= form.checkbox :set_theme_color, class: CssClass::CHECK_BOX, "x-model" => "setColor" %>
+  <span :class="setColor ? '' : 'invisible'">
+    <%= form.color_field :theme_color, class: CssClass::COLOR_FIELD %>
+  </span>
+  <%= render "errors", object: collection, attribute: :set_theme_color %>
+</div>
+
 
 <h3 class="text-xl font-medium text-gray-900 mt-10 mb-3">Registration Settings</h3>
 

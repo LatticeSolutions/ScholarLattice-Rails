@@ -55,6 +55,22 @@ class Event < ApplicationRecord
     end
   end
 
+  def times_in_time_zone_short
+    if starts_at.present? && ends_at.present?
+      if starts_at.to_date == ends_at.to_date
+        "#{starts_at_in_time_zone.strftime("%I:%M%p")} – #{ends_at_in_time_zone.strftime("%I:%M%p")}"
+      else
+        "#{starts_at_in_time_zone.strftime("%Y %b %d %I:%M%p")} to #{ends_at_in_time_zone.strftime("%Y %b %d %I:%M%p")}"
+      end
+    elsif starts_at.present?
+      "#{starts_at_in_time_zone.strftime("%Y %b %d %I:%M%p")}"
+    elsif ends_at.present?
+      "#{ends_at_in_time_zone.strftime("%Y %b %d %I:%M%p")}"
+    else
+      ""
+    end
+  end
+
   def info_in_latex
     info = []
     if starts_at.present?

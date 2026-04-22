@@ -81,12 +81,14 @@ class CollectionsController < ApplicationController
   private
 
     def collection_params
-      params.require(:collection).permit(
+      ps = params.require(:collection).permit(
         :title, :short_title, :description, :content, :parent_id, :subcollection_name,
         :submittable, :admin_emails, :time_zone, :submissions_open_on, :submissions_close_on,
         :order, :show_events, :registerable, :public_webinars, :affiliation_identifier_alias,
-        :limit_one_registration_option, :paypal_link, :icon_url, :banner_url
+        :limit_one_registration_option, :paypal_link, :icon_url, :banner_url, :theme_color
       )
+      ps[:theme_color] = nil if !params[:collection][:set_theme_color]
+      ps
     end
 
     def adjust_datetime_params

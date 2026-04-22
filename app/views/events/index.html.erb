@@ -69,7 +69,7 @@
 <% if @scheduled_events.present? %>
   <% @scheduled_events.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%a, %B %d") }.each do |day, events| %>
     <h3 class="font-bold text-xl my-4"><%= day %></h3>
-    <%= render partial: "events_list", locals: { events: events, depth: nil } %>
+    <%= render partial: "events_list", locals: { collection: @collection, events: events, depth: nil } %>
   <% end %>
 <% end %>
 
@@ -78,6 +78,7 @@
   <ul class="list-disc pl-5">
     <% @unscheduled_events.each do |event| %>
       <%= render partial: "events/events_list_item", locals: { 
+          collection: @collection,
           event: event,
           depth: nil
       } %>
