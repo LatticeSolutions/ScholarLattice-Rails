@@ -4,8 +4,10 @@
 <% end %>
 <% content_for :description do %>
   <div class="flex items-center gap-2">
-    <span class="size-8 inline-block">
-      <%= render IconComponent.new(:calendar) %>
+    <span class="size-8 inline-block mr-1">
+      <%= link_to collection_events_path(@event.collection) do %>
+          <%= render IconComponent.new(:calendar) %>
+      <% end %>
     </span>
     <span>
       Edit <%= link_to @event.title, @event, class: "hover:underline" %>

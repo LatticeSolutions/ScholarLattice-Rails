@@ -1,12 +1,19 @@
 <% content_for :title, "Create subevents for #{@event.title} | #{@event.collection.title}" %>
-
-<section class="mx-auto md:w-3/4 w-full" x-data="{ sameTimes: false }">
-
+<% content_for :breadcrumb do %>
   <%= render partial: "breadcrumb", locals: { collection: @event.collection, action: "Subevents" } %>
-
-  <div class="mx-auto mt-4">
-
-    <h2 class="font-bold text-2xl mb-4">Generate Subevents</h2>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center gap-2">
+    <span class="size-8 inline-block mr-1">
+      <%= link_to collection_events_path(@event.collection) do %>
+          <%= render IconComponent.new(:calendar) %>
+      <% end %>
+    </span>
+    <span>
+      Generate Subevents
+    </span>
+  </div>
+<% end %>
 
     <p class="mb-4">
       Create subevents for
@@ -61,7 +68,3 @@
         <%= link_to "Back to event", @event, class: "mt-2 ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block" %>
       </div>
     <% end %>
-
-
-  </div>
-</section>

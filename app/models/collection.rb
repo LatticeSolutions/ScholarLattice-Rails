@@ -265,12 +265,12 @@ class Collection < ApplicationRecord
     "color: #{link_color}"
   end
 
-  def relative_crumbs(other_collection)
+  def relative_crumbs(other_collection, with_links = false)
     subpath = other_collection.path.filter do |c|
       c.ancestors.include?(self)
     end
     subpath.map do |c|
-      { text: c.short_title }
+      { text: c.short_title, link: with_links ? c : nil }
     end
   end
 

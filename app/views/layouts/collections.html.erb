@@ -6,7 +6,9 @@
             style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('<%= @collection&.inherited(:banner_url) || image_path("chalkboard.jpg") %>')">
             <div class="w-full h-full relative text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.95)]">
                 <div class="absolute left-0 top-0">
-                    <%= yield(:breadcrumb) %>
+                    <nav aria-label="Breadcrumb" class="w-full px-4 py-3">
+                        <%= yield(:breadcrumb) %>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -18,8 +20,11 @@
 
             <div class="w-full text-left mt-4 my-8 sm:mx-4 pl-4">
                 <% if @collection.parent.present? %>
-                    <div class="text-sm font-light text-gray-600 mb-1">
-                        <%= link_to @collection.root.title, @collection.root, class: "hover:underline" %>
+                    <div class="text-sm font-light text-gray-600 mb-1 flex gap-1">
+                        <%= render BreadcrumbsComponent.new(
+                            { text: @collection.root.title, link: @collection.root },
+                            *@collection.root.relative_crumbs(@collection, true)[0...-1]
+                            ) %>
                     </div>
                 <% end %>
                 <h1 class="text-gray-800 lg:text-4xl md:text-3xl sm:text-3xl text-xl inline-flex items-center gap-2 mb-1">

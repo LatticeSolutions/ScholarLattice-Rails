@@ -1,19 +1,19 @@
-<nav aria-label="Breadcrumb" class="w-full px-4 py-3">
+
     <ol class="flex items-center gap-1 text-sm">
         <% @crumbs.each_with_index do |crumb, i| %>
             <li>
                 <span class="block transition flex gap-1 items-center justify-center">
                     <% if crumb.key? :link %>
-                        <a href="<%= crumb[:link] %>" class="hover:text-gray-300 hover:font-medium gap-1 flex items-center justify-center">
+                        <%= link_to crumb[:link], class: "hover:underline gap-1 flex items-center justify-center" do %>
                             <% if crumb.key? :icon and crumb[:icon].present? %>
                                 <span class="inline-block size-5">
                                     <%= render IconComponent.new(crumb[:icon]) %>
                                 </span>
                             <% end %>
                             <% if crumb.key? :text %>
-                                <span class="text-gray-100"><%= crumb[:text] %></span>
+                                <span><%= crumb[:text] %></span>
                             <% end %>
-                        </a>
+                        <% end %>
                     <% else %>
                         <% if crumb.key? :icon and crumb[:icon].present? %>
                             <span class="inline-block size-5">
@@ -21,7 +21,7 @@
                             </span>
                         <% end %>
                         <% if crumb.key? :text %>
-                            <span class="cursor-default text-gray-100"><%= crumb[:text] %></span>
+                            <span class="cursor-default"><%= crumb[:text] %></span>
                         <% end %>
                     <% end %>
                 </span>
@@ -35,4 +35,3 @@
             <% end %>
         <% end %>
     </ol>
-</nav>

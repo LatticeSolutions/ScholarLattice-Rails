@@ -1,17 +1,16 @@
-
-    <% events.select{|e| e.starts_at.present? }.group_by { |event| event.times_in_time_zone_short }.each do |times, same_time_events| %>
-        <div class="flex">
-            <h3 class="w-16 pt-5 mr-2 text-xs text-center">
-                <%= times %>
-            </h3>
-            <%= tag.div class: "w-full pl-2 border-l border-gray-300", style: collection.list_html_style do %>
-                <% same_time_events.each do |event| %>
-                    <%= render partial: "events/events_list_item", locals: {
-                        collection: collection,
-                        event: event,
-                        depth: depth.nil? ? nil : depth
-                    } %>
-                <% end %>
+<% base_collection ||= collection %>
+<% inner_style ||= false %>
+<% events.select{|e| e.starts_at.present? }.group_by { |event| event.times_in_time_zone_short }.each do |times, same_time_events| %>
+    <div class="flex">
+        <%= tag.h3 times, class: "w-16 pt-5 mr-2 text-xs text-center", style: inner_style ? collection.inherited(:text_html_style) : nil %>
+        <%= tag.div class: "w-full pl-2 border-l border-gray-300", style: inner_style ? collection.inherited(:list_html_style) : nil do %>
+            <% same_time_events.each do |event| %>
+                <%= render partial: "events/events_list_item", locals: {
+                    base_collection: base_collection,
+                    event: event,
+                    depth: depth.nil? ? nil : depth
+                } %>
             <% end %>
-        </div>
-    <% end %>
+        <% end %>
+    </div>
+<% end %>
