@@ -5,7 +5,9 @@
 <% content_for :description do %>
   <div class="flex items-center">
     <span class="size-8 inline-block mr-1">
-      <%= render IconComponent.new(:calendar) %>
+      <%= link_to collection_events_path(@event.collection) do %>
+          <%= render IconComponent.new(:calendar) %>
+      <% end %>
     </span>
     <span>
       <%= @event.title %><% if @event.description.present? %>:
