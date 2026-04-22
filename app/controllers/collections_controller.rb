@@ -87,7 +87,7 @@ class CollectionsController < ApplicationController
         :order, :show_events, :registerable, :public_webinars, :affiliation_identifier_alias,
         :limit_one_registration_option, :paypal_link, :icon_url, :banner_url, :theme_color
       )
-      ps[:theme_color] = nil if !params[:set_theme_color]
+      ps[:theme_color] = nil if !params[:collection][:set_theme_color]
       ps
     end
 

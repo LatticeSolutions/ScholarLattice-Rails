@@ -1,5 +1,6 @@
 
-<div class="w-full m-4 p-4 border border-gray-400 bg-gray-200 rounded-md">
+<div class="w-full m-4 p-4 rounded-md border border-gray-300"<%# newline
+    %><% if event.collection.theme_color.present? %>style="border: none; background: <%= event.collection.theme_color %>"<% end %>>
     <div>
         <%= link_to event, class: "text-blue-600 hover:underline font-bold" do %>
             <%= event.title %>

@@ -9,7 +9,7 @@
     <h2 class="font-bold text-2xl mb-4">Generate Subevents</h2>
 
     <p class="mb-4">
-      Create subevents for 
+      Create subevents for
       <span class="font-medium"><%= @event.title %></span> starting at
       <%= @event.starts_at&.strftime("%Y-%m-%d %I:%M %p") || "(unscheduled)" %>
       <% if @event.ends_at.present? %>
