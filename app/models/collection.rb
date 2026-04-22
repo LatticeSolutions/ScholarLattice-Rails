@@ -225,9 +225,9 @@ class Collection < ApplicationRecord
     return nil if theme_color.blank?
     base_color = Kodachroma.paint(theme_color)
     if base_color.light?
-      text_color = base_color.darken(40)
+      text_color = base_color.darken(70)
     else
-      text_color = base_color.lighten(40)
+      text_color = base_color.lighten(70)
     end
     "color: #{text_color}"
   end
@@ -258,9 +258,9 @@ class Collection < ApplicationRecord
     return nil if theme_color.blank?
     base_color = Kodachroma.paint(theme_color)
     if base_color.light?
-      link_color = base_color.darken(50)
+      link_color = base_color.darken(80)
     else
-      link_color = base_color.lighten(50)
+      link_color = base_color.lighten(80)
     end
     "color: #{link_color}"
   end

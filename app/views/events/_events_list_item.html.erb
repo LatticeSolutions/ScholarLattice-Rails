@@ -34,7 +34,7 @@
         </div>
     </div>
     <% if event.submission.present? %>
-        <%= tag.div style: event.collection.text_html_style do %>
+        <%= tag.div style: event.collection.inherited(:text_html_style) do %>
             <span class="italic mathjax"><%= event.submission.title %></span>
             &mdash;
             <%= event.submission.author_list.present? ? event.submission.author_list : event.submission.user.name %>
