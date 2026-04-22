@@ -109,7 +109,7 @@ class SubmissionsController < ApplicationController
     submissions_csv = params[:file]
     submission_csv_data = params[:submission_csv_data]
     @submission_param_symbols = [
-      :title, :coauthors, :abstract, :notes, :private_notes, :submitter_email, :submitter_first_name, :submitter_last_name,
+      :title, :author_list, :abstract, :notes, :private_notes, :submitter_email, :submitter_first_name, :submitter_last_name,
       :submitter_affiliation, :submitter_position
     ]
     if submissions_csv.present?
@@ -146,7 +146,7 @@ class SubmissionsController < ApplicationController
         user_cache[email] = u
         submissions_to_save << @collection.submissions.build(
           title: row[params[:title_header]],
-          coauthors: row[params[:coauthors_header]],
+          author_list: row[params[:author_list_header]],
           abstract: row[params[:abstract_header]],
           notes: row[params[:notes_header]],
           private_notes: row[params[:private_notes_header]],
@@ -181,9 +181,9 @@ class SubmissionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def submission_params
       if can? :manage, @submission
-        params.expect(submission: [ :title, :coauthors, :abstract, :notes, :private_notes, :status, :collection_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(submission: [ :title, :author_list, :abstract, :notes, :private_notes, :status, :collection_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       else
-        params.expect(submission: [ :title, :coauthors, :abstract, :notes, :private_notes, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+        params.expect(submission: [ :title, :author_list, :abstract, :notes, :private_notes, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
       end
     end
 
