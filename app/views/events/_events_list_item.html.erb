@@ -1,8 +1,8 @@
-<%= tag.div class: "w-full m-4 p-4 rounded-md border border-gray-300", style: event.collection.item_html_style do %>
+<%= tag.div class: "w-full m-4 p-4 rounded-md border border-gray-300", style: event.collection.inherited(:item_html_style) do %>
     <div>
-        <% unless collection.relative_crumbs(event.collection).empty? %>
-            <%= tag.div class: "text-xs flex gap-2", style: event.collection.text_html_style do %>
-                    <% collection.relative_crumbs(event.collection).each_with_index do  |crumb, index| %>
+        <% unless base_collection.relative_crumbs(event.collection).empty? %>
+            <%= tag.div class: "text-xs flex gap-1", style: event.collection.inherited(:text_html_style) do %>
+                    <% base_collection.relative_crumbs(event.collection).each_with_index do  |crumb, index| %>
                         <% if index > 0 %>
                             <span class="block size-4">
                                 <%= render IconComponent.new(:chevron) %>
@@ -13,10 +13,10 @@
             <% end %>
         <% end %>
         <div>
-        <%= link_to event, class: "text-blue-600 hover:underline font-bold", style: event.collection.link_html_style do %>
+        <%= link_to event, class: "text-blue-600 hover:underline font-bold", style: event.collection.inherited(:link_html_style) do %>
             <%= event.title %>
             <% if event.location.present? %>
-                <% tag.span class: "text-sm text-gray-800 font-normal", style: event.collection.text_html_style do %>
+                <% tag.span class: "text-sm text-gray-800 font-normal", style: event.collection.inherited(:text_html_style) do %>
                     in <span class="font-semibold"><%= event.location %></span>
                 <% end %>
             <% end %>
@@ -45,9 +45,11 @@
         <% if depth.nil? || depth > 0 %>
             <div class="mt-4">
                 <%= render partial: "events/events_list", locals: { 
-                    collection: collection,
+                    base_collection: base_collection,
+                    collection: event.collection,
                     events: event.children,
-                    depth: depth.nil? ? nil : depth - 1
+                    depth: depth.nil? ? nil : depth - 1,
+                    inner_style: true
                 } %>
             </div>
         <% end %>
