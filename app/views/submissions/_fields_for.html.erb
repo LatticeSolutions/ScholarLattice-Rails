@@ -16,7 +16,10 @@
 </div>
 
 <div class="my-5">
-  <%= form.label :author_liststst, class: CssClass::LABEL do %>Co-authors <span class="<%= CssClass::SUBLABEL %>">Leave blank for none</span><% end %>
+  <%= form.label :author_list, class: CssClass::LABEL do %>
+    Author list
+    <span class="<%= CssClass::SUBLABEL %>">Leave blank to if submitter is sole author</span>
+  <% end %>
   <%= form.text_field :author_list, class: CssClass::TEXT_FIELD %>
   <%= render "errors", object: submission, attribute: :author_list %>
 </div>
