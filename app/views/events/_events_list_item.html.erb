@@ -37,7 +37,7 @@
         <%= tag.div style: event.collection.text_html_style do %>
             <span class="italic mathjax"><%= event.submission.title %></span>
             &mdash;
-            <%= event.submission.coauthors.present? ? event.submission.coauthors : event.submission.user.name %>
+            <%= event.submission.author_list.present? ? event.submission.author_list : event.submission.user.name %>
         <% end %>
     <% end %>
     <% if event.children.present? %>

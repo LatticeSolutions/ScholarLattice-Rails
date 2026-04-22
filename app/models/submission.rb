@@ -57,7 +57,7 @@ class Submission < ApplicationRecord
       user.position,
       user.position_type,
       title,
-      coauthors,
+      author_list,
       abstract,
       notes,
       status.humanize
@@ -66,7 +66,7 @@ class Submission < ApplicationRecord
 
   def self.to_csv
     require "csv"
-    attributes = %w[id created_at updated_at collection_id collection user_last_name user_first_name user_email user_affiliation user_position user_position_type title coauthors abstract notes status]
+    attributes = %w[id created_at updated_at collection_id collection user_last_name user_first_name user_email user_affiliation user_position user_position_type title author_list abstract notes status]
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
