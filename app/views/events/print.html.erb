@@ -32,7 +32,24 @@
 
   <body>
     <section class="mx-auto my-3 md:w-3/4 w-full">
-        <div class="float-right text-right">
+      <div class="flex gap-2 justify-between">
+        <div>
+          <h1 class="text-gray-800 text-4xl">
+            <%= link_to @collection.title, 
+              collection_events_path(@collection),
+              class: "text-blue-600 hover:underline" %>
+          </h1>
+          <p class="text-lg font-light">
+              <%= @collection.description %>
+          </p>
+          <h2 class="font-bold text-2xl mt-3">
+              Schedule
+          </h2>
+          <p>
+              All times <%= Time.zone.name %>.
+          </p>
+        </div>
+        <div class="text-right">
             <div>
                 <%= link_to @collection do %>
                     <%= render inline: @collection.qr_code %>
@@ -42,25 +59,12 @@
                 Scan to see all details<br>on <strong>ScholarLattice.org</strong>!
             </div>
         </div>
-        <h1 class="text-gray-800 text-4xl">
-          <%= link_to @collection.title, 
-            collection_events_path(@collection),
-            class: "text-blue-600 hover:underline" %>
-        </h1>
-        <p class="text-lg font-light">
-            <%= @collection.description %>
-        </p>
+      </div>
         <% if @scheduled_events.present? %>
             <div>
-                <h2 class="font-bold text-2xl mt-3">
-                    Schedule
-                </h2>
-                <p>
-                    All times <%= Time.zone.name %>.
-                </p>
                 <% @scheduled_events.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
                     <h3 class="font-bold text-xl mt-3"><%= day %></h3>
-                    <%= render partial: "events_list", locals: { events: events, depth: @depth } %>
+                    <%= render partial: "events_list", locals: { collection: @collection, events: events, depth: @depth } %>
                 <% end %>
             </div>
         <% end %>

@@ -221,6 +221,59 @@ class Collection < ApplicationRecord
     subtree_submissions.left_outer_joins(:event).where(events: { id: nil })
   end
 
+  def text_html_style
+    return nil if theme_color.blank?
+    base_color = Kodachroma.paint(theme_color)
+    if base_color.light?
+      text_color = base_color.darken(40)
+    else
+      text_color = base_color.lighten(40)
+    end
+    "color: #{text_color}"
+  end
+
+  def list_html_style
+    return nil if theme_color.blank?
+    base_color = Kodachroma.paint(theme_color)
+    if base_color.light?
+      border_color = base_color.darken(20)
+    else
+      border_color = base_color.lighten(20)
+    end
+    "border-left: 1px solid #{border_color}"
+  end
+
+  def item_html_style
+    return nil if theme_color.blank?
+    bg_color = Kodachroma.paint(theme_color)
+    if bg_color.light?
+      border_color = bg_color.darken(20)
+    else
+      border_color = bg_color.lighten(20)
+    end
+    "border: 1px solid #{border_color}; background: #{bg_color}"
+  end
+
+  def link_html_style
+    return nil if theme_color.blank?
+    base_color = Kodachroma.paint(theme_color)
+    if base_color.light?
+      link_color = base_color.darken(50)
+    else
+      link_color = base_color.lighten(50)
+    end
+    "color: #{link_color}"
+  end
+
+  def relative_crumbs(other_collection)
+    subpath = other_collection.path.filter do |c|
+      c.ancestors.include?(self)
+    end
+    subpath.map do |c|
+      { text: c.short_title }
+    end
+  end
+
   private
 
   def round_down_submission_times

@@ -4,13 +4,14 @@
             <h3 class="w-16 pt-5 mr-2 text-xs text-center">
                 <%= times %>
             </h3>
-            <div class="w-full pl-2 border-l border-gray-300">
+            <%= tag.div class: "w-full pl-2 border-l border-gray-300", style: collection.list_html_style do %>
                 <% same_time_events.each do |event| %>
-                    <%= render partial: "events/events_list_item", locals: { 
+                    <%= render partial: "events/events_list_item", locals: {
+                        collection: collection,
                         event: event,
                         depth: depth.nil? ? nil : depth
                     } %>
                 <% end %>
-            </div>
+            <% end %>
         </div>
     <% end %>
