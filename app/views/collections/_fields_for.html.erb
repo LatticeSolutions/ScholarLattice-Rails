@@ -162,7 +162,10 @@
 <h3 class="text-xl font-medium text-gray-900 mt-10 mb-3">Event Settings</h3>
 
 <div class="mb-3">
-  <%= form.label :show_events, class: CssClass::LABEL do %>Show Events button<% end %>
+  <%= form.label :show_events, class: CssClass::LABEL do %>
+    Enable Events page 
+    <%= tag.span class: CssClass::SUBLABEL do %>and Schedule at a Glance<% end %>
+  <% end %>
   <%= form.check_box :show_events, class: CssClass::CHECK_BOX %>
   <%= render "errors", object: collection, attribute: :show_events %>
 </div>
