@@ -8,7 +8,7 @@
       <%= render IconComponent.new(:calendar) %>
     </span>
     <span>
-      Events
+      Schedule of Events
     </span>
   </div>
 <% end %>
@@ -67,10 +67,7 @@
 
 
 <% if @scheduled_events.present? %>
-  <% @scheduled_events.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%a, %B %d") }.each do |day, events| %>
-    <h3 class="font-bold text-xl my-4"><%= day %></h3>
-    <%= render partial: "events_list", locals: { collection: @collection, events: events, depth: nil } %>
-  <% end %>
+  <%= render partial: "events/by_day", locals: {events: @scheduled_events, depth: nil} %>
 <% end %>
 
 <% if @unscheduled_events.present? %>
