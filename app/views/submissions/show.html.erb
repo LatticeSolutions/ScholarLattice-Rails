@@ -9,16 +9,11 @@
         <%= render IconComponent.new(:submission) %>
       </span>
       <span>
-        ‟<%= @submission.title %>” by 
-        <%= @submission.user.name_with_email %>, <%= @submission.user.affiliation %> 
-        (<%= @submission.status.humanize %>)
+        <%= @submission.title_info %>
         <% if can? :edit, @submission %>
           <%= link_to "[Edit]", edit_submission_path(@submission), class: "text-blue-500 hover:underline" %>
         <% end %>
       </span>
-    </div>
-    <div class="text-base md:text-lg">
-      Author list: <%= @submission.author_list %>
     </div>
   </div>
 <% end %>

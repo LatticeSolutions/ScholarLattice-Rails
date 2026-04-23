@@ -117,6 +117,16 @@
     </div>
 <% end %>
 
+<% if @collection.all_scheduled_events.any? %>
+    <div class="my-8 md:w-3/4 mx-auto rounded-md border border-gray-300 p-4">
+        <h2 class="text-lg md:text-xl font-medium pb-1 border-b border-gray-200">
+            Schedule at a Glance
+            <%= link_to "[Full Schedule]", collection_events_path(@collection), class: "font-normal text-base md:text-lg text-blue-500 hover:underline" %>
+        </h2>
+        <%= render partial: "events/by_day", locals: { events: @collection.all_scheduled_events, depth: 0 } %>
+    </div>
+<% end %>
+
 <% unless @collection.children.empty? %>
     <h2 class="text-xl font-medium text-gray-800 md:text-2xl my-4">
         <%= @collection.subcollection_name.pluralize %>:

@@ -2,14 +2,7 @@
     <div>
         <% unless base_collection.relative_crumbs(event.collection).empty? %>
             <%= tag.div class: "text-xs flex gap-1", style: event.collection.inherited(:text_html_style) do %>
-                    <% base_collection.relative_crumbs(event.collection).each_with_index do  |crumb, index| %>
-                        <% if index > 0 %>
-                            <span class="block size-4">
-                                <%= render IconComponent.new(:chevron) %>
-                            </span>
-                        <% end %>
-                        <span><%= crumb[:text] %></span>
-                    <% end %>
+                <%= render BreadcrumbsComponent.new(*base_collection.relative_crumbs(event.collection, true)) %>
             <% end %>
         <% end %>
         <div>
@@ -34,7 +27,7 @@
         </div>
     </div>
     <% if event.submission.present? %>
-        <%= tag.div style: event.collection.text_html_style do %>
+        <%= tag.div style: event.collection.inherited(:text_html_style) do %>
             <span class="italic mathjax"><%= event.submission.title %></span>
             &mdash;
             <%= event.submission.author_list.present? ? event.submission.author_list : event.submission.user.name %>
