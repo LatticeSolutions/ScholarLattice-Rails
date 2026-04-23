@@ -15,6 +15,7 @@
   </div>
 <% end %>
 
+<div x-data="{ sameTimes: false }">
     <p class="mb-4">
       Create subevents for
       <span class="font-medium"><%= @event.title %></span> starting at
@@ -68,3 +69,4 @@
         <%= link_to "Back to event", @event, class: "mt-2 ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block" %>
       </div>
     <% end %>
+</div>
