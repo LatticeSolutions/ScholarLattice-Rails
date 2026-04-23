@@ -28,12 +28,24 @@
     <%= render "errors", object: event, attribute: :webinar_link %>
 </div>
 
+<div class="my-5">
+    <%= form.label "Subevent of", class: CssClass::LABEL %>
+    <%= form.select :parent_id, 
+        [["(None)", nil]] +
+        Event.where(collection_id: event.collection.path_ids)
+        .map {|e| ["#{e.collection.short_title_path}: #{e.title} (Starts: #{e.starts_at&.strftime('%Y-%m-%d %I:%M %p')}) (Ends: #{e.ends_at&.strftime('%Y-%m-%d %I:%M %p')})", e.id]},
+        {selected: event.parent_id},
+        {class: CssClass::SELECT} %>
+    <%= render "errors", object: event, attribute: :parent_id %>
+</div>
+
 <div class="mb-3">
     <%= form.label :starts_at, class: CssClass::LABEL do %>
         Starts at [<%= event.collection.inherited_time_zone %>]
     <% end %>
     <% Time.use_zone(event.collection.inherited_time_zone) do %>
-        <%= form.datetime_field :starts_at, class: CssClass::DATETIME_FIELD_INLINE %> 
+        <%= form.datetime_field :starts_at,
+            class: CssClass::DATETIME_FIELD_INLINE %> 
     <% end %>
     <%= render "errors", object: event, attribute: :starts_at %>
 </div>
@@ -42,7 +54,8 @@
         Ends at [<%= event.collection.inherited_time_zone %>]
     <% end %>
     <% Time.use_zone(event.collection.inherited_time_zone) do %>
-        <%= form.datetime_field :ends_at, class: CssClass::DATETIME_FIELD_INLINE %> 
+        <%= form.datetime_field :ends_at,
+            class: CssClass::DATETIME_FIELD_INLINE %> 
     <% end %>
     <%= render "errors", object: event, attribute: :ends_at %>
 </div>
@@ -66,17 +79,6 @@
         {selected: event.collection_id},
         {class: CssClass::SELECT_INLINE} %>
     <%= render "errors", object: event, attribute: :collection_id %>
-</div>
-
-<div class="my-5">
-    <%= form.label "Subevent of", class: CssClass::LABEL %>
-    <%= form.select :parent_id, 
-        [["(None)", nil]] +
-        Event.where(collection_id: event.collection.path_ids)
-        .map {|e| ["#{e.collection.short_title_path}: #{e.title} (Starts: #{e.starts_at&.strftime('%Y-%m-%d %I:%M %p')}) (Ends: #{e.ends_at&.strftime('%Y-%m-%d %I:%M %p')})", e.id]},
-        {selected: event.parent_id},
-        {class: CssClass::SELECT} %>
-    <%= render "errors", object: event, attribute: :parent_id %>
 </div>
 
 

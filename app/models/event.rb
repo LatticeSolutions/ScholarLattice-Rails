@@ -16,6 +16,8 @@ class Event < ApplicationRecord
 
   validate :collection_is_in_subtree_of_parents_collection
 
+  after_save :reschedule_on_change
+
   default_scope { order(:starts_at, :order, :title) }
 
   def same_times_as_parent?
@@ -123,6 +125,19 @@ class Event < ApplicationRecord
     return unless parent.present?
     unless parent.collection.subtree.include?(collection)
       errors.add(:collection, "must be in the subtree of #{parent.collection.title}")
+    end
+  end
+
+  def reschedule_on_change
+    if saved_change_to_starts_at? and starts_at.present? and starts_at_before_last_save.present?
+      shift_subevents(starts_at - starts_at_before_last_save)
+    end
+  end
+
+  def shift_subevents(delta)
+    descendants.each do |subevent|
+      subevent.update_column(:starts_at, subevent.starts_at + delta) if subevent.starts_at.present?
+      subevent.update_column(:ends_at, subevent.ends_at + delta) if subevent.ends_at.present?
     end
   end
 end
