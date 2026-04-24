@@ -8,9 +8,9 @@
         <div>
         <%= link_to event, class: "text-blue-600 hover:underline font-bold", style: event.collection.inherited(:link_html_style) do %>
             <%= event.title %>
-            <% if event.location.present? %>
-                <% tag.span class: "text-sm text-gray-800 font-normal", style: event.collection.inherited(:text_html_style) do %>
-                    in <span class="font-semibold"><%= event.location %></span>
+            <% if event.inherited(:location).present? %>
+                <%= tag.span class: "text-sm font-normal", style: event.collection.inherited(:text_html_style) do %>
+                    in <span class="font-semibold"><%= event.inherited(:location) %></span>
                 <% end %>
             <% end %>
         <% end %>
