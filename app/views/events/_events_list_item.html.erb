@@ -1,4 +1,4 @@
-<%= tag.div class: "w-full m-4 p-4 rounded-md border border-gray-300", style: event.collection.inherited(:item_html_style) do %>
+<%= tag.div class: "p-2 my-2 rounded-md border border-gray-300", style: event.collection.inherited(:item_html_style) do %>
     <div>
         <% unless base_collection.relative_crumbs(event.collection).empty? %>
             <%= tag.div class: "text-xs flex gap-1", style: event.collection.inherited(:text_html_style) do %>
@@ -35,7 +35,7 @@
     <% end %>
     <% if event.children.present? %>
         <% if depth.nil? || depth > 0 %>
-            <div class="mt-4">
+            <div class="my-4">
                 <%= render partial: "events/events_list", locals: { 
                     base_collection: base_collection,
                     collection: event.collection,
