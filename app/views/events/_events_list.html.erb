@@ -1,9 +1,12 @@
 <% base_collection ||= collection %>
 <% inner_style ||= false %>
+<% parent_times ||= nil %>
 <% events.select{|e| e.starts_at.present? }.group_by { |event| event.times_in_time_zone_short }.each do |times, same_time_events| %>
-    <div class="flex">
-        <%= tag.h3 times, class: "w-[10%] pr-2 pt-5 text-xs text-center", style: inner_style ? collection.inherited(:text_html_style) : nil %>
-        <%= tag.div class: "w-[90%] pl-4 border-l border-gray-300", style: inner_style ? collection.inherited(:list_html_style) : nil do %>
+    <div class="md:flex">
+        <% if times != parent_times %>
+            <%= tag.h3 times, class: "md:w-[10%] md:pr-2 md:pt-5 text-xs text-center", style: inner_style ? collection.inherited(:text_html_style) : nil %>
+        <% end %>
+        <%= tag.div class: "md:w-[90%] md:pl-4 md:border-l border-gray-300", style: inner_style ? collection.inherited(:list_html_style) : nil do %>
             <% same_time_events.each do |event| %>
                 <%= render partial: "events/events_list_item", locals: {
                     base_collection: base_collection,

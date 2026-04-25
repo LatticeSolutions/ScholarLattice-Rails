@@ -40,6 +40,7 @@
                     base_collection: base_collection,
                     collection: event.collection,
                     events: event.children,
+                    parent_times: event.times_in_time_zone_short,
                     depth: depth.nil? ? nil : depth - 1,
                     inner_style: true
                 } %>

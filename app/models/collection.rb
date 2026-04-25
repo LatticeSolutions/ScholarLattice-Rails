@@ -240,7 +240,7 @@ class Collection < ApplicationRecord
     else
       border_color = base_color.lighten(20)
     end
-    "border-left: 1px solid #{border_color}"
+    "border-color: #{border_color}"
   end
 
   def item_html_style
