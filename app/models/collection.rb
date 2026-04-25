@@ -226,21 +226,12 @@ class Collection < ApplicationRecord
     base_color = Kodachroma.paint(theme_color)
     if base_color.light?
       text_color = base_color.darken(70)
-    else
-      text_color = base_color.lighten(70)
-    end
-    "color: #{text_color}"
-  end
-
-  def list_html_style
-    return nil if theme_color.blank?
-    base_color = Kodachroma.paint(theme_color)
-    if base_color.light?
       border_color = base_color.darken(20)
     else
+      text_color = base_color.lighten(70)
       border_color = base_color.lighten(20)
     end
-    "border-color: #{border_color}"
+    "color: #{text_color}; border-color: #{border_color}"
   end
 
   def item_html_style
