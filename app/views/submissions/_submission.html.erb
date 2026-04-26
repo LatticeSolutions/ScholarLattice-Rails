@@ -19,8 +19,8 @@
   <% end %>
 
   <% if submission.private_notes.present? and can? :edit, submission %>
-    <div class="py-4 border-b border-gray-500">
-      <h4 class="block font-thin mb-1 md:text-lg">Private Notes (visible only to admins and submitter):</h4>
+    <div class="p-4 bg-white md:m-8 border border-gray-500 rounded-md">
+      <h4 class="block mb-1 md:text-lg">Private Notes (visible only to admins and submitter):</h4>
       <div class="mathjax prose !max-w-none prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
         <%= sanitize submission.to_html(:private_notes) %>
       </div>
