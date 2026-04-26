@@ -183,11 +183,16 @@ class SubmissionsController < ApplicationController
   private
     # Only allow a list of trusted parameters through.
     def submission_params
-      if can? :manage, @submission
-        params.expect(submission: [ :title, :author_list, :abstract, :notes, :private_notes, :status, :collection_id, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
-      else
-        params.expect(submission: [ :title, :author_list, :abstract, :notes, :private_notes, :user_id, user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position, :affiliation_identifier ] ])
+      attrs = [ :title, :author_list, :notes, :private_notes, :user_id,
+        user_attributes: [ :id, :first_name, :last_name, :email, :affiliation, :position_type, :position ]
+      ]
+      if can? :manage, @submission.collection
+        attrs += [ :status, :collection_id ]
       end
+      if can?(:manage, @submission.collection) or !@submission.accepted?
+        attrs += [ :abstract ]
+      end
+      params.expect(submission:  attrs)
     end
 
     def admin_user_params
