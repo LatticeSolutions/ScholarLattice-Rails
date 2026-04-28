@@ -17,6 +17,17 @@
   <%= render "errors", object: collection, attribute: :short_title %>
 </div>
 
+<% if !collection.new_record? and collection.parent.present? and can?(:manage, collection.parent) %>
+<div class="mb-3">
+  <%= form.label "Subcollection of", class: CssClass::LABEL %>
+  <%= form.select :parent_id, 
+        Collection.sort_by_ancestry(@current_user.admin_collections).reject{|c| collection.subtree.include? c}.map {|c| [c.short_title_path, c.id]},
+        {selected: collection.parent_id},
+        {class: CssClass::SELECT_INLINE} %>
+  <%= render "errors", object: collection, attribute: :parent_id %>
+</div>
+<% end %>
+
 <div class="mb-3">
   <%= form.label :description, class: CssClass::LABEL do %>
     Description
@@ -33,17 +44,6 @@
   <%= form.marksmith :content, enable_file_uploads: false %>
   <%= render "errors", object: collection, attribute: :content %>
 </div>
-
-<% if collection.parent_id.present? and !collection.new_record? %>
-<div class="mb-3">
-  <%= form.label "Subcollection of", class: CssClass::LABEL %>
-  <%= form.select :parent_id, 
-        Collection.sort_by_ancestry(@current_user.admin_collections).reject{|c| collection.subtree.include? c}.map {|c| [c.short_title_path, c.id]},
-        {selected: collection.parent_id},
-        {class: CssClass::SELECT_INLINE} %>
-  <%= render "errors", object: collection, attribute: :parent_id %>
-</div>
-<% end %>
 
 <div class="mb-3">
   <%= form.label :order, class: CssClass::LABEL do %>
