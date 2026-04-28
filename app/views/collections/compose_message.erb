@@ -1,0 +1,34 @@
+<% content_for :title, "Compose Message | #{@collection.title}" %>
+<% content_for :breadcrumb do %>
+  <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Compose Message" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span>
+      Compose message
+    </span>
+  </div>
+<% end %>
+
+<p class="my-3">
+  Use this form to send a message to all <%= @submission_count %>
+  accepted submitters along with a link to manage their submission.
+</p>
+
+<%= form_with url: collection_send_message_path, method: :post, local: true do |f| %>
+  <div class="mb-4">
+    <%= f.label :subject, class: CssClass::LABEL do %>
+      Subject
+    <% end %>
+    <%= f.text_field :subject, value: @subject, class: CssClass::TEXT_FIELD %>
+  </div>
+
+  <div class="my-5">
+    <%= f.label :message, class: CssClass::LABEL do %>Message (supports Markdown)<% end %>
+    <%= f.marksmith :message, enable_file_uploads: false %>
+  </div>
+
+  <div class="<%= CssClass::BUTTON_BAR %>">
+    <%= f.submit "Send Message", class: CssClass::SUBMIT %>
+  </div>
+<% end %>

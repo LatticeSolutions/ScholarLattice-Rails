@@ -26,6 +26,10 @@
                 text: "Submissions (#{@collection.subtree_submissions.count})"
             },
             {
+                path: collection_compose_message_path(@collection), 
+                text: "Send message"
+            },
+            {
                 icon: :registration, 
                 path: collection_registrations_path(@collection), 
                 text: "Registrations (#{@collection.registrations.count})"
