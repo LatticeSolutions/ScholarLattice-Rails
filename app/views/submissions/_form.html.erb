@@ -1,8 +1,10 @@
-<%= form_with(model: submission, url: (submission.new_record? ? [submission.collection, submission] : [submission]), class: "contents", data: { turbo: false }) do |form| %>
+<%= form_with(model: submission, url: (submission.new_record? ? [collection, submission] : [submission]), class: "contents", data: { turbo: false }) do |form| %>
   <%= render "fields_for", 
-        submission: submission, 
+        submission: submission,
+        collection: collection,
+        current_user: current_user,
         form: form, 
-        session: @session %>
+        session: session %>
   <div class="<%= CssClass::BUTTON_BAR %>">
     <%= form.submit class: CssClass::SUBMIT %>
     <% if submission.new_record? %>

@@ -1,6 +1,6 @@
-<% content_for :title, "New Submission | #{@submission.collection.title}" %>
+<% content_for :title, "New Submission | #{@collection.title}" %>
 <% content_for :breadcrumb do %>
-    <%= render partial: "breadcrumb", locals: { collection: @submission.collection, action: "New" } %>
+    <%= render partial: "breadcrumb", locals: { collection: @collection, action: "New" } %>
 <% end %>
 <% content_for :description do %>
   <div class="flex items-center">
@@ -13,8 +13,8 @@
   </div>
 <% end %>
 
-  <% if can? :manage, @submission.collection %>
-    <%= render "users/change_form", user: @submission.user, url: collection_submissions_path(@submission.collection), method: :post %>
-  <% end %>
-  <%= render "form", submission: @submission %>
+<% if can? :manage, @collection %>
+  <%= render "users/change_form", user: @submission.user, url: collection_submissions_path(@collection), method: :post %>
+<% end %>
 
+<%= render "form", submission: @submission, collection: @collection, current_user: @current_user, session: @session %>
