@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "ScholarLattice Updates <updates@mailer.scholarlattice.org>"
+  default from: email_address_with_name("updates@mailer.scholarlattice.org", "ScholarLattice Updates")
   default reply_to: "support@scholarlattice.org"
   layout "mailer"
   # before_action :attach_logo
