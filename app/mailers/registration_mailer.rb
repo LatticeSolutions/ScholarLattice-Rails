@@ -8,7 +8,7 @@ class RegistrationMailer < ApplicationMailer
       ),
       to: registration.user.email,
       subject: "Registration for #{registration.collection.title} on ScholarLattice",
-      reply_to: @registration.collection.admins.any? ? @registration.collection.admins.map { |a| a.user.email }.to_a : nil,
+      reply_to: submission.collection.reply_to_emails,
     )
   end
 end
