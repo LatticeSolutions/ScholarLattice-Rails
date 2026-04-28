@@ -132,7 +132,7 @@ class Collection < ApplicationRecord
   end
 
   def reply_to_emails
-    return admins.map { |a| a.user.email }.to_a if admins.any?
+    return admins.map { |a| a.user.email }.to_a.uniq if admins.any?
     "support@scholarlattice.org"
   end
 
