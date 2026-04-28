@@ -206,10 +206,7 @@ class SubmissionsController < ApplicationController
     end
 
     def send_update_notification?
-      if can? :manage, @submission
-        return params[:submission][:send_notification] == "1"
-      end
-      false
+      params[:submission][:send_notification] == "1"
     end
 
     def set_collection
