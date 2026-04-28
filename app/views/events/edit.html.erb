@@ -9,9 +9,7 @@
           <%= render IconComponent.new(:calendar) %>
       <% end %>
     </span>
-    <span>
-      Edit <%= link_to @event.title, @event, class: "hover:underline" %>
-    </span>
+    <span>Edit <span class="font-normal"><%= link_to @event.title, @event, class: "hover:underline" %></span></span>
   </div>
 <% end %>
 

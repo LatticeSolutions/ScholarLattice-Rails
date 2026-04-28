@@ -1,0 +1,22 @@
+<h1><%= @submission.collection.root.title %>: <%= @subject %></h1>
+<p>
+    Dear <%= @submission.user.name %>,
+</p>
+
+<div style="border:1px solid #e7e7e7; padding: 2px 10px; margin: 20px 0; border-radius: 5px;">
+    <%= sanitize Kramdown::Document.new(@message).to_html %>
+</div>
+
+<p>
+    To manage your submission, please visit the following link on ScholarLattice:
+    <%= link_to "[Manage submission]", edit_submission_url(@submission) %>, or copy-paste
+    the URL below into your browser:
+</p>
+
+<div><code><%= edit_submission_url(@submission) %></code></div>
+
+<p>
+    For your security, you may be required to enter and verify your email
+    <code><%= @submission.user.email %></code>
+    before you can manage this submission.
+</p>

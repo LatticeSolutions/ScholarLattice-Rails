@@ -77,6 +77,24 @@ class CollectionsController < ApplicationController
     authorize! :manage, @collection
   end
 
+  def compose_message
+    @collection = Collection.find(params[:collection_id])
+    @submission_count = Submission.where(collection: @collection.subtree).where(status: :accepted).count
+  end
+
+  def send_message
+    @collection = Collection.find(params[:collection_id])
+    submissions = Submission.where(collection: @collection.subtree).where(status: :accepted)
+    submissions.each_with_index do |submission, i|
+      CollectionMailer.message_submitter(
+        submission,
+        params[:subject],
+        params[:message],
+      ).deliver_later(wait: i.seconds)
+    end
+    redirect_to collection_path(@collection), notice: "Messages delivered"
+  end
+
 
   private
 
