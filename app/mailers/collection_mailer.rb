@@ -4,7 +4,10 @@ class CollectionMailer < ApplicationMailer
     @subject = subject
     @message = message
     mail(
-      from: "#{@submission.collection.root.title} via ScholarLattice <updates@mailer.scholarlattice.org>",
+      from: email_address_with_name(
+        "updates@mailer.scholarlattice.org",
+        "#{@submission.collection.root.title} via ScholarLattice"
+      ),
       to: @submission.user.email,
       subject: @subject,
       reply_to: @submission.collection.reply_to_emails,

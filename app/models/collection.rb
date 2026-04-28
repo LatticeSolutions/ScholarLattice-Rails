@@ -132,8 +132,8 @@ class Collection < ApplicationRecord
   end
 
   def reply_to_emails
-    return admin_emails if admins.any?
-    "no-reply@scholarlattice.org"
+    return admins.map { |a| a.user.email }.to_a if admins.any?
+    "support@scholarlattice.org"
   end
 
   def all_events
