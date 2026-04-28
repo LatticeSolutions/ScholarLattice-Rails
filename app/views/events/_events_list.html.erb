@@ -3,9 +3,8 @@
 <% parent_times ||= nil %>
 <% events.select{|e| e.starts_at.present? }.group_by { |event| event.times_in_time_zone_short }.each do |times, same_time_events| %>
     <div class="md:flex">
-        <% if times != parent_times %>
-            <%= tag.h3 times, class: "md:w-[10%] md:pr-2 md:pt-3 text-xs text-center md:border-r border-gray-300", style: inner_style ? collection.inherited(:text_html_style) : nil %>
-        <% end %>
+        <%# TODO hide this when parent_times == times %>
+        <%= tag.h3 times, class: "md:w-[10%] md:pr-2 md:pt-3 text-xs text-center md:border-r border-gray-300", style: inner_style ? collection.inherited(:text_html_style) : nil %>
         <%= tag.div class: "md:w-[90%] md:pl-4" do %>
             <% same_time_events.each do |event| %>
                 <%= render partial: "events/events_list_item", locals: {
