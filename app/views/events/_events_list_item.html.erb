@@ -1,6 +1,7 @@
+<% base_collection ||= collection %>
 <%= tag.div class: "p-2 my-2 rounded-md border border-gray-300", style: event.collection.inherited(:item_html_style) do %>
     <div>
-        <% unless base_collection&.relative_crumbs(event.collection).empty? %>
+        <% unless base_collection.relative_crumbs(event.collection).empty? %>
             <%= tag.div class: "text-xs flex gap-1", style: event.collection.inherited(:text_html_style) do %>
                 <%= render BreadcrumbsComponent.new(*base_collection.relative_crumbs(event.collection, true)) %>
             <% end %>
