@@ -121,6 +121,27 @@
     </div>
 <% end %>
 
+<div class="my-2 flex justify-center">
+    <% if @collection.registrations_open? and !@current_user.registered_collections.include?(@collection) %>
+        <%= link_to new_collection_registration_path(@collection), 
+            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring ring-green-200 text-green-700 drop-shadow-md hover:bg-green-100" do %>
+            <span class="size-4">
+                <%= render IconComponent.new(:registration) %>
+            </span>
+            <span>Register here</span>
+        <% end %>
+    <% end %>
+    <% if @current_user.registered_collections.include?(@collection) %>
+        <%= link_to collection_registrations_mine_path(@collection), 
+            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring ring-green-200 bg-green-100 text-green-700 drop-shadow-md hover:bg-green-200" do %>
+            <span class="size-4">
+                <%= render IconComponent.new(:registration) %>
+            </span>
+            <span>View your registration</span>
+        <% end %>
+    <% end %>
+</div>
+
 <% if @collection.all_scheduled_events.any? and @collection.show_events %>
     <div class="my-8 w-full lg:w-5/6 mx-auto rounded-md border border-gray-300 p-4">
         <h2 class="text-lg md:text-xl font-medium pb-1 border-b border-gray-200">
