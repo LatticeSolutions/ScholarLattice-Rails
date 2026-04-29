@@ -14,7 +14,7 @@
       </h3>
         <%= render event.submission %>
     <% elsif event.content.present? %>
-        <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+        <div class="mathjax prose !max-w-none sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
          <%= sanitize event.to_html(:content) %>
       </div>
     <% end %>
