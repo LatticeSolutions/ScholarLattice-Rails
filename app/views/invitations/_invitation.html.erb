@@ -3,7 +3,7 @@
     <p>For <%= invitation.user.name_with_email %>.</p>
   <% else %>
     <p>Dear <%= invitation.user.name %>,</p>
-    <div class="mathjax prose sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+    <div class="mathjax prose !max-w-none sm:prose-xl prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
       <%= sanitize invitation.to_html(:message) %>
     </div>
   <% end %>

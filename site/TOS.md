@@ -432,4 +432,4 @@ You hereby waive any and all defenses you may have based on the electronic form 
 
 ### CONTACT US
 
-In order to resolve a complaint regarding the Site or to receive further information regarding use of the Site, please contact us at <steven@scholarlattice.org>.
+In order to resolve a complaint regarding the Site or to receive further information regarding use of the Site, please contact us at <tos@scholarlattice.org>.
