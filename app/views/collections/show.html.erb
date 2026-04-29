@@ -131,7 +131,7 @@
             <span>Register here</span>
         <% end %>
     <% end %>
-    <% if @current_user&.registered_collections.include?(@collection) %>
+    <% if @current_user.present? and @current_user.registered_collections.include?(@collection) %>
         <%= link_to collection_registrations_mine_path(@collection), 
             class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring ring-green-200 bg-green-100 text-green-700 drop-shadow-md hover:bg-green-200" do %>
             <span class="size-4">
