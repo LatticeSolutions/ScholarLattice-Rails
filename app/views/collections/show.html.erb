@@ -115,32 +115,56 @@
     <%= render partial: "breadcrumb", locals: { collection: @collection } %>
 <% end %>
 
-<% if @collection.content.present? %>
-    <div class="mathjax prose !max-w-none sm:prose-lg mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
-        <%= sanitize @collection.to_html(:content) %>
-    </div>
-<% end %>
-
-<div class="my-2 flex justify-center">
+<div class="my-2 flex gap-3 justify-center">
     <% if @collection.registrations_open? and (@current_user.blank? or @current_user.registered_collections.exclude?(@collection)) %>
         <%= link_to new_collection_registration_path(@collection), 
-            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring ring-green-200 text-green-700 drop-shadow-md hover:bg-green-100" do %>
+            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring-1 hover:ring-2 ring-green-200 text-green-700 drop-shadow-md bg-green-50 hover:bg-green-100" do %>
             <span class="size-4">
                 <%= render IconComponent.new(:registration) %>
             </span>
-            <span>Register here</span>
+            <span>Register</span>
         <% end %>
     <% end %>
     <% if @current_user.present? and @current_user.registered_collections.include?(@collection) %>
         <%= link_to collection_registrations_mine_path(@collection), 
-            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring ring-green-200 bg-green-100 text-green-700 drop-shadow-md hover:bg-green-200" do %>
+            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring-1 hover:ring-2 ring-green-200 bg-green-100 text-green-700 drop-shadow-md hover:bg-green-200" do %>
             <span class="size-4">
                 <%= render IconComponent.new(:registration) %>
             </span>
             <span>View your registration</span>
         <% end %>
     <% end %>
+    <% if @collection.submissions_open? %>
+        <%= link_to new_collection_submission_path(@collection), 
+            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring-1 hover:ring-2 ring-sky-200 text-sky-700 drop-shadow-md bg-sky-50 hover:bg-sky-100" do %>
+            <span class="size-4">
+                <%= render IconComponent.new(:submission) %>
+            </span>
+            <span>Submit abstract</span>
+        <% end %>
+    <% end %>
 </div>
+
+<% if @collection.content.present? %>
+    <div class="mathjax prose !max-w-none sm:prose-lg mx-auto prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:no-underline">
+        <%= sanitize @collection.to_html(:content) %>
+    </div>
+<% end %>
+
+<% if @current_user.present? and @current_user.submissions.where(collection: @collection).any? %>
+    <div>
+        <h2 class="text-xl font-medium text-gray-800 md:text-2xl my-4">
+            Your submissions:
+        </h2>
+        <ul class="list-disc list-inside">
+            <% @current_user.submissions.where(collection: @collection).each do |s| %>
+                <li>
+                    <%= link_to "#{s.title} (#{s.status.humanize})", s, class: "text-blue-600 hover:underline" %>
+                </li>
+            <% end %>
+        </ul>
+    </div>
+<% end %>
 
 <% if @collection.all_scheduled_events.any? and @collection.show_events %>
     <div class="my-8 w-full lg:w-5/6 mx-auto rounded-md border border-gray-300 p-4">
