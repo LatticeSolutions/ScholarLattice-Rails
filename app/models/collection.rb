@@ -74,6 +74,7 @@ class Collection < ApplicationRecord
   end
 
   def submissions_closed?
+    return true unless submittable
     return false if submissions_close_on.blank?
     submissions_close_on <= Time.now
   end
