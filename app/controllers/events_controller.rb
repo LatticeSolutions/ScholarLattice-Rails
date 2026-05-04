@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   layout "collections"
+  load_resource :collection, only: [ :search ]
   load_and_authorize_resource :collection, except: [ :webinar, :search ]
   load_and_authorize_resource :event, through: :collection, shallow: true, except: [ :webinar, :print, :search ]
   around_action :set_time_zone, except: [ :webinar ]
