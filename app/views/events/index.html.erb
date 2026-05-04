@@ -67,14 +67,14 @@
 <%= render partial: "events/search_form", locals: {collection: @collection, query: ""} %>
 </div>
 
-<% if @collection.all_scheduled_events.any? %>
-  <%= render partial: "events/by_day", locals: {collection: @collection, events: @collection.all_scheduled_events, depth: nil} %>
+<% if @collection.all_top_scheduled_events.any? %>
+  <%= render partial: "events/by_day", locals: {collection: @collection, events: @collection.all_top_scheduled_events, depth: nil} %>
 <% end %>
 
-<% if @collection.all_unscheduled_events.any? %>
+<% if @collection.all_top_unscheduled_events.any? %>
   <h3 class="font-bold text-xl mt-4">Unscheduled Events</h3>
   <ul class="list-disc pl-5">
-    <% @collection.all_unscheduled_events.each do |event| %>
+    <% @collection.all_top_unscheduled_events.each do |event| %>
       <li class="my-1"><%= link_to event.title, event, class: "text-blue-700 hover:underline" %></li>
     <% end %>
   </ul>

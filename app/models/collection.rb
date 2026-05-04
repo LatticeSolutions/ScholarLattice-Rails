@@ -148,10 +148,18 @@ class Collection < ApplicationRecord
   end
 
   def all_scheduled_events
-    all_top_events.where.not(starts_at: nil)
+    all_events.where.not(starts_at: nil)
   end
 
   def all_unscheduled_events
+    all_events.where(starts_at: nil)
+  end
+
+  def all_top_scheduled_events
+    all_top_events.where.not(starts_at: nil)
+  end
+
+  def all_top_unscheduled_events
     all_top_events.where(starts_at: nil)
   end
 
