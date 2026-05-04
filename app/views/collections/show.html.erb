@@ -166,13 +166,13 @@
     </div>
 <% end %>
 
-<% if @collection.all_scheduled_events.any? and @collection.show_events %>
+<% if @collection.all_top_scheduled_events.any? and @collection.show_events %>
     <div class="my-8 w-full lg:w-5/6 mx-auto rounded-md border border-gray-300 p-4">
         <h2 class="text-lg md:text-xl font-medium pb-1 border-b border-gray-200">
             Schedule at a Glance
             <%= link_to "[Full Schedule]", collection_events_path(@collection), class: "font-normal text-base md:text-lg text-blue-500 hover:underline" %>
         </h2>
-        <%= render partial: "events/by_day", locals: { collection: @collection, events: @collection.all_scheduled_events, depth: 0 } %>
+        <%= render partial: "events/by_day", locals: { collection: @collection, events: @collection.all_top_scheduled_events, depth: 0 } %>
     </div>
 <% end %>
 

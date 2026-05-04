@@ -1,7 +1,8 @@
 class EventsController < ApplicationController
   layout "collections"
-  load_and_authorize_resource :collection, except: [ :webinar ]
-  load_and_authorize_resource :event, through: :collection, shallow: true, except: [ :webinar, :print ]
+  load_resource :collection, only: [ :search ]
+  load_and_authorize_resource :collection, except: [ :webinar, :search ]
+  load_and_authorize_resource :event, through: :collection, shallow: true, except: [ :webinar, :print, :search ]
   around_action :set_time_zone, except: [ :webinar ]
   before_action :set_collection
 
@@ -16,12 +17,16 @@ class EventsController < ApplicationController
     if params[:q].blank?
       redirect_to collection_events_path(@collection)
     end
-    @matching_scheduled_events = Event.joins(:submission).where(collection: @collection.subtree).where.not(starts_at: nil).where(
-      "events.title ILIKE ? OR submissions.title ILIKE ? OR submissions.author_list ILIKE ?", *Array.new(3, "%#{params[:q]}%")
-    )
-    @matching_unscheduled_events = Event.joins(:submission).where(collection: @collection.subtree, starts_at: nil).where(
-      "events.title ILIKE ? OR submissions.title ILIKE ? OR submissions.author_list ILIKE ?", *Array.new(3, "%#{params[:q]}%")
-    )
+    columns = [
+      "events.title",
+      "events.location",
+      "submissions.title",
+      "submissions.author_list",
+      "submissions.abstract"
+    ]
+    query = [ columns.map { |c| "#{c} ILIKE ?" }.join(" OR "), *Array.new(columns.length, "%#{params[:q]}%") ]
+    @matching_scheduled_events = @collection.all_scheduled_events.left_joins(:submission).where(*query)
+    @matching_unscheduled_events = @collection.all_unscheduled_events.left_joins(:submission).where(*query)
   end
 
   # GET /events/1 or /events/1.json
