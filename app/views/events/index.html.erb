@@ -30,12 +30,12 @@
   </div>
 <% end %>
 
-<% if @happening_soon_events.present? %>
+<% if @collection.all_happening_soon_events.any? %>
   <h2 class="font-bold text-xl md:text-3xl my-3">
     Happening Soon!
   </h2>
   <ul class="list-disc pl-5">
-    <% @happening_soon_events.each do |event| %>
+    <% @collection.all_happening_soon_events.each do |event| %>
       <li class="mb-2">
         <%= event.starts_at.strftime("%I:%M %p") %>:
         <%= link_to event.title, event, class: "text-blue-600 hover:underline" %>
@@ -64,19 +64,15 @@
 <% end %>
 
 
-<% if @scheduled_events.present? %>
-  <%= render partial: "events/by_day", locals: {events: @scheduled_events, depth: nil} %>
+<% if @collection.all_scheduled_events.any? %>
+  <%= render partial: "events/by_day", locals: {collection: @collection, events: @collection.all_scheduled_events, depth: nil} %>
 <% end %>
 
-<% if @unscheduled_events.present? %>
-  <h3 class="font-bold text-xl mt-3">Unscheduled Events</h3>
+<% if @collection.all_unscheduled_events.any? %>
+  <h3 class="font-bold text-xl mt-4">Unscheduled Events</h3>
   <ul class="list-disc pl-5">
-    <% @unscheduled_events.each do |event| %>
-      <%= render partial: "events/events_list_item", locals: { 
-          collection: @collection,
-          event: event,
-          depth: 0
-      } %>
+    <% @collection.all_unscheduled_events.each do |event| %>
+      <li class="my-1"><%= link_to event.title, event, class: "text-blue-700 hover:underline" %></li>
     <% end %>
   </ul>
 <% end %>
