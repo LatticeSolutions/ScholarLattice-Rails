@@ -20,7 +20,10 @@
 <% if @matching_scheduled_events.none? and @matching_unscheduled_events.none? %>
   <p class="my-2 font-semibold">No events match your search for "<%= params[:q] %>"</p>
 <% else %>
-  <div class="mt-2 flex justify-between items-center">
+  <div>
+    <p>
+      Found <%= @matching_scheduled_events.count + @matching_unscheduled_events.count %> events matching "<%= params[:q] %>".
+    </p>
     <p>
       All times <%= Time.zone.name %>.
       Page loaded at <%= Time.current.strftime("%I:%M %p") %> <%= Time.zone.name %> (UTC <%= Time.current.in_time_zone(Time.zone.name).formatted_offset %>).
@@ -30,7 +33,7 @@
 
 
 <% if @matching_scheduled_events.any? %>
-  <%= render partial: "events/by_day", locals: {collection: @collection, events: @matching_scheduled_events, depth: nil} %>
+  <%= render partial: "events/by_day", locals: {collection: @collection, events: @matching_scheduled_events, depth: 0} %>
 <% end %>
 
 <% if @matching_unscheduled_events.any? %>

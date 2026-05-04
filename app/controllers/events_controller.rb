@@ -16,8 +16,12 @@ class EventsController < ApplicationController
     if params[:q].blank?
       redirect_to collection_events_path(@collection)
     end
-    @matching_scheduled_events = []
-    @matching_unscheduled_events = []
+    @matching_scheduled_events = Event.joins(:submission).where(collection: @collection.subtree).where.not(starts_at: nil).where(
+      "events.title ILIKE ? OR submissions.title ILIKE ? OR submissions.author_list ILIKE ?", *Array.new(3, "%#{params[:q]}%")
+    )
+    @matching_unscheduled_events = Event.joins(:submission).where(collection: @collection.subtree, starts_at: nil).where(
+      "events.title ILIKE ? OR submissions.title ILIKE ? OR submissions.author_list ILIKE ?", *Array.new(3, "%#{params[:q]}%")
+    )
   end
 
   # GET /events/1 or /events/1.json
