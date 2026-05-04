@@ -7,36 +7,21 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    unless @collection.show_events?
-      if can? :manage, @collection
-        flash[:alert] = "This collection is configured to not show events to the public."
-      else
-        redirect_to collection_path(@collection)
-        return
-      end
+    unless @collection.show_events? or can?(:manage, @collection)
+      redirect_to collection_path(@collection)
     end
-    params[:start_date] = params.fetch(
-      :start_date,
-      (
-        @collection.all_scheduled_events.minimum(:starts_at) ||
-      Date.today)
-    ).to_date.in_time_zone(@collection.inherited_time_zone)
-    month_starts_at = params[:start_date].beginning_of_month
-    month_ends_at = params[:start_date].end_of_month
-    @current_events = @collection.all_top_events.where(
-      starts_at: month_starts_at..month_ends_at
+  end
+
+  def search
+    if params[:q].blank?
+      redirect_to collection_events_path(@collection)
+    end
+    @matching_scheduled_events = Event.joins(:submission).where(collection: @collection.subtree).where.not(starts_at: nil).where(
+      "events.title ILIKE ? OR submissions.title ILIKE ? OR submissions.author_list ILIKE ?", *Array.new(3, "%#{params[:q]}%")
     )
-    @scheduled_events = @collection.all_scheduled_events
-    @unscheduled_events = @collection.all_unscheduled_events
-    @happening_soon_events = @collection.all_events.where(
-      starts_at: (Time.current - 30.minutes)..(Time.current + 1.hour)
+    @matching_unscheduled_events = Event.joins(:submission).where(collection: @collection.subtree, starts_at: nil).where(
+      "events.title ILIKE ? OR submissions.title ILIKE ? OR submissions.author_list ILIKE ?", *Array.new(3, "%#{params[:q]}%")
     )
-    @happening_soon_events = @happening_soon_events.reject do |event|
-      event.descendants.any? { |d| @happening_soon_events.include?(d) }
-    end
-    @happening_soon_events = @happening_soon_events.reject do |event|
-      event.ends_at.present? && (event.ends_at < Time.current)
-    end
   end
 
   # GET /events/1 or /events/1.json

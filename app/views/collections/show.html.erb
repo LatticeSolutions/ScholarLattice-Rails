@@ -172,7 +172,7 @@
             Schedule at a Glance
             <%= link_to "[Full Schedule]", collection_events_path(@collection), class: "font-normal text-base md:text-lg text-blue-500 hover:underline" %>
         </h2>
-        <%= render partial: "events/by_day", locals: { events: @collection.all_scheduled_events, depth: 0 } %>
+        <%= render partial: "events/by_day", locals: { collection: @collection, events: @collection.all_scheduled_events, depth: 0 } %>
     </div>
 <% end %>
 

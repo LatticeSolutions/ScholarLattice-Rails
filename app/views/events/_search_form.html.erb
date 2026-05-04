@@ -1,0 +1,6 @@
+<%= form_tag collection_search_events_path(collection), :method => 'get' do %>
+  <div class="flex gap-1 justify-center items-center mb-4">
+    <%= text_field_tag :q, query, class: CssClass::TEXT_FIELD_INLINE %>
+    <%= tag.span class: CssClass::BUTTON_BAR do %><%= submit_tag "Search", :name => nil, class: CssClass::SUBMIT %><% end %>
+  </div>
+<% end %>

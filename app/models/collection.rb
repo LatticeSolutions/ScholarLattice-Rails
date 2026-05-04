@@ -155,6 +155,15 @@ class Collection < ApplicationRecord
     all_top_events.where(starts_at: nil)
   end
 
+  def all_happening_soon_events
+    all_events.where(
+      starts_at: (Time.current - 30.minutes)..(Time.current + 1.hour),
+      ends_at: ..Time.current
+    ).where.not(  # reject events that are listed as parents of other events
+      id: all_events.pluck(:ancestry).compact.map { |e| e.split("/") }.flatten.uniq
+    )
+  end
+
   def admin_emails_validation
     return unless @admin_emails
     valid_email_regex = URI::MailTo::EMAIL_REGEXP
