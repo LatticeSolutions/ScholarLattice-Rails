@@ -1,0 +1,43 @@
+<% content_for :title, "Event Search | #{@collection.title}" %>
+<% content_for :breadcrumb do %>
+  <%= render partial: "breadcrumb", locals: { collection: @collection, action: "Search" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <%= link_to collection_events_path(@collection), class: "size-8 inline-block mr-1" do %>
+      <%= render IconComponent.new(:calendar) %>
+    <% end %>
+    <span class="font-normal">Event Search: "<%= params[:q] %>"</span>
+  </div>
+<% end %>
+<% content_for :back_to do %>
+  <%= link_to "« Back to all #{@collection.short_title} Events", collection_events_path(@collection),
+    class: "text-sky-600 hover:text-sky-800 hover:underline" %>
+<% end %>
+
+<%= render partial: "events/search_form", locals: {collection: @collection, query: params[:q]} %>
+
+<% if @matching_scheduled_events.none? and @matching_unscheduled_events.none? %>
+  <p class="my-2 font-semibold">No events match your search for "<%= params[:q] %>"</p>
+<% else %>
+  <div class="mt-2 flex justify-between items-center">
+    <p>
+      All times <%= Time.zone.name %>.
+      Page loaded at <%= Time.current.strftime("%I:%M %p") %> <%= Time.zone.name %> (UTC <%= Time.current.in_time_zone(Time.zone.name).formatted_offset %>).
+    </p>
+</div>
+<% end %>
+
+
+<% if @matching_scheduled_events.any? %>
+  <%= render partial: "events/by_day", locals: {collection: @collection, events: @matching_scheduled_events, depth: nil} %>
+<% end %>
+
+<% if @matching_unscheduled_events.any? %>
+  <h3 class="font-bold text-xl mt-4">Unscheduled Events</h3>
+  <ul class="list-disc pl-5">
+    <% @matching_unscheduled_events.each do |event| %>
+      <li class="my-1"><%= link_to event.title, event, class: "text-blue-700 hover:underline" %></li>
+    <% end %>
+  </ul>
+<% end %>

@@ -12,6 +12,14 @@ class EventsController < ApplicationController
     end
   end
 
+  def search
+    if params[:q].blank?
+      redirect_to collection_events_path(@collection)
+    end
+    @matching_scheduled_events = []
+    @matching_unscheduled_events = []
+  end
+
   # GET /events/1 or /events/1.json
   def show
     if @event.attached_collection.present?

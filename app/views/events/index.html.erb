@@ -16,12 +16,12 @@
     All times <%= Time.zone.name %>.
     Page loaded at <%= Time.current.strftime("%I:%M %p") %> <%= Time.zone.name %> (UTC <%= Time.current.in_time_zone(Time.zone.name).formatted_offset %>).
   </p>
-  <div class="flex items-center">
-    <%= link_to "Printable page", collection_print_events_path(@collection, depth: 2), class: "rounded-lg py-3 px-5 bg-sky-600 text-white block font-medium" %>
-    <% if can? :create, Event %>
-      <%= link_to "New event", new_collection_event_path(@collection), class: "rounded-lg ml-3 py-3 px-5 bg-blue-600 text-white block font-medium" %>
-    <% end %>
-  </div>
+  <%= tag.div class: CssClass::BUTTON_BAR do %>
+      <%= link_to "Printable page", collection_print_events_path(@collection, depth: 2), class: CssClass::LINK_BUTTON %>
+      <% if can? :create, Event %>
+        <%= link_to "New event", new_collection_event_path(@collection), class: CssClass::LINK_BUTTON%>
+      <% end %>
+  <% end %>
 </div>
 
 <% if @collection.parent.present? and @collection.parent.show_events? %>
@@ -63,6 +63,9 @@
   </ul>
 <% end %>
 
+<div class="my-4">
+<%= render partial: "events/search_form", locals: {collection: @collection, query: ""} %>
+</div>
 
 <% if @collection.all_scheduled_events.any? %>
   <%= render partial: "events/by_day", locals: {collection: @collection, events: @collection.all_scheduled_events, depth: nil} %>

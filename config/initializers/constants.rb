@@ -3,7 +3,7 @@ module CssClass
   LABEL_DISABLED = "text-sm font-medium text-gray-500 select-none"
   SUBLABEL = "text-xs font-normal text-gray-500 select-none"
   TEXT_FIELD = "mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
-  TEXT_FIELD_INLINE = "mt-1 w-full md:w-auto md:ml-3 md:inline-block rounded-md border-gray-200 shadow-sm sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
+  TEXT_FIELD_INLINE = "mt-1 w-full md:mt-0 md:w-auto md:ml-3 md:inline-block rounded-md border-gray-200 shadow-sm sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
   NUMBER_FIELD = TEXT_FIELD
   NUMBER_FIELD_INLINE = TEXT_FIELD_INLINE
   SELECT = TEXT_FIELD

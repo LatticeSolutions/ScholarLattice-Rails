@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       get "/webinar", to: "events#webinar", as: "webinar"
     end
     get "/events/print", to: "events#print", as: "print_events"
+    get "/events/search", to: "events#search", as: "search_events"
     get "/people", to: "collections#people", as: "people"
     resources :invitations, shallow: true do
       get "/batch", to: "invitations#new_batch", on: :collection
