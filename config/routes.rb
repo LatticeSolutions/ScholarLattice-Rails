@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   resources :collections do
     resources :pages, shallow: true, except: :index
+    resources :locations, shallow: true
     resources :submissions, shallow: true
     get "/submissions/upload", to: "submissions#upload", as: "submissions_upload"
     post "/submissions/upload", to: "submissions#import", as: "submissions_import"

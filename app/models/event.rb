@@ -79,8 +79,8 @@ class Event < ApplicationRecord
       info << starts_at_in_time_zone.strftime("%b %d")
       info << starts_at_in_time_zone.strftime("%I:%M%p")
     end
-    if location.present?
-      info << location
+    if location_string.present?
+      info << location_string
     end
     info.join("\\\\")
   end

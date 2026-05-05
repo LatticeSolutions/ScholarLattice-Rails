@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_22_221956) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_05_025117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -54,7 +54,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_22_221956) do
   create_table "events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", default: "Untitled Event", null: false
     t.text "description"
-    t.string "location"
+    t.string "location_string"
     t.datetime "starts_at"
     t.datetime "ends_at"
     t.uuid "collection_id", null: false
@@ -90,6 +90,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_22_221956) do
     t.datetime "updated_at", null: false
     t.index ["collection_id"], name: "index_likes_on_collection_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "locations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.uuid "collection_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_locations_on_collection_id"
   end
 
   create_table "old_registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -230,6 +238,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_22_221956) do
   add_foreign_key "invitations", "users"
   add_foreign_key "likes", "collections"
   add_foreign_key "likes", "users"
+  add_foreign_key "locations", "collections"
   add_foreign_key "old_registrations", "registration_options"
   add_foreign_key "old_registrations", "users"
   add_foreign_key "pages", "collections"
