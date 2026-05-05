@@ -1,9 +1,12 @@
 class LocationsController < ApplicationController
-  before_action :set_location, only: %i[ show edit update destroy ]
+  layout "collections"
+  load_and_authorize_resource :collection
+  load_and_authorize_resource :location, through: :collection, shallow: true
+  before_action :set_collection
 
   # GET /locations or /locations.json
   def index
-    @locations = Location.all
+    @locations = Location.where(collection: @collection)
   end
 
   # GET /locations/1 or /locations/1.json
@@ -12,7 +15,7 @@ class LocationsController < ApplicationController
 
   # GET /locations/new
   def new
-    @location = Location.new
+    @location = Location.new(collection: @collection)
   end
 
   # GET /locations/1/edit
@@ -22,49 +25,36 @@ class LocationsController < ApplicationController
   # POST /locations or /locations.json
   def create
     @location = Location.new(location_params)
-
-    respond_to do |format|
-      if @location.save
-        format.html { redirect_to @location, notice: "Location was successfully created." }
-        format.json { render :show, status: :created, location: @location }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @location.errors, status: :unprocessable_entity }
-      end
+    @location.collection = @collection
+    if @location.save
+      redirect_to @location, notice: "Location was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /locations/1 or /locations/1.json
   def update
-    respond_to do |format|
-      if @location.update(location_params)
-        format.html { redirect_to @location, notice: "Location was successfully updated." }
-        format.json { render :show, status: :ok, location: @location }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @location.errors, status: :unprocessable_entity }
-      end
+    if @location.update(location_params)
+      redirect_to @location, notice: "Location was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   # DELETE /locations/1 or /locations/1.json
   def destroy
     @location.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to locations_path, status: :see_other, notice: "Location was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to collection_locations_path(@collection), status: :see_other, notice: "Location was successfully destroyed."
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_location
-      @location = Location.find(params.expect(:id))
-    end
-
     # Only allow a list of trusted parameters through.
     def location_params
-      params.expect(location: [ :title, :collection_id ])
+      params.expect(location: [ :title ])
+    end
+
+    def set_collection
+      @collection = @location.collection if @location.present?
     end
 end
