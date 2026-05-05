@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_05_025117) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_05_034057) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -66,9 +66,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_05_025117) do
     t.uuid "attached_collection_id"
     t.string "webinar_link"
     t.text "content"
+    t.uuid "location_id"
     t.index ["ancestry"], name: "index_events_on_ancestry"
     t.index ["attached_collection_id"], name: "index_events_on_attached_collection_id", unique: true
     t.index ["collection_id"], name: "index_events_on_collection_id"
+    t.index ["location_id"], name: "index_events_on_location_id"
     t.index ["submission_id"], name: "index_events_on_submission_id", unique: true
   end
 
