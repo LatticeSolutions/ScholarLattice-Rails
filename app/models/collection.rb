@@ -294,6 +294,10 @@ class Collection < ApplicationRecord
     end
   end
 
+  def all_locations
+    Location.where(collection: path)
+  end
+
   private
 
   def round_down_submission_times

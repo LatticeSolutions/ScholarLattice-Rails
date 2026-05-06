@@ -19,7 +19,7 @@
 <div class="my-5">
     <%= form.label :location_id, class: CssClass::LABEL %>
     <%= form.select :location_id, 
-        [["(none)",nil]]+form.object.collection.locations.map {|l| [l.title, l.id]},
+        [["(none)",nil]]+form.object.collection.all_locations.map {|l| [l.title, l.id]},
         {selected: event.location_id},
         {class: CssClass::SELECT_INLINE} %>
     <%= render "errors", object: event, attribute: :location_id %>
