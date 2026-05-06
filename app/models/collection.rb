@@ -284,6 +284,16 @@ class Collection < ApplicationRecord
     end
   end
 
+  def upgrade_locations
+    # gather location_string names for all events without proper locations
+    events = Event.where(collection: subtree, location: nil)
+    names = events.pluck(:location_string).uniq.filter(&:present?)
+    names.each do |name|
+      location = Location.create! title: name, collection: self
+      events.where(location_string: name).update_all(location_id: location.id, location_string: nil)
+    end
+  end
+
   private
 
   def round_down_submission_times
