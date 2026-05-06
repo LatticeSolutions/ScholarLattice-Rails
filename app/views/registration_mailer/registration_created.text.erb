@@ -1,0 +1,22 @@
+<% if @registration.user.mailkick_subscribed?("site_emails") %>
+    <% content_for :footer do %>
+Unsubscribe: <%= mailkick_unsubscribe_url(@registration.user, "site_emails") %>
+    <% end %>
+<% end %>
+
+<%= @registration.collection.root.title %>: Registration submitted for <%= @registration.collection.title %>
+===
+
+Dear <%= @registration.user.name %>,
+
+Thank you for registering for
+<strong><%= @registration.collection.title %></strong>.
+Your registration status as of this
+message is "<%= @registration.status %>".
+
+To access your registration and view its up-to-date status, please visit the following link on ScholarLattice:
+<%= registration_url(@registration) %>
+
+For your security, you may be required to enter and verify your email
+<%= @registration.user.email %>
+before you can access this registration.

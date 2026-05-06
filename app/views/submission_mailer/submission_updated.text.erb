@@ -1,0 +1,13 @@
+<% if @submission.user.mailkick_subscribed?("site_emails") %>
+    <% content_for :footer do %>
+Unsubscribe: <%= mailkick_unsubscribe_url(@submission.user, "site_emails") %>
+    <% end %>
+<% end %>
+
+<%= @submission.collection.root.title %>: Submission Updated for <%= @submission.collection.title %>
+=====
+
+The submission titled "<%= @submission.title %>" 
+for <%= l@submission.collection.title %>
+has been updated on ScholarLattice. Its status is currently "<%= @submission.status %>".
+Visit <%= submission_url(@submission) %> to see the submission.

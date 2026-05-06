@@ -8,5 +8,6 @@ class ApplicationMailer < ActionMailer::Base
 
   def attach_logo
     attachments.inline["logo.png"] = File.read(Rails.root.join("app/assets/images/logo.png"))
+    attachments["logo.png"].header["content-id"] = "site.logo"
   end
 end

@@ -1,0 +1,25 @@
+<% if @invitation.user.mailkick_subscribed?("site_emails") %>
+    <% content_for :footer do %>
+Unsubscribe: <%= mailkick_unsubscribe_url(@invitation.user, "site_emails") %>
+    <% end %>
+<% end %>
+
+<%= @invitation.collection.root.title %>: Invitation to submit to <%= @invitation.collection.title %>
+=====
+
+Dear <%= @invitation.user.name %>,
+
+<% if @invitation.message.present? %>
+<%= @invitation.message %>
+<% else %>
+You have been invited to submit to the collection <%= @invitation.collection.title %>.
+<% end %>
+
+---
+
+To accept or decline this invitation, please visit the following link on ScholarLattice:
+<%= invitation_url(@invitation) %>
+
+For your security, you may be required to enter and verify your email
+<%= @invitation.user.email %>
+before you can accept or decline this invitation.
