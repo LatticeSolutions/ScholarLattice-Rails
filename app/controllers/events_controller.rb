@@ -20,13 +20,14 @@ class EventsController < ApplicationController
     columns = [
       "events.title",
       "events.location_string",
+      "locations.title",
       "submissions.title",
       "submissions.author_list",
       "submissions.abstract"
     ]
     query = [ columns.map { |c| "#{c} ILIKE ?" }.join(" OR "), *Array.new(columns.length, "%#{params[:q]}%") ]
-    @matching_scheduled_events = @collection.all_scheduled_events.left_joins(:submission).where(*query)
-    @matching_unscheduled_events = @collection.all_unscheduled_events.left_joins(:submission).where(*query)
+    @matching_scheduled_events = @collection.all_scheduled_events.left_joins(:submission).left_joins(:location).where(*query)
+    @matching_unscheduled_events = @collection.all_unscheduled_events.left_joins(:submission).left_joins(:location).where(*query)
   end
 
   # GET /events/1 or /events/1.json
