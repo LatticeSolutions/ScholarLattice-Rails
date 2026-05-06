@@ -1,0 +1,21 @@
+<% if @submission.user.mailkick_subscribed?("site_emails") %>
+    <% content_for :footer do %>
+        <br><%= link_to "Unsubscribe", mailkick_unsubscribe_url(@submission.user, "site_emails") %>
+    <% end %>
+<% end %>
+
+<%= @submission.collection.root.title %>: <%= @subject %>
+=====
+
+Dear <%= @submission.user.name %>,
+
+<%= @message %>
+
+---
+
+To manage your submission “<%= @submission.title %>”, please visit the following link on ScholarLattice:
+<%= edit_submission_url(@submission) %>
+
+For your security, you may be required to enter and verify your email
+<%= @submission.user.email %>
+before you can manage this submission.
