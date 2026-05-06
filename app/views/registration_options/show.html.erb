@@ -13,8 +13,7 @@
   </div>
 <% end %>
 <% if can? :manage, @collection %>
-  <% content_for :title_buttons do %>
-    <%= render MenuToggleComponent.new(
+  <% @buttons = [[
         "Admin",
         :key,
         true,
@@ -26,9 +25,8 @@
             confirm: "Are you sure you want to delete this registration option?",
             hidden: (cannot? :destroy, @registration_option),
             styles: "text-red-800"
-        },
-    ) %>
-  <% end %>
+        }
+    ]] %>
 <% end %>
 
     <h2 class="text-xl font-medium text-gray-800 md:text-2xl py-3">

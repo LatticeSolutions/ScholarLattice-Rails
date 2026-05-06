@@ -13,14 +13,12 @@
   </div>
 <% end %>
 <% if can? :manage, @collection %>
-  <% content_for :title_buttons do %>
-    <%= render MenuToggleComponent.new(
+  <% @buttons = [[
         "Admin",
         :key,
         true,
         {path: edit_location_path(@location), text: "Edit"},
-    ) %>
-  <% end %>
+    ]] %>
 <% end %>
 <% content_for :back_to do %>
   <%= link_to "« Back to #{@collection.short_title} Locations", collection_locations_path(@collection),

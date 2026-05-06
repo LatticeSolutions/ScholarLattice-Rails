@@ -18,8 +18,7 @@
   </div>
 <% end %>
 <% if can? :manage, @collection %>
-  <% content_for :title_buttons do %>
-    <%= render MenuToggleComponent.new(
+  <% @buttons = [[
         "Admin",
         :key,
         true,
@@ -32,8 +31,7 @@
             hidden: (cannot? :destroy, @submission),
             styles: "text-red-800"
         },
-    ) %>
-  <% end %>
+    ]] %>
 <% end %>
 
     <%= render @submission %>

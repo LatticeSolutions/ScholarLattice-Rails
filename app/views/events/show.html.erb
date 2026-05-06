@@ -19,8 +19,7 @@
   </div>
 <% end %>
 <% if can? :manage, @collection %>
-  <% content_for :title_buttons do %>
-    <%= render MenuToggleComponent.new(
+  <% @buttons = [[
         "Admin",
         :key,
         true,
@@ -35,8 +34,7 @@
             hidden: (cannot? :destroy, @event),
             styles: "text-red-800"
         },
-    ) %>
-  <% end %>
+    ]] %>
 <% end %>
 <% content_for :back_to do %>
   <%= link_to "« Back to #{@collection.short_title} Events", collection_events_path(@collection),
