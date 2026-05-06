@@ -16,6 +16,10 @@
                 text: "People (#{@collection.connected_users.length})"
             },
             {
+                path: collection_compose_message_path(@collection), 
+                text: "Send message"
+            },
+            {
                 icon: :invitation, 
                 path: collection_invitations_path(@collection), 
                 text: "Invitations (#{@collection.subtree_invitations.count})"
@@ -26,13 +30,14 @@
                 text: "Submissions (#{@collection.subtree_submissions.count})"
             },
             {
-                path: collection_compose_message_path(@collection), 
-                text: "Send message"
-            },
-            {
                 icon: :registration, 
                 path: collection_registrations_path(@collection), 
                 text: "Registrations (#{@collection.registrations.count})"
+            },
+            {
+                icon: :location, 
+                path: collection_locations_path(@collection), 
+                text: "Locations (#{@collection.locations.count})"
             },
             { 
                 path: @collection, 
