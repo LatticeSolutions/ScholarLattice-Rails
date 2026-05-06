@@ -9,7 +9,7 @@
           <%= render IconComponent.new(:location) %>
       <% end %>
     </span>
-    <span class="font-normal"><%= @location.title %></span>
+    <span class="font-normal">Location | <%= @location.title %></span>
   </div>
 <% end %>
 <% if can? :manage, @collection %>
