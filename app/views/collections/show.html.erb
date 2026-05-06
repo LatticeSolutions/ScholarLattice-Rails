@@ -108,6 +108,12 @@
         text: "Events",
         hidden: !@collection.show_events
       },
+      {
+        icon: :location,
+        path: collection_locations_path(@collection),
+        text: "Locations",
+        hidden: @collection.locations.none?
+      },
       *@collection.pages.map { |p| { icon: :page, text: p.title, path: page_path(p) } }
     ]) %>
 <% end %>

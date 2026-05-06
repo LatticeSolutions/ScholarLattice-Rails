@@ -1,17 +1,36 @@
-<div class="w-full">
-  <% content_for :title, "Locations" %>
-
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Locations</h1>
-    <%= link_to "New location", new_collection_location_path(@collection), class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+<% content_for :title, "Locations | #{@collection.title}" %>
+<% content_for :breadcrumb do %>
+  <%= render partial: "breadcrumb", locals: { collection: @collection } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+        <%= render IconComponent.new(:location) %>
+    </span>
+    <span class="font-normal">Locations</span>
   </div>
+<% end %>
+<% if can? :manage, @collection %>
+  <% content_for :title_buttons do %>
+    <%= render MenuToggleComponent.new(
+        "Admin",
+        :key,
+        true,
+        {path: new_collection_location_path(@collection), text: "New"},
+    ) %>
+  <% end %>
+<% end %>
+<% content_for :back_to do %>
+  <%= link_to "« Back to #{@collection.short_title}", collection_path(@collection),
+    class: "text-sky-600 hover:text-sky-800 hover:underline" %>
+<% end %>
 
-  <div id="locations" class="min-w-full">
-    <% @locations.each do |location| %>
-      <%= render location %>
-      <p>
-        <%= link_to "Show this location", location, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
-    <% end %>
-  </div>
+<div id="locations" class="my-4">
+  <ul class="list-inside list-disc">
+  <% @locations.each do |location| %>
+    <li>
+      <%= link_to location.title, location, class: "text-blue-700 hover:underline" %>
+    </li>
+  <% end %>
+  </ul>
 </div>

@@ -7,31 +7,40 @@
             <% end %>
         <% end %>
         <div>
-        <%= link_to event, class: "text-blue-600 hover:underline font-bold", style: event.collection.inherited(:link_html_style) do %>
-            <%= event.title %>
-            <% if event.inherited(:location_title).present? %>
-                <%= tag.span class: "text-sm font-normal", style: event.collection.inherited(:text_html_style) do %>
-                    in <span class="font-semibold"><%= event.inherited(:location_title) %></span>
+            <span>
+                <%= link_to event, class: "text-blue-600 hover:underline font-bold", style: event.collection.inherited(:link_html_style) do %>
+                    <%= event.title %>
+                <% end %>
+                <% if event.inherited(:location_title).present? %>
+                    <%= tag.span class: "text-sm font-normal", style: event.collection.inherited(:text_html_style) do %>
+                        in <span class="font-semibold">
+                        <% if event.inherited(:location).present? %>
+                            <%= link_to event.inherited(:location), class: "hover:underline" do %><%= event.inherited(:location_title) %><% end %>
+                        <% else %>
+                            <%= event.inherited(:location_title) %>
+                        <% end %></span>
+                    <% end %>
+                <% end %>
+            </span>
+            <% if event.webinar_link.present? && can?(:access_webinar, event) %>
+                <%= link_to event_webinar_path(event), 
+                    class: "inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold px-1 py-1 rounded transition-colors duration-150 ml-2", 
+                    target: "_blank", 
+                    rel: "noopener" do %>
+                    <span class="inline-block size-4">
+                        <%= render IconComponent.new(:video) %>
+                    </span>
                 <% end %>
             <% end %>
-        <% end %>
-        <% if event.webinar_link.present? && can?(:access_webinar, event) %>
-            <%= link_to event_webinar_path(event), 
-                class: "inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold px-1 py-1 rounded transition-colors duration-150 ml-2", 
-                target: "_blank", 
-                rel: "noopener" do %>
-                <span class="inline-block size-4">
-                    <%= render IconComponent.new(:video) %>
-                </span>
-            <% end %>
-        <% end %>
         </div>
     </div>
     <% if event.submission.present? %>
         <%= tag.div style: event.collection.inherited(:text_html_style) do %>
+            <%= link_to event, class: "hover:underline" do %>
             <span class="italic mathjax"><%= event.submission.title %></span>
             &mdash;
             <%= event.submission.author_list.present? ? event.submission.author_list : event.submission.user.name %>
+            <% end %>
         <% end %>
     <% end %>
     <% if event.children.present? %>
