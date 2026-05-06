@@ -18,7 +18,7 @@
             <%= image_tag @collection&.inherited(:icon_url) || image_path("logo-square.png"), alt: "logo", 
                 class: "bg-white rounded-md drop-shadow-lg border-2 border-gray-300 lg:w-[12rem] lg:h-[12rem] md:w-[10rem] md:h-[10rem] sm:w-[8rem] sm:h-[8rem] w-[7rem] h-[7rem] relative lg:bottom-[5rem] lg:mb-[-5rem] sm:bottom-[4rem] sm:mb-[-5rem] bottom-[3rem] mb-[-3rem]" %>
 
-            <div class="w-full text-left mt-4 my-8 sm:mx-4 pl-4">
+            <div class="w-full text-left my-4 sm:mx-4 pl-4">
                 <% if @collection.parent.present? %>
                     <div class="text-sm font-light text-gray-600 mb-1 flex gap-1">
                         <%= render BreadcrumbsComponent.new(
@@ -36,20 +36,32 @@
                     <% else %>
                         <%= link_to @collection.title, @collection, class: "hover:underline" %>
                     <% end %>
-                    <% if content_for(:title_buttons) %>
-                    <span>
-                        <%= yield(:title_buttons) %>
-                    </span>
+                    <% if @buttons.present? %>
+                        <span class="hidden md:inline">
+                            <% @buttons.each do |button| %>
+                              <%= render MenuToggleComponent.new(*button) %>
+                            <% end %>
+                        </span>
                     <% end %>
                 </h1>
                 <% if content_for?(:description) %>
-                    <h2 class="w-full font-thin text-gray-600 lg:text-2xl md:text-2xl sm:text-2xl text-lg">
+                    <h2 class="w-full font-thin text-gray-600 text-lg hidden md:block">
                         <%= yield(:description) %>
                     </h2>
                 <% end %>
             </div>
 
         </div>
+        <h2 class="md:hidden sm:w-[80%] w-[90%] font-thin text-gray-600 text-lg mx-auto flex gap-2 mb-3">
+            <% if content_for?(:description) %>
+                <%= yield(:description) %>
+            <% end %>
+            <% if @buttons.present? %>
+                <% @buttons.each do |button| %>
+                    <%= render MenuToggleComponent.new(*button) %>
+                <% end %>
+            <% end %>
+        </h2>
     </div>
 </section>
 <section class="m-auto w-full md:w-3/4 px-3">

@@ -1,7 +1,6 @@
 <% content_for :title, "#{@page.title} | #{@page.collection.title}" %>
 <% if can? :manage, @page %>
-    <% content_for :title_buttons do %>
-        <%= render MenuToggleComponent.new(
+    <% @buttons = [[
             "Admin",
             :key,
             true,
@@ -14,8 +13,7 @@
             hidden: (cannot? :destroy, @page),
             styles: "text-red-800"
         },
-        ) %>
-    <% end %>
+    ]] %>
 <% end %>
 <% content_for :description do %>
     <div class="flex items-center">

@@ -1,55 +1,7 @@
 <% content_for :title, @collection.title %>
 <% content_for :description, @collection.description %>
-<% content_for :title_buttons do %>
-    <% if can? :manage, @collection %>
-        <%= render MenuToggleComponent.new(
-            "Admin",
-            :key,
-            true,
-            {icon: :edit, path: edit_collection_path, text: "Edit"},
-            {icon: :collection_outline, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
-            {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
-            {icon: :calendar, path: collection_events_path(@collection), text: "Events (#{@collection.all_events.count})"},
-            {
-                icon: :profile, 
-                path: collection_people_path(@collection), 
-                text: "People (#{@collection.connected_users.length})"
-            },
-            {
-                path: collection_compose_message_path(@collection), 
-                text: "Send message"
-            },
-            {
-                icon: :invitation, 
-                path: collection_invitations_path(@collection), 
-                text: "Invitations (#{@collection.subtree_invitations.count})"
-            },
-            {
-                icon: :submission, 
-                path: collection_submissions_path(@collection), 
-                text: "Submissions (#{@collection.subtree_submissions.count})"
-            },
-            {
-                icon: :registration, 
-                path: collection_registrations_path(@collection), 
-                text: "Registrations (#{@collection.registrations.count})"
-            },
-            {
-                icon: :location, 
-                path: collection_locations_path(@collection), 
-                text: "Locations (#{@collection.locations.count})"
-            },
-            { 
-                path: @collection, 
-                text: "Delete collection",
-                method: :delete,
-                confirm: "Are you sure you want to delete this collection?",
-                hidden: (cannot? :destroy, @collection),
-                styles: "text-red-800"
-            },
-        ) %>
-    <% end %>
-    <%= render MenuToggleComponent.new(
+<% @buttons = [
+    [
         "Connect",
         :profile,
         true,
@@ -97,30 +49,82 @@
             text: "Submit abstract",
             hidden: !@collection.submittable
         },
-        ) %>
-
-    <% unless @collection.children.empty? %>
-        <%= render MenuToggleComponent.new(
-            "Subcollections",
-            :collection_outline,
-            true,
-            *@collection.children.map{|c| {text: c.short_title, path: collection_path(c)}},
-            ) %>
-    <% end %>
-    <%= render PagesBarComponent.new([ {
+    ]] %>
+<% if @collection.children.any? %>
+    <% @buttons << [
+        "Subcollections",
+        :collection_outline,
+        true,
+        *@collection.children.map{|c| {text: c.short_title, path: collection_path(c)}},
+    ] %>
+<% end %>
+<% @buttons << [
+    "Pages",
+    :page,
+    true,
+    {
         icon: :calendar,
         path: collection_events_path(@collection),
         text: "Events",
         hidden: !@collection.show_events
-      },
-      {
+    },
+    {
         icon: :location,
         path: collection_locations_path(@collection),
         text: "Locations",
         hidden: @collection.locations.none?
-      },
-      *@collection.pages.map { |p| { icon: :page, text: p.title, path: page_path(p) } }
-    ]) %>
+    },
+    *@collection.pages.map { |p| { icon: :page, text: p.title, path: page_path(p) } }
+] %>
+<% if can? :manage, @collection %>
+    <% @buttons = [
+        [
+            "Admin",
+            :key,
+            true,
+            {icon: :edit, path: edit_collection_path, text: "Edit"},
+            {icon: :collection_outline, path: new_subcollection_path, text: "New #{@collection.subcollection_name}"},
+            {icon: :page, path: new_collection_page_path(@collection), text: "New Page"},
+            {icon: :calendar, path: collection_events_path(@collection), text: "Events (#{@collection.all_events.count})"},
+            {
+                icon: :profile, 
+                path: collection_people_path(@collection), 
+                text: "People (#{@collection.connected_users.length})"
+            },
+            {
+                path: collection_compose_message_path(@collection), 
+                text: "Send message"
+            },
+            {
+                icon: :invitation, 
+                path: collection_invitations_path(@collection), 
+                text: "Invitations (#{@collection.subtree_invitations.count})"
+            },
+            {
+                icon: :submission, 
+                path: collection_submissions_path(@collection), 
+                text: "Submissions (#{@collection.subtree_submissions.count})"
+            },
+            {
+                icon: :registration, 
+                path: collection_registrations_path(@collection), 
+                text: "Registrations (#{@collection.registrations.count})"
+            },
+            {
+                icon: :location, 
+                path: collection_locations_path(@collection), 
+                text: "Locations (#{@collection.locations.count})"
+            },
+            { 
+                path: @collection, 
+                text: "Delete collection",
+                method: :delete,
+                confirm: "Are you sure you want to delete this collection?",
+                hidden: (cannot? :destroy, @collection),
+                styles: "text-red-800"
+            },
+        ]] + @buttons
+    %>
 <% end %>
 <% content_for :breadcrumb do %>
     <%= render partial: "breadcrumb", locals: { collection: @collection } %>
