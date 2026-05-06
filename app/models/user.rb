@@ -40,6 +40,8 @@ class User < ApplicationRecord
   has_many :registrations
   has_many :registered_collections, through: :registrations, source: :collection
 
+  has_subscriptions prefix: true  # mailkick
+
   before_save :downcase_email
   before_save :strip_whitespace
   before_save :preserve_email

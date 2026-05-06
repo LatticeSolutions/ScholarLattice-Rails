@@ -81,3 +81,5 @@ gem "money", "~> 6.19"
 gem "marksmith", "~> 0.4.7"
 
 gem "kodachroma", "~> 1.0"
+
+gem "mailkick", "~> 2.0"

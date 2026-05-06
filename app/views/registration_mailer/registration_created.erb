@@ -1,3 +1,9 @@
+<% if @registration.user.mailkick_subscribed?("site_emails") %>
+    <% content_for :footer do %>
+        <br><%= link_to "Unsubscribe", mailkick_unsubscribe_url(@registration.user, "site_emails") %>
+    <% end %>
+<% end %>
+
 <h1><%= @registration.collection.root.title %>: Registration submitted for <%= @registration.collection.title %></h1>
 <p>
     Dear <%= @registration.user.name %>,

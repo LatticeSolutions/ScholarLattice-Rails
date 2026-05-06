@@ -43,6 +43,8 @@ Rails.application.routes.draw do
   post "/invitations/:id/decline", to: "invitations#decline", as: "decline_invitation"
 
   get "/dashboard/", to: "dashboard#index"
+  post "/dashboard/subscribe", to: "dashboard#subscribe"
+  post "/dashboard/unsubscribe", to: "dashboard#unsubscribe"
   get "/privacy/", to: "static_pages#privacy"
   get "/tos/", to: "static_pages#tos"
 
