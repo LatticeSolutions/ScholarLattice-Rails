@@ -1,7 +1,7 @@
 <% base_collection ||= collection %>
 <% inner_style ||= false %>
 <% parent_times ||= nil %>
-<% events.select{|e| e.starts_at.present? }.group_by { |event| event.times_in_time_zone_short }.each do |times, same_time_events| %>
+<% events.select{|e| e.starts_at.present? }.sort_by{|e| e.ends_at }.reverse.sort_by{|e| e.starts_at }.group_by { |event| event.times_in_time_zone_short }.each do |times, same_time_events| %>
     <div class="md:flex">
         <%# TODO hide this when parent_times == times %>
         <%= tag.h3 times, class: "md:w-[10%] md:pr-2 md:pt-3 text-xs text-center md:border-r border-gray-300", style: inner_style ? collection.inherited(:text_html_style) : nil %>
