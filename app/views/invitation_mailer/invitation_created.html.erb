@@ -1,3 +1,9 @@
+<% if @invitation.user.mailkick_subscribed?("site_emails") %>
+    <% content_for :footer do %>
+        <br><%= link_to "Unsubscribe", mailkick_unsubscribe_url(@invitation.user, "site_emails") %>
+    <% end %>
+<% end %>
+
 <h1><%= @invitation.collection.root.title %>: Invitation to submit to <%= @invitation.collection.title %></h1>
 <p>
     Dear <%= @invitation.user.name %>,

@@ -143,6 +143,8 @@ GEM
       net-imap
       net-pop
       net-smtp
+    mailkick (2.0.0)
+      activesupport (>= 7.1)
     marcel (1.0.4)
     marksmith (0.4.7)
       activesupport
@@ -365,6 +367,7 @@ DEPENDENCIES
   jbuilder
   kodachroma (~> 1.0)
   kramdown (~> 2.5)
+  mailkick (~> 2.0)
   marksmith (~> 0.4.7)
   money (~> 6.19)
   passwordless (~> 1.8)

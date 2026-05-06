@@ -1,3 +1,9 @@
+<% if @submission.user.mailkick_subscribed?("site_emails") %>
+    <% content_for :footer do %>
+        <br><%= link_to "Unsubscribe", mailkick_unsubscribe_url(@submission.user, "site_emails") %>
+    <% end %>
+<% end %>
+
 <h1><%= @submission.collection.root.title %>: Submission Updated for <%= @submission.collection.title %></h1>
 <p>
     The submission titled "<%= link_to @submission.title, submission_url(@submission) %>" 

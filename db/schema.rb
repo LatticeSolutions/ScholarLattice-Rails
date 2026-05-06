@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_05_034057) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_06_193157) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -100,6 +100,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_05_034057) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["collection_id"], name: "index_locations_on_collection_id"
+  end
+
+  create_table "mailkick_subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "subscriber_type"
+    t.uuid "subscriber_id"
+    t.string "list"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subscriber_type", "subscriber_id", "list"], name: "index_mailkick_subscriptions_on_subscriber_and_list", unique: true
   end
 
   create_table "old_registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

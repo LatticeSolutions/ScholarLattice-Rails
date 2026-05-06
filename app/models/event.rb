@@ -18,7 +18,7 @@ class Event < ApplicationRecord
 
   after_save :reschedule_on_change
 
-  default_scope { order(:starts_at, :order, :title) }
+  default_scope { order(starts_at: :asc, ends_at: :desc, order: :asc, title: :asc) }
 
   def same_times_as_parent?
     starts_at == parent&.starts_at && ends_at == parent&.ends_at
