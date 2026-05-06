@@ -2,8 +2,8 @@ class Event < ApplicationRecord
   has_ancestry
   belongs_to :collection
   belongs_to :submission, optional: true
-  belongs_to :attached_page, class_name: "Page", optional: true
   belongs_to :attached_collection, class_name: "Collection", optional: true
+  belongs_to :location, optional: true
 
   validate :submission_does_not_have_another_event
   validate :starts_before_ends
@@ -79,10 +79,14 @@ class Event < ApplicationRecord
       info << starts_at_in_time_zone.strftime("%b %d")
       info << starts_at_in_time_zone.strftime("%I:%M%p")
     end
-    if location.present?
-      info << location
+    if location_string.present?
+      info << location_string
     end
     info.join("\\\\")
+  end
+
+  def location_title
+    location.present? ? location.title : location_string
   end
 
   private

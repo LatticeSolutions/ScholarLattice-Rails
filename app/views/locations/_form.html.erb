@@ -1,0 +1,11 @@
+<%= form_with(model: location, url: (location.new_record? ? [location.collection, location] : [location]), class: "contents") do |form| %>
+  <%= render "fields_for", location: location, form: form %>
+  <div>
+    <span class="<%= CssClass::BUTTON_BAR %>">
+      <%= form.submit class: CssClass::SUBMIT %>
+      <%= link_to "Cancel", 
+        location.new_record? ? collection_path(location.collection) : location,
+        class: CssClass::CANCEL %>
+    </span>
+  </div>
+<% end %>

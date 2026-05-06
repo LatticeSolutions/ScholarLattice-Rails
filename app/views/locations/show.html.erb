@@ -1,0 +1,40 @@
+<% content_for :title, "#{@location.title} | #{@location.collection.title}" %>
+<% content_for :breadcrumb do %>
+  <%= render partial: "breadcrumb", locals: { collection: @location.collection, action: "Location" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= link_to collection_locations_path(@location.collection) do %>
+          <%= render IconComponent.new(:location) %>
+      <% end %>
+    </span>
+    <span class="font-normal"><%= @location.title %></span>
+  </div>
+<% end %>
+<% if can? :manage, @collection %>
+  <% content_for :title_buttons do %>
+    <%= render MenuToggleComponent.new(
+        "Admin",
+        :key,
+        true,
+        {path: edit_location_path(@location), text: "Edit"},
+    ) %>
+  <% end %>
+<% end %>
+<% content_for :back_to do %>
+  <%= link_to "« Back to #{@collection.short_title} Locations", collection_locations_path(@collection),
+    class: "text-sky-600 hover:text-sky-800 hover:underline" %>
+<% end %>
+
+<% if @location.events.present? %>
+  <h2 class="font-medium text-2xl my-8">Events at this location</h2>
+  <% @location.events.select{|e| e.starts_at.present? }.sort_by { |e| e.starts_at }.group_by { |event| event.starts_at.strftime("%B %d") }.each do |day, events| %>
+    <h3 class="font-bold text-xl mt-3"><%= day %></h3>
+    <%= render partial: "events/events_list", locals: { collection: @collection, events: events, depth: nil } %>
+  <% end %>
+  <% if @location.events.reject{|e| e.starts_at.present? }.any? %>
+    <h3 class="font-bold text-xl mt-3">Unscheduled</h3>
+    <%= render partial: "events/events_list", locals: { collection: @collection, events: @location.events.reject{|e| e.starts_at.present? }, depth: nil } %>
+  <% end %>
+<% end %>

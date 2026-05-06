@@ -1,0 +1,21 @@
+<% content_for :title, "Edit #{@location.title} | #{@location.collection.title}" %>
+<% content_for :breadcrumb do %>
+  <%= render partial: "breadcrumb", locals: { collection: @location.collection, action: "Edit" } %>
+<% end %>
+<% content_for :description do %>
+  <div class="flex items-center">
+    <span class="size-8 inline-block mr-1">
+      <%= link_to collection_locations_path(@location.collection) do %>
+          <%= render IconComponent.new(:location) %>
+      <% end %>
+    </span>
+    <span class="font-normal">Edit <%= @location.title %></span>
+  </div>
+<% end %>
+<% content_for :back_to do %>
+  <%= link_to "« Back to #{@collection.short_title} Locations", collection_locations_path(@collection),
+    class: "text-sky-600 hover:text-sky-800 hover:underline" %>
+<% end %>
+
+
+<%= render "form", location: @location %>

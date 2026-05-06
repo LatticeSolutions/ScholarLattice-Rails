@@ -44,7 +44,7 @@
           Registrations: <span class="inline-block size-4">
             <%= render IconComponent.new(:key) %>
           </span>
-        </strong>  
+        </strong>
         <% if @registrations&.any? %>
           <ul class="list-disc list-inside my-5">
             <% @registrations.each do |registration| %>
@@ -65,15 +65,15 @@
 
     <% if @submission.event.present? %>
       <p class="my-5">
-        <strong class="block font-medium mb-1">Scheduled for:</strong>     
+        <strong class="block font-medium mb-1">Scheduled for:</strong>
         <% if @submission.event.starts_at %>
           <%= @submission.event.starts_at
             .in_time_zone(@submission.collection.inherited_time_zone)
             .strftime("%Y-%m-%d %I:%M %p") %>:
         <% end %>
         <%= link_to @submission.event.title, @submission.event, class: "text-blue-600 hover:underline" %>
-        <% if @submission.event.inherited(:location).present? %>
-            <span class="text-sm">in <span class="text-green-800"><%= @submission.event.inherited(:location) %></span></span>
+        <% if @submission.event.inherited(:location_title).present? %>
+            <span class="text-sm">in <span class="text-green-800"><%= @submission.event.inherited(:location_title) %></span></span>
         <% end %>
       </p>
       <% if @submission.event.inherited(:webinar_link).present? %>
@@ -87,4 +87,3 @@
         </p>
       <% end %>
     <% end %>
-

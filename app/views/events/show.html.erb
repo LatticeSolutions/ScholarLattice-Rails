@@ -12,8 +12,8 @@
     <span>
       <span class="font-normal"><%= @event.title %></span>
       | <%= @event.times_in_time_zone %> (<%= @event.collection.inherited_time_zone %>)
-      <% if @event.inherited(:location).present? %>
-        | <%= @event.inherited(:location) %>
+      <% if @event.inherited(:location_title).present? %>
+        | <%= @event.inherited(:location_title) %>
       <% end %>
     </span>
   </div>

@@ -19,7 +19,7 @@ class EventsController < ApplicationController
     end
     columns = [
       "events.title",
-      "events.location",
+      "events.location_string",
       "submissions.title",
       "submissions.author_list",
       "submissions.abstract"
@@ -175,8 +175,8 @@ class EventsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def event_params
       params.expect(event: [
-        :title, :description, :content, :location, :starts_at, :ends_at, :collection_id, :parent_id,
-        :submission_id, :attached_collection_id, :order, :webinar_link
+        :title, :description, :content, :location_id, :location_string, :starts_at, :ends_at, :collection_id,
+        :parent_id, :submission_id, :attached_collection_id, :order, :webinar_link
       ])
     end
 

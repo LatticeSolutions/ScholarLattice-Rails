@@ -9,6 +9,7 @@ class Collection < ApplicationRecord
   has_many :favorite_users, through: :likes, source: :user
   has_many :pages, dependent: :destroy
   has_many :submissions, dependent: :destroy
+  has_many :locations, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :invitations, dependent: :destroy
   has_many :registration_options, dependent: :destroy
@@ -280,6 +281,16 @@ class Collection < ApplicationRecord
     end
     subpath.map do |c|
       { text: c.short_title, link: with_links ? c : nil }
+    end
+  end
+
+  def upgrade_locations
+    # gather location_string names for all events without proper locations
+    events = Event.where(collection: subtree, location: nil)
+    names = events.pluck(:location_string).uniq.filter(&:present?)
+    names.each do |name|
+      location = Location.create! title: name, collection: self
+      events.where(location_string: name).update_all(location_id: location.id, location_string: nil)
     end
   end
 

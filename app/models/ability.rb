@@ -12,6 +12,7 @@ class Ability
     can :read, Registration, status: :accepted
     can :read, RegistrationOption
     can :read, Event
+    can :read, Location
     can [ :read, :create ], User
 
     return unless user.present?
@@ -39,6 +40,10 @@ class Ability
 
     can :manage, Submission do |s|
       s.collection.blank? || (can? :manage, s.collection) || s.user_id.blank? || s.user_id == user.id
+    end
+
+    can :manage, Location do |l|
+      l.collection.blank? || (can? :manage, l.collection)
     end
 
     can :manage, OldRegistration do |r|

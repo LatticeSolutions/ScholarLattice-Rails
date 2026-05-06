@@ -17,9 +17,18 @@
 </div>
 
 <div class="my-5">
-    <%= form.label :location, class: CssClass::LABEL %>
-    <%= form.text_field :location, class: CssClass::TEXT_FIELD_INLINE %>
-    <%= render "errors", object: event, attribute: :location %>
+    <%= form.label :location_id, class: CssClass::LABEL %>
+    <%= form.select :location_id, 
+        [["(none)",nil]]+form.object.collection.locations.map {|l| [l.title, l.id]},
+        {selected: event.location_id},
+        {class: CssClass::SELECT_INLINE} %>
+    <%= render "errors", object: event, attribute: :location_id %>
+</div>
+
+<div class="my-5">
+    <%= form.label :location_string, class: CssClass::LABEL do %>Ad hoc Location<% end %>
+    <%= form.text_field :location_string, class: CssClass::TEXT_FIELD_INLINE %>
+    <%= render "errors", object: event, attribute: :location_string %>
 </div>
 
 <div class="my-5">
@@ -45,7 +54,7 @@
     <% end %>
     <% Time.use_zone(event.collection.inherited_time_zone) do %>
         <%= form.datetime_field :starts_at,
-            class: CssClass::DATETIME_FIELD_INLINE %> 
+            class: CssClass::DATETIME_FIELD_INLINE %>
     <% end %>
     <%= render "errors", object: event, attribute: :starts_at %>
 </div>
@@ -55,7 +64,7 @@
     <% end %>
     <% Time.use_zone(event.collection.inherited_time_zone) do %>
         <%= form.datetime_field :ends_at,
-            class: CssClass::DATETIME_FIELD_INLINE %> 
+            class: CssClass::DATETIME_FIELD_INLINE %>
     <% end %>
     <%= render "errors", object: event, attribute: :ends_at %>
 </div>
@@ -65,7 +74,7 @@
 <div class="my-5">
     <%= form.label :order, "Order", class: CssClass::LABEL do %>
         Order
-        <span class="<%=CssClass::SUBLABEL%>">among events at the same time</span>
+        <span class="<%= CssClass::SUBLABEL %>">among events at the same time</span>
     <% end %>
     <%= form.number_field :order, class: CssClass::NUMBER_FIELD_INLINE %>
     <%= render "errors", object: event, attribute: :order %>
