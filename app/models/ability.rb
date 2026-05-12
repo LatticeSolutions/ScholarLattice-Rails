@@ -12,6 +12,9 @@ class Ability
     can :read, Registration, status: :accepted
     can :read, RegistrationOption
     can :read, Event
+    can :access_webinar, Event do |e|
+      e.collection.inherited(:public_webinars)
+    end
     can :read, Location
     can [ :read, :create ], User
 
@@ -35,7 +38,7 @@ class Ability
       e.collection.has_admin?(user)
     end
     can :access_webinar, Event do |e|
-      e.collection.public_webinars or e.collection.path_ids.intersect?(user.registrations.where(status: :accepted).pluck(:collection_id))
+      e.collection.path_ids.intersect?(user.registrations.where(status: :accepted).pluck(:collection_id))
     end
 
     can :manage, Submission do |s|
