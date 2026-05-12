@@ -22,9 +22,9 @@
                     <% end %>
                 <% end %>
             </span>
-            <% if event.webinar_link.present? && can?(:access_webinar, event) %>
+            <% if event.inherited(:webinar_link).present? and can? :access_webinar, event %>
                 <%= link_to event_webinar_path(event), 
-                    class: "inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold px-1 py-1 rounded transition-colors duration-150 ml-2", 
+                    class: "bg-purple-600 size-7 hover:bg-purple-700 text-white font-semibold px-1 py-1 rounded transition-colors duration-150 ml-2 inline-flex items-center justify-center", 
                     target: "_blank", 
                     rel: "noopener" do %>
                     <span class="inline-block size-4">
