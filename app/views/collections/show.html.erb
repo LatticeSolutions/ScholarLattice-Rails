@@ -133,7 +133,7 @@
 <div class="my-2 flex gap-3 justify-center">
     <% if @collection.registrations_open? and (@current_user.blank? or @current_user.registered_collections.exclude?(@collection)) %>
         <%= link_to new_collection_registration_path(@collection), 
-            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring-1 hover:ring-2 ring-green-200 text-green-700 drop-shadow-md bg-green-50 hover:bg-green-100" do %>
+            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg hover:ring-2 ring-green-200 text-green-700 drop-shadow-md bg-green-50 hover:bg-green-100" do %>
             <span class="size-4">
                 <%= render IconComponent.new(:registration) %>
             </span>
@@ -142,7 +142,7 @@
     <% end %>
     <% if @current_user.present? and @current_user.registered_collections.include?(@collection) %>
         <%= link_to collection_registrations_mine_path(@collection), 
-            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring-1 hover:ring-2 ring-green-200 bg-green-100 text-green-700 drop-shadow-md hover:bg-green-200" do %>
+            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg hover:ring-2 ring-green-200 bg-green-100 text-green-700 drop-shadow-md hover:bg-green-200" do %>
             <span class="size-4">
                 <%= render IconComponent.new(:registration) %>
             </span>
@@ -151,7 +151,7 @@
     <% end %>
     <% if @collection.submissions_open? %>
         <%= link_to new_collection_submission_path(@collection), 
-            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring-1 hover:ring-2 ring-sky-200 text-sky-700 drop-shadow-md bg-sky-50 hover:bg-sky-100" do %>
+            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg hover:ring-2 ring-sky-200 text-sky-700 drop-shadow-md bg-sky-50 hover:bg-sky-100" do %>
             <span class="size-4">
                 <%= render IconComponent.new(:submission) %>
             </span>
@@ -160,7 +160,7 @@
     <% end %>
     <% if @collection.subtree_submissions.where(status: :accepted).any? %>
         <%= link_to collection_submissions_path(@collection), 
-            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg ring-1 hover:ring-2 ring-cyan-200 text-cyan-700 drop-shadow-md bg-cyan-50 hover:bg-cyan-100" do %>
+            class: "inline-flex items-center gap-2 rounded-md cursor-pointer ml-1 px-4 py-2 my-1 md:text-lg hover:ring-2 ring-cyan-200 text-cyan-700 drop-shadow-md bg-cyan-50 hover:bg-cyan-100" do %>
             <span class="size-4">
                 <%= render IconComponent.new(:submission) %>
             </span>
