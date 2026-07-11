@@ -29,7 +29,7 @@
                 <% end %>
                 <h1 class="text-gray-800 lg:text-4xl md:text-3xl sm:text-3xl text-xl inline-flex items-center gap-2 mb-1">
                     <%# if page is not the collection %>
-                    <% if current_page?(collection_path @collection) %>
+                    <% if @collection.persisted? && current_page?(collection_path(@collection)) %>
                         <span>
                             <%= @collection.title %>
                         </span>
@@ -69,6 +69,12 @@
     <div class="my-8">
         <% if content_for(:back_to) %>
             <%= yield(:back_to) %>
+        <% elsif @collection.new_record? && @collection.parent.present? %>
+            <%= link_to "« Back to #{@collection.parent.short_title}", @collection.parent,
+                class: "text-sky-600 hover:text-sky-800 hover:underline" %>
+        <% elsif @collection.new_record? %>
+            <%= link_to "« Back to Collections", collections_path,
+                class: "text-sky-600 hover:text-sky-800 hover:underline" %>
         <% elsif !current_page?(collection_path @collection) %>
             <%= link_to "« Back to #{@collection.short_title}", @collection,
                 class: "text-sky-600 hover:text-sky-800 hover:underline" %>
